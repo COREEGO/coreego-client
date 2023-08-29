@@ -1,23 +1,29 @@
-import React from 'react';
-import { ChakraProvider, Container, SkipNavLink } from '@chakra-ui/react'
+import React, { Suspense, useEffect, useState } from 'react';
+import { Box, ChakraProvider, Container, SkipNavLink, extendTheme, position } from '@chakra-ui/react'
 import './App.css';
-import DefaultLayout from './pages/layouts/DefaultLayout';
 import RouterOutleft from './pages/components/RouterOutlet';
-import { CONTAINER_SIZE } from './utils/config';
-import { swrConfig } from './http-common/swrConfig'
-import { SWRConfig as SWR } from 'swr';
-
+import { CONTAINER_SIZE } from './utils/variables';
+// import { swrConfig } from './http-common/swrConfig'
+import { AuthProvider } from './contexts/AuthProvider';
+import { Provider } from 'react-redux';
+import store from './store/app.store';
+import Layout from './pages/layouts/Layout';
 
 function App() {
   return (
     <ChakraProvider>
-      <DefaultLayout />
-      <Container maxW={CONTAINER_SIZE}>
-        <SWR value={swrConfig}>
-          <RouterOutleft />
-        </SWR>
-      </Container>
-    </ChakraProvider>
+        <AuthProvider>
+          <Provider store={store}>
+            <Layout>
+              <Container maxW={CONTAINER_SIZE}>
+                <Box my={10}>
+                  <RouterOutleft />
+                </Box>
+              </Container>
+            </Layout>
+          </Provider>
+        </AuthProvider>
+    </ChakraProvider >
   );
 }
 

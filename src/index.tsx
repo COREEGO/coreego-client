@@ -3,15 +3,25 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { SWRConfig } from 'swr';
+import { swrConfig } from './http-common/swrConfig';
+import moment from 'moment';
+import 'moment/locale/fr';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+moment.locale('fr')
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter basename='/'>
-      <App />
+    <BrowserRouter future={{ v7_startTransition: true }}>
+      <SWRConfig value={swrConfig}>
+        <App />
+      </SWRConfig>
     </BrowserRouter>
   </React.StrictMode>
 );

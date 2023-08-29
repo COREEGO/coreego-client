@@ -1,13 +1,15 @@
 import { ReactNode, useEffect } from "react"
-import { Outlet, useNavigate, Navigate } from "react-router-dom"
+import { Outlet, useNavigate, Navigate, useLocation } from "react-router-dom"
 import { useAuthContext } from "../../contexts/AuthProvider"
+import { Box } from "@chakra-ui/react"
 
 
 const PrivateRoute: React.FC<any> = () => {
 
-    const { user } = useAuthContext()
+    const {user} = useAuthContext()
+    const location = useLocation()
 
-    return ( user ? <Outlet /> : <Navigate to="/login" /> )
+    return ( user ? <Outlet /> : <Navigate to="/login" state={{path: location.pathname}} /> )
 
 }
 

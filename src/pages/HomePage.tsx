@@ -1,9 +1,13 @@
+import { useEffect } from "react"
+import { Navigate, redirect } from "react-router"
 
 const HomePage = () => {
 
-    return (
-        <p>Home</p>
-    )
+    useEffect(() => {
+        redirect('/discussion/feed')
+    }, [])
+
+    return <Navigate to="/discussion/feed" />
 
 }
 

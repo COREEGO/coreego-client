@@ -1,9 +1,12 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "../HomePage";
 import DiscussionFeedPage from "../discussion/DiscussionFeedPage";
 import LoginPage from "../authentification/LoginPage";
 import ShoppingFeedPage from "../shopping/ShoppingFeedPage";
 import PrivateRoute from "./PrivateRoute";
+import { Suspense, useEffect } from "react";
+import { useAuth } from "../../hooks/useAuth";
+import { AuthProvider } from "../../contexts/AuthProvider";
 
 
 export default function RouterOutleft() {

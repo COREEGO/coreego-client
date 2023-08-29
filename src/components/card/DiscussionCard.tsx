@@ -2,6 +2,7 @@ import { Card, CardBody, Stack, Text } from "@chakra-ui/react";
 import UserInfo from "./_UserInfo";
 import NoOfComments from "./_NoOfComments";
 import NoOfLikes from "./_NoOfLikes";
+import Category from "./_Category";
 
 
 interface DiscussionCardProps {
@@ -14,6 +15,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
         <Card>
             <CardBody>
                 <Stack spacing={3}>
+                    <Category category={discussion.category} />
                     <UserInfo user={discussion.user} date={discussion.createdAt} />
                     <Text as="b" color="var(--coreego-blue)">{discussion.title} </Text>
                     <Text noOfLines={2}>{discussion.content} </Text>

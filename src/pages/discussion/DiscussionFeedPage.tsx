@@ -1,103 +1,143 @@
 
-import { Box, Divider, Grid, GridItem, Stack } from "@chakra-ui/react";
+import { Box, Button, Divider, Grid, GridItem, Portal, Stack } from "@chakra-ui/react";
 
 import TitlePageUx from "../../components/react-ux/TitlePageUx";
-import useSWR, { mutate } from "swr";
 import DiscussionCard from "../../components/card/DiscussionCard";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import SelectInput from "../../components/inputs/SelectInput";
-import { useLocation } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { filterDateOptions } from "../../utils/variables";
+import LoadingPage from "../../components/LoadingPage";
+import { usePagination } from "../../hooks/usePagination";
+import SearchInput from "../../components/inputs/SearchInput";
+import FilterDialog from "../../components/dialogs/FilterDialog";
 
 const DiscussionList = () => {
 
-    const location = useLocation();
+    const { paginationData: discusisons,
+        isReachedEnd,
+        loadingMore,
+        size,
+        setSize,
+        error,
+        isLoading
+    } = usePagination<any>('/discussions')
 
-    const { data: discussions, mutate, } = useSWR(`/discussions${!location.search ? '?order[createdAt]=desc' : ''}` + location.search, {
-        suspense: true,
-    });
 
-    useEffect(() => {
-        console.log(!location.search)
-        mutate()
-    }, [location])
+    if (error) return <p>Une erreur est survenue</p>
+
+    if(!discusisons.length) return <p>Aucune discussion trouvé</p>
+
+    if(isLoading) return <LoadingPage type="data" />
+
+    const handleChangePage = () => {
+        setSize(size + 1)
+    }
 
     return (
-        <Grid
-            templateColumns={{
-                base: "repeat(1, 1fr)",
-                md: "repeat(2, 1fr)",
-                lg: "repeat(3, 1fr)",
-            }}
-            gap={6}
-        >
-            {discussions.map((discussion: any) => {
-                return (
+        <>
+            <Grid
+                templateColumns={{
+                    base: 'repeat(1, 1fr)',
+                    md: 'repeat(2, 1fr)',
+                    lg: 'repeat(3, 1fr)',
+                }}
+                gap={6}
+            >
+                {discusisons?.map((discussion: any) => (
                     <GridItem w="100%" key={discussion.id}>
                         <DiscussionCard discussion={discussion} />
                     </GridItem>
-                );
-            })}
-        </Grid>
+                ))}
+            </Grid>
+            {loadingMore && <LoadingPage type="data" />}
+            {!isReachedEnd && (
+                <Button onClick={handleChangePage} colorScheme="blue" >Plus de discussions</Button>
+            )}
+        </>
     );
 };
 
 
 const DiscussionFeed: React.FC<any> = () => {
     const [categorySearch, setCategorySearch] = useState<any>('')
-    const [orderDateSearch, setOrderDateSearch] = useState<any>('')
+    const [orderby, setOrderby] = useState<any>('')
+    const [searchQuery, setSearchQuery] = useState<string>('')
 
     let [searchParams, setSearchParams] = useSearchParams();
-
-    const updateCategorySearch = (event: any) => {
-        setCategorySearch(event)
-    }
-    const updateOrderDateSearch = (event: any) => {
-        setOrderDateSearch(event)
-    }
 
     useEffect(() => {
         const params: any = {};
 
-        if (categorySearch !== '') {
+        if (searchQuery) {
+            params.q = searchQuery
+        } else {
+            searchParams.delete('q')
+        }
+
+        if (categorySearch) {
             params.category = categorySearch;
         } else {
             searchParams.delete('category');
+            console.log('pas de car')
+            setCategorySearch('')
         }
 
-        if (orderDateSearch !== '') {
-            params['order[createdAt]'] = orderDateSearch;
+        if (orderby) {
+            params.orderby = orderby;
         } else {
-            searchParams.delete('order[createdAt]');
+            searchParams.delete('orderby');
+            setOrderby('')
         }
+
         setSearchParams(params)
-    }, [categorySearch, orderDateSearch])
+    }, [categorySearch, orderby, searchQuery])
+
 
     const app = useSelector((state: any) => state.app)
 
+    const handleFormElements : any = (elements: any) => {
+        const cateogry = elements.category.value
+        const orderByDate = elements.orderby.value
+        setCategorySearch(cateogry)
+        setOrderby(orderByDate)
+    }
+
+    const handleFormSearchElements : any = (elements: any) => {
+        const search = elements.search?.value
+        setSearchQuery(search)
+    }
+
+
     return (
-        <Box>
+        <Box width="100%">
             <Stack spacing={5}>
                 <Stack spacing={5}>
                     <TitlePageUx title="Espace discussion" />
-                    <SelectInput
-                        datas={app.discussionCategories}
-                        emptyValueLabel="Tous"
-                        value={categorySearch}
-                        formLabel="Catégorie"
-                        setValue={updateCategorySearch}
-                    />
-                    <SelectInput
-                        datas={filterDateOptions}
-                        value={orderDateSearch}
-                        formLabel="Date"
-                        setValue={updateOrderDateSearch}
-                    />
+                    <Stack direction="row" alignItems="center">
+                        <Box flexGrow={1}>
+                            <SearchInput value={searchQuery} handleFormElements={handleFormSearchElements} />
+                        </Box>
+                        <FilterDialog handleFormElements={handleFormElements}>
+                            <SelectInput
+                                datas={app.discussionCategories}
+                                name="category"
+                                emptyValueLabel="Tous"
+                                value={categorySearch}
+                                formLabel="Catégorie"
+                            />
+                            <SelectInput
+                                name="orderby"
+                                datas={filterDateOptions}
+                                value={orderby}
+                                formLabel="Date"
+                            />
+                        </FilterDialog>
+                    </Stack>
                 </Stack>
-                <Divider borderBottomWidth={2} />
-                <Suspense fallback={<p>loading</p>}>
+                <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
+                <Suspense fallback={<LoadingPage type="data" />}>
                     <DiscussionList />
                 </Suspense>
             </Stack>

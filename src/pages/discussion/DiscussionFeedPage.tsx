@@ -1,51 +1,49 @@
-
-import { Box, Button, Divider, Grid, GridItem, Portal, Stack } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Box, Divider, Stack, Grid, GridItem, Button } from "@chakra-ui/react";
+import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import TitlePageUx from "../../components/react-ux/TitlePageUx";
 import DiscussionCard from "../../components/card/DiscussionCard";
-import { Suspense, useEffect, useRef, useState } from "react";
 import SelectInput from "../../components/inputs/SelectInput";
-import { useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { filterDateOptions } from "../../utils/variables";
-import LoadingPage from "../../components/LoadingPage";
-import { usePagination } from "../../hooks/usePagination";
 import SearchInput from "../../components/inputs/SearchInput";
 import FilterDialog from "../../components/dialogs/FilterDialog";
+import LoadingPage from "../../components/LoadingPage";
+import { usePagination } from "../../hooks/usePagination";
+import { filterDateOptions } from "../../utils/variables";
 
 const DiscussionList = () => {
-
-    const { paginationData: discusisons,
+    const {
+        paginationData: discussions,
         isReachedEnd,
         loadingMore,
         size,
         setSize,
         error,
-        isLoading
-    } = usePagination<any>('/discussions')
+        isLoading,
+    } = usePagination<any>("/discussions");
 
+    const handleLoadMore = () => {
+        setSize(size + 1);
+    };
 
-    if (error) return <p>Une erreur est survenue</p>
+    if (error) return <p>Une erreur est survenue</p>;
 
-    if(!discusisons.length) return <p>Aucune discussion trouvé</p>
+    if (!discussions.length) return <p>Aucune discussion trouvée</p>;
 
-    if(isLoading) return <LoadingPage type="data" />
-
-    const handleChangePage = () => {
-        setSize(size + 1)
-    }
+    if (isLoading) return <LoadingPage type="data" />;
 
     return (
         <>
             <Grid
                 templateColumns={{
-                    base: 'repeat(1, 1fr)',
-                    md: 'repeat(2, 1fr)',
-                    lg: 'repeat(3, 1fr)',
+                    base: "repeat(1, 1fr)",
+                    md: "repeat(2, 1fr)",
+                    lg: "repeat(3, 1fr)",
                 }}
                 gap={6}
             >
-                {discusisons?.map((discussion: any) => (
+                {discussions?.map((discussion: any) => (
                     <GridItem w="100%" key={discussion.id}>
                         <DiscussionCard discussion={discussion} />
                     </GridItem>
@@ -53,97 +51,96 @@ const DiscussionList = () => {
             </Grid>
             {loadingMore && <LoadingPage type="data" />}
             {!isReachedEnd && (
-                <Button onClick={handleChangePage} colorScheme="blue" >Plus de discussions</Button>
+                <Button onClick={handleLoadMore} colorScheme="blue">
+                    Plus de discussions
+                </Button>
             )}
         </>
     );
 };
 
-
 const DiscussionFeed: React.FC<any> = () => {
-    const [categorySearch, setCategorySearch] = useState<any>('')
-    const [orderby, setOrderby] = useState<any>('')
-    const [searchQuery, setSearchQuery] = useState<string>('')
-
-    let [searchParams, setSearchParams] = useSearchParams();
+    const [selectedCategory, setSelectedCategory] = useState<any>("");
+    const [selectedOrderBy, setSelectedOrderBy] = useState<any>("");
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
         const params: any = {};
 
         if (searchQuery) {
-            params.q = searchQuery
+            params.q = searchQuery;
         } else {
-            searchParams.delete('q')
+            searchParams.delete("q");
         }
 
-        if (categorySearch) {
-            params.category = categorySearch;
+        if (selectedCategory) {
+            params.category = selectedCategory;
         } else {
-            searchParams.delete('category');
-            console.log('pas de car')
-            setCategorySearch('')
+            searchParams.delete("category");
+            setSelectedCategory("");
         }
 
-        if (orderby) {
-            params.orderby = orderby;
+        if (selectedOrderBy) {
+            params.orderby = selectedOrderBy;
         } else {
-            searchParams.delete('orderby');
-            setOrderby('')
+            searchParams.delete("orderby");
+            setSelectedOrderBy("");
         }
 
-        setSearchParams(params)
-    }, [categorySearch, orderby, searchQuery])
+        setSearchParams(params);
+    }, [selectedCategory, selectedOrderBy, searchQuery]);
+
+    const appState = useSelector((state: any) => state.app);
 
 
-    const app = useSelector((state: any) => state.app)
+    const handleSearchInputChange: any = (inputValues: any) => {
+        const searchInputValue = inputValues.search?.value;
+        setSearchQuery(searchInputValue);
+    };
 
-    const handleFormElements : any = (elements: any) => {
-        const cateogry = elements.category.value
-        const orderByDate = elements.orderby.value
-        setCategorySearch(cateogry)
-        setOrderby(orderByDate)
+    const handleFilterChange: any = (selectedValues: any) => {
+        const selectedOrderByValue = selectedValues.orderby.value
+        const selectedCategoryValue = selectedValues.category.value;
+
+        setSelectedCategory(selectedCategoryValue);
+        setSelectedOrderBy(selectedOrderByValue);
     }
-
-    const handleFormSearchElements : any = (elements: any) => {
-        const search = elements.search?.value
-        setSearchQuery(search)
-    }
-
 
     return (
         <Box width="100%">
             <Stack spacing={5}>
+                <TitlePageUx title="Espace discussion" />
                 <Stack spacing={5}>
-                    <TitlePageUx title="Espace discussion" />
                     <Stack direction="row" alignItems="center">
                         <Box flexGrow={1}>
-                            <SearchInput value={searchQuery} handleFormElements={handleFormSearchElements} />
+                            <SearchInput
+                                value={searchQuery}
+                                handleInputChange={handleSearchInputChange}
+                            />
                         </Box>
-                        <FilterDialog handleFormElements={handleFormElements}>
+                        <FilterDialog handleFilterChange={handleFilterChange}>
                             <SelectInput
-                                datas={app.discussionCategories}
+                                options={appState.discussionCategories}
                                 name="category"
-                                emptyValueLabel="Tous"
-                                value={categorySearch}
-                                formLabel="Catégorie"
+                                emptyOptionLabel="Tous"
+                                label="Catégorie"
+                                value={selectedCategory}
                             />
                             <SelectInput
                                 name="orderby"
-                                datas={filterDateOptions}
-                                value={orderby}
-                                formLabel="Date"
+                                options={filterDateOptions}
+                                label="Date"
+                                value={selectedOrderBy}
                             />
                         </FilterDialog>
                     </Stack>
                 </Stack>
                 <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
-                <Suspense fallback={<LoadingPage type="data" />}>
-                    <DiscussionList />
-                </Suspense>
+                <DiscussionList />
             </Stack>
         </Box>
-    )
+    );
+};
 
-}
-
-export default DiscussionFeed
+export default DiscussionFeed;

@@ -3,17 +3,17 @@ import { useState } from "react"
 import { MdClose, MdSearch } from "react-icons/md"
 
 interface SearchInputInterface {
-    handleFormElements: (e: any) => {}
+    handleInputChange: (e: any) => {}
     value: string
 }
 
-const SearchInput: React.FC<SearchInputInterface> = ({ handleFormElements, value }) => {
+const SearchInput: React.FC<SearchInputInterface> = ({ handleInputChange, value }) => {
 
     const [defaultValue, setDefaultValue] = useState<string>(value ? value : '')
 
     function onSubmit(e: any) {
         e.preventDefault()
-        handleFormElements(e.target.elements)
+        handleInputChange(e.target.elements)
 
     }
 

@@ -3,25 +3,25 @@ import { Button, FormControl, FormLabel, Select } from "@chakra-ui/react"
 import React, { useState } from "react";
 
 interface SelectInputInterface {
-    datas: Array<any>,
+    options: Array<any>,
     value: any,
-    formLabel: string,
-    emptyValueLabel?: string,
+    label?: string,
+    emptyOptionLabel?: string,
     name: string
 }
 
-const SelectInput: React.FC<SelectInputInterface> = ({ emptyValueLabel, datas, value, formLabel, name }) => {
+const SelectInput: React.FC<SelectInputInterface> = ({ emptyOptionLabel, options, value, label, name }) => {
 
     const [defaultValue, setDefaultValue] = useState<any>(value ? value : '')
 
     return (
             <FormControl>
-                {formLabel && <FormLabel>{formLabel}</FormLabel>}
+                {label && <FormLabel color="var(--coreego-blue)" >{label}</FormLabel>}
                 <Select id={name} name={name} value={defaultValue} onChange={(e: any) => setDefaultValue(e.target.value)}>
-                    {emptyValueLabel && <option value="">{emptyValueLabel}</option>}
-                    {datas.map((data: any) => (
-                        <option key={data.id} value={data.id}>
-                            {data.label}
+                    {emptyOptionLabel && <option value="">{emptyOptionLabel}</option>}
+                    {options.map((option: any) => (
+                        <option key={option.id} value={option.id}>
+                            {option.label}
                         </option>
                     ))}
                 </Select>

@@ -10,7 +10,8 @@ import {
     Button,
     Text,
     Stack,
-    Box
+    Box,
+    Divider
 } from '@chakra-ui/react'
 import React, { useRef } from "react"
 import { MdOutlineFilterAlt } from 'react-icons/md'
@@ -18,10 +19,10 @@ import { MdOutlineFilterAlt } from 'react-icons/md'
 
 interface DefaultDialogProps {
     children: React.ReactNode,
-    handleFormElements: (e: any) => {}
+    handleFilterChange: (e: any) => {}
 }
 
-const FilterDialog: React.FC<DefaultDialogProps> = ({ children, handleFormElements }) => {
+const FilterDialog: React.FC<DefaultDialogProps> = ({ children, handleFilterChange }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -30,7 +31,7 @@ const FilterDialog: React.FC<DefaultDialogProps> = ({ children, handleFormElemen
 
     function onSubmit(e:any){
         e.preventDefault()
-        handleFormElements(e.target.elements)
+        handleFilterChange(e.target.elements)
         onClose()
     }
 
@@ -49,13 +50,18 @@ const FilterDialog: React.FC<DefaultDialogProps> = ({ children, handleFormElemen
                 <AlertDialogOverlay />
                 <Box as="form" onSubmit={onSubmit}>
                 <AlertDialogContent>
-                    <AlertDialogHeader>Discard Changes?</AlertDialogHeader>
+                    <AlertDialogHeader display="flex" alignItems="center" >
+                        <Text as="span" me="3">Filtres</Text>
+                        <MdOutlineFilterAlt />
+                    </AlertDialogHeader>
+                    <Divider />
                     <AlertDialogCloseButton />
                     <AlertDialogBody>
                         <Stack spacing={5}>
                             {children}
                         </Stack>
                     </AlertDialogBody>
+                    <Divider />
                     <AlertDialogFooter>
                         <Button size="sm" colorScheme='gray' ref={cancelRef} onClick={onClose}>
                             Annuler

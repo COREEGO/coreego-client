@@ -3,7 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState : any = {
     discussionCategories: null,
-    placeCategories: null
+    placeCategories: null,
+    cities: null
 }
 
 const appSlice = createSlice({
@@ -18,9 +19,13 @@ const appSlice = createSlice({
             state.placeCategories = action.payload
             return state
         },
+        initCities: (state, action) => {
+            state.cities = action.payload
+            return state
+        }
     }
 })
 
-export const {initDiscussionCategories, initPlaceCategories} = appSlice.actions;
+export const {initDiscussionCategories, initPlaceCategories, initCities} = appSlice.actions;
 
 export default appSlice

@@ -4,7 +4,7 @@ import { useAuthContext } from "../../contexts/AuthProvider"
 import LoadingPage from "../../components/LoadingPage"
 import { useDispatch, useSelector } from "react-redux"
 import { apiFetch } from "../../http-common/apiFetch"
-import { initDiscussionCategories, initPlaceCategories } from "../../store/reducers/app.reducer"
+import { initCities, initDiscussionCategories, initPlaceCategories } from "../../store/reducers/app.reducer"
 import { Box } from "@chakra-ui/react"
 
 
@@ -31,14 +31,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             const discussionCategories = await apiFetch('/discussion_categories', 'GET')
             const placeCategories = await apiFetch('/place_categories', 'GET')
+            const cities = await apiFetch('/cities', 'GET')
 
-            if (discussionCategories) {
-                dispath(initDiscussionCategories(discussionCategories))
-            }
+            if (discussionCategories) dispath(initDiscussionCategories(discussionCategories))
+            if (placeCategories) dispath(initPlaceCategories(placeCategories))
+            if(cities) dispath(initCities(cities))
 
-            if (placeCategories) {
-                dispath(initPlaceCategories(placeCategories))
-            }
+
+
 
         } catch (error) {
 

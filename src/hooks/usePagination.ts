@@ -23,7 +23,7 @@ export const usePagination = <T>(url: string) => {
 
     const loadingMore = data && typeof data[size - 1] === 'undefined';
 
-    const isReachedEnd = data && data[data.length - 1]?.length < 3;
+    const isReachedEnd = data && data[data.length - 1]?.length < 20;
 
 
 

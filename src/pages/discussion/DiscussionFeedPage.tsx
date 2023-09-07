@@ -1,63 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Box, Divider, Stack, Grid, GridItem, Button } from "@chakra-ui/react";
+import { Box, Divider, Stack } from "@chakra-ui/react";
 import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import TitlePageUx from "../../components/react-ux/TitlePageUx";
-import DiscussionCard from "../../components/card/DiscussionCard";
 import SelectInput from "../../components/inputs/SelectInput";
 import SearchInput from "../../components/inputs/SearchInput";
 import FilterDialog from "../../components/dialogs/FilterDialog";
-import LoadingPage from "../../components/LoadingPage";
-import { usePagination } from "../../hooks/usePagination";
 import { filterDateOptions } from "../../utils/variables";
+import FeedList from "../components/FeedList";
 
-const DiscussionList = () => {
-    const {
-        paginationData: discussions,
-        isReachedEnd,
-        loadingMore,
-        size,
-        setSize,
-        error,
-        isLoading,
-    } = usePagination<any>("/discussions");
-
-    const handleLoadMore = () => {
-        setSize(size + 1);
-    };
-
-    if (error) return <p>Une erreur est survenue</p>;
-
-    if (!discussions.length) return <p>Aucune discussion trouvée</p>;
-
-    if (isLoading) return <LoadingPage type="data" />;
-
-    return (
-        <>
-            <Grid
-                templateColumns={{
-                    base: "repeat(1, 1fr)",
-                    md: "repeat(2, 1fr)",
-                    lg: "repeat(3, 1fr)",
-                }}
-                gap={6}
-            >
-                {discussions?.map((discussion: any) => (
-                    <GridItem w="100%" key={discussion.id}>
-                        <DiscussionCard discussion={discussion} />
-                    </GridItem>
-                ))}
-            </Grid>
-            {loadingMore && <LoadingPage type="data" />}
-            {!isReachedEnd && (
-                <Button onClick={handleLoadMore} colorScheme="blue">
-                    Plus de discussions
-                </Button>
-            )}
-        </>
-    );
-};
 
 const DiscussionFeed: React.FC<any> = () => {
     const [selectedCategory, setSelectedCategory] = useState<any>("");
@@ -89,10 +41,10 @@ const DiscussionFeed: React.FC<any> = () => {
         }
 
         setSearchParams(params);
+
     }, [selectedCategory, selectedOrderBy, searchQuery]);
 
     const appState = useSelector((state: any) => state.app);
-
 
     const handleSearchInputChange: any = (inputValues: any) => {
         const searchInputValue = inputValues.search?.value;
@@ -108,7 +60,7 @@ const DiscussionFeed: React.FC<any> = () => {
     }
 
     return (
-        <Box width="100%">
+        <Box>
             <Stack spacing={5}>
                 <TitlePageUx title="Espace discussion" />
                 <Stack spacing={5}>
@@ -137,7 +89,12 @@ const DiscussionFeed: React.FC<any> = () => {
                     </Stack>
                 </Stack>
                 <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
-                <DiscussionList />
+                <FeedList
+                    url="/discussions"
+                    noLengthLabel="Aucune discussions trouvées"
+                    buttonLabel="Voir plus"
+                    cardName="discussion"
+                />
             </Stack>
         </Box>
     );

@@ -5,7 +5,7 @@ import LoadingPage from "../../components/LoadingPage"
 import { useDispatch, useSelector } from "react-redux"
 import { apiFetch } from "../../http-common/apiFetch"
 import { initCities, initDiscussionCategories, initPlaceCategories } from "../../store/reducers/app.reducer"
-import { Box } from "@chakra-ui/react"
+import Navigation from "../components/navigation/Navigation"
 
 
 interface LayoutProps {
@@ -35,7 +35,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
             if (discussionCategories) dispath(initDiscussionCategories(discussionCategories))
             if (placeCategories) dispath(initPlaceCategories(placeCategories))
-            if(cities) dispath(initCities(cities))
+            if (cities) dispath(initCities(cities))
 
 
 
@@ -49,8 +49,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     return appLoaded ? (
         <>
-            <HeaderNavigation />
-            {children}
+            <Navigation>
+                {children}
+            </Navigation>
         </>
     ) : <LoadingPage type="app" />
 }

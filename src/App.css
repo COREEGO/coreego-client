@@ -1,17 +1,14 @@
 :root {
   --coreego-blue: #005998;
   --coreego-red: #CE293B;
-  --coreego-blue-opacity: #00599829;
+  --coreego-blue-dark: #014d83;
+  --coreego-blue-light: #006ab5;
   --light: #f1f3f477;
   --light-dark: rgb(214, 214, 214);
   --main: #66669;
 }
 
 
-.navigation_link{
-  font-weight: bold;
-}
-
-.navigation_link.active{
-  color: var(--coreego-blue);
+.navigation_link.active > li{
+  background-color: var(--coreego-blue-light);
 }

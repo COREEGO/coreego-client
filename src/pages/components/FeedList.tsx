@@ -37,7 +37,7 @@ const FeedList : React.FC<FeedListInterface> = ({url, noLengthLabel, buttonLabel
                     md: "repeat(2, 1fr)",
                     lg: "repeat(3, 1fr)",
                 }}
-                gap={6}
+                gap={2}
             >
                 {datas?.map((data: any) => (
                     <GridItem w="100%" key={data.id}>

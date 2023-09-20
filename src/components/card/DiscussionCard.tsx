@@ -14,7 +14,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
     return (
         <Card>
             <CardBody>
-                <Stack spacing={3}>
+                <Stack spacing={2}>
                     <Category category={discussion.category} />
                     <UserInfo user={discussion.user} date={discussion.createdAt} />
                     <Text as="b" color="var(--coreego-blue)">{discussion.title} </Text>

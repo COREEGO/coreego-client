@@ -13,8 +13,8 @@ const UserInfo : React.FC<UsserInfoInterface> = ({user, size = 'sm', date }) => 
         <Stack direction="row" alignItems="center">
             <Avatar size={size} />
             <Stack spacing={0}>
-                <Text as="b" > {user.email} </Text>
-                <Text color="gray" as="span" fontSize='sm'> {dateParse(date)} </Text>
+                <Text as="b" fontSize="sm" > {user.email} </Text>
+                <Text color="gray" as="span" fontSize="sm"> {dateParse(date)} </Text>
             </Stack>
         </Stack>
     )

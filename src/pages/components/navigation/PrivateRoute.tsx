@@ -1,6 +1,6 @@
 import { ReactNode, useEffect } from "react"
 import { Outlet, useNavigate, Navigate, useLocation } from "react-router-dom"
-import { useAuthContext } from "../../contexts/AuthProvider"
+import { useAuthContext } from "../../../contexts/AuthProvider"
 import { Box } from "@chakra-ui/react"
 
 

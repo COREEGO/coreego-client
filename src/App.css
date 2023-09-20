@@ -2,13 +2,29 @@
   --coreego-blue: #005998;
   --coreego-red: #CE293B;
   --coreego-blue-dark: #014d83;
-  --coreego-blue-light: #006ab5;
+  --coreego-blue-light: #006ab57a;
   --light: #f1f3f477;
   --light-dark: rgb(214, 214, 214);
   --main: #66669;
 }
 
+.navigation_link:hover li{
+  background: var(--coreego-blue-light);
+  color: white;
+}
 
-.navigation_link.active > li{
-  background-color: var(--coreego-blue-light);
+.navigation_link.active li{
+  background-color: var(--coreego-blue);
+  color: white;
+}
+
+.navigation_link.active > li::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  background-color: var(--coreego-red);
+  width: 5px;
 }

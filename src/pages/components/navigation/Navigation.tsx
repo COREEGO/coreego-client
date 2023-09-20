@@ -1,4 +1,4 @@
-import { Box, Container, Stack } from "@chakra-ui/react";
+import { Box, Container, Divider, Stack } from "@chakra-ui/react";
 import HeaderNavigation from "./HeaderNavigation";
 import AsideNavigation from "./AsideNavigation";
 import { CONTAINER_SIZE } from "../../../utils/variables";
@@ -12,15 +12,21 @@ const Navigation: React.FC<NavigationInterface> = ({ children }) => {
 
     return (
         <Box>
-            <Stack direction="row" alignItems="flex-start" spacing={0}>
-                <AsideNavigation />
-                <HeaderNavigation>
-                    <Container maxW={CONTAINER_SIZE} centerContent={true}>
+        <Stack direction="column" spacing={0}>
+            <HeaderNavigation>
+                {children}
+            </HeaderNavigation>
+            <Container maxW={CONTAINER_SIZE}>
+                <Stack direction="row" alignItems="flex-start">
+                    <AsideNavigation />
+                    <Container maxW={CONTAINER_SIZE}>
                         {children}
                     </Container>
-                </HeaderNavigation>
-            </Stack>
+                </Stack>
+            </Container>
+        </Stack>
         </Box>
+
     )
 
 }

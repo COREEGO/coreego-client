@@ -24,7 +24,7 @@ function App() {
         <FilterProvider>
           <Provider store={store}>
             <Layout>
-              <Box my={10}>
+              <Box my={5}>
                 <RouterOutleft />
               </Box>
             </Layout>

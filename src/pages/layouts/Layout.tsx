@@ -37,11 +37,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             if (placeCategories) dispath(initPlaceCategories(placeCategories))
             if (cities) dispath(initCities(cities))
 
-
-
-
         } catch (error) {
-
+            console.error(error)
         } finally {
             setAppLoaded(true)
         }

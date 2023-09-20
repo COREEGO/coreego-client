@@ -17,7 +17,8 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product }) => {
     return (
         <Card>
             <CardBody>
-                <Stack spacing={3}>
+                <Stack spacing={2}>
+                    <UserInfo user={product.user} date={product.createdAt} />
                     <Image
                         sx={{ height: { base: 200, sm: 300, md: 200 } }}
                         objectFit="cover"
@@ -26,7 +27,6 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product }) => {
                         alt='Green double couch with wooden legs'
                         borderRadius='lg'
                     />
-                    <UserInfo user={product.user} date={product.createdAt} />
                     <Text as="b" color="var(--coreego-blue)">{product.title} </Text>
                     <Text noOfLines={2}>{product.description} </Text>
                     <Stack direction="row">

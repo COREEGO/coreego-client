@@ -11,63 +11,23 @@ import { usePagination } from "../../hooks/usePagination";
 import LoadingPage from "../../components/LoadingPage";
 import ProductCard from "../../components/card/ProductCard";
 import FeedList from "../components/FeedList";
+import SearchFilter from "../components/filters/SearchFilter";
+import DateFilter from "../components/filters/DateFilter";
+import CityFilter from "../components/filters/CityFilter";
 
 
 export default function ShoppingFeedPage() {
 
-    const [searchQuery, setSearchQuery] = useState<string>("");
-    const [selectCityQuery, setSetSelectCityQuery] = useState<string>('');
-
-    const [searchParams, setSearchParams] = useSearchParams();
-
-    const appState = useSelector((state: any) => state.app);
-
-    const handleSearchInputChange: any = (inputValues: any) => {
-        const searchInputValue = inputValues.search?.value;
-        setSearchQuery(searchInputValue);
-    };
-
-    const handleFilterChange: any = (selectedValues: any) => {
-        const selectCityValue = selectedValues.city.value
-        setSetSelectCityQuery(selectCityValue);
-    }
-
-    useEffect(() => {
-        const params: any = {};
-
-        if (searchQuery) params.q = searchQuery
-        else searchParams.delete("q");
-
-        if (selectCityQuery) params.city = selectCityQuery
-        else searchParams.delete('city')
-
-        setSearchParams(params);
-
-    }, [selectCityQuery, searchQuery]);
+    const {cities} = useSelector((state: any) => state.app)
 
     return (
         <Box>
             <Stack spacing={5}>
                 <TitlePageUx title="Espace shopping" />
-                <Stack spacing={5}>
-                    <Stack direction="row" alignItems="center">
-
-                        <Box flexGrow={1}>
-                            <SearchInput
-                                value={searchQuery}
-                                handleInputChange={handleSearchInputChange}
-                            />
-                        </Box>
-                        <FilterDialog handleFilterChange={handleFilterChange}>
-                            <SelectInput
-                                options={appState.cities}
-                                name="city"
-                                emptyOptionLabel="Toutes les villes"
-                                label="Villes"
-                                value={selectCityQuery}
-                            />
-                        </FilterDialog>
-                    </Stack>
+                <Stack spacing={2}>
+                    <SearchFilter />
+                    <CityFilter cities={cities} />
+                    <DateFilter />
                 </Stack>
                 <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
                 <FeedList

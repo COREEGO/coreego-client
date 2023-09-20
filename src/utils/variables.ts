@@ -1,4 +1,4 @@
-export const ICON_SIZE_HEADER = 25
+export const ICON_SIZE_HEADER = 20
 export const CONTAINER_SIZE = '1400px'
 
 

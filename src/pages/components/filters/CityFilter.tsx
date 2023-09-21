@@ -1,4 +1,4 @@
-import { FormControl, FormLabel, Select } from "@chakra-ui/react"
+import { FormControl, FormLabel, Select, Stack } from "@chakra-ui/react"
 import { useFilterContext } from "../../../contexts/FilterProvider"
 
 

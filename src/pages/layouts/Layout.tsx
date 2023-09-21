@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react"
-import HeaderNavigation from "../components/navigation/HeaderNavigation"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import LoadingPage from "../../components/LoadingPage"
 import { useDispatch, useSelector } from "react-redux"
 import { apiFetch } from "../../http-common/apiFetch"
 import { initCities, initDiscussionCategories, initPlaceCategories } from "../../store/reducers/app.reducer"
-import Navigation from "../components/navigation/Navigation"
+import Navigation from "../../components/navigation/Navigation"
 
 
 interface LayoutProps {

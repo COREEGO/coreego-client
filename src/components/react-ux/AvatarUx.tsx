@@ -1,13 +1,19 @@
-import { Avatar } from "@chakra-ui/react"
+import { Avatar, Stack, Text } from "@chakra-ui/react"
 
-interface AvatarUxProps{
-    size?: 'sm' | 'md' | 'xs'
+interface AvatarUxProps {
+    size?: 'sm' | 'md' | 'xs',
+    user?: any
 }
 
-const AvatarUx : React.FC<AvatarUxProps> = ({size = 'sm' }) => {
+const AvatarUx: React.FC<AvatarUxProps> = ({ size = 'sm', user }) => {
+
+
 
     return (
-        <Avatar size={size} />
+        <Stack direction="row" alignItems="center">
+            <Avatar size={size} />
+            <Text as="b" fontSize="xs">pseudo</Text>
+        </Stack>
     )
 
 }

@@ -1,26 +1,56 @@
 import { useSelector } from "react-redux";
 import { useFilterContext } from "../../../contexts/FilterProvider";
-import { Button, Stack } from "@chakra-ui/react";
+import { Box, Button, FormControl, FormLabel, Select, Stack } from "@chakra-ui/react";
+import { useEffect } from "react";
 
-interface CategoryFilterInterface{
+interface CategoryFilterInterface {
     cateogries: Array<any>
 }
 
-const CategoryFilter : React.FC<CategoryFilterInterface> = ({cateogries}) => {
+const CategoryFilter: React.FC<CategoryFilterInterface> = ({ cateogries }) => {
 
     const { setCategory, category } = useFilterContext()
 
-    return (
-        <Stack pb={3} direction="row" sx={{ overflowX: 'auto' }}>
-            <Button minWidth='fit-content' onClick={() => setCategory('')} size="sm" >Tous</Button>
-            {
-                cateogries.map((item: any) => {
-                    return (category && category === item.id) ? (
-                        <Button key={item.id} minWidth='fit-content' onClick={() => setCategory(item.id)} size="sm" color="white" bg={item.color}> {item.label} </Button>
-                    ) : <Button key={item.id} minWidth='fit-content' variant="outline" borderColor={item.color} onClick={() => setCategory(item.id)} size="sm" color={item.color}> {item.label} </Button>
-                })
+    const categoryColor = () => {
+        let color = null
+        console.log(cateogries)
+        if (category != '') {
+            const findCategory = cateogries.find((cat: any) => cat.id == category)
+            if (findCategory) {
+                color = findCategory.color
             }
-        </Stack>
+        } else {
+            color = null
+        }
+
+        return color
+    }
+
+    useEffect(() => {
+        categoryColor()
+    }, [category])
+
+
+    return (
+        <FormControl width="fit-content">
+            <FormLabel>Catégories</FormLabel>
+            <Stack direction="row" alignItems="center">
+                {
+                    categoryColor() && <Box height={30} width={30} borderRadius={90} sx={{ backgroundColor: categoryColor() }}></Box>
+                }
+                <Select value={category} onChange={(e) => setCategory(e.target.value)} width="fit-content">
+                    <option value=''>Toutes les catégories</option>
+                    {
+                        cateogries.map((cat: any) => {
+                            return (
+                                <option key={cat.id} value={cat.id}>
+                                    {cat.label} </option>
+                            )
+                        })
+                    }
+                </Select>
+            </Stack>
+        </FormControl>
     )
 }
 

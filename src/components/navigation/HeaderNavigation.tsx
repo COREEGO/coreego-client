@@ -1,12 +1,10 @@
-import { Box, Button, Container, Input, InputGroup, InputLeftElement, InputRightElement, Stack } from "@chakra-ui/react"
-import { useLocation } from 'react-router'
-import AvatarUx from "../../../components/react-ux/AvatarUx"
-import { MdComment, MdSearch, MdShoppingBag } from "react-icons/md";
-import { ICON_SIZE_HEADER, CONTAINER_SIZE } from "../../../utils/variables";
-import { useAuthContext } from "../../../contexts/AuthProvider";
-import { useFilterContext } from "../../../contexts/FilterProvider";
-import React, { useEffect } from "react";
-import logo from '../../../images/svgs/coreego-logo.svg'
+import { Box, Container, Stack } from "@chakra-ui/react"
+import AvatarUx from "../react-ux/AvatarUx"
+import { MdComment, MdShoppingBag } from "react-icons/md";
+import { ICON_SIZE_HEADER, CONTAINER_SIZE } from "../../utils/variables";
+
+import React from "react";
+import logo from '../../images/svgs/coreego-logo.svg'
 
 interface HeaderNavigationInterface {
     children: React.ReactNode,

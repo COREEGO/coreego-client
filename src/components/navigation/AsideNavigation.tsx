@@ -1,6 +1,6 @@
 import { Box, Divider, List, ListIcon, ListItem } from "@chakra-ui/react";
-import { ICON_SIZE_HEADER } from "../../../utils/variables";
-import { MdOutlineComment, MdOutlineShoppingBag } from "react-icons/md";
+import { ICON_SIZE_HEADER } from "../../utils/variables";
+import { MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 
 const links = [
@@ -14,6 +14,11 @@ const links = [
         label: "Shooping",
         icon: MdOutlineShoppingBag
     },
+    {
+        path: '/voyage/feed',
+        label: 'Voyage',
+        icon: MdOutlineTravelExplore
+    }
 ]
 
 export default function AsideNavigation() {

@@ -1,4 +1,4 @@
-import { Avatar, Stack, Text } from "@chakra-ui/react";
+import { Avatar, Flex, Stack, Text } from "@chakra-ui/react";
 import { dateParse } from "../../utils";
 
 interface UsserInfoInterface{

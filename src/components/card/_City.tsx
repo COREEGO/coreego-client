@@ -9,7 +9,7 @@ interface CityInterface{
 const City  : React.FC<CityInterface> = ({city}) => {
 
     return (
-        <Stack direction="row" alignItems="center" color="var(--coreego-red)" fontWeight="bold">
+        <Stack spacing={0} direction="row" alignItems="center" color="var(--coreego-red)">
             <MdLocationOn />
             <Text as="span"> {city.label} </Text>
         </Stack>

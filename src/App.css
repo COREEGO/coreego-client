@@ -8,6 +8,18 @@
   --main: #66669;
 }
 
+.navbar a{
+  transition: 0.5s;
+}
+
+.navbar a:hover{
+  color: var(--coreego-blue);
+}
+
+.navbar a.active{
+  color: var(--coreego-blue);
+}
+
 .navigation_link:hover li{
   background: var(--coreego-blue-light);
   color: white;

@@ -18,26 +18,26 @@ import CityFilter from "../components/filters/CityFilter";
 
 export default function ShoppingFeedPage() {
 
-    const {cities} = useSelector((state: any) => state.app)
+    const { cities } = useSelector((state: any) => state.app)
 
     return (
-        <Box>
-            <Stack spacing={5}>
-                <TitlePageUx title="Espace shopping" />
-                <Stack spacing={2}>
-                    <SearchFilter />
-                    <CityFilter cities={cities} />
-                    <DateFilter />
-                </Stack>
-                <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
-                <FeedList
-                    url="/products"
-                    cardName="product"
-                    noLengthLabel="Aucun produits trouvées"
-                    buttonLabel="Voir plus"
-                />
+
+        <Stack spacing={5}>
+            <TitlePageUx title="Espace shopping" />
+            <Stack spacing={2}>
+                <SearchFilter />
+                <CityFilter cities={cities} />
+                <DateFilter />
             </Stack>
-        </Box>
+            <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
+            <FeedList
+                url="/products"
+                cardName="product"
+                noLengthLabel="Aucun produits trouvées"
+                buttonLabel="Voir plus"
+            />
+        </Stack>
+
     )
 
 }

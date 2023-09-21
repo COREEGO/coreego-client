@@ -12,8 +12,8 @@ import { FilterProvider } from './contexts/FilterProvider';
 
 const theme = extendTheme({
   fonts: {
-    heading: `'Josefin Sans', sans-serif`,
-    body: `'Josefin Sans', sans-serif`,
+    heading: `'Assistant', sans-serif`,
+    body: `'Assistant', sans-serif`,
   },
 })
 

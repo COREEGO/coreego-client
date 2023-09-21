@@ -3,12 +3,13 @@ import LoadingPage from "../../components/LoadingPage";
 import { usePagination } from "../../hooks/usePagination";
 import DiscussionCard from "../../components/card/DiscussionCard";
 import ProductCard from "../../components/card/ProductCard";
+import PlaceCard from "../../components/card/PlaceCard";
 
 interface FeedListInterface{
     url: string,
     noLengthLabel: string,
     buttonLabel: string,
-    cardName: 'discussion' | 'product'
+    cardName: 'discussion' | 'product' | 'place'
 }
 
 const FeedList : React.FC<FeedListInterface> = ({url, noLengthLabel, buttonLabel, cardName}) => {
@@ -43,6 +44,7 @@ const FeedList : React.FC<FeedListInterface> = ({url, noLengthLabel, buttonLabel
                     <GridItem w="100%" key={data.id}>
                         {cardName == 'discussion' && <DiscussionCard discussion={data} />}
                         {cardName == 'product' && <ProductCard product={data} />}
+                        {cardName == 'place' && <PlaceCard place={data} />}
                     </GridItem>
                 ))}
             </Grid>

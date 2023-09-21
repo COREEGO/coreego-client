@@ -19,17 +19,19 @@ const DiscussionFeed: React.FC<any> = () => {
 
     const { discussionCategories } = useSelector((state: any) => state.app);
 
-
     return (
         <Box>
-            <Stack spacing={5}>
-                <TitlePageUx title="Espace discussion" />
-                <Stack spacing={2}>
-                    <SearchFilter />
-                    <CategoryFilter cateogries={discussionCategories} />
-                    <DateFilter />
+            <Stack py={0}>
+                <Stack bg="var(--coreego-blue-light)" p={3} >
+                    <TitlePageUx title="Espace discussion" />
+                    <Stack direction={{ base: 'column', md: 'row' }} spacing={2}>
+                        <CategoryFilter cateogries={discussionCategories} />
+                        <Box flex={1}>
+                            <SearchFilter />
+                        </Box>
+                    </Stack>
                 </Stack>
-                <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
+                {/* <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" /> */}
                 <FeedList
                     url="/discussions"
                     noLengthLabel="Aucune discussions trouvées"

@@ -12,7 +12,7 @@ interface DiscussionCardProps {
 const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
 
     return (
-        <Card>
+        <Card borderRadius={0}>
             <CardHeader>
                 <Stack>
                     <UserInfo user={discussion.user} date={discussion.createdAt} />

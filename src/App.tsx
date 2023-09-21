@@ -15,6 +15,14 @@ const theme = extendTheme({
     heading: `'Assistant', sans-serif`,
     body: `'Assistant', sans-serif`,
   },
+  styles: {
+    global: {
+      // Modifier la couleur du texte du corps ici
+      body: {
+        backgroundColor: 'var(--main)',
+      },
+    },
+  },
 })
 
 function App() {
@@ -24,9 +32,9 @@ function App() {
         <FilterProvider>
           <Provider store={store}>
             <Layout>
-              <Box my={5}>
+              <Container my={3} maxW={CONTAINER_SIZE}>
                 <RouterOutleft />
-              </Box>
+              </Container>
             </Layout>
           </Provider>
         </FilterProvider>

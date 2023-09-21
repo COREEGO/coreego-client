@@ -16,9 +16,9 @@ export default function RouterOutleft() {
         <Routes>
             <Route element={<PrivateRoute />} >
                 <Route path="/" element={<HomePage />} />
-                <Route path="/discussion/feed" element={<DiscussionFeedPage />} />
-                <Route path="/shopping/feed" element={<ShoppingFeedPage />} />
-                <Route path="/voyage/feed" element={<TravelFeed />} />
+                <Route path="/discussions" element={<DiscussionFeedPage />} />
+                <Route path="/shopping" element={<ShoppingFeedPage />} />
+                <Route path="/voyage" element={<TravelFeed />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />
         </Routes>

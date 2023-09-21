@@ -45,9 +45,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     return appLoaded ? (
         <>
-            <Navigation>
-                {children}
-            </Navigation>
+            <Navigation />
+            {children}
         </>
     ) : <LoadingPage type="app" />
 }

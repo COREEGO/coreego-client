@@ -28,7 +28,6 @@ const links = [
 const HeaderNavigation: React.FC<HeaderNavigationInterface> = () => {
 
     return (
-
         <Box position="sticky" zIndex={1000} bg="white" top={0} boxShadow="0 0 5px gray" py="3">
             <Container maxW={CONTAINER_SIZE} centerContent={true}>
                 <Stack direction="row" alignItems="center" justify="space-between" width="100%">
@@ -37,7 +36,6 @@ const HeaderNavigation: React.FC<HeaderNavigationInterface> = () => {
                 </Stack>
             </Container>
         </Box>
-
     )
 }
 

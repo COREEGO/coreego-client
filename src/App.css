@@ -5,7 +5,7 @@
   --coreego-blue-light: #006ab57a;
   --light: #f1f3f477;
   --light-dark: rgb(214, 214, 214);
-  --main: #66669;
+  --main: rgba(128, 128, 128, 0.086);
 }
 
 .navbar a{

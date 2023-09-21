@@ -8,24 +8,24 @@ import AvatarUx from "../react-ux/AvatarUx";
 
 const links = [
     {
-        path: '/discussion/feed',
+        path: '/discussions',
         label: "Discussions",
         icon: MdOutlineComment
     },
     {
-        path: '/shopping/feed',
+        path: '/shopping',
         label: "Shooping",
         icon: MdOutlineShoppingBag
     },
     {
-        path: '/voyage/feed',
+        path: '/voyage',
         label: 'Voyage',
         icon: MdOutlineTravelExplore
     }
 ]
 
 interface NavigationInterface {
-    children: React.ReactNode
+    // children: React.ReactNode
 }
 
 
@@ -101,14 +101,14 @@ const DrawerNavigation = () => {
 }
 
 
-const Navigation: React.FC<NavigationInterface> = ({ children }) => {
+const Navigation: React.FC<NavigationInterface> = () => {
 
     const { user } = useAuthContext()
 
     return (
-        <Box  >
-            <Container bg="white" zIndex={100} maxW={CONTAINER_SIZE} className="navbar" position="sticky" top={0}>
-                <Box py={5}>
+            <Box bg="white" position="sticky" className="navbar" top={0} zIndex={100}>
+            <Container   maxW={CONTAINER_SIZE}>
+                <Box py={5} >
                     <Stack direction="row" alignItems="center">
                         <Stack flex={1} role="navigation left" direction="row" alignItems="center">
                             <Image mr={3} position="relative" src={logo} width={100} height="auto" />
@@ -175,12 +175,9 @@ const Navigation: React.FC<NavigationInterface> = ({ children }) => {
                         </Stack>
                     </Stack>
                 </Box>
-                <Divider />
             </Container>
-            <Container maxW={CONTAINER_SIZE}>
-                {children}
-            </Container>
-        </Box>
+                <Divider borderColor="var(--coreego-blue)" borderBottomWidth={1} />
+            </Box>
     )
 
 }

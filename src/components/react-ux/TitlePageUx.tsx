@@ -6,7 +6,7 @@ interface TitlePageUxProps{
 
 const TitlePageUx : React.FC<TitlePageUxProps> = ({title}) => {
     return (
-        <Text as="b" fontSize="2xl" color="var(--coreego-blue)" > {title} </Text>
+        <Text as="b" fontSize="large" color="white" > {title} </Text>
     )
 }
 

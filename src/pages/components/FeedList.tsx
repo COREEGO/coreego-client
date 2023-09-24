@@ -1,19 +1,25 @@
+import React from "react";
 import { Button, Grid, GridItem } from "@chakra-ui/react";
 import LoadingPage from "../../components/LoadingPage";
 import { usePagination } from "../../hooks/usePagination";
 import DiscussionCard from "../../components/card/DiscussionCard";
 import ProductCard from "../../components/card/ProductCard";
 import PlaceCard from "../../components/card/PlaceCard";
+import { Suspense } from "react";
 
-interface FeedListInterface{
-    url: string,
-    noLengthLabel: string,
-    buttonLabel: string,
-    cardName: 'discussion' | 'product' | 'place'
+interface FeedListInterface {
+    url: string;
+    noLengthLabel: string;
+    buttonLabel: string;
+    cardName: "discussion" | "product" | "place";
 }
 
-const FeedList : React.FC<FeedListInterface> = ({url, noLengthLabel, buttonLabel, cardName}) => {
-
+const FeedListGrid: React.FC<FeedListInterface> = ({
+    url,
+    noLengthLabel,
+    buttonLabel,
+    cardName,
+}) => {
     const {
         paginationData: datas,
         isReachedEnd,
@@ -26,7 +32,7 @@ const FeedList : React.FC<FeedListInterface> = ({url, noLengthLabel, buttonLabel
 
     if (error) return <p>Une erreur est survenue</p>;
 
-    if (!datas.length) return <p> {noLengthLabel} </p>;
+    if (!datas.length) return <p>{noLengthLabel}</p>;
 
     if (isLoading) return <LoadingPage type="data" />;
 
@@ -35,16 +41,16 @@ const FeedList : React.FC<FeedListInterface> = ({url, noLengthLabel, buttonLabel
             <Grid
                 templateColumns={{
                     base: "repeat(1, 1fr)",
-                    md: "repeat(2, 1fr)",
-                    lg: "repeat(3, 1fr)",
+                    md: "repeat(3, 1fr)",
+                    lg: "repeat(4, 1fr)",
                 }}
                 gap={2}
             >
                 {datas?.map((data: any) => (
                     <GridItem w="100%" key={data.id}>
-                        {cardName == 'discussion' && <DiscussionCard discussion={data} />}
-                        {cardName == 'product' && <ProductCard product={data} />}
-                        {cardName == 'place' && <PlaceCard place={data} />}
+                        {cardName === "discussion" && <DiscussionCard discussion={data} />}
+                        {cardName === "product" && <ProductCard product={data} />}
+                        {cardName === "place" && <PlaceCard place={data} />}
                     </GridItem>
                 ))}
             </Grid>
@@ -55,8 +61,25 @@ const FeedList : React.FC<FeedListInterface> = ({url, noLengthLabel, buttonLabel
                 </Button>
             )}
         </>
-    )
+    );
+};
 
-}
+const FeedList: React.FC<FeedListInterface> = ({
+    url,
+    noLengthLabel,
+    buttonLabel,
+    cardName,
+}) => {
+    return (
+        <Suspense fallback={<LoadingPage type="page" />}>
+            <FeedListGrid
+                url={url}
+                noLengthLabel={noLengthLabel}
+                buttonLabel={buttonLabel}
+                cardName={cardName}
+            />
+        </Suspense>
+    );
+};
 
-export default FeedList
+export default FeedList;

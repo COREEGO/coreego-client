@@ -8,9 +8,7 @@ interface NoOfLikesInterface{
 }
 
 const NoOfLikes : React.FC<NoOfLikesInterface> = ({nb}) => {
-    useEffect(() => {
-        console.log(nb)
-    }, [])
+
     return (
         <Stack direction="row" spacing={1} alignItems="center">
             <MdFavoriteBorder />

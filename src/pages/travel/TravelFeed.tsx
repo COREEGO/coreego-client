@@ -1,27 +1,31 @@
-import { Divider, Stack } from "@chakra-ui/react"
+import { Box, Divider, Stack } from "@chakra-ui/react"
 import TitlePageUx from "../../components/react-ux/TitlePageUx"
 import SearchFilter from "../components/filters/SearchFilter"
 import FeedList from "../components/FeedList"
 import CategoryFilter from "../components/filters/CategoryFilter"
 import { useSelector } from "react-redux"
 import CityFilter from "../components/filters/CityFilter"
+import FilterContainer from "../components/filters/_FilterContainer"
 
 
 const TravelFeed = () => {
 
-    const {placeCategories, cities} = useSelector((state:any) => state.app)
+    const { placeCategories, cities } = useSelector((state: any) => state.app)
 
     return (
-        <Stack spacing={5}>
-            <TitlePageUx title="Espace voyage" />
-            <Stack>
-                <SearchFilter />
-                <Stack direction="row" flexWrap="wrap">
-                <CategoryFilter cateogries={placeCategories} />
-                <CityFilter cities={cities} />
+        <Stack py={0}>
+            <FilterContainer>
+                <TitlePageUx title="Espace voyage" />
+                <Stack direction={{ base: 'column', md: 'row' }} spacing={2}>
+                    <Stack direction={{  md: 'row' }} spacing={2}>
+                        <CityFilter cities={cities} />
+                        <CategoryFilter cateogries={placeCategories} />
+                    </Stack>
+                    <Box flex={1}>
+                        <SearchFilter />
+                    </Box>
                 </Stack>
-            </Stack>
-            <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
+            </FilterContainer>
             <FeedList
                 url="/places"
                 cardName="place"

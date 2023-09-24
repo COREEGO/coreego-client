@@ -20,6 +20,18 @@
   color: var(--coreego-blue);
 }
 
+.feed__card{
+  transition: 0.2s;
+}
+
+.feed__card:hover{
+  background-color: var(--coreego-blue-light);
+}
+
+.feed__card:hover *{
+  color: white;
+}
+
 .navigation_link:hover li{
   background: var(--coreego-blue-light);
   color: white;

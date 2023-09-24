@@ -8,6 +8,7 @@ import { Component, Suspense, useEffect } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import { AuthProvider } from "../../contexts/AuthProvider";
 import TravelFeed from "../travel/TravelFeed";
+import DiscussionDetail from "../discussion/DiscussionDetail";
 
 
 export default function RouterOutleft() {
@@ -17,6 +18,7 @@ export default function RouterOutleft() {
             <Route element={<PrivateRoute />} >
                 <Route path="/" element={<HomePage />} />
                 <Route path="/discussions" element={<DiscussionFeedPage />} />
+                <Route path="/discussions/detail/:id" element={<DiscussionDetail />} />
                 <Route path="/shopping" element={<ShoppingFeedPage />} />
                 <Route path="/voyage" element={<TravelFeed />} />
             </Route>

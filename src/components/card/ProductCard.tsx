@@ -17,7 +17,7 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product }) => {
 
 
     return (
-        <Card>
+        <Card borderRadius={0}>
             <CardHeader>
                 <UserInfo user={product.user} date={product.createdAt} />
             </CardHeader>
@@ -30,11 +30,11 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product }) => {
             />
             <CardBody>
                 <Stack>
-                    <Text as="b" color="var(--coreego-blue)">{product.title} </Text>
+                    <Text noOfLines={1} as="b" color="var(--coreego-blue)">{product.title} </Text>
                     <Text noOfLines={2}>{product.description} </Text>
                 </Stack>
             </CardBody>
-            <CardFooter>
+            <CardFooter pt={0}>
                 <Stack>
                     <Price price={product.price} />
                     <City city={product.city} />

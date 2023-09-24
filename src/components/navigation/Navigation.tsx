@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Stack, Image, ListItem, ListIcon, List, useDisclosure, Drawer, DrawerOverlay, DrawerContent, DrawerBody, Button, DrawerHeader, IconButton, DrawerCloseButton, Avatar, Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
+import { Box, Container, Divider, Stack, Image, ListItem, ListIcon, List, useDisclosure, Drawer, DrawerOverlay, DrawerContent, DrawerBody, Button, DrawerHeader, IconButton, DrawerCloseButton, Avatar, Menu, MenuButton, MenuList, MenuItem, Hide } from "@chakra-ui/react";
 import { CONTAINER_SIZE } from "../../utils/variables";
 import { MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore, MdLogin, MdOutlineMenu, MdClose } from "react-icons/md";
 import logo from '../../images/svgs/coreego-logo.svg'
@@ -106,59 +106,63 @@ const Navigation: React.FC<NavigationInterface> = () => {
     const { user } = useAuthContext()
 
     return (
-            <Box bg="white" position="sticky" className="navbar" top={0} zIndex={100}>
-            <Container   maxW={CONTAINER_SIZE}>
+        <Box bg="white" position="sticky" className="navbar" top={0} zIndex={100}>
+            <Container maxW={CONTAINER_SIZE}>
                 <Box py={5} >
                     <Stack direction="row" alignItems="center">
                         <Stack flex={1} role="navigation left" direction="row" alignItems="center">
                             <Image mr={3} position="relative" src={logo} width={100} height="auto" />
-                            <List alignItems="center" display={{ base: 'none', md: 'flex' }} >
-                                {
-                                    links.map((link: any, index: number) => {
-                                        return (
-                                            <NavLink to={link.path}
-                                                key={index}
-                                                style={{ marginRight: 10 }}
-                                            >
-                                                <ListItem key={index}
-                                                    fontSize={14}
-                                                    fontWeight={600}
-                                                    alignItems="center"
-                                                    display="flex"
-                                                    width="100%"
-                                                    cursor="pointer"
+                            <Hide below="md">
+                                <List alignItems="center" display="flex" >
+                                    {
+                                        links.map((link: any, index: number) => {
+                                            return (
+                                                <NavLink to={link.path}
+                                                    key={index}
+                                                    style={{ marginRight: 10 }}
                                                 >
-                                                    <ListIcon as={link.icon} />
-                                                    <Box as="span"> {link.label} </Box>
-                                                </ListItem>
-                                            </NavLink>
-                                        );
-                                    })
-                                }
-                            </List>
+                                                    <ListItem key={index}
+                                                        fontSize={14}
+                                                        fontWeight={600}
+                                                        alignItems="center"
+                                                        display="flex"
+                                                        width="100%"
+                                                        cursor="pointer"
+                                                    >
+                                                        <ListIcon as={link.icon} />
+                                                        <Box as="span"> {link.label} </Box>
+                                                    </ListItem>
+                                                </NavLink>
+                                            );
+                                        })
+                                    }
+                                </List>
+                            </Hide>
                         </Stack>
                         <Stack direction="row" alignItems="center">
                             {/* Si l'utilisateur n'est pas connecter */}
                             {
 
-                                !user ? <List alignItems="center" display={{ base: 'none', md: 'flex' }}>
-                                    <NavLink to="/login">
-                                        <ListItem
-                                            fontWeight={600}
-                                            alignItems="center"
-                                            display="flex"
-                                            width="100%"
-                                            cursor="pointer"
-                                        >
-                                            <ListIcon as={MdLogin} />
-                                            <Box as="span">Se connecter</Box>
-                                        </ListItem>
-                                    </NavLink>
-                                    <Box as="span" height="3px" mx={2} width="3px" borderRadius={90} bg="black"></Box>
-                                    <NavLink to="/" style={{ fontWeight: 'bold' }} >
-                                        <Box as="span">S'inscrire</Box>
-                                    </NavLink>
-                                </List> : <Menu>
+                                !user ? <Hide below="md">
+                                    <List alignItems="center" display="flex">
+                                        <NavLink to="/login">
+                                            <ListItem
+                                                fontWeight={600}
+                                                alignItems="center"
+                                                display="flex"
+                                                width="100%"
+                                                cursor="pointer"
+                                            >
+                                                <ListIcon as={MdLogin} />
+                                                <Box as="span">Se connecter</Box>
+                                            </ListItem>
+                                        </NavLink>
+                                        <Box as="span" height="3px" mx={2} width="3px" borderRadius={90} bg="black"></Box>
+                                        <NavLink to="/" style={{ fontWeight: 'bold' }} >
+                                            <Box as="span">S'inscrire</Box>
+                                        </NavLink>
+                                    </List>
+                                </Hide> : <Menu>
                                     <MenuButton>
                                         <AvatarUx size="xs" user={user} />
                                     </MenuButton>
@@ -169,15 +173,15 @@ const Navigation: React.FC<NavigationInterface> = () => {
                                 </Menu>
 
                             }
-                            <Box display={{ base: 'block', md: 'none' }}>
+                            <Hide above="md">
                                 <DrawerNavigation />
-                            </Box>
+                            </Hide>
                         </Stack>
                     </Stack>
                 </Box>
             </Container>
-                <Divider borderColor="var(--coreego-blue)" borderBottomWidth={1} />
-            </Box>
+            <Divider borderColor="var(--coreego-blue)" borderBottomWidth={1} />
+        </Box>
     )
 
 }

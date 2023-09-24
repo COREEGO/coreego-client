@@ -27,7 +27,12 @@ const theme = extendTheme({
 
 function App() {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme} toastOptions={{
+      defaultOptions: {
+        position: 'top-right', duration: 2000,
+        isClosable: true,
+      }
+    }}>
       <AuthProvider>
         <FilterProvider>
           <Provider store={store}>

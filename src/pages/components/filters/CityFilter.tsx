@@ -11,9 +11,8 @@ const CityFilter: React.FC<CityFilterInterface> = ({ cities }) => {
     const { city, setCity } = useFilterContext()
 
     return (
-        <FormControl width="fit-content">
-            <FormLabel>Villes</FormLabel>
-            <Select value={city} onChange={(e) => setCity(e.target.value)} width="fit-content">
+
+            <Select bg="white" fontWeight="bold" borderRadius={0} value={city} onChange={(e) => setCity(e.target.value)} width="fit-content">
                 <option value=''>Toutes les villes</option>
                 {
                     cities.map((ville: any) => {
@@ -23,7 +22,7 @@ const CityFilter: React.FC<CityFilterInterface> = ({ cities }) => {
                     })
                 }
             </Select>
-        </FormControl>
+
     )
 
 }

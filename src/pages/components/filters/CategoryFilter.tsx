@@ -19,9 +19,7 @@ const CategoryFilter: React.FC<CategoryFilterInterface> = ({ cateogries }) => {
             {
                 cateogries.map((cat: any) => {
                     return (
-                        <option key={cat.id} value={cat.id}>
-                            <Box color="white">{cat.label}</Box>
-                        </option>
+                        <option key={cat.id} value={cat.id}>{cat.label}</option>
                     )
                 })
             }

@@ -2,7 +2,6 @@ import { Stack, Box, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, Rang
 import TitlePageUx from "../../components/react-ux/TitlePageUx";
 import SearchInput from "../../components/inputs/SearchInput";
 import { useEffect, useState } from "react";
-import FilterDialog from "../../components/dialogs/FilterDialog";
 import { useSelector } from "react-redux";
 import SelectInput from "../../components/inputs/SelectInput";
 import RangeInput from "../../components/inputs/RangeInput";
@@ -14,6 +13,7 @@ import FeedList from "../components/FeedList";
 import SearchFilter from "../components/filters/SearchFilter";
 import DateFilter from "../components/filters/DateFilter";
 import CityFilter from "../components/filters/CityFilter";
+import FilterContainer from "../components/filters/_FilterContainer";
 
 
 export default function ShoppingFeedPage() {
@@ -22,14 +22,16 @@ export default function ShoppingFeedPage() {
 
     return (
 
-        <Stack spacing={5}>
-            <TitlePageUx title="Espace shopping" />
-            <Stack spacing={2}>
-                <SearchFilter />
-                <CityFilter cities={cities} />
-                <DateFilter />
-            </Stack>
-            <Divider borderBottomWidth={1.5} borderColor="var(--coreego-blue)" />
+        <Stack py={0}>
+            <FilterContainer>
+                <TitlePageUx title="Espace shopping" />
+                <Stack direction={{ base: 'column', md: 'row' }} spacing={2}>
+                    <CityFilter cities={cities} />
+                    <Box flex={1}>
+                        <SearchFilter />
+                    </Box>
+                </Stack>
+            </FilterContainer>
             <FeedList
                 url="/products"
                 cardName="product"

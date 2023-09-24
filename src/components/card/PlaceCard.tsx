@@ -17,7 +17,7 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
     const imageUrl = BASE_URL + place.images[0].filePath
 
     return (
-        <Card>
+        <Card borderRadius={0}>
             <CardHeader>
                 <UserInfo user={place.user} date={place.createdAt} />
             </CardHeader>
@@ -31,12 +31,12 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
             <CardBody>
                 <Stack>
                     <Stack>
-                        <Text as="b" color="var(--coreego-blue)">{place.title} </Text>
+                        <Text noOfLines={1} as="b" color="var(--coreego-blue)">{place.title} </Text>
                         <Text noOfLines={2}>{place.description} </Text>
                     </Stack>
                     <Stack direction="row">
-                        <City city={place.city} />
                         <Category category={place.category} />
+                        <City city={place.city} />
                     </Stack>
                 </Stack>
             </CardBody>

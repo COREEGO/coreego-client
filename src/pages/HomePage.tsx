@@ -4,10 +4,10 @@ import { Navigate, redirect } from "react-router"
 const HomePage = () => {
 
     useEffect(() => {
-        redirect('/discussion/feed')
+        redirect('/discussions')
     }, [])
 
-    return <Navigate to="/discussion/feed" />
+    return <Navigate to="/discussions" />
 
 }
 

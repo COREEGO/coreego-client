@@ -7,12 +7,10 @@ interface AvatarUxProps {
 
 const AvatarUx: React.FC<AvatarUxProps> = ({ size = 'sm', user }) => {
 
-
-
     return (
         <Stack direction="row" alignItems="center">
             <Avatar size={size} />
-            <Text as="b" fontSize="xs">pseudo</Text>
+            <Text as="b" fontSize="xs"> {user.pseudo} </Text>
         </Stack>
     )
 

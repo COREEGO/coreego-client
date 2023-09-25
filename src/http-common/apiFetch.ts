@@ -34,7 +34,7 @@ export async function apiFetch<T>(
       return response.data;
     }
   } catch (e: any) {
-    throw new Error(e.message);
+      throw new Error(e.response.data.error)
   }
 
   return null; // Return a default value if the response is not as expected

@@ -58,7 +58,7 @@ const DrawerNavigation = () => {
                                             </ListItem>
                                         </NavLink>
                                         <Box as="span" height="3px" mx={2} width="3px" borderRadius={90} bg="black"></Box>
-                                        <NavLink to="/" style={{ fontWeight: 'bold' }} >
+                                        <NavLink to="/register" style={{ fontWeight: 'bold' }} >
                                             <Box as="span">S'inscrire</Box>
                                         </NavLink>
                                     </List>
@@ -103,7 +103,11 @@ const DrawerNavigation = () => {
 
 const Navigation: React.FC<NavigationInterface> = () => {
 
-    const { user } = useAuthContext()
+    const { user, logout } = useAuthContext()
+
+    const handleLogOut = () => {
+        logout()
+    }
 
     return (
         <Box bg="white" position="sticky" className="navbar" top={0} zIndex={100}>
@@ -112,32 +116,35 @@ const Navigation: React.FC<NavigationInterface> = () => {
                     <Stack direction="row" alignItems="center">
                         <Stack flex={1} role="navigation left" direction="row" alignItems="center">
                             <Image mr={3} position="relative" src={logo} width={100} height="auto" />
-                            <Hide below="md">
-                                <List alignItems="center" display="flex" >
-                                    {
-                                        links.map((link: any, index: number) => {
-                                            return (
-                                                <NavLink to={link.path}
-                                                    key={index}
-                                                    style={{ marginRight: 10 }}
-                                                >
-                                                    <ListItem key={index}
-                                                        fontSize={14}
-                                                        fontWeight={600}
-                                                        alignItems="center"
-                                                        display="flex"
-                                                        width="100%"
-                                                        cursor="pointer"
+                            {
+                                user && <Hide below="md">
+                                    <List alignItems="center" display="flex" >
+                                        {
+                                            links.map((link: any, index: number) => {
+                                                return (
+                                                    <NavLink to={link.path}
+                                                        key={index}
+                                                        style={{ marginRight: 10 }}
                                                     >
-                                                        <ListIcon as={link.icon} />
-                                                        <Box as="span"> {link.label} </Box>
-                                                    </ListItem>
-                                                </NavLink>
-                                            );
-                                        })
-                                    }
-                                </List>
-                            </Hide>
+                                                        <ListItem key={index}
+                                                            fontSize={14}
+                                                            fontWeight={600}
+                                                            alignItems="center"
+                                                            display="flex"
+                                                            width="100%"
+                                                            cursor="pointer"
+                                                        >
+                                                            <ListIcon as={link.icon} />
+                                                            <Box as="span"> {link.label} </Box>
+                                                        </ListItem>
+                                                    </NavLink>
+                                                );
+                                            })
+                                        }
+                                    </List>
+                                </Hide>
+                            }
+
                         </Stack>
                         <Stack direction="row" alignItems="center">
                             {/* Si l'utilisateur n'est pas connecter */}
@@ -158,7 +165,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
                                             </ListItem>
                                         </NavLink>
                                         <Box as="span" height="3px" mx={2} width="3px" borderRadius={90} bg="black"></Box>
-                                        <NavLink to="/" style={{ fontWeight: 'bold' }} >
+                                        <NavLink to="/register" style={{ fontWeight: 'bold' }} >
                                             <Box as="span">S'inscrire</Box>
                                         </NavLink>
                                     </List>
@@ -169,6 +176,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
                                     <MenuList>
                                         <MenuItem>Download</MenuItem>
                                         <MenuItem>Create a Copy</MenuItem>
+                                        <MenuItem onClick={handleLogOut} >Se deconnecter</MenuItem>
                                     </MenuList>
                                 </Menu>
 

@@ -9,6 +9,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { AuthProvider } from "../../contexts/AuthProvider";
 import TravelFeed from "../travel/TravelFeed";
 import DiscussionDetail from "../discussion/DiscussionDetail";
+import RegisterPage from "../authentification/RegisterPage";
 
 
 export default function RouterOutleft() {
@@ -23,6 +24,7 @@ export default function RouterOutleft() {
                 <Route path="/voyage" element={<TravelFeed />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
         </Routes>
     )
 

@@ -2,13 +2,16 @@
 
 import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { apiFetch } from '../http-common/apiFetch';
+import { redirect, useLocation, useNavigate } from "react-router"
 
 
 
 const AuthContext = createContext({
     user: null,
-    authentificate: () => {} ,
-    login: (username: any, password: any) => {}
+    error: '',
+    authentificate: () => { },
+    login: (username: any, password: any) => { },
+    logout: () => {}
 });
 
 interface AuthProviderProps {
@@ -18,24 +21,40 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const [user, setUser] = useState<any>(null)
+    const [error, setError] = useState<string>('')
+
+    const navigate = useNavigate()
 
     const authentificate = async () => {
-      await apiFetch('/me', 'GET').then((user: any) => {
+        await apiFetch('/me', 'GET').then((user: any) => {
             setUser(user)
-        }).catch((error: any) => console.error(error))
+        }).catch((error: any) => setError(error))
     }
 
-    const login = useCallback(async (username: any, password: any) => {
+    const login = async (username: string, password: string) => {
         await apiFetch('/login', 'POST', {
             username, password
         }).then((user: any) => {
             setUser(user)
-        }).catch((error: any) => console.error(error))
-    }, [])
+            navigate("/")
+        }).catch((error: any) => {
+            setError(error.message)
+        })
+    }
+
+    const logout = async () => {
+        await apiFetch('/logout', 'post').then((res:any) => {
+            console.log(res)
+            setUser(res)
+            navigate("/login")
+        }).catch((e:any) => {
+            console.log(e)
+        })
+    }
 
 
     return (
-        <AuthContext.Provider value={{ user, authentificate, login }}>
+        <AuthContext.Provider value={{ user, error, authentificate, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,10 +1,11 @@
-import { Text, Card, Center, Stack, CardBody, Box, FormControl, FormLabel, Input, CardFooter, Button } from "@chakra-ui/react"
+import { Text, Card, Center, Stack, CardBody, Box, FormControl, FormLabel, Input, CardFooter, Button, InputRightElement, Tooltip } from "@chakra-ui/react"
 import { useNavigate } from "react-router"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { useState } from "react"
 import ErrorAlert from "../../components/alerts/ErrorAlert"
 import { apiFetch } from "../../http-common/apiFetch"
 import { NavLink } from "react-router-dom"
+import { InfoIcon } from "@chakra-ui/icons"
 
 
 export default function LoginPage() {
@@ -45,7 +46,7 @@ export default function LoginPage() {
                                     <FormLabel textTransform="uppercase">Mot de passe</FormLabel>
                                     <Input type='password' id="password" />
                                 </FormControl>
-                                <NavLink style={{textDecoration: 'underline' }} to="/password/reset">Mot de passe oublié</NavLink>
+                                <NavLink style={{ textDecoration: 'underline' }} to="/password/reset">Mot de passe oublié</NavLink>
                                 <Button colorScheme="blue" type="submit">Se connecter</Button>
                             </Stack>
                         </Box>

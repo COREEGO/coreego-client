@@ -11,6 +11,7 @@ import TravelFeed from "../travel/TravelFeed";
 import DiscussionDetail from "../discussion/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";
 import PasswordResetPage from "../authentification/PasswordResetPage";
+import AccountVerifiedPage from "../authentification/AcountVerifiedPage";
 
 
 export default function RouterOutleft() {
@@ -26,7 +27,8 @@ export default function RouterOutleft() {
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/password/reset" element={<PasswordResetPage />} />
+            <Route path="/password/reset/:id?/:token?" element={<PasswordResetPage />} />
+            <Route path="/account-verified/:id/:token" element={<AccountVerifiedPage />} />
         </Routes>
     )
 

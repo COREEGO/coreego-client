@@ -52,3 +52,7 @@
   background-color: var(--coreego-red);
   width: 5px;
 }
+
+input{
+  border-radius: 0px!important;
+}

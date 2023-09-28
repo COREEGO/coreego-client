@@ -1,8 +1,7 @@
-import { Alert, AlertIcon, Box, Button, Card, CardBody, CardFooter, CardHeader, Center, Divider, FormControl, FormLabel, Heading, Input, Stack, StackDivider } from "@chakra-ui/react"
-import { useAuth } from "../../hooks/useAuth"
-import { redirect, useLocation, useNavigate } from "react-router"
+import { Text, Card, Center, Stack, CardBody, Box, FormControl, FormLabel, Input, CardFooter, Button } from "@chakra-ui/react"
+import { useNavigate } from "react-router"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ErrorAlert from "../../components/alerts/ErrorAlert"
 import { apiFetch } from "../../http-common/apiFetch"
 import { NavLink } from "react-router-dom"
@@ -10,39 +9,44 @@ import { NavLink } from "react-router-dom"
 
 export default function LoginPage() {
 
-    const { login, error } = useAuthContext()
+    const [error, setError] = useState<string>('')
 
     const navigate = useNavigate()
 
-    const onLogin = (e: any) => {
+    const onLogin = async (e: any) => {
         e.preventDefault()
         const element = e.target.elements
-        login(element.username.value, element.password.value)
+        try {
+            await apiFetch('/login', 'post', {
+                username: element.username.value,
+                password: element.password.value
+            })
+            navigate('/')
+        } catch (e: any) {
+            setError("Mot de passe ou identifiant invalide")
+        }
     }
 
 
     return (
-        <Stack mt={100}>
-            <Center>
-                <Card w={500} maxW="100%">
-                    <CardHeader>
-                        <Center>
-                            <Heading color="var(--coreego-blue)" size='md'>Connexion</Heading>
-                        </Center>
-                    </CardHeader>
+        <Center flexDirection="column">
+            <Stack maxW="100%" w={400} spacing={2} alignItems="center">
+                <Text as="h1" fontSize="4xl" fontWeight="bold" color="var(--coreego-blue)">Se connecter</Text>
+                <ErrorAlert message={error} />
+                <Card w="100%">
                     <CardBody>
                         <Box as="form" onSubmit={onLogin}>
-                            <Stack>
-                                <ErrorAlert message={error} />
+                            <Stack alignItems="flex-start">
                                 <FormControl>
-                                    <FormLabel>Email</FormLabel>
+                                    <FormLabel textTransform="uppercase">Email</FormLabel>
                                     <Input type='email' id="username" />
                                 </FormControl>
                                 <FormControl>
-                                    <FormLabel>Mot de passe</FormLabel>
+                                    <FormLabel textTransform="uppercase">Mot de passe</FormLabel>
                                     <Input type='password' id="password" />
                                 </FormControl>
-                                <Button mt={3} color="white" bg="var(--coreego-blue)" _hover={{ backgroundColor: 'var(--coreego-blue-light)' }} type="submit">Se connecter</Button>
+                                <NavLink style={{textDecoration: 'underline' }} to="/password/reset">Mot de passe oublié</NavLink>
+                                <Button colorScheme="blue" type="submit">Se connecter</Button>
                             </Stack>
                         </Box>
                     </CardBody>
@@ -52,8 +56,8 @@ export default function LoginPage() {
                         </Stack>
                     </CardFooter>
                 </Card>
-            </Center>
-        </Stack>
+            </Stack>
+        </Center>
     )
 
 }

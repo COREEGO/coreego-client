@@ -10,6 +10,7 @@ import { AuthProvider } from "../../contexts/AuthProvider";
 import TravelFeed from "../travel/TravelFeed";
 import DiscussionDetail from "../discussion/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";
+import PasswordResetPage from "../authentification/PasswordResetPage";
 
 
 export default function RouterOutleft() {
@@ -25,6 +26,7 @@ export default function RouterOutleft() {
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/password/reset" element={<PasswordResetPage />} />
         </Routes>
     )
 

@@ -37,9 +37,7 @@ function App() {
         <FilterProvider>
           <Provider store={store}>
             <Layout>
-              <Container my={3} maxW={CONTAINER_SIZE}>
                 <RouterOutleft />
-              </Container>
             </Layout>
           </Provider>
         </FilterProvider>

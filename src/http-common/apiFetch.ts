@@ -5,8 +5,7 @@ export async function apiFetch<T>(
   url: any,
   method: string,
   payload?: any
-): Promise<T | null> {
-
+): Promise<T | { data: any } | { error: any } | null> {
   const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   let body: any = payload ? JSON.stringify(payload) : undefined;
@@ -33,8 +32,10 @@ export async function apiFetch<T>(
     if (response && "data" in response) {
       return response.data;
     }
-  } catch (e: any) {
-      throw new Error(e.response.data.error)
+  } catch (error: any) {
+    if (error.response && error.response.data) {
+      throw new Error(JSON.stringify(error.response.data));
+    }
   }
 
   return null; // Return a default value if the response is not as expected

@@ -10,3 +10,11 @@ export const dateParse = (date : Date) => {
 
     return dateParse
 }
+
+export const getViolationField = (violations: Array<any>, fieldName: string) => {
+    let violationField: any = null
+    if (Array.isArray(violations) && violations.length) {
+        violationField = violations.find((violation: any) => violation.propertyPath === fieldName)
+    }
+    return violationField
+}

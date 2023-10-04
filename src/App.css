@@ -53,6 +53,11 @@
   width: 5px;
 }
 
-input{
-  border-radius: 0px!important;
+div.chakra-alert{
+  border-radius: 3px;
+}
+
+label.chakra-form__label{
+  font-weight: 400;
+  text-transform: uppercase;
 }

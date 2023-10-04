@@ -8,8 +8,7 @@ import { redirect, useLocation, useNavigate } from "react-router"
 
 const AuthContext = createContext({
     user: null,
-    error: null,
-    successMessage: '',
+    error: '',
     authentificate: () => { },
     login: (username: any, password: any) => { },
     logout: () => { }
@@ -22,8 +21,7 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const [user, setUser] = useState<any>(null)
-    const [error, setError] = useState<any>()
-    const [successMessage, setSuccessMessage] = useState<string>('')
+    const [error, setError] = useState<any>('')
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -39,19 +37,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     const login = async (username: string, password: string) => {
+        setError('')
         await apiFetch('/login', 'POST', {
             username, password
         }).then((user: any) => {
             setUser(user)
-            navigate("/")
+            if(user){
+                navigate('/', {replace: true} )
+            }
         }).catch((error: any) => {
-            setError("L'email ou le mot de passe est incorrect")
+            setError(JSON.parse(error.message).error)
         })
     }
 
     const logout = async () => {
         await apiFetch('/logout', 'post').then((res: any) => {
-            console.log(res)
             setUser(res)
             navigate("/login")
         }).catch((e: any) => {
@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ user, error, successMessage, authentificate, login, logout }}>
+        <AuthContext.Provider value={{ user, error, authentificate, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

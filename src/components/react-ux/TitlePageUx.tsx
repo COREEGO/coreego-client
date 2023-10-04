@@ -1,12 +1,8 @@
 import {Text} from '@chakra-ui/react'
 
-interface TitlePageUxProps{
-    title: string
-}
-
-const TitlePageUx : React.FC<TitlePageUxProps> = ({title}) => {
+const TitlePageUx : React.FC<{children: React.ReactNode}> = ({children}) => {
     return (
-        <Text as="b" fontSize="large" color="white" > {title} </Text>
+        <Text as="b" fontSize="large" color="white" > {children} </Text>
     )
 }
 

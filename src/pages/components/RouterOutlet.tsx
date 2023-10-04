@@ -4,15 +4,11 @@ import DiscussionFeedPage from "../discussion/DiscussionFeedPage";
 import LoginPage from "../authentification/LoginPage";
 import ShoppingFeedPage from "../shopping/ShoppingFeedPage";
 import PrivateRoute from "../../components/navigation/PrivateRoute";
-import { Component, Suspense, useEffect } from "react";
-import { useAuth } from "../../hooks/useAuth";
-import { AuthProvider } from "../../contexts/AuthProvider";
 import TravelFeed from "../travel/TravelFeed";
 import DiscussionDetail from "../discussion/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";
 import PasswordResetPage from "../authentification/PasswordResetPage";
-import AccountVerifiedPage from "../authentification/AcountVerifiedPage";
-
+import ValidationAccountPage from "../authentification/ValidationAccountPage";
 
 export default function RouterOutleft() {
 
@@ -28,7 +24,7 @@ export default function RouterOutleft() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/password/reset/:id?/:token?" element={<PasswordResetPage />} />
-            <Route path="/account-verified/:id/:token" element={<AccountVerifiedPage />} />
+            <Route path="/user/validation/account/:id/:token" element={<ValidationAccountPage />} />
         </Routes>
     )
 

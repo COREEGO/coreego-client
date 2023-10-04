@@ -6,6 +6,7 @@ import CategoryFilter from "../components/filters/CategoryFilter"
 import { useSelector } from "react-redux"
 import CityFilter from "../components/filters/CityFilter"
 import FilterContainer from "../components/filters/_FilterContainer"
+import PageTitle from "../../components/texts/PageTitle"
 
 
 const TravelFeed = () => {
@@ -15,7 +16,7 @@ const TravelFeed = () => {
     return (
         <Stack py={0}>
             <FilterContainer>
-                <TitlePageUx title="Espace voyage" />
+                <PageTitle>Espace voyage</PageTitle>
                 <Stack direction={{ base: 'column', md: 'row' }} spacing={2}>
                     <Stack direction={{  md: 'row' }} spacing={2}>
                         <CityFilter cities={cities} />

@@ -6,59 +6,59 @@ import ErrorAlert from "../../components/alerts/ErrorAlert"
 import { apiFetch } from "../../http-common/apiFetch"
 import { NavLink } from "react-router-dom"
 import { InfoIcon } from "@chakra-ui/icons"
+import ContainerAuthentification from "./_ContainerAuthentification"
+import TitlePageUx from "../../components/react-ux/TitlePageUx"
+import PageTitle from "../../components/texts/PageTitle"
+import HeaderSection from "../../components/sections/HeaderSection"
+import CenterLayout from "../layouts/CenterLayout"
 
 
 export default function LoginPage() {
 
-    const [error, setError] = useState<string>('')
 
-    const navigate = useNavigate()
+    const { login, error } = useAuthContext()
+    const [isBusy, setIsBusy] = useState<boolean>(false)
 
     const onLogin = async (e: any) => {
         e.preventDefault()
         const element = e.target.elements
-        try {
-            await apiFetch('/login', 'post', {
-                username: element.username.value,
-                password: element.password.value
-            })
-            navigate('/')
-        } catch (e: any) {
-            setError("Mot de passe ou identifiant invalide")
+        setIsBusy(true)
+        await login(element.username.value.trim(), element.password.value.trim())
+        if(error){
+            // console.log(error);
         }
+        setIsBusy(false)
     }
 
 
     return (
-        <Center flexDirection="column">
-            <Stack maxW="100%" w={400} spacing={2} alignItems="center">
-                <Text as="h1" fontSize="4xl" fontWeight="bold" color="var(--coreego-blue)">Se connecter</Text>
-                <ErrorAlert message={error} />
-                <Card w="100%">
-                    <CardBody>
-                        <Box as="form" onSubmit={onLogin}>
-                            <Stack alignItems="flex-start">
-                                <FormControl>
-                                    <FormLabel textTransform="uppercase">Email</FormLabel>
-                                    <Input type='email' id="username" />
-                                </FormControl>
-                                <FormControl>
-                                    <FormLabel textTransform="uppercase">Mot de passe</FormLabel>
-                                    <Input type='password' id="password" />
-                                </FormControl>
-                                <NavLink style={{ textDecoration: 'underline' }} to="/password/reset">Mot de passe oublié</NavLink>
-                                <Button colorScheme="blue" type="submit">Se connecter</Button>
-                            </Stack>
-                        </Box>
-                    </CardBody>
-                    <CardFooter pt={0}>
-                        <Stack>
-                            <NavLink to="/register">Je crée mon compte</NavLink>
-                        </Stack>
-                    </CardFooter>
-                </Card>
+        <CenterLayout>
+            <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
+                <Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Je me connecte</Text>
+                <Text textAlign="center" color="gray">Remplissez le formulaire pour vous connecter</Text>
             </Stack>
-        </Center>
+            <ErrorAlert message={error} />
+            <Stack as="form" onSubmit={onLogin} action="/login" spacing={5}>
+                <FormControl isRequired>
+                    <FormLabel fontSize="sm">Votre email</FormLabel>
+                    <Input placeholder="email@email.fr" size="lg" type='email' id="username" name="username" />
+                </FormControl>
+                <FormControl isRequired>
+                    <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
+                        <FormLabel fontSize="sm" textTransform="uppercase">Mot de passe</FormLabel>
+                        <NavLink style={{ fontSize: '14px', color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/password/reset">Mot de passe oublié ?</NavLink>
+                    </Stack>
+                    <Input  placeholder="6+ caractères requis" size="lg" type='password' id="password" name="password" />
+                </FormControl>
+                <Button isLoading={isBusy} type="submit" colorScheme="blue">Se connecter</Button>
+            </Stack>
+            <Stack direction="row" justifyContent="center" flexWrap="wrap">
+                <Text>Vous n'avez pas encore de compte ?</Text>
+                <NavLink style={{ color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/register">
+                    Inscrivez-vous ici
+                </NavLink>
+            </Stack>
+        </CenterLayout>
     )
 
 }

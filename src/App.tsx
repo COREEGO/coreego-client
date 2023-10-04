@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { Box, ChakraProvider, Container, SkipNavLink, extendTheme, position } from '@chakra-ui/react'
+import { Box, ChakraProvider, Container, Fade, SkipNavLink, extendTheme, position } from '@chakra-ui/react'
 import './App.css';
 import RouterOutleft from './pages/components/RouterOutlet';
 import { CONTAINER_SIZE } from './utils/variables';
@@ -12,17 +12,17 @@ import { FilterProvider } from './contexts/FilterProvider';
 
 const theme = extendTheme({
   fonts: {
-    heading: `'Assistant', sans-serif`,
-    body: `'Assistant', sans-serif`,
+    heading: `'Roboto', sans-serif`,
+    body: `'Roboto', sans-serif`,
   },
-  styles: {
-    global: {
-      // Modifier la couleur du texte du corps ici
-      body: {
-        backgroundColor: 'var(--main)',
-      },
-    },
-  },
+  // styles: {
+  //   global: {
+  //     // Modifier la couleur du texte du corps ici
+  //     body: {
+  //       backgroundColor: 'var(--main)',
+  //     },
+  //   },
+  // },
 })
 
 function App() {

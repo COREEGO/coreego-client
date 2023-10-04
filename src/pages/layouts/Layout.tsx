@@ -6,7 +6,7 @@ import { apiFetch } from "../../http-common/apiFetch"
 import { initCities, initDiscussionCategories, initPlaceCategories } from "../../store/reducers/app.reducer"
 import Navigation from "../../components/navigation/Navigation"
 import { CONTAINER_SIZE } from "../../utils/variables"
-import { Container } from "@chakra-ui/react"
+import { Box, Container, Fade, Stack } from "@chakra-ui/react"
 
 
 interface LayoutProps {
@@ -48,9 +48,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return appLoaded ? (
         <>
             <Navigation />
-            <Container my={3} maxW={CONTAINER_SIZE}>
+            <Fade in={true}>
                 {children}
-            </Container>
+            </Fade>
         </>
     ) : <LoadingPage type="app" />
 }

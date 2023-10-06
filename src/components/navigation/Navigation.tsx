@@ -110,7 +110,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
     }
 
     return (
-        <Box bg="white" position="sticky" className="navbar" top={0} zIndex={100}>
+        <Box bg="white" position="sticky" className="navbar" top={0} zIndex={9000}>
             <Container maxW={CONTAINER_SIZE}>
                 <Box py={5} >
                     <Stack direction="row" alignItems="center">

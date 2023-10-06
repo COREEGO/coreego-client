@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { apiFetch } from "../../http-common/apiFetch"
 import { Navigate, useParams } from "react-router"
 import LoadingPage from "../../components/LoadingPage"
@@ -19,24 +19,23 @@ const AccountVerifiedPage = () => {
         try {
 
             await apiFetch(`/user/validation/account?id=${params.id}&token=${params.token}`, 'post', {})
-            console.log('valider')
+
             toast({
                 description: "Votre compte a été valider",
                 status: 'success',
             })
 
         } catch (error: any) {
-            // toast({
-            //     description: "Token non valide",
-            //     status: 'error',
-            //     duration: 3000,
-            //     isClosable: true,
-            // })
+            toast({
+                description: "Token non valide",
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+            })
         }
     }
 
-    return <p>valdiezr</p>
-
+    return <Navigate to="/login" replace={true} />
 }
 
 export default AccountVerifiedPage

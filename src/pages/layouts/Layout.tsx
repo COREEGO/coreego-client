@@ -28,7 +28,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const onLoadedApplication = async () => {
         try {
             setAppLoaded(false)
-            await authentificate()
+            authentificate()
 
             const discussionCategories = await apiFetch('/discussion_categories', 'GET')
             const placeCategories = await apiFetch('/place_categories', 'GET')
@@ -48,9 +48,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return appLoaded ? (
         <>
             <Navigation />
-            <Fade in={true}>
-                {children}
-            </Fade>
+            {children}
         </>
     ) : <LoadingPage type="app" />
 }

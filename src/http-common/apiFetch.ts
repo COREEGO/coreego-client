@@ -16,6 +16,10 @@ export async function apiFetch<T>(
 
   if (payload instanceof FormData) {
     body = payload;
+  }
+
+  if (method.toLocaleLowerCase() === "patch") {
+    headers["Content-Type"] = "application/merge-patch+json";
   } else {
     headers["Content-Type"] = "application/json";
   }

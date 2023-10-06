@@ -17,13 +17,9 @@ const root = ReactDOM.createRoot(
 moment.locale('fr')
 
 root.render(
-  <React.StrictMode>
-    <BrowserRouter future={{ v7_startTransition: true }}>
-      <SWRConfig value={swrConfig}>
+    <BrowserRouter>
         <App />
-      </SWRConfig>
     </BrowserRouter>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

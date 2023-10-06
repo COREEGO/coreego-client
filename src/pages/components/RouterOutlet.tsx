@@ -7,8 +7,8 @@ import PrivateRoute from "../../components/navigation/PrivateRoute";
 import TravelFeed from "../travel/TravelFeed";
 import DiscussionDetail from "../discussion/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";
-import PasswordResetPage from "../authentification/PasswordResetPage";
 import ValidationAccountPage from "../authentification/ValidationAccountPage";
+import PasswordReset from "../authentification/PasswordReset";
 
 export default function RouterOutleft() {
 
@@ -23,7 +23,7 @@ export default function RouterOutleft() {
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/password/reset/:id?/:token?" element={<PasswordResetPage />} />
+            <Route path="/password/reset/:id?/:token?" element={<PasswordReset />} />
             <Route path="/user/validation/account/:id/:token" element={<ValidationAccountPage />} />
         </Routes>
     )

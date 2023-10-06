@@ -9,20 +9,14 @@ import { Provider } from 'react-redux';
 import store from './store/app.store';
 import Layout from './pages/layouts/Layout';
 import { FilterProvider } from './contexts/FilterProvider';
+import { SWRConfig } from 'swr';
+import { swrConfig } from './http-common/swrConfig';
 
 const theme = extendTheme({
   fonts: {
     heading: `'Roboto', sans-serif`,
     body: `'Roboto', sans-serif`,
   },
-  // styles: {
-  //   global: {
-  //     // Modifier la couleur du texte du corps ici
-  //     body: {
-  //       backgroundColor: 'var(--main)',
-  //     },
-  //   },
-  // },
 })
 
 function App() {
@@ -33,15 +27,17 @@ function App() {
         isClosable: true,
       }
     }}>
-      <AuthProvider>
-        <FilterProvider>
-          <Provider store={store}>
-            <Layout>
+      <SWRConfig value={swrConfig}>
+        <AuthProvider>
+          <FilterProvider>
+            <Provider store={store}>
+              <Layout>
                 <RouterOutleft />
-            </Layout>
-          </Provider>
-        </FilterProvider>
-      </AuthProvider>
+              </Layout>
+            </Provider>
+          </FilterProvider>
+        </AuthProvider>
+      </SWRConfig>
     </ChakraProvider >
   );
 }

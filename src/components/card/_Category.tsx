@@ -1,14 +1,16 @@
 import { Badge } from "@chakra-ui/react"
 
 
-interface CategoryInterface{
-    category: any
+interface CategoryInterface {
+    category: {color: string, label: string}
 }
 
-const Category : React.FC<CategoryInterface> = ({category}) => {
+const Category: React.FC<CategoryInterface> = ({ category }) => {
 
-    return(
-        <Badge  bg={category?.color} p={1} width="fit-content" color="white" > {category?.label} </Badge>
+    return (
+        <Badge bg={category.color} p={1} width="fit-content" color="white" >
+            {category.label}
+        </Badge>
     )
 
 }

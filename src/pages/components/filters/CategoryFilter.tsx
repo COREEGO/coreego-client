@@ -11,8 +11,6 @@ const CategoryFilter: React.FC<CategoryFilterInterface> = ({ cateogries }) => {
 
     const { setCategory, category } = useFilterContext()
 
-
-
     return (
         <Select bg="white" fontWeight="bold" borderRadius={0} value={category} onChange={(e) => setCategory(e.target.value)} width="fit-content">
             <option value=''>Toutes les catégories</option>

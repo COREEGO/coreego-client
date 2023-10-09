@@ -3,8 +3,7 @@ import { useState } from "react"
 import { apiFetch } from "../../http-common/apiFetch"
 import SuccessAlert from "../../components/alerts/SuccessAlert"
 import { InfoIcon } from "@chakra-ui/icons"
-import ContainerAuthentification from "./_ContainerAuthentification"
-import PageTitle from "../../components/texts/PageTitle"
+import PageTitle from "../../components/texts/Title"
 import CenterLayout from "../layouts/CenterLayout"
 import { REGISTER_MESSAGE } from "../../utils/messages"
 import { getViolationField } from "../../utils"
@@ -67,7 +66,7 @@ const RegisterPage: React.FC<any> = () => {
     return (
         <CenterLayout>
             <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                <Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight={500}>Je crée mon compte</Text>
+                <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight={500}>Je crée mon compte</Text>
                 <Text textAlign="center" color="gray">Remplissez le formulaire pour créer votre compte</Text>
             </Stack>
             <SuccessAlert message={successMessage} />

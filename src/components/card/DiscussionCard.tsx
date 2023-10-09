@@ -17,9 +17,9 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
             <Card borderRadius={0} className="feed__card" >
                 <CardBody>
                     <Stack>
-                    <UserInfo user={discussion.user} date={discussion.createdAt} />
+                        <UserInfo user={discussion.user} date={discussion.createdAt} />
                         <Category category={discussion.category} />
-                        <Text noOfLines={1} as="b"  color="var(--coreego-blue)">{discussion.title} </Text>
+                        <Text noOfLines={1} as="b" color="var(--coreego-blue)">{discussion.title} </Text>
                         <Text noOfLines={2}>{discussion.content} </Text>
                         <Stack direction="row">
                             <NoOfComments nb={discussion.comments.length} />

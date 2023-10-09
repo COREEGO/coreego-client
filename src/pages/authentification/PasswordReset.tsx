@@ -39,7 +39,7 @@ const SendMailScreen = () => {
     return (
         <>
             <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                <Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Mot de passe oublié</Text>
+                <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Mot de passe oublié</Text>
                 <Text textAlign="center" color="gray">Ecrit ton email pour recevoir le lien de réinitialisation</Text>
             </Stack>
             <ErrorAlert message={errorMessage} />

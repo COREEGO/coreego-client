@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
 import CategoryFilter from "../components/filters/CategoryFilter";
 import SearchFilter from "../components/filters/SearchFilter";
-import PageTitle from "../../components/texts/PageTitle";
+import PageTitle from "../../components/texts/Title";
 import ImageHeader from "../../components/headers/ImageHeader";
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
 import { CONTAINER_SIZE } from "../../utils/variables";

@@ -4,7 +4,7 @@ import { dateParse } from "../../utils";
 interface UsserInfoInterface{
     user: any,
     size?: 'sm' | 'md' | 'xs',
-    date: Date
+    date?: Date
 }
 
 const UserInfo : React.FC<UsserInfoInterface> = ({user, size = 'sm', date }) => {
@@ -14,7 +14,9 @@ const UserInfo : React.FC<UsserInfoInterface> = ({user, size = 'sm', date }) => 
             <Avatar size={size} />
             <Stack spacing={0}>
                 <Text noOfLines={1} as="b" fontSize="sm" > {user.pseudo} </Text>
-                <Text color="gray" as="span" fontSize="sm"> {dateParse(date)} </Text>
+                {
+                  date && <Text color="gray" as="span" fontSize="sm"> {dateParse(date)} </Text>
+                }
             </Stack>
         </Stack>
     )

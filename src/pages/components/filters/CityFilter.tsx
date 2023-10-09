@@ -12,7 +12,7 @@ const CityFilter: React.FC<CityFilterInterface> = ({ cities }) => {
 
     return (
 
-            <Select bg="white" fontWeight="bold" borderRadius={0} value={city} onChange={(e) => setCity(e.target.value)} width="fit-content">
+            <Select bg="white" fontWeight="bold" value={city} onChange={(e) => setCity(e.target.value)} width="fit-content">
                 <option value=''>Toutes les villes</option>
                 {
                     cities.map((ville: any) => {

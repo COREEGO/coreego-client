@@ -1,4 +1,4 @@
-import { Stack, Box, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, Divider, GridItem, Button, Grid } from "@chakra-ui/react";
+import { Stack, Box, Text, RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, Divider, GridItem, Button, Grid, Container } from "@chakra-ui/react";
 import TitlePageUx from "../../components/react-ux/TitlePageUx";
 import SearchInput from "../../components/inputs/SearchInput";
 import { useEffect, useState } from "react";
@@ -14,7 +14,10 @@ import SearchFilter from "../components/filters/SearchFilter";
 import DateFilter from "../components/filters/DateFilter";
 import CityFilter from "../components/filters/CityFilter";
 import FilterContainer from "../components/filters/_FilterContainer";
-import PageTitle from "../../components/texts/PageTitle";
+import PageTitle from "../../components/texts/Title";
+import ImageHeader from "../../components/headers/ImageHeader";
+import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
+import { CONTAINER_SIZE } from "../../utils/variables";
 
 
 export default function ShoppingFeedPage() {
@@ -22,24 +25,32 @@ export default function ShoppingFeedPage() {
     const { cities } = useSelector((state: any) => state.app)
 
     return (
-
-        <Stack py={0}>
-            <FilterContainer>
-                <PageTitle>Espace shopping</PageTitle>
-                <Stack direction={{ base: 'column', md: 'row' }} spacing={2}>
-                    <CityFilter cities={cities} />
-                    <Box flex={1}>
-                        <SearchFilter />
+        <>
+            <ImageHeader imgPath={HEADER_IMG}>
+                <Stack>
+                    <Box>
+                        <Text as="h1" fontWeight="bold" color="white" fontSize="3xl" >Espace Shopping</Text>
+                        <Divider borderColor="white" opacity={1} />
                     </Box>
+                    <Stack direction={{ base: 'column', md: 'row' }} spacing={2}>
+                        <CityFilter cities={cities} />
+                        <Box flex={1}>
+                            <SearchFilter />
+                        </Box>
+                    </Stack>
                 </Stack>
-            </FilterContainer>
-            <FeedList
-                url="/products"
-                cardName="product"
-                noLengthLabel="Aucun produits trouvées"
-                buttonLabel="Voir plus"
-            />
-        </Stack>
+            </ImageHeader>
+            <Container maxW={CONTAINER_SIZE}>
+                <Box my={10}>
+                    <FeedList
+                        url="/products"
+                        cardName="product"
+                        noLengthLabel="Aucun produits trouvées"
+                        buttonLabel="Voir plus"
+                    />
+                </Box>
+            </Container>
+        </>
 
     )
 

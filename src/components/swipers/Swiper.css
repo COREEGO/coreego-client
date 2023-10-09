@@ -1,12 +1,13 @@
-.swiper {
-    width: 100%;
-    height: 300px;
+.default-swiper {
+    height: 100%;
 }
 
-
-.swiper-slide img {
-    display: block;
-    width: 100%;
+.swiper-wrapper{
+    width: 0px;
     height: 100%;
-    object-fit: cover;
+}
+
+.default-swiper .swiper-slide{
+    width: 100px;
+    height: 100%;
 }

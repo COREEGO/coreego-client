@@ -14,65 +14,49 @@ interface LikeButtonInterface {
 
 const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null }) => {
 
-    const toast = useToast()
+    const { user }: any = useAuthContext();
 
-    const [currentLike, setCurrentLike] = useState<any>(null)
+    const [userLike, setUserLike] = useState<any>(null);
+    const [likeLength, setLikeLength] = useState<number>(likes.length);
 
-    const { user }: any = useAuthContext()
+    const [isBusy, setIsBusy] = useState<boolean>(false)
 
     useEffect(() => {
-        const currentUserLiked = likes.find((like: any) => like.user.id === user.id)
-        if (currentUserLiked) {
-            setCurrentLike(currentUserLiked)
-        } else {
-            setCurrentLike(null)
-        }
-    }, [likes])
+        const currentUserLiked = likes.find((like: any) => like.user.id === user.id);
+        setUserLike(currentUserLiked || null);
+    }, [likes, user.id]);
+
 
     const handleLike = async () => {
 
         try {
-            if (currentLike) {
-                await apiFetch('/likes/' + currentLike.id, 'DELETE')
-
-                toast({
-                    title: 'Suucès',
-                    position: 'top-right',
-                    description: "Je n'aime plus",
-                    status: 'success',
-                    duration: 2000,
-                    isClosable: true,
-                })
-
+            setIsBusy(true)
+            if (userLike) {
+                await apiFetch('/likes/' + userLike.id, 'DELETE')
+                setUserLike(null)
+                setLikeLength(likeLength - 1)
             } else {
                 await apiFetch('/likes', 'POST', {
                     discussion: discussionId ? '/api/discussions/' + discussionId : null,
                     place: placeId ? '/api/places/' + placeId : null,
                 })
-                toast({
-                    title: 'Suucès',
-                    position: 'top-right',
-                    description: "J'aime",
-                    status: 'success',
-                    duration: 2000,
-                    isClosable: true,
-                })
+                setUserLike(user)
+                setLikeLength(likeLength + 1)
             }
-
             mutate()
-
-
         } catch (error) {
             console.log(error)
+        } finally {
+            setIsBusy(false)
         }
     }
 
     return (
         <Stack direction="row" alignItems="center">
-            <IconButton onClick={handleLike} aria-label={"like post"} icon={
-                currentLike ? <MdFavorite color="red" /> : <MdFavoriteBorder color="red" />
+            <IconButton isDisabled={isBusy} onClick={handleLike} aria-label={"like post"} icon={
+                userLike ? <MdFavorite color="red" /> : <MdFavoriteBorder color="red" />
             } isRound={true} fontSize='20px' />
-            <Text as="b"> {likes.length} </Text>
+            <Text as="b"> {likeLength} </Text>
         </Stack>
     )
 

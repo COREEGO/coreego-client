@@ -6,9 +6,8 @@ import ErrorAlert from "../../components/alerts/ErrorAlert"
 import { apiFetch } from "../../http-common/apiFetch"
 import { NavLink } from "react-router-dom"
 import { InfoIcon } from "@chakra-ui/icons"
-import ContainerAuthentification from "./_ContainerAuthentification"
 import TitlePageUx from "../../components/react-ux/TitlePageUx"
-import PageTitle from "../../components/texts/PageTitle"
+import PageTitle from "../../components/texts/Title"
 import HeaderSection from "../../components/sections/HeaderSection"
 import CenterLayout from "../layouts/CenterLayout"
 
@@ -24,7 +23,7 @@ export default function LoginPage() {
         const element = e.target.elements
         setIsBusy(true)
         await login(element.username.value.trim(), element.password.value.trim())
-        if(error){
+        if (error) {
             // console.log(error);
         }
         setIsBusy(false)
@@ -34,7 +33,7 @@ export default function LoginPage() {
     return (
         <CenterLayout>
             <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                <Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Je me connecte</Text>
+                <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Je me connecte</Text>
                 <Text textAlign="center" color="gray">Remplissez le formulaire pour vous connecter</Text>
             </Stack>
             <ErrorAlert message={error} />
@@ -48,7 +47,7 @@ export default function LoginPage() {
                         <FormLabel fontSize="sm" textTransform="uppercase">Mot de passe</FormLabel>
                         <NavLink style={{ fontSize: '14px', color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/password/reset">Mot de passe oublié ?</NavLink>
                     </Stack>
-                    <Input  placeholder="6+ caractères requis" size="lg" type='password' id="password" name="password" />
+                    <Input placeholder="6+ caractères requis" size="lg" type='password' id="password" name="password" />
                 </FormControl>
                 <Button isLoading={isBusy} type="submit" colorScheme="blue">Se connecter</Button>
             </Stack>

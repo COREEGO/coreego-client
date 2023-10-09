@@ -27,25 +27,23 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
     const handleClickModifiyComment = async (e: any) => {
         e.preventDefault()
         try {
-            await apiFetch('/comments/' + comment.id, 'PUT', {
-                content: content
-            })
-
-            toast({
-                title: 'Suucès',
-                description: "Commentaire modifié",
-                status: 'success',
-            })
-
-            mutate()
-
-            setIsEditing(false)
-
-        } catch (error) {
+            if (content.length) {
+                await apiFetch('/comments/' + comment.id, 'PATCH', {
+                    content: content
+                })
+                toast({
+                    title: 'Suucès',
+                    description: "Commentaire modifié",
+                    status: 'success',
+                })
+                mutate()
+                setIsEditing(false)
+            }
+        } catch (error: any) {
             toast({
                 title: 'Erreur',
-                description: `${error}`,
-                status: 'success',
+                description: `${JSON.parse(error.message)}`,
+                status: 'error',
             })
         }
     }
@@ -57,18 +55,23 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
             if (result) {
                 await apiFetch('/comments/' + comment.id, 'DELETE')
                 mutate()
+                toast({
+                    title: 'Suucès',
+                    description: "Commentaire supprimé",
+                    status: 'success',
+                })
             } else {
                 console.log('non suppression')
             }
 
-        } catch (error) {
-            console.log(error)
+        } catch (error:any) {
+            console.log(JSON.parse(error.message))
         }
     }
 
 
     return (
-        <Card p={3} borderRadius={0}>
+        <Card p={3} borderRadius={0} w="100%">
             <Stack direction="row">
                 <Stack flex={1}>
                     <UserInfo user={comment.user} date={comment.createdAt} />
@@ -85,7 +88,6 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
                     }
                 </Stack>
                 {
-
                     isCommentUser && <Stack>
                         <Menu>
                             <MenuButton as="button">

@@ -41,8 +41,8 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
             <Grid
                 templateColumns={{
                     base: "repeat(1, 1fr)",
-                    md: "repeat(3, 1fr)",
-                    lg: "repeat(4, 1fr)",
+                    md: "repeat(2, 1fr)",
+                    lg: "repeat(3, 1fr)",
                 }}
                 gap={2}
             >

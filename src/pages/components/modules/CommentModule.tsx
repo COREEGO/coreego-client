@@ -1,9 +1,9 @@
 import { Box, Button, IconButton, Text, Stack, Textarea, useDisclosure, useToast, Container } from "@chakra-ui/react"
 import CommentCard from "../../../components/card/CommentCard"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { MdClose, MdOutlineAdd } from "react-icons/md"
 import { apiFetch } from "../../../http-common/apiFetch"
-import { CONTAINER_SIZE } from "../../../utils/variables"
+import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../../utils/variables"
 
 
 interface CommentModuleInterface {
@@ -20,9 +20,12 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
     const [commentText, setCommentText] = useState<string>('')
     const [isBusy, setIsBusy] = useState<boolean>(false)
 
+
     comments = comments.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
+
+
 
 
     const handleSubmitComment = async (e: any) => {
@@ -31,6 +34,7 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
 
         try {
             setIsBusy(true)
+
             if (commentText.trim().length) {
 
                 await apiFetch('/comments', 'POST', {
@@ -54,13 +58,13 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
             }
         } catch (error: any) {
             console.log(error.message)
-        }finally{
+        } finally {
             setIsBusy(false)
         }
     }
 
     return (
-        <Box bg="gray.50" py={5}>
+        <Box bg="gray.50" py={VERTICAL_SPACING}>
             <Container maxW={CONTAINER_SIZE}>
                 <Stack>
                     <Text fontSize="xl" as="b">Commentaires</Text>

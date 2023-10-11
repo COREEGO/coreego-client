@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Box, Image } from '@chakra-ui/react';
+import { Image } from '@chakra-ui/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -19,7 +19,7 @@ const DefaultSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
         >
             {
                 images.map((image: any) => {
-                    return <SwiperSlide key={image.id} style={{ width: '100%', height: '100%' }}>
+                    return <SwiperSlide key={image.id}>
                         <Image objectFit='cover'
                             objectPosition="center"
                             pointerEvents="none"
@@ -29,7 +29,6 @@ const DefaultSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                     </SwiperSlide>
                 })
             }
-
         </Swiper>
     )
 

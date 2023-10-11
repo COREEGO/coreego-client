@@ -18,7 +18,7 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product }) => {
 
 
     return (
-        <NavLink to={'#'}>
+        <NavLink to={'/shopping/product/detail/' + product.id}>
             <Card borderRadius={0} className="feed__card" >
                 <CardBody>
                     <Stack>
@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product }) => {
                             sx={{ height: { base: 150, sm: 200, md: 250 } }}
                             objectFit='cover'
                             objectPosition="center"
-                            src="https://media.gettyimages.com/id/200372058-001/fr/photo/south-korea-seoul-insadong-street-filled-with-people.jpg?s=1024x1024&w=gi&k=20&c=OXW8Ldhx-ALBtcpi3irTJ-KfDfZPRyjhjGKdhT3__50="
+                            src={imageUrl}
                             alt='Green double couch with wooden legs'
                         />
                         <Text noOfLines={1} as="b" color="var(--coreego-blue)">{product.title} </Text>

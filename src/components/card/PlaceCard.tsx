@@ -19,7 +19,7 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
     const imageUrl = BASE_URL + place.images[0].filePath
 
     return (
-        <NavLink to="/">
+        <NavLink to={'/voyage/place/detail/' + place.id}>
             <Card borderRadius={0} className="feed__card" >
                 <CardBody>
                     <Stack position="relative" w="100%">

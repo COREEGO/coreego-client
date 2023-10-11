@@ -1,18 +1,19 @@
-import { Stack, Text } from "@chakra-ui/react"
+import { Stack, Text } from "@chakra-ui/react";
 
 interface PriceInterface {
-    price: number
+    price : number,
+    fontSize?: any
 }
 
-const Price: React.FC<PriceInterface> = ({ price }) => {
+const Price: React.FC<PriceInterface> = ({ price, fontSize = "md" }) => {
+  // Utilisez les props comme vous le souhaitez ici
 
-    return (
-        <Stack direction="row" alignItems="center" fontWeight="bold">
-           <Text>₩</Text>
-           <Text>{price}</Text>
-        </Stack>
-    )
+  return (
+    <Stack fontSize={fontSize} direction="row" alignItems="center" fontWeight="bold">
+      <Text>₩</Text>
+      <Text>{price}</Text>
+    </Stack>
+  );
+};
 
-}
-
-export default Price
+export default Price;

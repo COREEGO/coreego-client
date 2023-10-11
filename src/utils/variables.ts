@@ -1,14 +1,5 @@
 export const ICON_SIZE_HEADER = 20
 export const CONTAINER_SIZE = '1400px'
+export const VERTICAL_SPACING = 5
 
-
-export const filterDateOptions = [
-    {
-        id: 'desc',
-        label: 'les plus résents'
-    },
-    {
-        id: 'asc',
-        label: 'les plus anciens'
-    }
-]
+export const BASE_URL = process.env.REACT_APP_BASE_URL

@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { BASE_URL } from './variables'
 
 export const dateParse = (date : Date) => {
 
@@ -17,4 +18,10 @@ export const getViolationField = (violations: Array<any>, fieldName: string) => 
         violationField = violations.find((violation: any) => violation.propertyPath === fieldName)
     }
     return violationField
+}
+
+export const getFirstImage = (images: Array<any>) => {
+    const url = BASE_URL + images[0].filePath
+    if(url) return url
+    return;
 }

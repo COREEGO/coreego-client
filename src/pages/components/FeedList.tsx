@@ -41,10 +41,11 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
             <Grid
                 templateColumns={{
                     base: "repeat(1, 1fr)",
+                    sm: "repeat(2, 1fr)",
                     md: "repeat(2, 1fr)",
-                    lg: "repeat(3, 1fr)",
+                    lg: "repeat(4, 1fr)",
                 }}
-                gap={2}
+                gap={4}
             >
                 {datas?.map((data: any) => (
                     <GridItem w="100%" key={data.id}>

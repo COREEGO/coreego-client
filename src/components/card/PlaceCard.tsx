@@ -7,6 +7,7 @@ import NoOfLikes from "./_NoOfLikes";
 import NoOfComments from "./_NoOfComments";
 import { NavLink } from "react-router-dom";
 import DefaultSwiper from "../swipers/DefaultSwiper";
+import DateBadge from "../badges/DateBadge";
 
 interface PlaceCardInterface {
     place: any
@@ -20,23 +21,25 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
 
     return (
         <NavLink to={'/voyage/place/detail/' + place.id}>
-            <Card borderRadius={0} className="feed__card" >
+            <Card borderRadius={0} >
                 <CardBody>
                     <Stack position="relative" w="100%">
-                        <UserInfo user={place.user} date={place.createdAt} />
-                        <Box sx={{ height: { base: 150, sm: 200, md: 250 }}}>
+                        <Box h={250}
+                            w="100%">
                             <DefaultSwiper images={place.images} />
                         </Box>
+                        <UserInfo size="xs" user={place.user} />
+                        <Category category={place.category} />
                         <Text noOfLines={1} as="b" color="var(--coreego-blue)">{place.title} </Text>
                         <Text noOfLines={2}>{place.description} </Text>
-                        <Stack direction="row">
-                            <Category category={place.category} />
-                            <City city={place.city} />
-                        </Stack>
+                        <City city={place.city} />
                         <Stack direction="row">
                             <NoOfLikes nb={place.likes.length} />
                             <NoOfComments nb={place.comments.length} />
                         </Stack>
+                        <Box alignSelf="end">
+                                <DateBadge date={place.createdAt} />
+                            </Box>
                     </Stack>
                 </CardBody>
             </Card>

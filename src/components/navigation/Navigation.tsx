@@ -171,7 +171,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
                                     </List>
                                 </Hide> : <Menu>
                                     <MenuButton>
-                                        <AvatarUx size="xs" user={user} />
+                                        <Avatar size="sm" />
                                     </MenuButton>
                                     <MenuList>
                                         <MenuItem>Download</MenuItem>

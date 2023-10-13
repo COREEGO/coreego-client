@@ -6,7 +6,9 @@ import { useSelector } from "react-redux"
 import CityFilter from "../components/filters/CityFilter"
 import ImageHeader from "../../components/headers/ImageHeader"
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
-import { CONTAINER_SIZE } from "../../utils/variables"
+import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
+import AddButton from "../../components/buttons/AddButton"
+import Title from "../../components/texts/Title"
 
 
 const TravelFeed = () => {
@@ -14,10 +16,13 @@ const TravelFeed = () => {
     const { placeCategories, cities } = useSelector((state: any) => state.app)
 
     return (
-        <>
-            <ImageHeader imgPath={HEADER_IMG}>
-                <Stack>
-                    <Text as="h1" color="white" fontSize="3xl" >Voyage</Text>
+        <Box py={VERTICAL_SPACING}>
+            <Container maxW={CONTAINER_SIZE}>
+                <Stack spacing={VERTICAL_SPACING}>
+                    <Stack direction="row" alignItems="center">
+                        <Title>Voyage</Title>
+                        <AddButton />
+                    </Stack>
                     <Stack direction={{ base: 'column', md: 'row' }} spacing={0}>
                         <Box>
                             <CityFilter cities={cities} />
@@ -27,19 +32,18 @@ const TravelFeed = () => {
                         </Box>
                         <SearchFilter />
                     </Stack>
+                    <Divider opacity={1} borderColor="black" />
+                    <Box>
+                        <FeedList
+                            url="/places"
+                            noLengthLabel="Aucun lieux trouvés"
+                            buttonLabel="Voir plus"
+                            cardName="place"
+                        />
+                    </Box>
                 </Stack>
-            </ImageHeader>
-            <Container maxW={CONTAINER_SIZE}>
-                <Box my={10}>
-                    <FeedList
-                        url="/places"
-                        noLengthLabel="Aucun lieux trouvés"
-                        buttonLabel="Voir plus"
-                        cardName="place"
-                    />
-                </Box>
             </Container>
-        </>
+        </Box>
     )
 
 }

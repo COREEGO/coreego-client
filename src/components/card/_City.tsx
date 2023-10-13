@@ -4,14 +4,16 @@ import { MdLocationOn } from "react-icons/md"
 
 interface CityInterface {
     city: any,
-    fontSize?: any
+    size?: any
 }
 
-const City: React.FC<CityInterface> = ({ city, fontSize }) => {
+const City: React.FC<CityInterface> = ({ city, size }) => {
 
     return (
-        <Stack fontSize={fontSize} spacing={0} direction="row" alignItems="center" color="var(--coreego-red)">
-            <MdLocationOn />
+        <Stack fontSize={size} spacing={0} direction="row" alignItems="center" color="var(--coreego-blue)">
+            <Text>
+                <MdLocationOn />
+            </Text>
             <Text as="span"> {city.label} </Text>
         </Stack>
     )

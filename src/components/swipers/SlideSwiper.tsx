@@ -4,11 +4,11 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import './Swiper.css'
+import './swiper.scss'
 
 import { Navigation, Pagination } from 'swiper/modules';
 
-const DefaultSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
+const SlideSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
 
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -34,4 +34,4 @@ const DefaultSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
 
 }
 
-export default DefaultSwiper
+export default SlideSwiper

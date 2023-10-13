@@ -1,4 +1,4 @@
-import { IconButton, Stack, Text, useToast } from "@chakra-ui/react"
+import { Button, IconButton, Stack, Text, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md"
 import { useAuthContext } from "../../contexts/AuthProvider"
@@ -8,11 +8,12 @@ interface LikeButtonInterface {
     discussionId?: any,
     placeId?: any,
     likes: Array<any>,
+    size?: any,
     mutate: Function
 }
 
 
-const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null }) => {
+const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null, size }) => {
 
     const { user }: any = useAuthContext();
 
@@ -52,12 +53,9 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
     }
 
     return (
-        <Stack direction="row" alignItems="center">
-            <IconButton isDisabled={isBusy} onClick={handleLike} aria-label={"like post"} icon={
-                userLike ? <MdFavorite color="red" /> : <MdFavoriteBorder color="red" />
-            } isRound={true} fontSize='20px' />
-            <Text as="b"> {likeLength} </Text>
-        </Stack>
+        <Button className="blue_outlined" size={size} width="fit-content" isDisabled={isBusy} onClick={handleLike} leftIcon={userLike ? <MdFavorite fontSize={24} color="red" /> : <MdFavoriteBorder fontSize={24} color="red" />}>
+            {likeLength}
+        </Button>
     )
 
 }

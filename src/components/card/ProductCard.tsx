@@ -5,7 +5,9 @@ import Price from "./_Price";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { dateParse, getFirstImage } from "../../utils";
-import DateBadge from "../badges/DateBadge";
+import PublishDateBadge from "../badges/PublishDateBadge";
+import PublishDateText from "../texts/PublichDateText";
+import ThumbSwiper from "../swipers/ThumbSwiper";
 
 
 interface ProductCardInterface {
@@ -14,57 +16,30 @@ interface ProductCardInterface {
 
 const ProductCard: React.FC<ProductCardInterface> = ({ product }) => {
 
-
-
     return (
-        <NavLink to={'/shopping/product/detail/' + product.id}>
-            <Card>
-                <CardBody>
-                    <Stack>
-                        <Box position="relative" h={250}
-                            w="100%">
-                            <Image
-                                borderRadius={3}
-                                h="100%"
-                                w="100%"
-                                objectFit='cover'
-                                objectPosition="center"
-                                src={getFirstImage(product.images)}
-                                alt='Green double couch with wooden legs'
-                            />
-                        </Box>
-                        <Stack>
-                            <UserInfo size="xs" user={product.user} />
-                            <Heading size="sm" noOfLines={1} as="b" color="var(--coreego-blue)">The perfect latte</Heading>
-                            <Text noOfLines={2}>{product.description} </Text>
-                            <Price price={product.price} />
-                            <City city={product.city} />
-                            <Box alignSelf="end">
-                                <DateBadge date={product.createdAt} />
-                            </Box>
-                        </Stack>
+        <Card borderRadius={0}>
+            <Image
+                h={{ base: 200, md: 250 }}
+                w="100%"
+                objectFit='cover'
+                objectPosition="center"
+                src={getFirstImage(product.images)}
+                alt='Green double couch with wooden legs'
+            />
+            <CardBody>
+                <Stack>
+                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <UserInfo user={product.user} size="xs" />
+                        <PublishDateText size="xs" date={product.createdAt} />
                     </Stack>
-                </CardBody>
+                    <Text noOfLines={1} as="b">{product.title} </Text>
+                    <Text noOfLines={2}>{product.description} </Text>
+                    <City size="md" city={product.city} />
+                    <Price size="lg" price={product.price} />
+                </Stack>
+            </CardBody>
+        </Card>
 
-
-                {/* <CardBody>
-                    <Stack>
-                        <UserInfo user={product.user} date={product.createdAt} />
-                        <Image
-                            sx={{ height: { base: 150, sm: 200, md: 250 } }}
-                            objectFit='cover'
-                            objectPosition="center"
-                            src={imageUrl}
-                            alt='Green double couch with wooden legs'
-                        />
-                        <Text noOfLines={1} as="b" color="var(--coreego-blue)">{product.title} </Text>
-                        <Text noOfLines={2}>{product.description} </Text>
-                        <Price price={product.price} />
-                        <City city={product.city} />
-                    </Stack>
-                </CardBody> */}
-            </Card>
-        </NavLink>
     )
 
 }

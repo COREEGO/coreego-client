@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { MdClose, MdOutlineAdd } from "react-icons/md"
 import { apiFetch } from "../../../http-common/apiFetch"
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../../utils/variables"
+import { useAuthContext } from "../../../contexts/AuthProvider"
 
 
 interface CommentModuleInterface {
@@ -16,7 +17,7 @@ interface CommentModuleInterface {
 const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionId, placeId, mutate }) => {
 
     const toast = useToast()
-
+    const {user} = useAuthContext()
     const [commentText, setCommentText] = useState<string>('')
     const [isBusy, setIsBusy] = useState<boolean>(false)
 
@@ -24,8 +25,6 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
     comments = comments.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
-
-
 
 
     const handleSubmitComment = async (e: any) => {
@@ -50,6 +49,12 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
                     status: 'success',
                     duration: 2000,
                     isClosable: true,
+                })
+
+                comments.push({
+                    user: user,
+                    content: commentText,
+                    createdAt: new Date()
                 })
 
                 setCommentText('')

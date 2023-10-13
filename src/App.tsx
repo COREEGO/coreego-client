@@ -1,6 +1,6 @@
 import React, { Suspense, useEffect, useState } from 'react';
 import { Box, ChakraProvider, Container, Fade, SkipNavLink, extendTheme, position } from '@chakra-ui/react'
-import './App.css';
+import './App.scss';
 import RouterOutleft from './pages/components/RouterOutlet';
 import { CONTAINER_SIZE } from './utils/variables';
 // import { swrConfig } from './http-common/swrConfig'

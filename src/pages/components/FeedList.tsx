@@ -6,6 +6,7 @@ import DiscussionCard from "../../components/card/DiscussionCard";
 import ProductCard from "../../components/card/ProductCard";
 import PlaceCard from "../../components/card/PlaceCard";
 import { Suspense } from "react";
+import { NavLink } from "react-router-dom";
 
 interface FeedListInterface {
     url: string;
@@ -49,9 +50,21 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
             >
                 {datas?.map((data: any) => (
                     <GridItem w="100%" key={data.id}>
-                        {cardName === "discussion" && <DiscussionCard discussion={data} />}
-                        {cardName === "product" && <ProductCard product={data} />}
-                        {cardName === "place" && <PlaceCard place={data} />}
+                        {cardName === "discussion" &&
+                            <NavLink to={'/discussions/detail/' + data.id}>
+                                <DiscussionCard discussion={data} />
+                            </NavLink>
+                        }
+                        {cardName === "product" &&
+                            <NavLink to={'/market-place/product/detail/' + data.id}>
+                                <ProductCard product={data} />
+                            </NavLink>
+                        }
+                        {cardName === "place" &&
+                            <NavLink to={'/voyage/place/detail/' + data.id}>
+                                <PlaceCard place={data} />
+                            </NavLink>
+                        }
                     </GridItem>
                 ))}
             </Grid>

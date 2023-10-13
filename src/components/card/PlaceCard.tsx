@@ -1,13 +1,12 @@
-import { Box, Card, CardBody, CardFooter, CardHeader, Image, Stack, Text, background } from "@chakra-ui/react";
+import { Box, Card, CardBody, Stack, Text } from "@chakra-ui/react";
 import UserInfo from "./_UserInfo";
-import { useEffect } from "react";
 import City from "./_City";
 import Category from "./_Category";
 import NoOfLikes from "./_NoOfLikes";
 import NoOfComments from "./_NoOfComments";
-import { NavLink } from "react-router-dom";
-import DefaultSwiper from "../swipers/DefaultSwiper";
-import DateBadge from "../badges/DateBadge";
+import SlideSwiper from "../swipers/SlideSwiper";
+import PublishDateBadge from "../badges/PublishDateBadge";
+import PublishDateText from "../texts/PublichDateText";
 
 interface PlaceCardInterface {
     place: any
@@ -15,35 +14,28 @@ interface PlaceCardInterface {
 
 const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
 
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-    const imageUrl = BASE_URL + place.images[0].filePath
-
     return (
-        <NavLink to={'/voyage/place/detail/' + place.id}>
-            <Card borderRadius={0} >
-                <CardBody>
-                    <Stack position="relative" w="100%">
-                        <Box h={250}
-                            w="100%">
-                            <DefaultSwiper images={place.images} />
-                        </Box>
-                        <UserInfo size="xs" user={place.user} />
-                        <Category category={place.category} />
-                        <Text noOfLines={1} as="b" color="var(--coreego-blue)">{place.title} </Text>
-                        <Text noOfLines={2}>{place.description} </Text>
-                        <City city={place.city} />
-                        <Stack direction="row">
-                            <NoOfLikes nb={place.likes.length} />
-                            <NoOfComments nb={place.comments.length} />
-                        </Stack>
-                        <Box alignSelf="end">
-                                <DateBadge date={place.createdAt} />
-                            </Box>
+        <Card borderRadius={0} >
+            <Box h={{ base: 200, md: 250 }} w="100%">
+                <SlideSwiper images={place.images} />
+            </Box>
+            <CardBody>
+                <Stack position="relative" w="100%">
+                    <Stack direction="row" alignItems="center" justifyContent="space-between">
+                        <UserInfo user={place.user} size="xs" />
+                        <PublishDateText size="xs" date={place.createdAt} />
                     </Stack>
-                </CardBody>
-            </Card>
-        </NavLink>
+                    <City city={place.city} />
+                    <Category category={place.category} />
+                    <Text noOfLines={1} as="b">{place.title} </Text>
+                    <Text noOfLines={2}>{place.description} </Text>
+                    <Stack direction="row">
+                        <NoOfLikes nb={place.likes.length} />
+                        <NoOfComments nb={place.comments.length} />
+                    </Stack>
+                </Stack>
+            </CardBody>
+        </Card>
     )
 
 }

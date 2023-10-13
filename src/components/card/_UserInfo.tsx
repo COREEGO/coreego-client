@@ -1,23 +1,18 @@
-import { Avatar, Flex, Stack, Text } from "@chakra-ui/react";
+import { Avatar, Button, Flex, Stack, Text } from "@chakra-ui/react";
 import { dateParse } from "../../utils";
 
-interface UsserInfoInterface{
+interface UsserInfoInterface {
     user: any,
-    size?: 'sm' | 'md' | 'xs',
-    date?: Date
+    size?: any,
+    date?: Date,
 }
 
-const UserInfo : React.FC<UsserInfoInterface> = ({user, size = 'sm', date }) => {
+const UserInfo: React.FC<UsserInfoInterface> = ({ user, size, date }) => {
 
     return (
-        <Stack direction="row" alignItems="center">
+        <Stack direction="row" alignItems="center" as="span">
             <Avatar size={size} />
-            <Stack spacing={0}>
-                <Text noOfLines={1} as="b" fontSize="sm" > {user.pseudo} </Text>
-                {
-                  date && <Text color="gray" as="span" fontSize="sm"> {dateParse(date)} </Text>
-                }
-            </Stack>
+            <Text noOfLines={1} as="b" fontSize={size} m={0} p={0}> {user.pseudo} </Text>
         </Stack>
     )
 }

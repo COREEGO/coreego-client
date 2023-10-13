@@ -6,6 +6,7 @@ import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons"
 import { useState } from "react"
 import { apiFetch } from "../../http-common/apiFetch"
 import moment from "moment"
+import PublishDateText from "../texts/PublichDateText"
 
 
 interface CommentCardInterface {
@@ -54,14 +55,14 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
 
             if (result) {
                 await apiFetch('/comments/' + comment.id, 'DELETE')
-                mutate()
                 toast({
                     title: 'Suucès',
                     description: "Commentaire supprimé",
                     status: 'success',
                 })
-            } else {
-                console.log('non suppression')
+                mutate()
+            }else{
+                return
             }
 
         } catch (error:any) {
@@ -74,7 +75,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
         <Card p={3} borderRadius={0} w="100%">
             <Stack direction="row">
                 <Stack flex={1}>
-                    <UserInfo user={comment.user} date={comment.createdAt} />
+                    <UserInfo size="sm" user={comment.user} />
                     {
                         isEditing ? <Stack as="form" onSubmit={handleClickModifiyComment}>
                             <Textarea borderRadius={0} value={content} onChange={(e: any) => setContent(e.target.value)} />
@@ -86,6 +87,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
                             </Stack>
                         </Stack> : <Text whiteSpace="pre-line"> {comment.content}   </Text>
                     }
+                    <PublishDateText size="xs" date={comment.createdAt} />
                 </Stack>
                 {
                     isCommentUser && <Stack>

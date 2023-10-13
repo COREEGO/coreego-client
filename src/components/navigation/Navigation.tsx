@@ -2,7 +2,7 @@ import { Box, Container, Divider, Stack, Image, ListItem, ListIcon, List, useDis
 import { CONTAINER_SIZE } from "../../utils/variables";
 import { MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore, MdLogin, MdOutlineMenu, MdClose } from "react-icons/md";
 import logo from '../../images/svgs/coreego-logo.svg'
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import AvatarUx from "../react-ux/AvatarUx";
 
@@ -13,8 +13,8 @@ const links = [
         icon: MdOutlineComment
     },
     {
-        path: '/shopping',
-        label: "Shooping",
+        path: '/market-place',
+        label: "Market place",
         icon: MdOutlineShoppingBag
     },
     {
@@ -26,6 +26,36 @@ const links = [
 
 interface NavigationInterface {
     // children: React.ReactNode
+}
+
+const NavigationLink: React.FC<{ onClick?: any }> = ({ onClick }) => {
+    return (
+        <List alignItems="center" display={{ base: 'block', md: 'flex' }}  >
+            {
+                links.map((link: any, index: number) => {
+                    return (
+                        <NavLink to={link.path}
+                            onClick={onClick}
+                            key={index}
+                            style={{ marginRight: 10 }}
+                        >
+                            <ListItem key={index}
+                                fontSize={14}
+                                fontWeight={600}
+                                alignItems="center"
+                                display="flex"
+                                width="100%"
+                                cursor="pointer"
+                            >
+                                <ListIcon as={link.icon} />
+                                <Box as="span"> {link.label} </Box>
+                            </ListItem>
+                        </NavLink>
+                    );
+                })
+            }
+        </List>
+    )
 }
 
 
@@ -40,58 +70,11 @@ const DrawerNavigation = () => {
             <IconButton fontSize={24} color="black" onClick={onOpen} variant="link" icon={<MdOutlineMenu />} aria-label={"er"} />
             <Drawer size="full" useInert={true} placement="right" onClose={onClose} isOpen={isOpen}>
                 <DrawerContent opacity={0.98}>
-                    <DrawerHeader fontSize={16}>
-                        <Stack direction="row" alignItems="center" justifyContent="end">
-                            {
-                                !user && <>
-                                    <List onClick={onClose} className="navbar" display="flex" alignItems="center">
-                                        <NavLink to="/login">
-                                            <ListItem
-                                                fontWeight={600}
-                                                alignItems="center"
-                                                display="flex"
-                                                width="100%"
-                                                cursor="pointer"
-                                            >
-                                                <ListIcon as={MdLogin} />
-                                                <Box as="span">Se connecter</Box>
-                                            </ListItem>
-                                        </NavLink>
-                                        <Box as="span" height="3px" mx={2} width="3px" borderRadius={90} bg="black"></Box>
-                                        <NavLink to="/register" style={{ fontWeight: 'bold' }} >
-                                            <Box as="span">S'inscrire</Box>
-                                        </NavLink>
-                                    </List>
-                                </>
-                            }
-                            <IconButton fontSize={24} color={"black"} onClick={onClose} variant="link" icon={<MdClose />} aria-label={"close drawer"} />
-                        </Stack>
+                    <DrawerHeader>
+                        <IconButton fontSize={24} color={"black"} onClick={onClose} variant="link" icon={<MdClose />} aria-label={"close drawer"} />
                     </DrawerHeader>
                     <DrawerBody display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                        <List className="navbar" alignItems="center">
-                            {
-                                links.map((link: any, index: number) => {
-                                    return (
-                                        <NavLink to={link.path}
-                                            key={index}
-                                            onClick={onClose}
-                                            style={{ marginBottom: 20, display: 'block' }}
-                                        >
-                                            <ListItem key={index}
-                                                fontWeight={600}
-                                                alignItems="center"
-                                                display="flex"
-                                                width="100%"
-                                                cursor="pointer"
-                                            >
-                                                <ListIcon as={link.icon} />
-                                                <Box as="span"> {link.label} </Box>
-                                            </ListItem>
-                                        </NavLink>
-                                    );
-                                })
-                            }
-                        </List>
+                        <NavigationLink onClick={onClose} />
                     </DrawerBody>
                 </DrawerContent>
             </Drawer>
@@ -100,87 +83,57 @@ const DrawerNavigation = () => {
 
 }
 
+const NavigationUserMenu = () => {
+    const { user, logout } = useAuthContext()
+
+    return (
+        <Menu>
+            <MenuButton borderRadius={90} borderWidth={2} p={1}>
+                <Stack direction="row" alignItems="center">
+                    <Avatar size="xs" />
+                    <MdOutlineMenu fontSize={20} />
+                </Stack>
+            </MenuButton>
+            <MenuList>
+                {user ?
+                    <>
+                        <MenuItem>menu 1</MenuItem>
+                        <MenuItem>menu 2</MenuItem>
+                        <Divider />
+                        <MenuItem onClick={logout} >Se deconnecter</MenuItem>
+                    </> :
+                    <>
+                        <NavLink style={{ display: "block" }} to="/login">
+                            <MenuItem>
+                                Se connecter
+                            </MenuItem>
+                        </NavLink>
+                        <NavLink style={{ display: "block" }} to="/register">
+                            <MenuItem>S'inscrire</MenuItem>
+                        </NavLink>
+                    </>
+                }
+            </MenuList>
+        </Menu>
+    )
+
+}
 
 const Navigation: React.FC<NavigationInterface> = () => {
 
     const { user, logout } = useAuthContext()
 
-    const handleLogOut = () => {
-        logout()
-    }
-
     return (
-        <Box bg="white" position="sticky" className="navbar" top={0} zIndex={900}>
+        <Box bg="white" borderBottomWidth={2} position="sticky" top={0} zIndex={900}>
             <Container maxW={CONTAINER_SIZE}>
                 <Box py={5} >
                     <Stack direction="row" alignItems="center">
                         <Stack flex={1} role="navigation left" direction="row" alignItems="center">
                             <Image mr={3} position="relative" src={logo} width={100} height="auto" />
-                            {
-                                user && <Hide below="md">
-                                    <List alignItems="center" display="flex" >
-                                        {
-                                            links.map((link: any, index: number) => {
-                                                return (
-                                                    <NavLink to={link.path}
-                                                        key={index}
-                                                        style={{ marginRight: 10 }}
-                                                    >
-                                                        <ListItem key={index}
-                                                            fontSize={14}
-                                                            fontWeight={600}
-                                                            alignItems="center"
-                                                            display="flex"
-                                                            width="100%"
-                                                            cursor="pointer"
-                                                        >
-                                                            <ListIcon as={link.icon} />
-                                                            <Box as="span"> {link.label} </Box>
-                                                        </ListItem>
-                                                    </NavLink>
-                                                );
-                                            })
-                                        }
-                                    </List>
-                                </Hide>
-                            }
-
+                            {user && <Hide below="md"> <NavigationLink /></Hide>}
                         </Stack>
                         <Stack direction="row" alignItems="center">
-                            {/* Si l'utilisateur n'est pas connecter */}
-                            {
-
-                                !user ? <Hide below="md">
-                                    <List alignItems="center" display="flex">
-                                        <NavLink to="/login">
-                                            <ListItem
-                                                fontWeight={600}
-                                                alignItems="center"
-                                                display="flex"
-                                                width="100%"
-                                                cursor="pointer"
-                                            >
-                                                <ListIcon as={MdLogin} />
-                                                <Box as="span">Se connecter</Box>
-                                            </ListItem>
-                                        </NavLink>
-                                        <Box as="span" height="3px" mx={2} width="3px" borderRadius={90} bg="black"></Box>
-                                        <NavLink to="/register" style={{ fontWeight: 'bold' }} >
-                                            <Box as="span">S'inscrire</Box>
-                                        </NavLink>
-                                    </List>
-                                </Hide> : <Menu>
-                                    <MenuButton>
-                                        <Avatar size="sm" />
-                                    </MenuButton>
-                                    <MenuList>
-                                        <MenuItem>Download</MenuItem>
-                                        <MenuItem>Create a Copy</MenuItem>
-                                        <MenuItem onClick={handleLogOut} >Se deconnecter</MenuItem>
-                                    </MenuList>
-                                </Menu>
-
-                            }
+                            <NavigationUserMenu />
                             <Hide above="md">
                                 <DrawerNavigation />
                             </Hide>
@@ -188,7 +141,6 @@ const Navigation: React.FC<NavigationInterface> = () => {
                     </Stack>
                 </Box>
             </Container>
-            <Divider borderColor="var(--coreego-blue)" borderBottomWidth={1} />
         </Box>
     )
 

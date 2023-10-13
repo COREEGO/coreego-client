@@ -9,7 +9,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-import './Swiper.css'
+import './swiper.scss'
 
 const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
 

@@ -1,48 +1,50 @@
-import React from "react";
-import { Box, Button, Card, Container, Divider, Stack, Text } from "@chakra-ui/react";
+import { Stack, Box, Text, Divider, Container, Button } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
-import CategoryFilter from "../components/filters/CategoryFilter";
 import SearchFilter from "../components/filters/SearchFilter";
-import PageTitle from "../../components/texts/Title";
+import CityFilter from "../components/filters/CityFilter";
 import ImageHeader from "../../components/headers/ImageHeader";
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables";
 import Title from "../../components/texts/Title";
 import { AddIcon } from "@chakra-ui/icons";
+import { NavLink } from "react-router-dom";
 import AddButton from "../../components/buttons/AddButton";
 
-const DiscussionFeed: React.FC<any> = () => {
 
-    const { discussionCategories } = useSelector((state: any) => state.app);
+const MarketPlaceFeedPage = () => {
+
+    const { cities } = useSelector((state: any) => state.app)
 
     return (
         <Box py={VERTICAL_SPACING}>
             <Container maxW={CONTAINER_SIZE}>
                 <Stack spacing={VERTICAL_SPACING}>
                     <Stack direction="row" alignItems="center">
-                        <Title>Discussion</Title>
+                        <Title>Market place</Title>
                         <AddButton />
                     </Stack>
                     <Stack direction={{ base: 'column', md: 'row' }} spacing={0}>
                         <Box>
-                            <CategoryFilter cateogries={discussionCategories} />
+                            <CityFilter cities={cities} />
                         </Box>
                         <SearchFilter />
                     </Stack>
                     <Divider opacity={1} borderColor="black" />
                     <Box>
                         <FeedList
-                            url="/discussions"
-                            noLengthLabel="Aucune discussions trouvées"
+                            url="/products"
+                            cardName="product"
+                            noLengthLabel="Aucun produits trouvées"
                             buttonLabel="Voir plus"
-                            cardName="discussion"
                         />
                     </Box>
                 </Stack>
             </Container>
         </Box>
-    );
-};
 
-export default DiscussionFeed;
+    )
+
+}
+
+export default MarketPlaceFeedPage

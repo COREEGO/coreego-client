@@ -17,11 +17,11 @@ export default function SearchFilter() {
     return (
         <Box as="form" onSubmit={handleSubmit}>
             <InputGroup >
-                <Input bg="white" fontWeight={"bold"} color="var(--coreego-blue)" id="search" placeholder='Rechercher...' type="search" />
+                <Input borderRadius={0}  bg="white" id="search" placeholder='Rechercher...' type="search" />
                 <InputRightElement width="fit-content">
                     <IconButton
                         type="submit"
-                        colorScheme='blue'
+                        bg="transparent"
                         aria-label='Search database'
                         icon={<SearchIcon />}
                     />

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Grid, GridItem } from "@chakra-ui/react";
+import { Button, Grid, GridItem, Stack } from "@chakra-ui/react";
 import LoadingPage from "../../components/LoadingPage";
 import { usePagination } from "../../hooks/usePagination";
 import DiscussionCard from "../../components/card/DiscussionCard";
@@ -22,7 +22,7 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
     cardName,
 }) => {
     const {
-        paginationData: datas,
+        paginationData,
         isReachedEnd,
         loadingMore,
         size,
@@ -33,12 +33,16 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
 
     if (error) return <p>Une erreur est survenue</p>;
 
-    if (!datas.length) return <p>{noLengthLabel}</p>;
+    if (!paginationData.length) return <p>{noLengthLabel}</p>;
+
+    const datas = paginationData.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
     if (isLoading) return <LoadingPage type="data" />;
 
     return (
-        <>
+        <Stack>
             <Grid
                 templateColumns={{
                     base: "repeat(1, 1fr)",
@@ -70,11 +74,11 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
             </Grid>
             {loadingMore && <LoadingPage type="data" />}
             {!isReachedEnd && (
-                <Button onClick={() => setSize(size + 1)} colorScheme="blue">
+                <Button onClick={() => setSize(size + 1)} className="btn_blue">
                     {buttonLabel}
                 </Button>
             )}
-        </>
+        </Stack>
     );
 };
 

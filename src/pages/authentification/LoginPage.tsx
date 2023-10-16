@@ -39,12 +39,12 @@ export default function LoginPage() {
             <ErrorAlert message={error} />
             <Stack as="form" onSubmit={onLogin} action="/login" spacing={5}>
                 <FormControl isRequired>
-                    <FormLabel fontSize="sm">Votre email</FormLabel>
+                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Votre email</FormLabel>
                     <Input placeholder="email@email.fr" size="lg" type='email' id="username" name="username" />
                 </FormControl>
                 <FormControl isRequired>
                     <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
-                        <FormLabel fontSize="sm" textTransform="uppercase">Mot de passe</FormLabel>
+                        <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
                         <NavLink style={{ fontSize: '14px', color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/password/reset">Mot de passe oublié ?</NavLink>
                     </Stack>
                     <Input placeholder="6+ caractères requis" size="lg" type='password' id="password" name="password" />

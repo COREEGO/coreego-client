@@ -11,6 +11,7 @@ import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables";
 import Title from "../../components/texts/Title";
 import { AddIcon } from "@chakra-ui/icons";
 import AddButton from "../../components/buttons/AddButton";
+import { NavLink } from "react-router-dom";
 
 const DiscussionFeed: React.FC<any> = () => {
 
@@ -21,8 +22,10 @@ const DiscussionFeed: React.FC<any> = () => {
             <Container maxW={CONTAINER_SIZE}>
                 <Stack spacing={VERTICAL_SPACING}>
                     <Stack direction="row" alignItems="center">
-                        <Title>Discussion</Title>
-                        <AddButton />
+                        <Title>Discussions</Title>
+                        <NavLink to="/discussions/create">
+                            <AddButton />
+                        </NavLink>
                     </Stack>
                     <Stack direction={{ base: 'column', md: 'row' }} spacing={0}>
                         <Box>

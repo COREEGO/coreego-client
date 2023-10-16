@@ -11,6 +11,7 @@ import ValidationAccountPage from "../authentification/ValidationAccountPage";
 import PasswordReset from "../authentification/PasswordReset";
 import ProductDetail from "../marketplace/ProductDetailPage";
 import PlaceDetail from "../travel/PlaceDetailPage";
+import DiscussionCreatePage from "../discussion/DiscussionCreatePage";
 
 export default function RouterOutleft() {
 
@@ -18,8 +19,12 @@ export default function RouterOutleft() {
         <Routes>
             <Route element={<PrivateRoute />} >
                 <Route path="/" element={<HomePage />} />
+
+                {/* Discussions */}
                 <Route path="/discussions" element={<DiscussionFeedPage />} />
                 <Route path="/discussions/detail/:id" element={<DiscussionDetail />} />
+                <Route path="/discussions/create" element={<DiscussionCreatePage />} />
+
                 <Route path="/market-place" element={<MarketPlaceFeedPage />} />
                 <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />
                 <Route path="/voyage" element={<TravelFeed />} />

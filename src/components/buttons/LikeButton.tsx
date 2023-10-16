@@ -46,7 +46,7 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
             }
             mutate()
         } catch (error) {
-            console.log(error)
+            //
         } finally {
             setIsBusy(false)
         }

@@ -50,7 +50,7 @@ const DiscussionCreatePage = () => {
             })
             form.reset()
 
-            // navigate('/discussions/detail/' + response.id)
+            navigate('/discussions/detail/' + response.id)
 
         } catch (error:any) {
             toast({

@@ -6,23 +6,22 @@ export default function useFile(){
     const [files, setFiles] = useState<Array<any>>([])
 
     const addFile = (newFile:Array<any>) => {
-
         newFile = [...newFile].reduce((prev:any,file:any) => {
             if(allowedExtensions.includes(file.type)){
                 prev.push({file: file, url: URL.createObjectURL(file) })
             }
             return prev
         }, [])
+        setFiles([...files].concat([...newFile]))
+    }
 
-        let currentFile = [...files]
-        currentFile = currentFile.concat([...newFile])
-
-        setFiles(currentFile)
-
+    const removeFile = (fileIndex: number) => {
+        setFiles(files.filter((file:any, index: number) => index !== fileIndex))
     }
 
     return {
         files,
-        addFile
+        addFile,
+        removeFile
     }
 }

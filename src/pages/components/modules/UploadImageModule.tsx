@@ -6,15 +6,15 @@ import { FaTrashCan } from "react-icons/fa6";
 
 
 interface UploadImageModuleInterface {
-    onChangeFile: Function
+    onChange: Function
 }
 
-const UploadImageModule: React.FC<UploadImageModuleInterface> = ({ onChangeFile }) => {
+const UploadImageModule: React.FC<UploadImageModuleInterface> = ({ onChange }) => {
 
     const { files, addFile, removeFile } = useFile()
 
     useEffect(() => {
-        onChangeFile(files)
+        onChange(files)
     }, [files])
 
 
@@ -22,8 +22,8 @@ const UploadImageModule: React.FC<UploadImageModuleInterface> = ({ onChangeFile 
         <Flex gap='2' flexWrap="wrap">
             {
                 files.map((file: any, index: number) => {
-                    return <Stack alignItems="flex-start">
-                        <Image borderRadius="md" w={100} h={100} objectFit="cover" src={file.url} key={index} />
+                    return <Stack alignItems="flex-start" key={index}>
+                        <Image borderRadius="md" w={100} h={100} objectFit="cover" src={file.url} />
                         <IconButton mt={-7} colorScheme="red" onClick={() => removeFile(index)} icon={<FaTrashCan />} aria-label={"button suppression d'une image"} />
                     </Stack>
                 })

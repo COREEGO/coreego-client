@@ -4,8 +4,6 @@ import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
-import { SWRConfig } from 'swr';
-import { swrConfig } from './http-common/swrConfig';
 import moment from 'moment';
 import 'moment/locale/fr';
 
@@ -17,9 +15,9 @@ const root = ReactDOM.createRoot(
 moment.locale('fr')
 
 root.render(
-    <BrowserRouter>
-        <App />
-    </BrowserRouter>
+  <BrowserRouter>
+      <App />
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

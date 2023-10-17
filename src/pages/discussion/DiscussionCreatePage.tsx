@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, FormLabel, Grid, GridItem, Input, Select, Stack, Textarea, useToast } from "@chakra-ui/react"
+import { Box, Button, Container, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Select, Stack, Textarea, useToast } from "@chakra-ui/react"
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
 import Title from "../../components/texts/Title"
 import { useEffect, useState } from "react"
@@ -8,36 +8,44 @@ import UploadImageModule from "../components/modules/UploadImageModule"
 import useFile from "../../hooks/useFile"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useNavigate } from "react-router"
+import { useForm, SubmitHandler, Controller } from "react-hook-form"
 
-
+type Inputs = {
+    title: string
+    content: string
+    category: number,
+    files: Array<any>
+}
 
 const DiscussionCreatePage = () => {
 
     const navigate = useNavigate()
     const toast = useToast()
 
-    const [isBusy, setIsBusy] = useState<boolean>(false)
-
-    const [files, setFiles] = useState<Array<any>>([])
-
     const { discussionCategories } = useSelector((state: any) => state.app);
 
-    const onSubmit = async (e: any) => {
-        e.preventDefault()
+    const {
+        control,
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors, isSubmitting },
+    } = useForm<Inputs>({
+        mode: 'onTouched'
+    })
+
+
+
+    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
 
         try {
-            setIsBusy(true)
-            const form = e.target
-            const element = form.elements
-
             const response: any = await apiFetch('/discussions', 'post', {
-                category: 'api/discussion_categories/' + element.category.value,
-                title: element.title.value,
-                content: element.content.value,
+                category: 'api/discussion_categories/' + data.category,
+                title: data.title,
+                content: data.content,
             })
-
-            if (response && files && Array.isArray(files) && files.length) {
-                for (const file of files) {
+            if (response && data.files && Array.isArray(data.files) && data.files.length) {
+                for (const file of data.files) {
                     const formData = new FormData();
                     formData.append('file', file.file);
                     formData.append('discussion', response.id);
@@ -48,48 +56,69 @@ const DiscussionCreatePage = () => {
                 description: "Discussion crée",
                 status: 'success',
             })
-            form.reset()
-
             navigate('/discussions/detail/' + response.id)
-
-        } catch (error:any) {
-            toast({
-                description: error.message,
-                status: 'success',
-            })
-        } finally {
-            setIsBusy(false)
+        } catch (error: any) {
+            if ('violations' in JSON.parse(error.message)) {
+                for (const violation of JSON.parse(error.message).violations) {
+                    setError(violation.propertyPath, {
+                        type: 'manual',
+                        message: violation.message
+                    })
+                }
+            }
         }
     }
+
 
     return (
         <Container maxW={CONTAINER_SIZE}>
             <Box my={VERTICAL_SPACING}>
-                <Stack as="form" onSubmit={onSubmit} >
-                    <Title>Nouvelle discussion</Title>
+                <Title>Nouvelle discussion</Title>
+                <Stack as="form" onSubmit={handleSubmit(onSubmit)} >
                     <Grid templateColumns='repeat(10, 1fr)' gap={{ base: 3, md: 20 }}>
                         <GridItem colSpan={{ base: 10, sm: 10, md: 6 }}>
                             <Stack>
-                                <FormControl isRequired>
+                                <FormControl isInvalid={errors.title ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Titre</FormLabel>
-                                    <Input type="text" name="title" id="title" placeholder="Titre de la discussion" />
+                                    <Input
+                                        {...register('title', {
+                                            required: 'Cette valeur ne doit pas être vide',
+                                            minLength: { value: 1, message: 'Minimum 1 caratère' },
+                                            pattern: {
+                                                value: /\S/,
+                                                message: 'Cette valeur ne doit pas être vide'
+                                            }
+                                        })}
+                                        type="text" size="lg" placeholder="Titre de la discussion"
+                                    />
+                                    {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
                                 </FormControl>
-                                <FormControl isRequired>
+                                <FormControl isInvalid={errors.category ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Catégorie</FormLabel>
-                                    <Select name="category" id="category">
+                                    <Select  {...register('category', { required: 'Cette valeur ne doit pas être vide' })} name="category" id="category">
                                         <option value="">--selectionner une catégorie</option>
-                                        {
-                                            discussionCategories.map((category: any) => {
-                                                return (
-                                                    <option key={category.id} value={category.id}>{category.label}</option>
-                                                )
-                                            })
+                                        {discussionCategories.map((category: any) => {
+                                            return (
+                                                <option key={category.id} value={category.id}>{category.label}</option>
+                                            )
+                                        })
                                         }
                                     </Select>
+                                    {errors.category && <FormErrorMessage>{errors.category.message}</FormErrorMessage>}
                                 </FormControl>
-                                <FormControl isRequired>
-                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Contenu</FormLabel>
-                                    <Textarea rows={10} name="content" placeholder="Mon contenu" />
+                                <FormControl isInvalid={errors.content ? true : false}>
+                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Contenu de la discussion</FormLabel>
+                                    <Textarea
+                                        {...register('content', {
+                                            required: 'Cette valeur ne doit pas être vide',
+                                            pattern: {
+                                                value: /\S/,
+                                                message: 'Cette valeur ne doit pas être vide'
+                                            }
+                                        })}
+                                        size="lg"
+                                        rows={10} name="content" placeholder="Mon contenu" />
+                                    {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
                                 </FormControl>
                             </Stack>
                         </GridItem>
@@ -97,12 +126,18 @@ const DiscussionCreatePage = () => {
                             <Stack>
                                 <FormControl>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Ajouter des photos</FormLabel>
-                                    <UploadImageModule onChangeFile={(files: Array<any>) => setFiles(files)} />
+                                    <Controller
+                                        control={control}
+                                        name="files"
+                                        render={({ field: { onChange } }) => (
+                                            <UploadImageModule onChange={(files: Array<any>) => onChange(files)} />
+                                        )}
+                                    />
                                 </FormControl>
                             </Stack>
                         </GridItem>
                     </Grid>
-                    <Button w="fit-content" isLoading={isBusy} type="submit" className="btn_blue">Créer</Button>
+                    <Button w="fit-content" isLoading={isSubmitting} type="submit" className="btn_blue">Créer</Button>
                 </Stack>
             </Box>
         </Container>

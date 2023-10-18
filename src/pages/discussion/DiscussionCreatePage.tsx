@@ -81,6 +81,7 @@ const DiscussionCreatePage = () => {
                                 <FormControl isInvalid={errors.title ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Titre</FormLabel>
                                     <Input
+                                        size="lg"
                                         {...register('title', {
                                             required: 'Cette valeur ne doit pas être vide',
                                             minLength: { value: 1, message: 'Minimum 1 caratère' },
@@ -89,13 +90,13 @@ const DiscussionCreatePage = () => {
                                                 message: 'Cette valeur ne doit pas être vide'
                                             }
                                         })}
-                                        type="text" size="lg" placeholder="Titre de la discussion"
+                                        type="text" placeholder="Titre de la discussion"
                                     />
                                     {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
                                 </FormControl>
                                 <FormControl isInvalid={errors.category ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Catégorie</FormLabel>
-                                    <Select  {...register('category', { required: 'Cette valeur ne doit pas être vide' })} name="category" id="category">
+                                    <Select size="lg"  {...register('category', { required: 'Cette valeur ne doit pas être vide' })} name="category" id="category">
                                         <option value="">--selectionner une catégorie</option>
                                         {discussionCategories.map((category: any) => {
                                             return (
@@ -136,8 +137,8 @@ const DiscussionCreatePage = () => {
                                 </FormControl>
                             </Stack>
                         </GridItem>
+                        <Button w="fit-content" isLoading={isSubmitting} type="submit" className="btn_blue">Créer la discussion</Button>
                     </Grid>
-                    <Button w="fit-content" isLoading={isSubmitting} type="submit" className="btn_blue">Créer</Button>
                 </Stack>
             </Box>
         </Container>

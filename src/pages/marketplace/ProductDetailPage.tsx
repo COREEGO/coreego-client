@@ -13,6 +13,7 @@ import { MdSend } from "react-icons/md"
 import FeedInfo from "../components/FeedInfo"
 import PublishDateText from "../../components/texts/PublichDateText"
 import { BsSend } from "react-icons/bs";
+import { wonToEuro } from "../../utils"
 
 
 
@@ -27,37 +28,27 @@ const Detail = () => {
         <Stack my={VERTICAL_SPACING}>
             <Container maxW={CONTAINER_SIZE}>
                 <Grid templateColumns='repeat(10, 1fr)' gap={{ base: 3, md: 20 }}>
-                    <GridItem colSpan={{ base: 10, sm: 10, md: 6 }}>
+                    <GridItem colSpan={{ base: 10, sm: 10, md: 5 }}>
+                        <Stack>
+                            <Box h={{ base: 200, sm: 350, md: 450 }} maxW="100%" bg="var(--light)">
+                                <ThumbSwiper images={data.images} />
+                            </Box>
+                        </Stack>
+                    </GridItem>
+                    <GridItem colSpan={{ base: 10, md: 5 }}>
                         <Stack>
                             <Stack justifyContent="space-between" direction="row" alignItems="center">
                                 <UserInfo user={data.user} size={{ base: 'sm', md: 'md' }} />
                                 <PublishDateText size={{ base: 'sm', md: 'md' }} date={data.createdAt} />
                             </Stack>
-                            <Box h={{ base: 200, sm: 350, md: 450 }} maxW="100%" bg="var(--light)">
-                                <ThumbSwiper images={data.images} />
-                            </Box>
+                            <Title> {data.title} </Title>
                             <Text whiteSpace="pre-line">{data.description}</Text>
-                        </Stack>
-                    </GridItem>
-                    <GridItem colSpan={{ base: 10, md: 4 }}>
-                        <Stack>
-                            <TableContainer>
-                                <Table variant='striped'>
-                                    <Thead bg="var(--coreego-blue)">
-                                        <Tr>
-                                            <Th color="white">Lieu vente</Th>
-                                            <Th color="white" isNumeric>prix (won)</Th>
-                                        </Tr>
-                                    </Thead>
-                                    <Tbody>
-                                        <Tr>
-                                            <Td fontWeight="bold">{data.city.label}</Td>
-                                            <Td fontWeight="bold" isNumeric>{data.price}</Td>
-                                        </Tr>
-                                    </Tbody>
-                                </Table>
-                            </TableContainer>
-                            <Button  className="btn_red" leftIcon={<BsSend />}>
+                            <City size={{ base: 'xl', md: '2xl' }} city={data.city} />
+                            <Stack direction="row" alignItems="center" flexWrap="wrap">
+                                <Price price={data.price} size={{ base: 'xl', md: '2xl' }} />
+                                <Text>  ~ {wonToEuro(data.price)} €  </Text>
+                            </Stack>
+                            <Button className="btn_blue" leftIcon={<BsSend />}>
                                 Contacter le vendeur
                             </Button>
                         </Stack>

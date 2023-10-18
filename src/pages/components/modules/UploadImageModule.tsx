@@ -6,7 +6,7 @@ import { FaTrashCan } from "react-icons/fa6";
 
 
 interface UploadImageModuleInterface {
-    onChange: Function
+    onChange: Function,
 }
 
 const UploadImageModule: React.FC<UploadImageModuleInterface> = ({ onChange }) => {

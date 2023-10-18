@@ -12,6 +12,7 @@ import PasswordReset from "../authentification/PasswordReset";
 import ProductDetail from "../marketplace/ProductDetailPage";
 import PlaceDetail from "../travel/PlaceDetailPage";
 import DiscussionCreatePage from "../discussion/DiscussionCreatePage";
+import ProductCreatePage from "../marketplace/ProductCreatePage";
 
 export default function RouterOutleft() {
 
@@ -27,6 +28,8 @@ export default function RouterOutleft() {
 
                 <Route path="/market-place" element={<MarketPlaceFeedPage />} />
                 <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />
+                <Route path="/market-place/product/create" element={<ProductCreatePage />} />
+
                 <Route path="/voyage" element={<TravelFeed />} />
                 <Route path="/voyage/place/detail/:id" element={<PlaceDetail />} />
             </Route>

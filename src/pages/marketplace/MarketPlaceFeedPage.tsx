@@ -22,7 +22,9 @@ const MarketPlaceFeedPage = () => {
                 <Stack spacing={VERTICAL_SPACING}>
                     <Stack direction="row" alignItems="center">
                         <Title>Market place</Title>
-                        <AddButton />
+                        <NavLink to="/market-place/product/create">
+                            <AddButton />
+                        </NavLink>
                     </Stack>
                     <Stack direction={{ base: 'column', md: 'row' }} spacing={0}>
                         <Box>

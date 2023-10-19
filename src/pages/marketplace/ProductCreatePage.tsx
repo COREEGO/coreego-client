@@ -81,7 +81,7 @@ const ProductCreatePage = () => {
     return (
         <Container maxW={CONTAINER_SIZE}>
             <Box my={VERTICAL_SPACING}>
-                <Title>Ajouter un produit</Title>
+                <Title text="Ajouter un produit" />
                 <Stack as="form" onSubmit={handleSubmit(onSubmit)} >
                     <Grid templateColumns='repeat(10, 1fr)' gap={{ base: 3, md: 20 }}>
                         <GridItem colSpan={{ base: 10, sm: 10, md: 6 }}>

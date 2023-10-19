@@ -16,7 +16,7 @@ export default function SearchFilter() {
 
     return (
         <Box as="form" onSubmit={handleSubmit}>
-            <InputGroup size={{ base: 'sm', md: 'md' }}>
+            <InputGroup>
                 <Input focusBorderColor="transparent" bg="gray.100" id="search" placeholder='Rechercher...' type="search" />
                 <InputRightAddon as="button" type="submit" bg="var(--coreego-blue)">
                     <SearchIcon color="white" />

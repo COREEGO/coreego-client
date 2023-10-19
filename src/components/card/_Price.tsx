@@ -1,4 +1,5 @@
 import { Stack, Text } from "@chakra-ui/react";
+import { wonToEuro } from "../../utils";
 
 interface PriceInterface {
     price : number,
@@ -8,9 +9,9 @@ interface PriceInterface {
 const Price: React.FC<PriceInterface> = ({ price, size }) => {
 
   return (
-    <Stack fontSize={size} direction="row" alignItems="center" fontWeight="bold">
-      <Text>₩</Text>
-      <Text>{price}</Text>
+    <Stack direction="row" alignItems="center" fontWeight="bold">
+      <Text fontSize={size}> ₩ {price}</Text>
+      <Text fontSize="sm" color="gray"> ~ {wonToEuro(price)} € </Text>
     </Stack>
   );
 };

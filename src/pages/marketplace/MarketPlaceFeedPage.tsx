@@ -11,6 +11,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import AddButton from "../../components/buttons/AddButton";
 import ContainerSection from "../components/ContainerSection";
+import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 
 
 const MarketPlaceFeedPage = () => {
@@ -21,20 +22,7 @@ const MarketPlaceFeedPage = () => {
         <>
             <ImageHeader imgUrl={HEADER_IMG} />
             <Stack spacing={VERTICAL_SPACING}>
-                <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>
-                    <ContainerSection withPadding={true}>
-                        <Flex gap='2' alignItems="center" flexWrap="wrap">
-                            <Heading as="h1" fontSize={{ base: 'lg', md: 'xl' }}>Market Place</Heading>
-                            <Spacer />
-                            <Stack direction="row" flexWrap="wrap">
-                                <SearchFilter />
-                                <NavLink to="/discussions/create">
-                                    <Button size={{ base: 'sm', md: 'md' }} colorScheme="green">+ Produit</Button>
-                                </NavLink>
-                            </Stack>
-                        </Flex>
-                    </ContainerSection>
-                </Box>
+                <AsideFeedSection title="Market Place" buttonLabel="+ Produit" buttonUrl="/market-place/product/create" />
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <CityFilter cities={cities} />

@@ -9,7 +9,6 @@ import Title from "../../components/texts/Title"
 import ThumbSwiper from "../../components/swipers/ThumbSwiper"
 import DefaultSwiper from "../../components/swipers/SlideSwiper"
 import MapMarker from "../../components/maps/MapMarker"
-import FeedInfo from "../components/FeedInfo"
 import CommentModule from "../components/modules/CommentModule"
 import LikeButton from "../../components/buttons/LikeButton"
 import PublishDateText from "../../components/texts/PublichDateText"
@@ -34,6 +33,13 @@ const Detail = () => {
             <Box my={VERTICAL_SPACING}>
                 <ContainerSection>
                     <Stack spacing={VERTICAL_SPACING}>
+                    <PlaceCard mode="detail" place={data}>
+                            <Divider />
+                            <Stack direction="row" alignItems="center">
+                                <LikeButton placeId={data.id} likes={data.likes} mutate={() => mutate()} />
+                                <AddTravelBookButton />
+                            </Stack>
+                        </PlaceCard>
                         {
                             data.images.length && <Card borderRadius={0}>
                                 <SlideSwiper images={data.images} />
@@ -50,13 +56,6 @@ const Detail = () => {
                                 <MapMarker data={data} />
                             </Box>
                         </Card>
-                        <PlaceCard mode="detail" place={data}>
-                            <Divider />
-                            <Stack direction="row" alignItems="center">
-                                <LikeButton placeId={data.id} likes={data.likes} mutate={() => mutate()} />
-                                <AddTravelBookButton />
-                            </Stack>
-                        </PlaceCard>
                     </Stack>
                 </ContainerSection>
             </Box>

@@ -13,6 +13,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import AddButton from "../../components/buttons/AddButton";
 import { NavLink } from "react-router-dom";
 import ContainerSection from "../components/ContainerSection";
+import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 
 const DiscussionFeed: React.FC<any> = () => {
 
@@ -22,20 +23,7 @@ const DiscussionFeed: React.FC<any> = () => {
         <>
             <ImageHeader imgUrl={HEADER_IMG} />
             <Stack spacing={VERTICAL_SPACING}>
-                <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>
-                    <Container maxW={CONTAINER_SIZE}>
-                        <Flex gap='2' alignItems="center" flexWrap="wrap">
-                            <Heading as="h1" fontSize={{ base: 'lg', md: 'xl' }}>Forum</Heading>
-                            <Spacer />
-                            <Stack direction="row" flexWrap="wrap">
-                                <SearchFilter />
-                                <NavLink to="/discussions/create">
-                                    <Button size={{ base: 'sm', md: 'md' }} colorScheme="green">+ Discussion</Button>
-                                </NavLink>
-                            </Stack>
-                        </Flex>
-                    </Container>
-                </Box>
+                <AsideFeedSection title="Forum" buttonLabel="+ Discussion" buttonUrl="/discussions/create"  />
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <CategoryFilter cateogries={discussionCategories} />

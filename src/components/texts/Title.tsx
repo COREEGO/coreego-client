@@ -1,8 +1,8 @@
-import {Text} from '@chakra-ui/react'
+import { Heading } from "@chakra-ui/react"
 
-const Title : React.FC<{children: React.ReactNode}> = ({children }) => {
+const Title : React.FC<{text:string}> = ({text }) => {
     return (
-        <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="bold" > {children} </Text>
+        <Heading as="h1" fontSize={{ md: 'xl' }}> {text} </Heading>
     )
 }
 

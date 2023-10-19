@@ -17,7 +17,7 @@ interface CommentModuleInterface {
 const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionId, placeId, mutate }) => {
 
     const toast = useToast()
-    const {user} = useAuthContext()
+    const { user } = useAuthContext()
     const [commentText, setCommentText] = useState<string>('')
     const [isBusy, setIsBusy] = useState<boolean>(false)
 
@@ -69,7 +69,7 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
     }
 
     return (
-        <Box bg="gray.50" py={VERTICAL_SPACING}>
+        <Box>
             <Container maxW={CONTAINER_SIZE}>
                 <Stack>
                     <Text fontSize="xl" as="b">Commentaires</Text>
@@ -78,11 +78,15 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
                         <Button isLoading={isBusy} isDisabled={commentText.trim().length < 1} size="sm" colorScheme='blue' borderRadius={0} type="submit">Envoyer</Button>
                     </Stack>
                     {
-                        comments.map((comment: any) => {
-                            return (
-                                <CommentCard mutate={() => mutate()} key={comment.id} comment={comment} />
-                            )
-                        })
+                        comments.length && <Stack mt={5}>
+                            {
+                                comments.map((comment: any) => {
+                                    return (
+                                        <CommentCard mutate={() => mutate()} key={comment.id} comment={comment} />
+                                    )
+                                })
+                            }
+                        </Stack>
                     }
                 </Stack>
             </Container>

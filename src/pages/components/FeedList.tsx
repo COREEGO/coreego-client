@@ -46,9 +46,9 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
             <Grid
                 templateColumns={{
                     base: "repeat(1, 1fr)",
-                    sm: "repeat(2, 1fr)",
+                    sm: "repeat(1, 1fr)",
                     md: "repeat(2, 1fr)",
-                    lg: "repeat(4, 1fr)",
+                    lg: "repeat(3, 1fr)",
                 }}
                 gap={4}
             >
@@ -56,17 +56,17 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
                     <GridItem w="100%" key={data.id}>
                         {cardName === "discussion" &&
                             <NavLink to={'/discussions/detail/' + data.id}>
-                                <DiscussionCard discussion={data} />
+                                <DiscussionCard discussion={data} mode="feed" />
                             </NavLink>
                         }
                         {cardName === "product" &&
                             <NavLink to={'/market-place/product/detail/' + data.id}>
-                                <ProductCard product={data} />
+                                <ProductCard mode="feed" product={data} />
                             </NavLink>
                         }
                         {cardName === "place" &&
                             <NavLink to={'/voyage/place/detail/' + data.id}>
-                                <PlaceCard place={data} />
+                                <PlaceCard mode="feed" place={data} />
                             </NavLink>
                         }
                     </GridItem>

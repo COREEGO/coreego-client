@@ -1,4 +1,4 @@
-import { Box, FormControl, FormLabel, Select, Stack } from "@chakra-ui/react"
+import { Box, FormControl, FormLabel, Input, Select, Stack } from "@chakra-ui/react"
 import { useFilterContext } from "../../../contexts/FilterProvider"
 
 
@@ -11,7 +11,7 @@ const CityFilter: React.FC<CityFilterInterface> = ({ cities }) => {
     const { city, setCity } = useFilterContext()
 
     return (
-        <Select bg="white" value={city} borderRadius={0} onChange={(e) => setCity(e.target.value)}>
+        <Select width="fit-content" bg="white" value={city} onChange={(e) => setCity(e.target.value)}>
             <option value=''>Toutes les villes</option>
             {
                 cities.map((ville: any) => {

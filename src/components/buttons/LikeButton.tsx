@@ -53,7 +53,7 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
     }
 
     return (
-        <Button className="blue_outlined" size={size} width="fit-content" isDisabled={isBusy} onClick={handleLike} leftIcon={userLike ? <MdFavorite fontSize={24} color="red" /> : <MdFavoriteBorder fontSize={24} color="red" />}>
+        <Button bg="transparent" size={size} width="fit-content" isDisabled={isBusy} onClick={handleLike} leftIcon={userLike ? <MdFavorite fontSize={24} color="red" /> : <MdFavoriteBorder fontSize={24} color="red" />}>
             {likeLength}
         </Button>
     )

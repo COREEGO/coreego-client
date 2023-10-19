@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Card, Container, Divider, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Card, Container, Divider, Flex, Heading, Spacer, Stack, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
 import CategoryFilter from "../components/filters/CategoryFilter";
@@ -12,39 +12,45 @@ import Title from "../../components/texts/Title";
 import { AddIcon } from "@chakra-ui/icons";
 import AddButton from "../../components/buttons/AddButton";
 import { NavLink } from "react-router-dom";
+import ContainerSection from "../components/ContainerSection";
 
 const DiscussionFeed: React.FC<any> = () => {
 
     const { discussionCategories } = useSelector((state: any) => state.app);
 
     return (
-        <Box py={VERTICAL_SPACING}>
-            <Container maxW={CONTAINER_SIZE}>
+        <>
+            <ImageHeader imgUrl={HEADER_IMG} />
+            <Stack spacing={VERTICAL_SPACING}>
+                <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>
+                    <Container maxW={CONTAINER_SIZE}>
+                        <Flex gap='2' alignItems="center" flexWrap="wrap">
+                            <Heading as="h1" fontSize={{ base: 'lg', md: 'xl' }}>Forum</Heading>
+                            <Spacer />
+                            <Stack direction="row" flexWrap="wrap">
+                                <SearchFilter />
+                                <NavLink to="/discussions/create">
+                                    <Button size={{ base: 'sm', md: 'md' }} colorScheme="green">+ Discussion</Button>
+                                </NavLink>
+                            </Stack>
+                        </Flex>
+                    </Container>
+                </Box>
                 <Stack spacing={VERTICAL_SPACING}>
-                    <Stack direction="row" alignItems="center">
-                        <Title>Discussions</Title>
-                        <NavLink to="/discussions/create">
-                            <AddButton />
-                        </NavLink>
-                    </Stack>
-                    <Stack direction={{ base: 'column', md: 'row' }} spacing={0}>
-                        <Box>
-                            <CategoryFilter cateogries={discussionCategories} />
-                        </Box>
-                        <SearchFilter />
-                    </Stack>
-                    <Divider opacity={1} borderColor="black" />
-                    <Box>
+                    <ContainerSection withPadding={true}>
+                        <CategoryFilter cateogries={discussionCategories} />
+                    </ContainerSection>
+                    <ContainerSection>
                         <FeedList
                             url="/discussions"
                             noLengthLabel="Aucune discussions trouvées"
                             buttonLabel="Voir plus"
                             cardName="discussion"
                         />
-                    </Box>
+                    </ContainerSection>
                 </Stack>
-            </Container>
-        </Box>
+            </Stack>
+        </>
     );
 };
 

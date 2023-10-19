@@ -5,6 +5,7 @@ import logo from '../../images/svgs/coreego-logo.svg'
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import AvatarUx from "../react-ux/AvatarUx";
+import ContainerSection from "../../pages/components/ContainerSection";
 
 const links = [
     {
@@ -125,7 +126,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
 
     return (
         <Box bg="white" borderBottomWidth={2} position="sticky" top={0} zIndex={900}>
-            <Container maxW={CONTAINER_SIZE}>
+            <ContainerSection withPadding={true}>
                 <Box py={5} >
                     <Stack direction="row" alignItems="center">
                         <Stack flex={1} role="navigation left" direction="row" alignItems="center">
@@ -140,7 +141,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
                         </Stack>
                     </Stack>
                 </Box>
-            </Container>
+            </ContainerSection>
         </Box>
     )
 

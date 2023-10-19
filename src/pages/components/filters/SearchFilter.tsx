@@ -16,16 +16,11 @@ export default function SearchFilter() {
 
     return (
         <Box as="form" onSubmit={handleSubmit}>
-            <InputGroup >
-                <Input borderRadius={0}  bg="white" id="search" placeholder='Rechercher...' type="search" />
-                <InputRightElement width="fit-content">
-                    <IconButton
-                        type="submit"
-                        bg="transparent"
-                        aria-label='Search database'
-                        icon={<SearchIcon />}
-                    />
-                </InputRightElement>
+            <InputGroup size={{ base: 'sm', md: 'md' }}>
+                <Input focusBorderColor="transparent" bg="gray.100" id="search" placeholder='Rechercher...' type="search" />
+                <InputRightAddon as="button" type="submit" bg="var(--coreego-blue)">
+                    <SearchIcon color="white" />
+                </InputRightAddon >
             </InputGroup>
         </Box>
     )

@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Stack, Text } from "@chakra-ui/react"
+import { Box, Button, Container, Divider, Flex, Heading, Spacer, Stack, Text } from "@chakra-ui/react"
 import SearchFilter from "../components/filters/SearchFilter"
 import FeedList from "../components/FeedList"
 import CategoryFilter from "../components/filters/CategoryFilter"
@@ -9,6 +9,8 @@ import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
 import AddButton from "../../components/buttons/AddButton"
 import Title from "../../components/texts/Title"
+import ContainerSection from "../components/ContainerSection"
+import { NavLink } from "react-router-dom"
 
 
 const TravelFeed = () => {
@@ -16,34 +18,41 @@ const TravelFeed = () => {
     const { placeCategories, cities } = useSelector((state: any) => state.app)
 
     return (
-        <Box py={VERTICAL_SPACING}>
-            <Container maxW={CONTAINER_SIZE}>
+        <>
+            <ImageHeader imgUrl={HEADER_IMG} />
+            <Stack spacing={VERTICAL_SPACING}>
+                <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>
+                    <ContainerSection withPadding={true}>
+                        <Flex gap='2' alignItems="center" flexWrap="wrap">
+                            <Heading as="h1" fontSize={{ base: 'lg', md: 'xl' }}>Voyage</Heading>
+                            <Spacer />
+                            <Stack direction="row" flexWrap="wrap">
+                                <SearchFilter />
+                                <NavLink to="/discussions/create">
+                                    <Button size={{ base: 'sm', md: 'md' }} colorScheme="green">+ Lieu</Button>
+                                </NavLink>
+                            </Stack>
+                        </Flex>
+                    </ContainerSection>
+                </Box>
                 <Stack spacing={VERTICAL_SPACING}>
-                    <Stack direction="row" alignItems="center">
-                        <Title>Voyage</Title>
-                        <AddButton />
-                    </Stack>
-                    <Stack direction={{ base: 'column', md: 'row' }} spacing={0}>
-                        <Box>
-                            <CityFilter cities={cities} />
-                        </Box>
-                        <Box>
+                    <ContainerSection withPadding={true}>
+                        <Flex gap='2' alignItems="center" flexWrap="wrap">
                             <CategoryFilter cateogries={placeCategories} />
-                        </Box>
-                        <SearchFilter />
-                    </Stack>
-                    <Divider opacity={1} borderColor="black" />
-                    <Box>
+                            <CityFilter cities={cities} />
+                        </Flex>
+                    </ContainerSection>
+                    <ContainerSection>
                         <FeedList
                             url="/places"
                             noLengthLabel="Aucun lieux trouvés"
                             buttonLabel="Voir plus"
                             cardName="place"
                         />
-                    </Box>
+                    </ContainerSection>
                 </Stack>
-            </Container>
-        </Box>
+            </Stack>
+        </>
     )
 
 }

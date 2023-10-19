@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Image, Stack } from '@chakra-ui/react';
+import { Box, Image, Stack } from '@chakra-ui/react';
 
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
@@ -18,7 +18,7 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
     return (
-        <>
+        <Box h={{ base: 300, sm: 400, md: 500 }}>
             <Swiper
                 spaceBetween={0}
                 navigation={true}
@@ -61,7 +61,7 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                     })
                 }
             </Swiper>
-        </>
+        </Box>
     )
 
 

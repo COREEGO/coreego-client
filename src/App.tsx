@@ -17,6 +17,14 @@ const theme = extendTheme({
     heading: `'Roboto', sans-serif`,
     body: `'Roboto', sans-serif`,
   },
+  styles: {
+    global: {
+      // Modifier la couleur du texte du corps ici
+      body: {
+        backgroundColor: 'var(--main)',
+      },
+    }
+  }
 })
 
 function App() {

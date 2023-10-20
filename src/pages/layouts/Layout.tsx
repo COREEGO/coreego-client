@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { apiFetch } from "../../http-common/apiFetch"
 import { initCities, initDiscussionCategories, initPlaceCategories } from "../../store/reducers/app.reducer"
 import Navigation from "../../components/navigation/Navigation"
-import { CONTAINER_SIZE } from "../../utils/variables"
+import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
 import { Box, Container, Fade, Stack } from "@chakra-ui/react"
 
 

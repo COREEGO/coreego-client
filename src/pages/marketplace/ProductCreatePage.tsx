@@ -1,4 +1,4 @@
-import { Container, Box, Text, Grid, GridItem, Stack, NumberInput, FormControl, FormErrorMessage, FormLabel, Input, Select, NumberDecrementStepper, NumberIncrementStepper, NumberInputStepper, NumberInputField, InputRightAddon, InputGroup, Button, useToast, Textarea, FormHelperText } from "@chakra-ui/react"
+import { Container, Box, Text, Grid, GridItem, Stack, NumberInput, FormControl, FormErrorMessage, FormLabel, Input, Select, NumberDecrementStepper, NumberIncrementStepper, NumberInputStepper, NumberInputField, InputRightAddon, InputGroup, Button, useToast, Textarea, FormHelperText, CardHeader, Card, CardBody, InputLeftAddon } from "@chakra-ui/react"
 import Title from "../../components/texts/Title"
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
@@ -7,6 +7,8 @@ import UploadImageModule from "../components/modules/UploadImageModule"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useNavigate } from "react-router"
 import { wonToEuro } from "../../utils"
+import { noEmptyValidation, noEmtyFileValidation } from "../../utils/formValidation"
+import ContainerSection from "../components/ContainerSection"
 
 type Inputs = {
     title: string
@@ -71,31 +73,33 @@ const ProductCreatePage = () => {
     }
 
 
-    const filesNoEmptyValidator = () => {
-        const { files } = getValues()
-        return files.length > 0 || 'Cette valeur ne peut pas être vide';
-    };
-
-    console.log(errors)
-
     return (
-        <Container maxW={CONTAINER_SIZE}>
-            <Box my={VERTICAL_SPACING}>
-                <Title text="Ajouter un produit" />
-                <Stack as="form" onSubmit={handleSubmit(onSubmit)} >
-                    <Grid templateColumns='repeat(10, 1fr)' gap={{ base: 3, md: 20 }}>
-                        <GridItem colSpan={{ base: 10, sm: 10, md: 6 }}>
+        <Stack my={VERTICAL_SPACING}>
+            <ContainerSection>
+                <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+                    <Card>
+                        <CardHeader><Title text="Ajouter un produit" /></CardHeader>
+                        <CardBody>
                             <Stack>
+                                <FormControl>
+                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Ajouter des photos</FormLabel>
+                                    <Controller
+                                        control={control}
+                                        name="files"
+                                        rules={{
+                                            validate: () => noEmtyFileValidation(getValues().files)
+                                        }}
+                                        render={({ field: { onChange } }) => (
+                                            <UploadImageModule onChange={(files: Array<any>) => onChange(files)} />
+                                        )}
+                                    />
+                                    {errors.files && <Text fontSize="sm" color="red" mt={2}> {errors.files.message} </Text>}
+                                </FormControl>
+
                                 <FormControl isInvalid={errors.title ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Nom du produit</FormLabel>
                                     <Input
-                                        {...register('title', {
-                                            required: 'Cette valeur ne doit pas être vide',
-                                            pattern: {
-                                                value: /\S/,
-                                                message: 'Cette valeur ne doit pas être vide'
-                                            }
-                                        })}
+                                        {...register('title', noEmptyValidation)}
                                         type="text" size="lg" placeholder="Nom du produit"
                                     />
                                     {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
@@ -103,7 +107,7 @@ const ProductCreatePage = () => {
 
                                 <FormControl isInvalid={errors.city ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Lieu de vente</FormLabel>
-                                    <Select size="lg" {...register('city', { required: 'Cette valeur ne doit pas être vide' })}>
+                                    <Select size="lg" {...register('city', noEmptyValidation)}>
                                         <option value="">--selectionner une ville</option>
                                         {cities.map((category: any) => {
                                             return (
@@ -114,12 +118,13 @@ const ProductCreatePage = () => {
                                     </Select>
                                     {errors.city && <FormErrorMessage> {errors.city.message} </FormErrorMessage>}
                                 </FormControl>
+
                                 <FormControl isInvalid={errors.price ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Définir un prix</FormLabel>
                                     <Controller
                                         control={control}
                                         name="price"
-                                        rules={{ required: 'Cette valeur ne doit pas être vide' }}
+                                        rules={noEmptyValidation}
                                         render={({ field: { onChange, value } }) => (
                                             <>
                                                 <InputGroup size="lg">
@@ -139,6 +144,7 @@ const ProductCreatePage = () => {
                                     />
                                     {errors.price && <FormErrorMessage> {errors.price.message} </FormErrorMessage>}
                                 </FormControl>
+
                                 <FormControl isInvalid={errors.description ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Description du produit</FormLabel>
                                     <Textarea
@@ -153,31 +159,13 @@ const ProductCreatePage = () => {
                                         rows={10} placeholder="Description de votre produit" />
                                     {errors.description && <FormErrorMessage>{errors.description.message}</FormErrorMessage>}
                                 </FormControl>
+                                <Button isLoading={isSubmitting} w="fit-content" type="submit" className="btn_blue">Mettre en vente</Button>
                             </Stack>
-                        </GridItem>
-                        <GridItem colSpan={{ base: 10, sm: 10, md: 4 }}>
-                            <Stack>
-                                <FormControl>
-                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Ajouter des photos</FormLabel>
-                                    <Controller
-                                        control={control}
-                                        name="files"
-                                        rules={{
-                                            validate: filesNoEmptyValidator
-                                        }}
-                                        render={({ field: { onChange } }) => (
-                                            <UploadImageModule onChange={(files: Array<any>) => onChange(files)} />
-                                        )}
-                                    />
-                                    {errors.files && <Text fontSize="sm" color="red"> {errors.files.message} </Text>}
-                                </FormControl>
-                            </Stack>
-                        </GridItem>
-                        <Button isLoading={isSubmitting} w="fit-content" type="submit" className="btn_blue">Mettre en vente</Button>
-                    </Grid>
+                        </CardBody>
+                    </Card>
                 </Stack>
-            </Box>
-        </Container>
+            </ContainerSection>
+        </Stack>
     )
 }
 

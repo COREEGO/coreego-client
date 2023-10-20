@@ -13,6 +13,7 @@ import ProductDetail from "../marketplace/ProductDetailPage";
 import PlaceDetail from "../travel/PlaceDetailPage";
 import DiscussionCreatePage from "../discussion/DiscussionCreatePage";
 import ProductCreatePage from "../marketplace/ProductCreatePage";
+import PlaceCreatePage from "../travel/PlaceCreatePage";
 
 export default function RouterOutleft() {
 
@@ -32,6 +33,7 @@ export default function RouterOutleft() {
 
                 <Route path="/voyage" element={<TravelFeed />} />
                 <Route path="/voyage/place/detail/:id" element={<PlaceDetail />} />
+                <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
             </Route>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />

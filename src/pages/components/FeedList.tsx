@@ -22,7 +22,7 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
     cardName,
 }) => {
     const {
-        paginationData,
+        paginationData : datas,
         isReachedEnd,
         loadingMore,
         size,
@@ -33,11 +33,7 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
 
     if (error) return <p>Une erreur est survenue</p>;
 
-    if (!paginationData.length) return <p>{noLengthLabel}</p>;
-
-    const datas = paginationData.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
+    if (!datas.length) return <p>{noLengthLabel}</p>;
 
     if (isLoading) return <LoadingPage type="data" />;
 

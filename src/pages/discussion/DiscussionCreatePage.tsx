@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Select, Stack, Textarea, useToast } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Container, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Select, Stack, Textarea, useToast } from "@chakra-ui/react"
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
 import Title from "../../components/texts/Title"
 import { useEffect, useState } from "react"
@@ -9,6 +9,8 @@ import useFile from "../../hooks/useFile"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useNavigate } from "react-router"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
+import { noEmptyValidation } from "../../utils/formValidation"
+import ContainerSection from "../components/ContainerSection"
 
 type Inputs = {
     title: string
@@ -71,32 +73,24 @@ const DiscussionCreatePage = () => {
 
 
     return (
-        <Container maxW={CONTAINER_SIZE}>
-            <Box my={VERTICAL_SPACING}>
-                <Title text="Nouvelle discussion" />
-                <Stack as="form" onSubmit={handleSubmit(onSubmit)} >
-                    <Grid templateColumns='repeat(10, 1fr)' gap={{ base: 3, md: 20 }}>
-                        <GridItem colSpan={{ base: 10, sm: 10, md: 6 }}>
+        <Stack my={VERTICAL_SPACING}>
+            <ContainerSection>
+                <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+                    <Card>
+                        <CardHeader><Title text="Ajouter une discussion" /></CardHeader>
+                        <CardBody>
                             <Stack>
                                 <FormControl isInvalid={errors.title ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Titre</FormLabel>
-                                    <Input
-                                        size="lg"
-                                        {...register('title', {
-                                            required: 'Cette valeur ne doit pas être vide',
-                                            minLength: { value: 1, message: 'Minimum 1 caratère' },
-                                            pattern: {
-                                                value: /\S/,
-                                                message: 'Cette valeur ne doit pas être vide'
-                                            }
-                                        })}
-                                        type="text" placeholder="Titre de la discussion"
+                                    <Input size="lg" {...register('title', noEmptyValidation)} type="text"
+                                        placeholder="Titre de la discussion"
                                     />
                                     {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
                                 </FormControl>
+
                                 <FormControl isInvalid={errors.category ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Catégorie</FormLabel>
-                                    <Select size="lg"  {...register('category', { required: 'Cette valeur ne doit pas être vide' })} name="category" id="category">
+                                    <Select size="lg"  {...register('category', noEmptyValidation)} name="category" id="category">
                                         <option value="">--selectionner une catégorie</option>
                                         {discussionCategories.map((category: any) => {
                                             return (
@@ -107,24 +101,16 @@ const DiscussionCreatePage = () => {
                                     </Select>
                                     {errors.category && <FormErrorMessage>{errors.category.message}</FormErrorMessage>}
                                 </FormControl>
+
                                 <FormControl isInvalid={errors.content ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Contenu de la discussion</FormLabel>
                                     <Textarea
-                                        {...register('content', {
-                                            required: 'Cette valeur ne doit pas être vide',
-                                            pattern: {
-                                                value: /\S/,
-                                                message: 'Cette valeur ne doit pas être vide'
-                                            }
-                                        })}
+                                        {...register('content', noEmptyValidation)}
                                         size="lg"
-                                        rows={10} name="content" placeholder="Mon contenu" />
+                                        rows={10}  placeholder="Mon contenu" />
                                     {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
                                 </FormControl>
-                            </Stack>
-                        </GridItem>
-                        <GridItem colSpan={{ base: 10, sm: 10, md: 4 }}>
-                            <Stack>
+
                                 <FormControl>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Ajouter des photos</FormLabel>
                                     <Controller
@@ -136,12 +122,14 @@ const DiscussionCreatePage = () => {
                                     />
                                 </FormControl>
                             </Stack>
-                        </GridItem>
-                        <Button w="fit-content" isLoading={isSubmitting} type="submit" className="btn_blue">Créer la discussion</Button>
-                    </Grid>
+                        </CardBody>
+                        <CardFooter>
+                            <Button w="fit-content" isLoading={isSubmitting} type="submit" colorScheme="blue">Créer la discussion</Button>
+                        </CardFooter>
+                    </Card>
                 </Stack>
-            </Box>
-        </Container>
+            </ContainerSection>
+        </Stack>
     )
 }
 

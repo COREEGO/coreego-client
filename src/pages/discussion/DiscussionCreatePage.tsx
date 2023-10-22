@@ -9,7 +9,7 @@ import useFile from "../../hooks/useFile"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useNavigate } from "react-router"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
-import { noEmptyValidation } from "../../utils/formValidation"
+import { noEmptyValidator } from "../../utils/formValidation"
 import ContainerSection from "../components/ContainerSection"
 
 type Inputs = {
@@ -82,7 +82,7 @@ const DiscussionCreatePage = () => {
                             <Stack>
                                 <FormControl isInvalid={errors.title ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Titre</FormLabel>
-                                    <Input size="lg" {...register('title', noEmptyValidation)} type="text"
+                                    <Input size="lg" {...register('title', noEmptyValidator)} type="text"
                                         placeholder="Titre de la discussion"
                                     />
                                     {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
@@ -90,7 +90,7 @@ const DiscussionCreatePage = () => {
 
                                 <FormControl isInvalid={errors.category ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Catégorie</FormLabel>
-                                    <Select size="lg"  {...register('category', noEmptyValidation)} name="category" id="category">
+                                    <Select size="lg"  {...register('category', noEmptyValidator)} name="category" id="category">
                                         <option value="">--selectionner une catégorie</option>
                                         {discussionCategories.map((category: any) => {
                                             return (
@@ -105,7 +105,7 @@ const DiscussionCreatePage = () => {
                                 <FormControl isInvalid={errors.content ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Contenu de la discussion</FormLabel>
                                     <Textarea
-                                        {...register('content', noEmptyValidation)}
+                                        {...register('content', noEmptyValidator)}
                                         size="lg"
                                         rows={10}  placeholder="Mon contenu" />
                                     {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}

@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, Center, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Stack, Text, Tooltip, useToast } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, CardFooter, CardHeader, Center, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightElement, Stack, Text, Tooltip, useToast } from "@chakra-ui/react"
 import ErrorAlert from "../../components/alerts/ErrorAlert"
 import { useEffect, useState } from "react"
 import SuccessAlert from "../../components/alerts/SuccessAlert"
@@ -8,50 +8,67 @@ import { InfoIcon } from "@chakra-ui/icons"
 import CenterLayout from "../layouts/CenterLayout"
 import LoadingPage from "../../components/LoadingPage"
 import { getViolationField } from "../../utils"
+import Title from "../../components/texts/Title"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { emailValidator, minLengthValidatior, noEmptyValidator, passwordMatchValidator } from "../../utils/formValidation"
+import { PASSWORD_RESET_SEND_EMAIL_MESSAGE, PASSWORD_UPDATED_SUCCESS_MESSAGE } from "../../utils/variables"
 
+type Inputs = {
+    email: string,
+    password: string,
+    confirmPassword: string
+}
 
 const SendMailScreen = () => {
 
-    const [errorMessage, setErrorMessage] = useState<string>('')
-    const [successMessage, setSuccessMessage] = useState<string>('')
-    const [isBusy, setIsBusy] = useState<boolean>(false)
 
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful },
+        reset
+    } = useForm<Inputs>({
+        mode: 'onTouched'
+    })
 
-
-    const onSendMail = async (e: any) => {
-        e.preventDefault()
-        const element = e.target.elements
-        setErrorMessage('')
-        setSuccessMessage('')
-
+    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            setIsBusy(true)
-            await apiFetch(`/user/password-reset?email=${element.email.value}`, 'post', {})
-            setSuccessMessage('Vérifier votre boite email')
+            await apiFetch(`/user/password-reset?email=${data.email.trim()}`, 'post', {})
+            reset()
         } catch (error: any) {
-            console.log(error)
-            setErrorMessage(JSON.parse(error.message))
-        } finally {
-            setIsBusy(false)
+            setError('email', {
+                type: 'manual',
+                message: JSON.parse(error.message)
+            })
         }
     }
 
     return (
-        <>
-            <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Mot de passe oublié</Text>
-                <Text textAlign="center" color="gray">Ecrit ton email pour recevoir le lien de réinitialisation</Text>
-            </Stack>
-            <ErrorAlert message={errorMessage} />
-            <SuccessAlert message={successMessage} />
-            <Stack as="form" onSubmit={onSendMail} action="/login" spacing={5}>
-                <FormControl isRequired>
-                    <FormLabel fontSize="sm">Votre email</FormLabel>
-                    <Input placeholder="email@email.fr" size="lg" type='email' id="email" name="email" />
-                </FormControl>
-                <Button isLoading={isBusy} type="submit" colorScheme="blue">Recevoir le email</Button>
-            </Stack>
-        </>
+        <Card>
+            <CardHeader>
+                <Stack textAlign="center" spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
+                    <Title text="Mot de passe oublié" />
+                    <Text color="gray">Ecrit ton email pour recevoir le lien de réinitialisation</Text>
+                </Stack>
+            </CardHeader>
+            <CardBody>
+                <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+                    <Stack>
+                        {(isSubmitted && isSubmitSuccessful) && <SuccessAlert message={PASSWORD_RESET_SEND_EMAIL_MESSAGE} />}
+                        <FormControl isInvalid={errors.email ? true : false}>
+                            <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Votre email</FormLabel>
+                            <Input
+                                {...register('email', { ...noEmptyValidator, ...emailValidator })}
+                                placeholder="email@email.fr" size="lg" type='email' />
+                            {errors.email && <FormErrorMessage> {errors.email.message} </FormErrorMessage>}
+                        </FormControl>
+                    </Stack>
+                    <Button isLoading={isSubmitting} type="submit" colorScheme="blue">Recevoir le email</Button>
+                </Stack>
+            </CardBody>
+
+        </Card>
     )
 }
 
@@ -70,6 +87,17 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenInterface> = ({ params,
     const [violations, setViolations] = useState<Array<any>>([])
 
     const toast = useToast()
+
+    const {
+        register,
+        handleSubmit,
+        setError,
+        getValues,
+        formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful },
+        reset
+    } = useForm<Inputs>({
+        mode: 'onTouched'
+    })
 
     useEffect(() => {
         checkToken()
@@ -90,40 +118,13 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenInterface> = ({ params,
         }
     }
 
-    const onChangePassword = async (e: any) => {
-        e.preventDefault()
-        const element = e.target.elements
-        const form = e.target
-        const plainPassword = element.plainPassword.value.trim();
-        const confirmPassword = element.confirmPassword.value.trim();
-
-        setSuccessMessage('')
-        setErrorMessage('')
-        setViolations([])
+    const onChangePassword: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            setIsBusy(true)
-            if (plainPassword !== confirmPassword) {
-                throw new Error(JSON.stringify({
-                    violations: [
-                        {
-                            propertyPath: 'confirmPassword',
-                            message: 'Les mots de passe ne sont pas valides'
-                        },
-                    ]
-                }))
-            }
             await apiFetch(`/users/${params.id}/password-reset`, 'patch', {
-                plainPassword: plainPassword
+                plainPassword: data.password
             })
-            setSuccessMessage('Mot de passe modifier')
-            form.reset()
-        } catch (e: any) {
-            console.log(e)
-            if ('violations' in JSON.parse(e.message)) {
-                setViolations(JSON.parse(e.message).violations)
-            }
-        }finally{
-            setIsBusy(false)
+        } catch (error: any) {
+                console.log(JSON.parse(error.message))
         }
     }
 
@@ -133,18 +134,25 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenInterface> = ({ params,
                 <Text fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Réinitilisez le mot de passe</Text>
                 <Text textAlign="center" color="gray">écris ton nouveau mot de passe</Text>
             </Stack>
-            <ErrorAlert message={errorMessage} />
-            <SuccessAlert message={successMessage} />
-            <Stack as="form" onSubmit={onChangePassword}>
-                <FormControl isRequired isInvalid={getViolationField(violations, 'plainPassword')}>
-                    <FormLabel fontSize="sm" textTransform="uppercase">Mot de passe</FormLabel>
-                    <Input placeholder="6+ caractères requis" size="lg" type='password' id="plainPassword" />
-                    <FormErrorMessage> {getViolationField(violations, 'plainPassword')?.message} </FormErrorMessage>
+            {(isSubmitted && isSubmitSuccessful) && <SuccessAlert message={PASSWORD_UPDATED_SUCCESS_MESSAGE} />}
+            <Stack as="form" onSubmit={handleSubmit(onChangePassword)}>
+                <FormControl isInvalid={errors.password ? true : false}>
+                    <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
+                    <Input
+                        {...register('password', { ...noEmptyValidator, ...minLengthValidatior(6) })}
+                        placeholder="6+ caractères requis" size="lg" type='password' />
+                    {errors.password && <FormErrorMessage> {errors.password.message} </FormErrorMessage>}
                 </FormControl>
-                <FormControl isRequired isInvalid={getViolationField(violations, 'confirmPassword')}>
-                    <FormLabel fontSize="sm" textTransform="uppercase">Confirmez le mot de passe</FormLabel>
-                    <Input placeholder="6+ caractères requis" size="lg" type='password' id="confirmPassword" />
-                    <FormErrorMessage>{getViolationField(violations, 'confirmPassword')?.message}</FormErrorMessage>
+                <FormControl isInvalid={errors.confirmPassword ? true : false}>
+                    <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Confirmez le mot de passe</FormLabel>
+                    <Input
+                        {...register('confirmPassword', {
+                            ...noEmptyValidator,
+                            validate: () => passwordMatchValidator(getValues().password, getValues().confirmPassword)
+                        }
+                        )}
+                        placeholder="Confirmer le mot de passe" size="lg" type='password' />
+                    {errors.confirmPassword && <FormErrorMessage> {errors.confirmPassword.message} </FormErrorMessage>}
                 </FormControl>
                 <Button isLoading={isBusy} colorScheme="blue" type="submit">Réinitilisé le mot de passe</Button>
             </Stack>

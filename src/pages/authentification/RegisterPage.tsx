@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardBody, Center, Checkbox, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, InputGroup, InputRightElement, Stack, Text, Tooltip } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, CardHeader, Center, Checkbox, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, InputGroup, InputRightElement, Stack, Text, Tooltip } from "@chakra-ui/react"
 import { useState } from "react"
 import { apiFetch } from "../../http-common/apiFetch"
 import SuccessAlert from "../../components/alerts/SuccessAlert"
@@ -8,6 +8,8 @@ import CenterLayout from "../layouts/CenterLayout"
 import { REGISTER_MESSAGE } from "../../utils/messages"
 import { getViolationField } from "../../utils"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { emailValidator, maxLengthValidator, minLengthValidatior, noEmptyValidator, passwordMatchValidator } from "../../utils/formValidation"
+import { NavLink } from "react-router-dom"
 
 type Inputs = {
     pseudo: string
@@ -18,14 +20,13 @@ type Inputs = {
 }
 
 const RegisterPage: React.FC<any> = () => {
-    const [successMessage, setSuccessMessage] = useState<string>('')
 
     const {
         control,
         register,
         handleSubmit,
         setError,
-        formState: { errors, isSubmitting },
+        formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful },
         getValues,
         reset
     } = useForm<Inputs>({
@@ -40,7 +41,6 @@ const RegisterPage: React.FC<any> = () => {
                 hasConfirmTerm: data.hasConfirmTerm,
                 plainPassword: data.password,
             })
-            setSuccessMessage(REGISTER_MESSAGE)
             reset()
         } catch (error: any) {
             if ('violations' in JSON.parse(error.message)) {
@@ -54,81 +54,72 @@ const RegisterPage: React.FC<any> = () => {
         }
     }
 
-    const passwordMatchValidator = () => {
-        const { password, confirmPassword } = getValues();
-        return password === confirmPassword || 'Les mots de passe ne correspondent pas.';
-    };
-
     return (
         <CenterLayout>
-            <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight={500}>Je crée mon compte</Text>
-                <Text textAlign="center" color="gray">Remplissez le formulaire pour créer votre compte</Text>
-            </Stack>
-            <SuccessAlert message={successMessage} />
-            <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing={5}>
-
-                <FormControl isInvalid={errors.pseudo ? true : false}>
-                    <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Nom d'utilisateur</FormLabel>
-                    <Input
-                        {...register('pseudo', {
-                            required: 'Cette valeur ne doit pas être vide',
-                            pattern: {
-                                value: /\S/,
-                                message: 'Cette valeur ne doit pas être vide'
-                            },
-                            minLength: { value: 3, message: 'Minimum 3 caratère' },
-                            maxLength: { value: 20, message: "Maximum 20 caratère" }
-                        })}
-                        type='text' size="lg" minLength={3} maxLength={20} />
-                    {errors.pseudo && <FormErrorMessage> {errors.pseudo.message} </FormErrorMessage>}
-                </FormControl>
-                <FormControl isInvalid={errors.email ? true : false}>
-                    <FormLabel fontSize={{ base: 'sm', md: 'md' }} >Votre email</FormLabel>
-                    <Input
-                        {...register('email', {
-                            required: 'Cette valeur ne doit pas être vide',
-                            pattern: {
-                                value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                                message: 'Adresse email invalide',
-                            }
-                        })}
-                        placeholder="email@email.fr" size="lg" type='email' />
-                    {errors.email && <FormErrorMessage> {errors.email.message} </FormErrorMessage>}
-                </FormControl>
-                <FormControl isInvalid={errors.password ? true : false}>
-                    <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
-                    <Input
-                        {...register('password', {
-                            required: 'Cette valeur ne doit pas être vide',
-                            minLength: { value: 6, message: '6+ caratères requis' }
-                        })}
-                        placeholder="6+ caractères requis" size="lg" type='password' />
-                    {errors.password && <FormErrorMessage> {errors.password.message} </FormErrorMessage>}
-                </FormControl>
-                <FormControl isInvalid={errors.confirmPassword ? true : false}>
-                    <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Confirmez le mot de passe</FormLabel>
-                    <Input
-                        {...register('confirmPassword', {
-                            required: 'Cette valeur ne doit pas être vide',
-                            minLength: { value: 6, message: '6+ caratères requis' },
-                            validate: passwordMatchValidator,
-                        })}
-                        placeholder="Confirmer le mot de passe" size="lg" type='password' id="confirmPassword" />
-                    {errors.confirmPassword && <FormErrorMessage> {errors.confirmPassword.message} </FormErrorMessage>}
-                </FormControl>
-                <FormControl isInvalid={errors.hasConfirmTerm ? true : false}>
-                    <Checkbox
-                        {...register('hasConfirmTerm', {
-                            required: 'Vous devez valider les terms'
-                        })}
-                    >
-                        Je m'engage à publier des posts concernant la Corée Du Sud
-                    </Checkbox>
-                    {errors.hasConfirmTerm && <FormErrorMessage> {errors.hasConfirmTerm.message} </FormErrorMessage>}
-                </FormControl>
-                <Button isLoading={isSubmitting} type="submit" colorScheme="blue">S'inscrire</Button>
-            </Stack>
+            <Card>
+                <CardHeader>
+                    <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
+                        <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight={500}>Je crée mon compte</Text>
+                        <Text textAlign="center" color="gray">Remplissez le formulaire pour créer votre compte</Text>
+                    </Stack>
+                </CardHeader>
+                <CardBody>
+                    <Stack>
+                        {(isSubmitted && isSubmitSuccessful) && <SuccessAlert message={REGISTER_MESSAGE} />}
+                        <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing={5}>
+                            <FormControl isInvalid={errors.pseudo ? true : false}>
+                                <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Nom d'utilisateur</FormLabel>
+                                <Input
+                                    {...register('pseudo',
+                                        { ...noEmptyValidator, ...minLengthValidatior(3), ...maxLengthValidator(20) }
+                                    )}
+                                    type='text' size="lg" minLength={3} maxLength={20} />
+                                {errors.pseudo && <FormErrorMessage> {errors.pseudo.message} </FormErrorMessage>}
+                            </FormControl>
+                            <FormControl isInvalid={errors.email ? true : false}>
+                                <FormLabel fontSize={{ base: 'sm', md: 'md' }} >Votre email</FormLabel>
+                                <Input
+                                    {...register('email', { ...noEmptyValidator, ...emailValidator })}
+                                    placeholder="email@email.fr" size="lg" type='email' />
+                                {errors.email && <FormErrorMessage> {errors.email.message} </FormErrorMessage>}
+                            </FormControl>
+                            <FormControl isInvalid={errors.password ? true : false}>
+                                <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
+                                <Input
+                                    {...register('password', { ...noEmptyValidator, ...minLengthValidatior(6) })}
+                                    placeholder="6+ caractères requis" size="lg" type='password' />
+                                {errors.password && <FormErrorMessage> {errors.password.message} </FormErrorMessage>}
+                            </FormControl>
+                            <FormControl isInvalid={errors.confirmPassword ? true : false}>
+                                <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Confirmez le mot de passe</FormLabel>
+                                <Input
+                                    {...register('confirmPassword', {
+                                        ...noEmptyValidator,
+                                        validate: () => passwordMatchValidator(getValues().password, getValues().confirmPassword)
+                                    }
+                                    )}
+                                    placeholder="Confirmer le mot de passe" size="lg" type='password' />
+                                {errors.confirmPassword && <FormErrorMessage> {errors.confirmPassword.message} </FormErrorMessage>}
+                            </FormControl>
+                            <FormControl isInvalid={errors.hasConfirmTerm ? true : false}>
+                                <Checkbox
+                                    {...register('hasConfirmTerm', { ...noEmptyValidator })}
+                                >
+                                    Je m'engage à publier des posts concernant la Corée Du Sud
+                                </Checkbox>
+                                {errors.hasConfirmTerm && <FormErrorMessage> {errors.hasConfirmTerm.message} </FormErrorMessage>}
+                            </FormControl>
+                            <Button isLoading={isSubmitting} type="submit" colorScheme="blue">S'inscrire</Button>
+                        </Stack>
+                        <Stack direction="row" justifyContent="center" flexWrap="wrap">
+                            <Text>Vous avez un compte ?</Text>
+                            <NavLink style={{ color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/login">
+                                Connectez-vous ici
+                            </NavLink>
+                        </Stack>
+                    </Stack>
+                </CardBody>
+            </Card>
         </CenterLayout>
     )
 }

@@ -11,6 +11,7 @@ export const dateParse = (date: Date) => {
   return dateParse;
 };
 
+// à supprimer
 export const getViolationField = (
   violations: Array<any>,
   fieldName: string
@@ -38,9 +39,11 @@ export const wonToEuro = (price: number) => {
 
     // Formatter le nombre avec des espaces tous les trois chiffres
     convertir = convertir.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-
     return convertir;
   }
-
   return convertir;
 };
+
+export const isAlreadyLoked = (likes : Array<any>, user: any ) => {
+  return likes.find((like: any) => like.user.id === user.id)
+}

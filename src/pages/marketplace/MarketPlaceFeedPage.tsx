@@ -9,7 +9,6 @@ import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables";
 import Title from "../../components/texts/Title";
 import { AddIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
-import AddButton from "../../components/buttons/AddButton";
 import ContainerSection from "../components/ContainerSection";
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 

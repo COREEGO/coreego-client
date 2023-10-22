@@ -7,7 +7,7 @@ import UploadImageModule from "../components/modules/UploadImageModule"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useNavigate } from "react-router"
 import { wonToEuro } from "../../utils"
-import { noEmptyValidation, noEmtyFileValidation } from "../../utils/formValidation"
+import { noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
 import ContainerSection from "../components/ContainerSection"
 
 type Inputs = {
@@ -87,7 +87,7 @@ const ProductCreatePage = () => {
                                         control={control}
                                         name="files"
                                         rules={{
-                                            validate: () => noEmtyFileValidation(getValues().files)
+                                            validate: () => noEmtyFileValidator(getValues().files)
                                         }}
                                         render={({ field: { onChange } }) => (
                                             <UploadImageModule onChange={(files: Array<any>) => onChange(files)} />
@@ -99,7 +99,7 @@ const ProductCreatePage = () => {
                                 <FormControl isInvalid={errors.title ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Nom du produit</FormLabel>
                                     <Input
-                                        {...register('title', noEmptyValidation)}
+                                        {...register('title', noEmptyValidator)}
                                         type="text" size="lg" placeholder="Nom du produit"
                                     />
                                     {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
@@ -107,7 +107,7 @@ const ProductCreatePage = () => {
 
                                 <FormControl isInvalid={errors.city ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Lieu de vente</FormLabel>
-                                    <Select size="lg" {...register('city', noEmptyValidation)}>
+                                    <Select size="lg" {...register('city', noEmptyValidator)}>
                                         <option value="">--selectionner une ville</option>
                                         {cities.map((category: any) => {
                                             return (
@@ -124,7 +124,7 @@ const ProductCreatePage = () => {
                                     <Controller
                                         control={control}
                                         name="price"
-                                        rules={noEmptyValidation}
+                                        rules={noEmptyValidator}
                                         render={({ field: { onChange, value } }) => (
                                             <>
                                                 <InputGroup size="lg">

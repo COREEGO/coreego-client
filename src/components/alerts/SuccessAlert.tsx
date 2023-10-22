@@ -1,7 +1,7 @@
 import { Alert, AlertIcon } from "@chakra-ui/react"
 
 interface SuccessAlertInterface{
-    message: string
+    message: string | undefined
 }
 
 const SuccessAlert : React.FC<SuccessAlertInterface> = ({message}) => {

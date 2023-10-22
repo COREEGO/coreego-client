@@ -10,7 +10,6 @@ import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables";
 import Title from "../../components/texts/Title";
 import { AddIcon } from "@chakra-ui/icons";
-import AddButton from "../../components/buttons/AddButton";
 import { NavLink } from "react-router-dom";
 import ContainerSection from "../components/ContainerSection";
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection";

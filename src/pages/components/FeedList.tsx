@@ -85,7 +85,7 @@ const FeedList: React.FC<FeedListInterface> = ({
     cardName,
 }) => {
     return (
-        <Suspense fallback={<LoadingPage type="page" />}>
+        <Suspense fallback={<LoadingPage type="data" />}>
             <FeedListGrid
                 url={url}
                 noLengthLabel={noLengthLabel}

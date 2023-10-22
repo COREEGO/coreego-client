@@ -5,7 +5,7 @@ import { useNavigate } from "react-router"
 import Title from "../../components/texts/Title"
 import { VERTICAL_SPACING } from "../../utils/variables"
 import ContainerSection from "../components/ContainerSection"
-import { noEmptyValidation, noEmtyFileValidation } from "../../utils/formValidation"
+import { noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
 import UploadImageModule from "../components/modules/UploadImageModule"
 import { useState } from "react"
 import MapMarker from "../../components/maps/MapMarker"
@@ -132,7 +132,7 @@ const PlaceCreatePage = () => {
                                         control={control}
                                         name="files"
                                         rules={{
-                                            validate: () => noEmtyFileValidation(getValues().files)
+                                            validate: () => noEmtyFileValidator(getValues().files)
                                         }}
                                         render={({ field: { onChange } }) => (
                                             <UploadImageModule onChange={(files: Array<any>) => onChange(files)} />
@@ -144,7 +144,7 @@ const PlaceCreatePage = () => {
                                 <FormControl isInvalid={errors.title ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Nom du lieu</FormLabel>
                                     <Input
-                                        {...register('title', noEmptyValidation)}
+                                        {...register('title', noEmptyValidator)}
                                         type="text" size="lg" placeholder="Nom du lieu"
                                     />
                                     {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
@@ -153,7 +153,7 @@ const PlaceCreatePage = () => {
                                 <Stack direction={{ base: 'column', sm: 'row' }}>
                                     <FormControl isInvalid={errors.city ? true : false}>
                                         <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Ville</FormLabel>
-                                        <Select size="lg" {...register('city', noEmptyValidation)}>
+                                        <Select size="lg" {...register('city', noEmptyValidator)}>
                                             <option value="">--selectionner une ville--</option>
                                             {cities.map((category: any) => {
                                                 return (
@@ -166,7 +166,7 @@ const PlaceCreatePage = () => {
                                     </FormControl>
                                     <FormControl isInvalid={errors.city ? true : false}>
                                         <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Type de lieu</FormLabel>
-                                        <Select size="lg" {...register('category', noEmptyValidation)}>
+                                        <Select size="lg" {...register('category', noEmptyValidator)}>
                                             <option value="">--selectionner une catégorie</option>
                                             {placeCategories.map((category: any) => {
                                                 return (
@@ -184,7 +184,7 @@ const PlaceCreatePage = () => {
                                         <Controller
                                             control={control}
                                             name="address"
-                                            rules={noEmptyValidation}
+                                            rules={noEmptyValidator}
                                             render={({ field: { onChange } }) => (
                                                 <Input
                                                     type="text" onBlur={(e: any) => handleSearchLocalisation(e.target.value.trim())} size="lg" placeholder="Veuillez insérer une adresse"
@@ -199,7 +199,7 @@ const PlaceCreatePage = () => {
                                 <FormControl isInvalid={errors.description ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Description du lieu</FormLabel>
                                     <Textarea
-                                        {...register('description', noEmptyValidation)}
+                                        {...register('description', noEmptyValidator)}
                                         size="lg"
                                         rows={10}  placeholder="Description du lieu" />
                                     {errors.description && <FormErrorMessage>{errors.description.message}</FormErrorMessage>}

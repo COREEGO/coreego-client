@@ -25,7 +25,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, mode, child
         <Card borderRadius={0} >
             <CardBody>
                 <Stack direction="row" alignItems="flex-start">
-                    <Stack flex={1}>
+                    <Stack>
                         <Stack direction="row" alignItems="center">
                             <AvatarUx size="sm" user={discussion.user} />
                             <Stack spacing={0}>
@@ -33,15 +33,16 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, mode, child
                                 <Text as="small" color="gray">{dateParse(discussion.createdAt)}</Text>
                             </Stack>
                         </Stack>
-                        <Stack>
+                        <Stack spacing={0}>
                             <Category category={discussion.category} />
                             <Text as="b" noOfLines={2}> {discussion.title} </Text>
+                            <Text as="span" noOfLines={1}> {discussion.content} </Text>
                         </Stack>
-                    </Stack>
-                    <Stack direction="column">
-                        <NoOfComments nb={discussion.comments.length} />
-                        <NoOfLikes nb={discussion.likes.length} />
-                        <NoOfImage nb={discussion.images.length} />
+                        <Stack direction="row">
+                            <NoOfComments nb={discussion.comments.length} />
+                            <NoOfLikes nb={discussion.likes.length} />
+                            <NoOfImage nb={discussion.images.length} />
+                        </Stack>
                     </Stack>
                 </Stack>
             </CardBody>

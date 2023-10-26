@@ -1,5 +1,5 @@
 import { Stack, Text } from "@chakra-ui/react"
-import { BsFillChatRightFill } from "react-icons/bs"
+import { BsChatLeft } from "react-icons/bs"
 
 
 interface NoOfCommentsInterface{
@@ -10,7 +10,7 @@ const NoOfComments : React.FC<NoOfCommentsInterface> = ({nb}) => {
 
     return (
         <Stack direction="row" spacing={1} alignItems="center">
-            <BsFillChatRightFill />
+            <BsChatLeft />
             <Text as="span">{nb}</Text>
         </Stack>
     )

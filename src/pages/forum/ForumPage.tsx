@@ -34,7 +34,7 @@ const ForumPage: React.FC<any> = () => {
                             }
                         }>
                             <GridItem colSpan={{ base: 10, md: 2 }}>
-                                <Stack position="sticky" top="90px">
+                                <Stack direction={{base: 'row', md: 'column'}} flexWrap={"wrap"} position="sticky" top="90px">
                                     <Button width="fit-content" colorScheme="twitter" color="white" rightIcon={<BsFillPlusCircleFill/>}>Nouveau sujet</Button>
                                     <Hide above="md">
                                         <CategoryFilter type="input" categories={discussionCategories} />

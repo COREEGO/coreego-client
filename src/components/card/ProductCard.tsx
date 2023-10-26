@@ -31,7 +31,7 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product, mode = "feed", c
                 <Stack spacing={0}>
                     <Text fontWeight={500}> {product.price} ₩</Text>
                     <Text noOfLines={2}> {product.title}</Text>
-                    <Localisation location={product.district} />
+                    <Localisation city={product.city} district={product.district} />
                 </Stack>
             </Stack>
         </Card>

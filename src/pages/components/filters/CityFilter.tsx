@@ -15,15 +15,6 @@ const CityFilter: React.FC<CityFilterInterface> = ({ type = "input" }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const handleUpdateCity = (event:any)=>{
-        updateFilter('citys', event)
-    }
-
-    const handleUpdateDistrict = (e:any) => {
-        updateFilter('district', e)
-    }
-
-
     return <>
         <IconButton isRound={true} colorScheme="whiteAlpha" border={"1px solid black"}  onClick={onOpen} icon={<TbMapSearch color="black" />} aria-label={"open modal"} />
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -35,9 +26,9 @@ const CityFilter: React.FC<CityFilterInterface> = ({ type = "input" }) => {
                 <ModalCloseButton />
                 <ModalBody>
                     <CityDistrictSelectInput
-                        updateCity={handleUpdateCity}
-                        cityValue={params.citys}
-                        updateDistrict={handleUpdateDistrict}
+                        updateCity={(e:any)=>updateFilter('city', e)}
+                        cityValue={params.city}
+                        updateDistrict={(e:any) => updateFilter('district', e)}
                         districtValue={params.district}
                     />
                 </ModalBody>

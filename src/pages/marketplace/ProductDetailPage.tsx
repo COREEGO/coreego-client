@@ -68,7 +68,7 @@ const Detail = () => {
                                 <Divider />
                                 <Text as="b">Localisation :</Text>
                                 <Text as="p" fontWeight="bold">
-                                    <Localisation location={data.district} />
+                                    <Localisation city={data.city} district={data.district} />
                                 </Text>
                                 <Box h={200} w={"100%"} maxW={"100%"}>
                                     <KakaoMap

@@ -31,7 +31,7 @@ function App() {
   return (
     <ChakraProvider theme={theme} toastOptions={{
       defaultOptions: {
-        position: 'top-right', duration: 2000,
+        position: 'top', duration: 2000,
         isClosable: true,
       }
     }}>

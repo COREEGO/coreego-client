@@ -5,13 +5,13 @@ import { useFilterContext } from "../../../contexts/FilterProvider";
 
 export default function SearchFilter() {
 
-    const { setSearch } = useFilterContext()
+    const {updateFilter, params} = useFilterContext()
 
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
         const element = e.target.elements
-        setSearch(element.search.value)
+        updateFilter('q', element.search.value)
     }
 
     return (
@@ -20,7 +20,7 @@ export default function SearchFilter() {
                 <Input focusBorderColor="transparent" bg="gray.100" id="search" placeholder='Rechercher...' type="search" />
                 <InputRightAddon as="button" type="submit" bg="var(--coreego-blue)">
                     <SearchIcon color="white" />
-                </InputRightAddon >
+                </InputRightAddon>
             </InputGroup>
         </Box>
     )

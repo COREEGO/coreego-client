@@ -90,7 +90,7 @@ const DiscussionCreatePage = () => {
 
                                 <FormControl isInvalid={errors.category ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Catégorie</FormLabel>
-                                    <Select size="lg"  {...register('category', noEmptyValidator)} name="category" id="category">
+                                    <Select size="lg"  {...register('category', noEmptyValidator)}>
                                         <option value="">--selectionner une catégorie</option>
                                         {discussionCategories.map((category: any) => {
                                             return (
@@ -106,7 +106,6 @@ const DiscussionCreatePage = () => {
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Contenu de la discussion</FormLabel>
                                     <Textarea
                                         {...register('content', noEmptyValidator)}
-                                        size="lg"
                                         rows={10}  placeholder="Mon contenu" />
                                     {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
                                 </FormControl>

@@ -15,16 +15,12 @@ const AsideFeedSection: React.FC<AsideFeedSectionInterface> = ({ title, buttonLa
     return (
         <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>
             <Container maxW={CONTAINER_SIZE}>
-                <Flex gap='2' alignItems="center" flexWrap="wrap">
+                <Stack spacing={{base: 5, md: 20 }}  direction={{base: 'column', md: 'row' }} alignItems={{base: 'flex-start', md: 'center' }}>
                     <Title text={title} />
-                    <Spacer />
-                    <Stack direction="row" flexWrap="wrap">
+                    <Box w="100%" flex={1}>
                         <SearchFilter />
-                        <NavLink to={buttonUrl}>
-                            <Button colorScheme="green">{buttonLabel}</Button>
-                        </NavLink>
-                    </Stack>
-                </Flex>
+                    </Box>
+                </Stack>
             </Container>
         </Box>
     )

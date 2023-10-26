@@ -9,8 +9,8 @@ import ContainerSection from "../../pages/components/ContainerSection";
 
 const links = [
     {
-        path: '/discussions',
-        label: "Discussions",
+        path: '/forum',
+        label: "Forum",
         icon: MdOutlineComment
     },
     {

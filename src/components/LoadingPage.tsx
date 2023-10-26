@@ -7,26 +7,59 @@ interface Props {
 }
 
 const LoadingPage: React.FC<Props> = ({ type }) => {
-    return type !== 'data' ? (
-        <Stack alignItems="center" style={{
-            position: 'fixed',
-            justifyContent: "center",
-            zIndex: 2000,
-            width: '100vw',
-            height: '100vh'
-        }}>
-            <Stack direction="column" sx={{ textAlign: 'center' }}>
-                {type === 'app' ?
-                    <img src={logo} width={300} height="auto" />
-                    :
-                    <CircularProgress isIndeterminate color='green.300' />}
+
+
+    function Page() {
+        return (
+            <Stack
+                alignItems="center"
+                position="fixed"
+                justifyContent="center"
+                zIndex={2000}
+                bg="white"
+                top={0}
+                bottom={0}
+                h="100vh"
+                w="100vw"
+            >
+                <CircularProgress isIndeterminate color='green.300' />
             </Stack>
-        </Stack>
-    ) : <Stack width="100%" justifyContent="center">
-        <Box  mx="auto">
-            <CircularProgress isIndeterminate color='green.300' />
-        </Box>
-    </Stack>
+        )
+    }
+
+    function Data() {
+        return (
+            <Stack width="100%" justifyContent="center">
+                <Box mx="auto">
+                    <CircularProgress isIndeterminate color='green.300' />
+                </Box>
+            </Stack>
+        )
+    }
+
+    function App() {
+        return (
+            <Stack alignItems="center"
+                position="fixed"
+                justifyContent="center"
+                zIndex={2000}
+                top={0}
+                bottom={0}
+                bg="white"
+                h="100vh"
+                w="100vw">
+                <img src={logo} width={300} height="auto" />
+            </Stack>
+        )
+    }
+
+    return (
+        <>
+            {type === 'data' && <Data />}
+            {type === 'page' && <Page />}
+            {type === 'app' && <App />}
+        </>
+    )
 
 }
 

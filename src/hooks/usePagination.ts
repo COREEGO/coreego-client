@@ -14,7 +14,7 @@ export const usePagination = <T>(url: string) => {
         let searchParams = location.search;
 
         if(previousPageData && !previousPageData.length) return null
-        return `${url}${searchParams}${searchParams ? '&page='+pageIndex : '?page='+pageIndex }`;
+        return `${url}${searchParams}${(searchParams ? '&' : '?' ) + 'page='+pageIndex }`;
     }
 
     const { data, size, setSize, mutate, isLoading, error } = useSWRInfinite(getKey, { suspense: true });

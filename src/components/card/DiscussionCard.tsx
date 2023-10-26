@@ -1,4 +1,4 @@
-import { Box, Card, CardBody, CardFooter, CardHeader, Stack, Text } from "@chakra-ui/react";
+import { Box, Card, CardBody, CardFooter, CardHeader, Divider, Flex, Show, Stack, Text } from "@chakra-ui/react";
 import UserInfo from "./_UserInfo";
 import NoOfComments from "./_NoOfComments";
 import NoOfLikes from "./_NoOfLikes";
@@ -8,6 +8,9 @@ import PublishDateBadge from "../badges/PublishDateBadge";
 import PublishDateText from "../texts/PublichDateText";
 import LikeButton from "../buttons/LikeButton";
 import Content from "./_Content";
+import AvatarUx from "../react-ux/AvatarUx";
+import { dateParse } from "../../utils";
+import NoOfImage from "./_NoOfImage";
 
 
 interface DiscussionCardProps {
@@ -21,22 +24,25 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, mode, child
     return (
         <Card borderRadius={0} >
             <CardBody>
-                <Stack>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <UserInfo user={discussion.user} size="sm" />
-                        <PublishDateText size="xs" date={discussion.createdAt} />
+                <Stack direction="row" alignItems="flex-start">
+                    <Stack flex={1}>
+                        <Stack direction="row" alignItems="center">
+                            <AvatarUx size="sm" user={discussion.user} />
+                            <Stack spacing={0}>
+                                <Text as="span" noOfLines={1}>{discussion.user.pseudo}</Text>
+                                <Text as="small" color="gray">{dateParse(discussion.createdAt)}</Text>
+                            </Stack>
+                        </Stack>
+                        <Stack>
+                            <Category category={discussion.category} />
+                            <Text as="b" noOfLines={2}> {discussion.title} </Text>
+                        </Stack>
                     </Stack>
-                    <Category size="md" category={discussion.category} />
-                    <Content text={discussion.title} type="title" mode={mode}  />
-                    <Content text={discussion.content} type="content" mode={mode}  />
-                    {
-                        mode === 'feed' ? <Stack direction="row">
-                            <NoOfComments nb={discussion.comments.length} />
-                            <NoOfLikes nb={discussion.likes.length} />
-                        </Stack> : <>
-                            {children}
-                        </>
-                    }
+                    <Stack direction="column">
+                        <NoOfComments nb={discussion.comments.length} />
+                        <NoOfLikes nb={discussion.likes.length} />
+                        <NoOfImage nb={discussion.images.length} />
+                    </Stack>
                 </Stack>
             </CardBody>
         </Card>

@@ -1,80 +1,51 @@
-'use client'
-
-import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { apiFetch } from '../http-common/apiFetch';
+import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-
-
-const FilterContext = createContext({
-    search: '',
-    setSearch: (text: string) => { },
-    category: '',
-    setCategory: (category: any) => { },
-    orderBy: '',
-    setOrderBy: (order: string) => {},
-    city: '',
-    setCity: (city: any) => {}
-});
-
-interface FilterProviderProp {
-    children: ReactNode
+interface FilterContextType {
+  params: Record<string, string>;
+  updateFilter: (name: string, value: string) => void;
 }
 
-export const FilterProvider: React.FC<FilterProviderProp> = ({ children }) => {
+const FilterContext = createContext<FilterContextType>({
+  params: {},
+  updateFilter: () => {},
+});
 
-    const location = useLocation()
+interface FilterProviderProps {
+  children: ReactNode;
+}
 
-    const [search, setSearch] = useState<string>('')
-    const [category, setCategory] = useState<any>('')
-    const [orderBy, setOrderBy] = useState<string>('')
-    const [city, setCity] = useState<string>('')
+export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-    const [searchParams, setSearchParams] = useSearchParams();
+  const [params, setParams] = useState<FilterContextType['params']>({});
 
+  const updateFilter = (name: string, value: string) => {
+    // Mettez à jour les paramètres en utilisant une copie des paramètres existants.
+    // Utilisez le nom comme clé dynamique en utilisant des crochets.
+    if (!value || !value.length) {
+      // Si la valeur est vide, supprimez la clé de paramètre.
+      const updatedParams = { ...params };
+      delete updatedParams[name];
+      setParams(updatedParams);
+    } else {
+      setParams((prevParams) => ({
+        ...prevParams,
+        [name]: value,
+      }));
+    }
+  };
 
-    useEffect(() => {
-        setSearch('')
-        setCategory('')
-        setOrderBy('')
-    }, [location.pathname])
+  useEffect(() => {
+    setSearchParams(params);
+  }, [params]);
 
-    useEffect(() => {
-        const params: any = {}
-
-        if (search) {
-            params.q = search;
-        } else {
-            searchParams.delete("q");
-            setSearch('')
-        }
-        if (category) {
-            params.category = category
-        } else {
-            searchParams.delete("category");
-            setCategory('')
-        }
-        if (orderBy) {
-            params.orderby = orderBy;
-        } else {
-            searchParams.delete("orderby");
-            setOrderBy('');
-        }
-        if(city){
-            params.city = city
-        }else{
-            searchParams.delete("city");
-            setCity('');
-        }
-        setSearchParams(params);
-    }, [search, category, orderBy, city])
-
-
-    return (
-        <FilterContext.Provider value={{ search, setSearch, category, setCategory, orderBy, setOrderBy, city, setCity }}>
-            {children}
-        </FilterContext.Provider>
-    );
+  return (
+    <FilterContext.Provider value={{ params, updateFilter }}>
+      {children}
+    </FilterContext.Provider>
+  );
 };
 
 export const useFilterContext = () => useContext(FilterContext);

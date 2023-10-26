@@ -13,6 +13,7 @@ interface FeedListInterface {
     noLengthLabel: string;
     buttonLabel: string;
     cardName: "discussion" | "product" | "place";
+    templateColumns: any
 }
 
 const FeedListGrid: React.FC<FeedListInterface> = ({
@@ -20,9 +21,11 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
     noLengthLabel,
     buttonLabel,
     cardName,
+    templateColumns
 }) => {
+
     const {
-        paginationData : datas,
+        paginationData: datas,
         isReachedEnd,
         loadingMore,
         size,
@@ -40,18 +43,13 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
     return (
         <Stack>
             <Grid
-                templateColumns={{
-                    base: "repeat(1, 1fr)",
-                    sm: "repeat(1, 1fr)",
-                    md: "repeat(2, 1fr)",
-                    lg: "repeat(3, 1fr)",
-                }}
-                gap={4}
+                templateColumns={templateColumns}
+                gap={5}
             >
                 {datas?.map((data: any) => (
-                    <GridItem w="100%" key={data.id}>
+                    <GridItem key={data.id}>
                         {cardName === "discussion" &&
-                            <NavLink to={'/discussions/detail/' + data.id}>
+                            <NavLink to={'/forum/discussion/detail/' + data.id}>
                                 <DiscussionCard discussion={data} mode="feed" />
                             </NavLink>
                         }
@@ -69,12 +67,14 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
                 ))}
             </Grid>
             {loadingMore && <LoadingPage type="data" />}
-            {!isReachedEnd && (
-                <Button onClick={() => setSize(size + 1)} className="btn_blue">
-                    {buttonLabel}
-                </Button>
-            )}
-        </Stack>
+            {
+                !isReachedEnd && (
+                    <Button onClick={() => setSize(size + 1)} className="btn_blue">
+                        {buttonLabel}
+                    </Button>
+                )
+            }
+        </Stack >
     );
 };
 
@@ -83,6 +83,7 @@ const FeedList: React.FC<FeedListInterface> = ({
     noLengthLabel,
     buttonLabel,
     cardName,
+    templateColumns
 }) => {
     return (
         <Suspense fallback={<LoadingPage type="data" />}>
@@ -91,6 +92,7 @@ const FeedList: React.FC<FeedListInterface> = ({
                 noLengthLabel={noLengthLabel}
                 buttonLabel={buttonLabel}
                 cardName={cardName}
+                templateColumns={templateColumns}
             />
         </Suspense>
     );

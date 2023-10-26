@@ -8,7 +8,7 @@ import UserInfo from "../../components/card/_UserInfo"
 import Title from "../../components/texts/Title"
 import ThumbSwiper from "../../components/swipers/ThumbSwiper"
 import DefaultSwiper from "../../components/swipers/SlideSwiper"
-import MapMarker from "../../components/maps/MapMarker"
+import MapMarker from "../../components/maps/MapSimpleMarker"
 import CommentModule from "../components/modules/CommentModule"
 import LikeButton from "../../components/buttons/LikeButton"
 import PublishDateText from "../../components/texts/PublichDateText"
@@ -46,10 +46,10 @@ const Detail = () => {
                     </PlaceCard>
                     <Card>
                         <CardBody>
-                            <Text fontSize="lg"> <span style={{fontWeight: 'bold'}}>Adresse :</span> {data.address} </Text>
+                            <Text fontSize="lg"> <span style={{ fontWeight: 'bold' }}>Adresse :</span> {data.address} </Text>
                         </CardBody>
-                        <MapMarker data={data} />
-                            <Button colorScheme="blue">Voir plus</Button>
+                        {/* <MapMarker data={data} /> */}
+                        <Button colorScheme="blue">Voir plus</Button>
                     </Card>
                 </Stack>
             </ContainerSection>

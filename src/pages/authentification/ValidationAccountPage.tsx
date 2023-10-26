@@ -4,6 +4,7 @@ import { Navigate, useParams } from "react-router"
 import LoadingPage from "../../components/LoadingPage"
 import { Center, Fade, ScaleFade, Stack, Text, useToast } from "@chakra-ui/react"
 import { CheckCircleIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons"
+import { ACCOUNT_VALIDATE_MESSAGE } from "../../utils/variables"
 
 const AccountVerifiedPage = () => {
 
@@ -21,20 +22,14 @@ const AccountVerifiedPage = () => {
             await apiFetch(`/user/validation/account?id=${params.id}&token=${params.token}`, 'post', {})
 
             toast({
-                description: "Votre compte a été valider",
+                description: ACCOUNT_VALIDATE_MESSAGE,
                 status: 'success',
             })
 
         } catch (error: any) {
-            toast({
-                description: "Token non valide",
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            })
+            toast({ description: JSON.parse(error.message), status: 'error' })
         }
     }
-
     return <Navigate to="/login" replace={true} />
 }
 

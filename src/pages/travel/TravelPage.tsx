@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom"
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection"
 
 
-const TravelFeed = () => {
+const TravelPage = () => {
 
     const { placeCategories, cities } = useSelector((state: any) => state.app)
 
@@ -23,8 +23,8 @@ const TravelFeed = () => {
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <Flex gap='2' alignItems="center" flexWrap="wrap">
-                            <CategoryFilter cateogries={placeCategories} />
-                            <CityFilter cities={cities} />
+                            <CategoryFilter categories={placeCategories} />
+                            <CityFilter />
                         </Flex>
                     </ContainerSection>
                     <ContainerSection>
@@ -33,6 +33,14 @@ const TravelFeed = () => {
                             noLengthLabel="Aucun lieux trouvés"
                             buttonLabel="Voir plus"
                             cardName="place"
+                            templateColumns={
+                                {
+                                    base: "repeat(1, 1fr)",
+                                    sm: "repeat(1, 1fr)",
+                                    md: "repeat(1, 1fr)",
+                                    lg: "repeat(5, 1fr)"
+                                }
+                            }
                         />
                     </ContainerSection>
                 </Stack>
@@ -42,4 +50,4 @@ const TravelFeed = () => {
 
 }
 
-export default TravelFeed
+export default TravelPage

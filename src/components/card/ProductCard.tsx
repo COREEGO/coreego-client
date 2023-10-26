@@ -4,48 +4,37 @@ import City from "./_City";
 import Price from "./_Price";
 import { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { dateParse, getFirstImage } from "../../utils";
+import { dateParse, getFirstImage, wonToEuro } from "../../utils";
 import PublishDateBadge from "../badges/PublishDateBadge";
 import PublishDateText from "../texts/PublichDateText";
 import ThumbSwiper from "../swipers/ThumbSwiper";
 import Content from "./_Content";
-
+import Localisation from "./_Localisation";
 
 interface ProductCardInterface {
     product: any,
-    mode: 'feed' | 'detail',
+    mode?: 'feed' | 'detail',
     children?: React.ReactNode
 }
 
-const ProductCard: React.FC<ProductCardInterface> = ({ product, mode, children }) => {
+const ProductCard: React.FC<ProductCardInterface> = ({ product, mode = "feed", children }) => {
 
     return (
-        <Card borderRadius={0}>
-            {
-              mode === 'feed' && <Image
-                    h={{ base: 200, md: 250 }}
-                    w="100%"
-                    objectFit='cover'
-                    objectPosition="center"
-                    src={getFirstImage(product.images)}
-                    alt='Green double couch with wooden legs'
-                />
-            }
-            <CardBody>
-                <Stack>
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <UserInfo user={product.user} size="sm" />
-                        <PublishDateText size="xs" date={product.createdAt} />
-                    </Stack>
-                    <Content text={product.title} type="title" mode={mode}  />
-                    <Content text={product.description} type="content" mode={mode}  />
-                    <City size="md" city={product.city} />
-                    <Price size="lg" price={product.price} />
-                    {mode === 'detail' && <>{children}</>}
+        <Card variant="unstyled" bg="transparent">
+            <Stack>
+                <Image w="100%" h={{
+                    base: 200,
+                    sm: 180,
+                    md: 200,
+                    lg: 200
+                    }} objectFit="cover" src={getFirstImage(product.images)} />
+                <Stack spacing={0}>
+                    <Text fontWeight={500}> {product.price} ₩</Text>
+                    <Text noOfLines={2}> {product.title}</Text>
+                    <Localisation location={product.district} />
                 </Stack>
-            </CardBody>
+            </Stack>
         </Card>
-
     )
 
 }

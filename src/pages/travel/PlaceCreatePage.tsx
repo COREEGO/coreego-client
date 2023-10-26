@@ -8,7 +8,7 @@ import ContainerSection from "../components/ContainerSection"
 import { noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
 import UploadImageModule from "../components/modules/UploadImageModule"
 import { useState } from "react"
-import MapMarker from "../../components/maps/MapMarker"
+import MapMarker from "../../components/maps/MapSimpleMarker"
 import { apiFetch } from "../../http-common/apiFetch"
 import axios from "axios"
 import LoadingPage from "../../components/LoadingPage"
@@ -191,8 +191,8 @@ const PlaceCreatePage = () => {
                                                 />
                                             )}
                                         />
-                                        {isLocalisationBusy ? (<LoadingPage type="data" />) :
-                                            (localisation && (<MapMarker data={localisation} />))}
+                                        {/* {isLocalisationBusy ? (<LoadingPage type="data" />) :
+                                            (localisation && (<MapMarker data={localisation} />))} */}
                                     </Stack>
                                     {errors.address && <FormErrorMessage> {errors.address.message} </FormErrorMessage>}
                                 </FormControl>

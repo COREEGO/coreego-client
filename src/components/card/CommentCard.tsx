@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Card, Editable, EditableInput, EditablePreview, Flex, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Stack, Text, Textarea, useEditableControls, useToast } from "@chakra-ui/react"
+import { Box, Button, ButtonGroup, Card, CardBody, CardHeader, Editable, EditableInput, EditablePreview, Flex, FormControl, FormErrorMessage, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useDisclosure, useEditableControls, useToast } from "@chakra-ui/react"
 import UserInfo from "./_UserInfo"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { MdBorderColor, MdCheck, MdClose, MdDelete, MdMoreVert, MdOutlineDelete } from "react-icons/md"
@@ -7,6 +7,10 @@ import { useState } from "react"
 import { apiFetch } from "../../http-common/apiFetch"
 import moment from "moment"
 import PublishDateText from "../texts/PublichDateText"
+import AvatarUx from "../react-ux/AvatarUx"
+import { dateParse } from "../../utils"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { noEmptyValidator } from "../../utils/formValidation"
 
 
 interface CommentCardInterface {
@@ -14,10 +18,16 @@ interface CommentCardInterface {
     mutate: Function
 }
 
+type Inputs = {
+    content: string
+}
+
 const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
 
-    const [isEditing, setIsEditing] = useState<boolean>(false)
-    const [content, setContent] = useState<string>(comment.content)
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting }
+    } = useForm<Inputs>({ mode: 'onTouched' })
 
     const { user }: any = useAuthContext()
 
@@ -25,24 +35,19 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
 
     const isCommentUser = comment.user.id === user.id
 
-    const handleClickModifiyComment = async (e: any) => {
-        e.preventDefault()
+    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            if (content.length) {
-                await apiFetch('/comments/' + comment.id, 'PATCH', {
-                    content: content
-                })
-                toast({
-                    title: 'Suucès',
-                    description: "Commentaire modifié",
-                    status: 'success',
-                })
-                mutate()
-                setIsEditing(false)
-            }
+            await apiFetch('/comments/' + comment.id, 'PATCH', {
+                content: data.content
+            })
+            toast({
+                description: "Commentaire modifié",
+                status: 'success',
+            })
+            mutate()
+            onClose()
         } catch (error: any) {
             toast({
-                title: 'Erreur',
                 description: `${JSON.parse(error.message)}`,
                 status: 'error',
             })
@@ -52,59 +57,82 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
     const handleDeleteComment = async () => {
         try {
             const result = window.confirm('Supprimer ce commentaire ?')
+            if (!result) return
 
-            if (result) {
-                await apiFetch('/comments/' + comment.id, 'DELETE')
-                toast({
-                    title: 'Suucès',
-                    description: "Commentaire supprimé",
-                    status: 'success',
-                })
-                mutate()
-            }else{
-                return
-            }
-
-        } catch (error:any) {
-            console.log(JSON.parse(error.message))
-        }
+            await apiFetch('/comments/' + comment.id, 'DELETE')
+            toast({
+                title: 'Suucès',
+                description: "Commentaire supprimé",
+                status: 'success',
+            })
+            mutate()
+        } catch (error: any) {
+        toast({
+            description: `${JSON.parse(error.message)}`,
+            status: 'error',
+        })
     }
+}
 
 
-    return (
-        <Card p={3} borderRadius={0} w="100%">
-            <Stack direction="row">
-                <Stack flex={1}>
-                    <UserInfo size="sm" user={comment.user} />
-                    {
-                        isEditing ? <Stack as="form" onSubmit={handleClickModifiyComment}>
-                            <Textarea borderRadius={0} value={content} onChange={(e: any) => setContent(e.target.value)} />
-                            <Stack direction="row">
-                                <ButtonGroup size="sm">
-                                    <Button type="submit" colorScheme="green" ><MdCheck /></Button>
-                                    <Button onClick={() => setIsEditing(false)} colorScheme="red" ><MdClose /></Button>
-                                </ButtonGroup>
+return (
+    <>
+        <Card borderRadius={0} w="100%">
+            <CardHeader>
+                <Flex>
+                    <Flex flex={1}>
+                        <Stack direction="row" alignItems="center">
+                            <AvatarUx user={comment.user} />
+                            <Stack direction="column" spacing={0}>
+                                <Text as="span"> {comment.user.pseudo} </Text>
+                                <Text as="small" color="gray"> {dateParse(comment.createdAt)} </Text>
                             </Stack>
-                        </Stack> : <Text whiteSpace="pre-line"> {comment.content}   </Text>
-                    }
-                    <PublishDateText size="xs" date={comment.createdAt} />
-                </Stack>
-                {
-                    isCommentUser && <Stack>
+                        </Stack>
+                    </Flex>
+                    {
+                        isCommentUser &&
                         <Menu>
-                            <MenuButton as="button">
-                                <MdMoreVert />
+                            <MenuButton>
+                                <IconButton variant='ghost' aria-label={"voir menu"} icon={<MdMoreVert />} />
                             </MenuButton>
                             <MenuList>
-                                <MenuItem onClick={() => setIsEditing(true)} icon={<MdBorderColor />}>Modifier</MenuItem>
+                                <MenuItem onClick={onOpen} icon={<MdBorderColor />}>Modifier</MenuItem>
                                 <MenuItem onClick={handleDeleteComment} icon={<MdDelete />}>Supprimer</MenuItem>
                             </MenuList>
                         </Menu>
-                    </Stack>
-                }
-            </Stack>
+                    }
+                </Flex>
+            </CardHeader>
+            <CardBody>
+                <Text whiteSpace="pre-line"> {comment.content}   </Text>
+            </CardBody>
         </Card>
-    )
+        <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
+            <ModalOverlay />
+            <ModalContent>
+                <ModalHeader>Modifier votre commentaire</ModalHeader>
+                <ModalCloseButton />
+                <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
+                    <ModalBody>
+                        <FormControl isInvalid={errors.content ? true : false}>
+                            <Textarea
+                                defaultValue={comment.content}
+                                required
+                                {...register('content', { ...noEmptyValidator })}
+                                placeholder="Modifier votre commentaire" rows={10} />
+                            {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
+                        </FormControl>
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button isLoading={isSubmitting} w="100%" colorScheme='blue' type="submit">
+                            Ajouter
+                        </Button>
+                    </ModalFooter>
+                </Stack>
+            </ModalContent>
+        </Modal>
+    </>
+)
 }
 
 export default CommentCard

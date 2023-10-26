@@ -18,7 +18,7 @@ interface PlaceCardInterface {
 const PlaceCard: React.FC<PlaceCardInterface> = ({ place, mode, children }) => {
 
     return (
-        <Card borderRadius={0} >
+        <Card >
             {
                 mode === 'feed' && <Box h={{ base: 200, md: 250 }} w="100%">
                     <Galery images={place.images} />

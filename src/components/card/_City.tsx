@@ -14,7 +14,7 @@ const City: React.FC<CityInterface> = ({ city, size }) => {
             <Text>
                 <MdLocationOn />
             </Text>
-            <Text as="span"> {city.label} </Text>
+            <Text as="span">{city.label} </Text>
         </Stack>
     )
 

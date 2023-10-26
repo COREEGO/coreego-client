@@ -1,6 +1,6 @@
 import { Stack, Text } from "@chakra-ui/react"
 import { useEffect } from "react"
-import { MdFavoriteBorder } from "react-icons/md"
+import { BsFillHeartFill } from "react-icons/bs"
 
 
 interface NoOfLikesInterface{
@@ -11,7 +11,7 @@ const NoOfLikes : React.FC<NoOfLikesInterface> = ({nb}) => {
 
     return (
         <Stack direction="row" spacing={1} alignItems="center">
-            <MdFavoriteBorder />
+            <BsFillHeartFill />
             <Text as="span">{nb}</Text>
         </Stack>
     )

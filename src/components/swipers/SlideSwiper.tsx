@@ -13,25 +13,32 @@ const SlideSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
     const BASE_URL = process.env.REACT_APP_BASE_URL;
 
     return (
-        <Box h={{ base: 200, sm: 300, md: 500 }}>
-            <Swiper navigation={true} modules={[Navigation, Pagination]} className="default-swiper"
-                slidesPerView={1}
-                spaceBetween={10}
-            >
-                {
-                    images.map((image: any) => {
-                        return <SwiperSlide key={image.id}>
-                            <Image objectFit='cover'
-                                objectPosition="center"
-                                pointerEvents="none"
-                                h="100%"
-                                w="100%"
-                                src={BASE_URL + image.filePath} />
-                        </SwiperSlide>
-                    })
+        <Swiper style={{ width: '100%', height: "100%" }} navigation={true} modules={[Navigation, Pagination]} className="default-swiper"
+            spaceBetween={20}
+            breakpoints={{
+                640: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
                 }
-            </Swiper>
-        </Box>
+            }
+            }
+        >
+            {
+                images.map((image: any) => {
+                    return <SwiperSlide key={image.id}>
+                        <Image objectFit="cover"
+                            objectPosition="center"
+                            pointerEvents="none"
+                            borderRadius={"md"}
+                            h="100%"
+                            w="100%"
+                            src={BASE_URL + image.filePath} />
+                    </SwiperSlide>
+                })
+            }
+        </Swiper >
     )
 
 }

@@ -2,20 +2,23 @@ import { Stack, Box, Text, Divider, Container, Button, Flex, Heading, Spacer, Gr
 import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
 import SearchFilter from "../components/filters/SearchFilter";
-import CityFilter from "../components/filters/CityFilter";
 import ImageHeader from "../../components/headers/ImageHeader";
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
-import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables";
-import Title from "../../components/texts/Title";
-import { AddIcon } from "@chakra-ui/icons";
-import { NavLink } from "react-router-dom";
+import { VERTICAL_SPACING } from "../../utils/variables";
 import ContainerSection from "../components/ContainerSection";
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 import { BsFillPlusCircleFill, BsFilter } from "react-icons/bs";
-import { noEmptyValidator } from "../../utils/formValidation";
+import FilterModal from "../../components/Modals/FilterModal";
+import SectionModal from "../../components/Modals/_SectionModal";
+import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
+import SelectInput from "../../components/inputs/SelectInput";
+import { useFilterContext } from "../../contexts/FilterProvider";
+import AddNewTopikButton from "../../components/buttons/AddTopicButton";
 
 
 const MarketPlacePage = () => {
+
+    const { updateFilter, params } = useFilterContext()
 
     return (
         <>
@@ -26,8 +29,17 @@ const MarketPlacePage = () => {
                     <ContainerSection withPadding={true}>
                         <Stack spacing={VERTICAL_SPACING}>
                             <Stack direction="row" flexWrap={"wrap"}>
-                                <Button width="fit-content" colorScheme="twitter" color="white" rightIcon={<BsFillPlusCircleFill />}>Ajouter un article</Button>
-                                <CityFilter />
+                                <AddNewTopikButton label="Ajouter un article" url="/" />
+                                <FilterModal>
+                                    <SectionModal title={"Localisation"}>
+                                        <CityDistrictSelectInput
+                                            updateCity={(e: any) => updateFilter('city', e)}
+                                            cityValue={params.city}
+                                            updateDistrict={(e: any) => updateFilter('district', e)}
+                                            districtValue={params.district}
+                                        />
+                                    </SectionModal>
+                                </FilterModal>
                             </Stack>
                             <FeedList
                                 url="/products"

@@ -18,10 +18,10 @@ const Galery: React.FC<GaleryInterface> = ({ images }) => {
     const imageWidth = imgToLoad.length > 1 ? '50%' : '100%'
 
     return (
-        <Stack bg="gray.100" spacing={0} flexWrap="wrap" direction="row" h="100%" w="100%">
+        <Stack spacing={0} flexWrap="wrap" direction="row" h="100%" w="100%">
             {
                 imgToLoad.map((image: any) => {
-                    return <Image borderRadius={0} key={image.id} w={imageWidth} h={imageHeight} objectPosition="center" objectFit="cover" src={BASE_URL + image.filePath} />
+                    return <Image p={2} borderRadius="md" key={image.id} w={imageWidth} h={imageHeight} objectPosition="center" objectFit="cover" src={BASE_URL + image.filePath} />
                 })
             }
         </Stack>

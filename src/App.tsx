@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect, useState } from 'react';
-import { Box, ChakraProvider, Container, Fade, SkipNavLink, extendTheme, position } from '@chakra-ui/react'
+import { Box, ChakraProvider, Container, Fade, SkipNavLink, extendTheme, position, withDefaultColorScheme } from '@chakra-ui/react'
 import './App.scss';
 import RouterOutleft from './pages/components/RouterOutlet';
 import { CONTAINER_SIZE } from './utils/variables';
@@ -24,8 +24,9 @@ const theme = extendTheme({
         backgroundColor: 'var(--main)',
       },
     }
-  }
-})
+  },
+},
+)
 
 function App() {
   return (

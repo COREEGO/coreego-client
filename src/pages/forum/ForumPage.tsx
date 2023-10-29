@@ -2,22 +2,22 @@ import React from "react";
 import { Box, Button, Card, Container, Divider, Flex, Grid, GridItem, Heading, Hide, Show, Spacer, Stack, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
-import CategoryFilter from "../components/filters/CategoryFilter";
-import SearchFilter from "../components/filters/SearchFilter";
-import PageTitle from "../../components/texts/Title";
 import ImageHeader from "../../components/headers/ImageHeader";
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
-import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables";
-import Title from "../../components/texts/Title";
-import { AddIcon } from "@chakra-ui/icons";
-import { NavLink } from "react-router-dom";
+import { VERTICAL_SPACING } from "../../utils/variables";
 import ContainerSection from "../components/ContainerSection";
-import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 import { BsFillPlusCircleFill } from "react-icons/bs";
+import FilterModal from "../../components/Modals/FilterModal";
+import SectionModal from "../../components/Modals/_SectionModal";
+import SelectInput from "../../components/inputs/SelectInput";
+import { useFilterContext } from "../../contexts/FilterProvider";
+import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
+import AddNewTopikButton from "../../components/buttons/AddTopicButton";
 
 const ForumPage: React.FC<any> = () => {
 
     const { discussionCategories } = useSelector((state: any) => state.app);
+    const { updateFilter, params } = useFilterContext()
 
     return (
         <>
@@ -26,38 +26,32 @@ const ForumPage: React.FC<any> = () => {
                 <AsideFeedSection title="Forum" buttonLabel="+ Discussion" buttonUrl="/discussions/create" />
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
-                        <Grid gap={5} templateColumns={
-                            {
-                                base: "repeat(1, 1fr)",
-                                sm: "repeat(1, 1fr)",
-                                md: "repeat(10, 1fr)",
+                        <Flex gap='2' alignItems="center" flexWrap="wrap">
+                            <AddNewTopikButton label="Nouveau sujet" url="/" />
+                            <FilterModal>
+                                <SectionModal title={"Catégories"}>
+                                    <SelectInput
+                                        options={discussionCategories}
+                                        value={params.category}
+                                        updateValue={(e: any) => updateFilter('category', e)}
+                                        emptyOptionLabel="Toutes les catégories"
+                                    />
+                                </SectionModal>
+                            </FilterModal>
+                        </Flex>
+                    </ContainerSection>
+                    <ContainerSection withPadding={true}>
+                        <FeedList
+                            url="/discussions"
+                            noLengthLabel="Aucune discussions trouvées"
+                            buttonLabel="Voir plus"
+                            cardName="discussion"
+                            templateColumns={
+                                {
+                                    base: "repeat(1, 1fr)"
+                                }
                             }
-                        }>
-                            <GridItem colSpan={{ base: 10, md: 2 }}>
-                                <Stack direction={{base: 'row', md: 'column'}} flexWrap={"wrap"} position="sticky" top="90px">
-                                    <Button width="fit-content" colorScheme="twitter" color="white" rightIcon={<BsFillPlusCircleFill/>}>Nouveau sujet</Button>
-                                    <Hide above="md">
-                                        <CategoryFilter type="input" categories={discussionCategories} />
-                                    </Hide>
-                                    <Hide below="md">
-                                        <CategoryFilter type="list" categories={discussionCategories} />
-                                    </Hide>
-                                </Stack>
-                            </GridItem>
-                            <GridItem colSpan={{ base: 10, md: 8 }}>
-                                <FeedList
-                                    url="/discussions"
-                                    noLengthLabel="Aucune discussions trouvées"
-                                    buttonLabel="Voir plus"
-                                    cardName="discussion"
-                                    templateColumns={
-                                        {
-                                            base: "repeat(1, 1fr)"
-                                        }
-                                    }
-                                />
-                            </GridItem>
-                        </Grid>
+                        />
                     </ContainerSection>
                 </Stack>
             </Stack>

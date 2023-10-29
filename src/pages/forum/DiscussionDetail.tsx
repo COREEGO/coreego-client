@@ -14,6 +14,7 @@ import AvatarUx from "../../components/react-ux/AvatarUx";
 import { NavLink } from "react-router-dom";
 import { dateParse } from "../../utils";
 import Category from "../../components/card/_Category";
+import UserSniped from "../../components/react-ux/UserSniped";
 
 
 
@@ -28,16 +29,11 @@ const Detail: React.FC<any> = () => {
             <Box py={VERTICAL_SPACING} bg="white">
                 <ContainerPage withPadding={true}>
                     <Stack>
-                        <Stack direction="row" alignItems="center">
-
-                            <AvatarUx size="sm" user={data.user} />
-                            <Stack spacing={0}>
-                                <NavLink to="/">
-                                    <Text as="span" noOfLines={1}>{data.user.pseudo}</Text>
-                                </NavLink>
-                                <Text as="small" color="gray">{dateParse(data.createdAt)}</Text>
-                            </Stack>
-                        </Stack>
+                        <UserSniped
+                            avatar={data.user.avatar}
+                            pseudo={data.user.pseudo}
+                            publishDate={data.createdAt}
+                        />
                         <Stack>
                             <NavLink to={'/discussions?category=' + data.category.id}>
                                 <Category category={data.category} />

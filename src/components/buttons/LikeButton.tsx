@@ -1,20 +1,22 @@
-import { Button, IconButton, Stack, Text, useToast } from "@chakra-ui/react"
+import { Button, HStack, IconButton, Stack, Text, VStack, useToast } from "@chakra-ui/react"
 import { useEffect, useState } from "react"
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { apiFetch } from "../../http-common/apiFetch"
 import { isAlreadyLoked } from "../../utils"
+import { BsHeart, BsHeartFill } from "react-icons/bs"
 
 interface LikeButtonInterface {
     discussionId?: any,
     placeId?: any,
     likes: Array<any>,
     size?: any,
-    mutate: Function
+    mutate: Function,
+    showLabel?: boolean
 }
 
 
-const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null, size }) => {
+const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null, size, showLabel = false }) => {
 
     const { user }: any = useAuthContext();
 
@@ -54,9 +56,22 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
     }
 
     return (
-        <Button bg="transparent" size={size} width="fit-content" isDisabled={isBusy} onClick={handleLike} leftIcon={userLike ? <MdFavorite fontSize={24} color="red" /> : <MdFavoriteBorder fontSize={24} color="red" />}>
-            {likeLength}
-        </Button>
+        <VStack>
+            <HStack>
+                <IconButton
+                    size="md"
+                    isRound
+                    onClick={handleLike}
+                    colorScheme="red"
+                    variant="outline"
+                    isDisabled={isBusy}
+                    aria-label={"like button"}
+                    icon={userLike ? <BsHeartFill /> : <BsHeart />}
+                />
+                <Text>{likeLength}</Text>
+            </HStack>
+            {showLabel && <Text as="small">j'aime</Text> }
+        </VStack>
     )
 
 }

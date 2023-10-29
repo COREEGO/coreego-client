@@ -1,62 +1,87 @@
-import { Suspense } from "react"
+import { Suspense, useState } from "react"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import LoadingPage from "../../components/LoadingPage"
-import { Box, Button, Card, CardBody, Container, Divider, Grid, GridItem, Stack, Text } from "@chakra-ui/react"
-import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
-import UserInfo from "../../components/card/_UserInfo"
+import { Box, Image, Divider, IconButton, Modal, ModalContent, Stack, Text, Tabs, Tab, TabList, TabPanel, TabPanels, Flex, HStack, VStack, Button, Spacer } from "@chakra-ui/react"
+import MapSimpleMarker from "../../components/maps/MapSimpleMarker"
+import { getFirstImage } from "../../utils"
 import Title from "../../components/texts/Title"
-import ThumbSwiper from "../../components/swipers/ThumbSwiper"
-import DefaultSwiper from "../../components/swipers/SlideSwiper"
-import MapMarker from "../../components/maps/MapSimpleMarker"
-import CommentModule from "../components/modules/CommentModule"
+import Localisation from "../../components/card/_Localisation"
+import UserSniped from "../../components/react-ux/UserSniped"
+import SavePlaceButton from "../../components/buttons/SavePlaceButton"
+import ShareButton from "../../components/buttons/ShareButton"
 import LikeButton from "../../components/buttons/LikeButton"
-import PublishDateText from "../../components/texts/PublichDateText"
-import Category from "../../components/card/_Category"
-import City from "../../components/card/_City"
-import SlideSwiper from "../../components/swipers/SlideSwiper"
-import AddTravelBookButton from "../../components/buttons/AddTravelBookButton"
+import { BsFillStarFill, BsImages } from "react-icons/bs"
+import ImageMap from "../../components/maps/ImageMap"
 import ContainerSection from "../components/ContainerSection"
-import PlaceCard from "../../components/card/PlaceCard"
-
-
-
+import { VERTICAL_SPACING } from "../../utils/variables"
+import SlideSwiper from "../../components/swipers/SlideSwiper"
+import Galery from "../../components/card/_Galery"
+import CommentModule from "../components/modules/CommentModule"
 
 const Detail = () => {
 
     const params = useParams()
 
-    const { data, error, mutate, isLoading } = useSWR('/places/' + params.id, { suspense: true })
+    const { data: place, error, mutate, isLoading } = useSWR('/places/' + params.id, { suspense: true })
+
+    const [tabIndex, setTabIndex] = useState(0)
 
     return (
-        <Box my={VERTICAL_SPACING}>
-            <ContainerSection>
+        <Stack my={VERTICAL_SPACING} spacing={VERTICAL_SPACING}>
+            <ContainerSection withPadding={true}>
                 <Stack spacing={VERTICAL_SPACING}>
-                    {
-                        data.images.length && <Card borderRadius={0}>
-                            <SlideSwiper images={data.images} />
-                        </Card>
-                    }
-                    <PlaceCard mode="detail" place={data}>
-                        <Divider />
-                        <Stack direction="row" alignItems="center">
-                            <LikeButton placeId={data.id} likes={data.likes} mutate={() => mutate()} />
-                            <AddTravelBookButton />
+                    <Flex alignItems={"start"} flexWrap="wrap" gap={5}>
+                        <Stack>
+                            <Title text={place.title} />
+                            <Localisation city={place.city} district={place.district} />
+                            <HStack>
+                                <BsFillStarFill color="orange" />
+                                <Text>4.5</Text>
+                                <Text color="grey">(0 review) </Text>
+                            </HStack>
                         </Stack>
-                    </PlaceCard>
-                    <Card>
-                        <CardBody>
-                            <Text fontSize="lg"> <span style={{ fontWeight: 'bold' }}>Adresse :</span> {data.address} </Text>
-                        </CardBody>
-                        {/* <MapMarker data={data} /> */}
-                        <Button colorScheme="blue">Voir plus</Button>
-                    </Card>
+                        <Spacer />
+                        <HStack>
+                            <LikeButton likes={place.likes} mutate={() => mutate()} placeId={place.id} />
+                            <SavePlaceButton showLabel={false} />
+                            <ShareButton />
+                        </HStack>
+                    </Flex>
+                    <Box h={{ base: 300, md: 350 }} w="100%">
+                        <SlideSwiper images={place.images} />
+                    </Box>
+                    <Stack>
+                        <Text as="b" fontSize="xl">Description :</Text>
+                        <Text whiteSpace={"pre-line"}>
+                            {place.description}
+                        </Text>
+                    </Stack>
+                    <Box>
+                        <Divider />
+                        <Box py={3}>
+                            <UserSniped
+                                avatar={place.user.avatar}
+                                pseudo={place.user.pseudo}
+                                publishDate={place.createdAt}
+                            />
+                        </Box>
+                        <Divider />
+                    </Box>
+                    <Stack>
+                        <Text> {place.address} </Text>
+                        <Box h={{ base: 300, md: 350 }} w="100%">
+                            <MapSimpleMarker
+                                lng={place.longitude}
+                                lat={place.latitude}
+                                zoom={12}
+                            />
+                        </Box>
+                    </Stack>
                 </Stack>
             </ContainerSection>
-            <Box my={VERTICAL_SPACING}>
-                <CommentModule mutate={() => mutate()} placeId={params.id} comments={data.comments} />
-            </Box>
-        </Box>
+            <CommentModule comments={place.comments} mutate={() => mutate()} placeId={place.id} />
+        </Stack>
     )
 
 }

@@ -15,18 +15,18 @@ import { dateParse, wonToEuro } from "../../utils"
 import AvatarUx from "../../components/react-ux/AvatarUx"
 import KakaoMap from "../../components/maps/KakaoMap"
 import Localisation from "../../components/card/_Localisation"
+import UserSniped from "../../components/react-ux/UserSniped"
 
 const Detail = () => {
 
     const params = useParams()
-    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const { data, error, mutate, isLoading } = useSWR('/products/' + params.id, { suspense: true })
 
     //maintenant 37.54'7 a modifier'015, 126.87'2 a modifier'307
 
     return (
-        <>
+
             <Modal size="full" motionPreset="none" onClose={() => console.log('closed')} isOpen={true}>
                 <ModalContent>
                     <NavLink to="/market-place">
@@ -58,13 +58,11 @@ const Detail = () => {
                                 </Box>
                                 <Text as="b">{data.price} ₩</Text>
                                 <Divider />
-                                <Stack direction="row" alignItems="center">
-                                    <AvatarUx />
-                                    <Stack spacing={0}>
-                                        <Text as="b"> {data.user.pseudo} </Text>
-                                        <Text as="small" color="gray"> {dateParse(data.createdAt)} </Text>
-                                    </Stack>
-                                </Stack>
+                                <UserSniped
+                                    avatar={data.user.avatar}
+                                    pseudo={data.user.pseudo}
+                                    publishDate={data.createdAt}
+                                />
                                 <Divider />
                                 <Text as="b">Localisation :</Text>
                                 <Text as="p" fontWeight="bold">
@@ -83,7 +81,6 @@ const Detail = () => {
                     </Stack>
                 </ModalContent>
             </Modal>
-        </>
     )
 }
 

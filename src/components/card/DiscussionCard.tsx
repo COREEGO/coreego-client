@@ -1,16 +1,9 @@
-import { Box, Card, CardBody, CardFooter, CardHeader, Divider, Flex, Show, Stack, Text } from "@chakra-ui/react";
-import UserInfo from "./_UserInfo";
+import { Card, CardBody, Stack, Text } from "@chakra-ui/react";
 import NoOfComments from "./_NoOfComments";
 import NoOfLikes from "./_NoOfLikes";
 import Category from "./_Category";
-import { NavLink } from "react-router-dom";
-import PublishDateBadge from "../badges/PublishDateBadge";
-import PublishDateText from "../texts/PublichDateText";
-import LikeButton from "../buttons/LikeButton";
-import Content from "./_Content";
-import AvatarUx from "../react-ux/AvatarUx";
-import { dateParse } from "../../utils";
 import NoOfImage from "./_NoOfImage";
+import UserSniped from "../react-ux/UserSniped";
 
 
 interface DiscussionCardProps {
@@ -26,13 +19,11 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, mode, child
             <CardBody>
                 <Stack direction="row" alignItems="flex-start">
                     <Stack>
-                        <Stack direction="row" alignItems="center">
-                            <AvatarUx size="sm" user={discussion.user} />
-                            <Stack spacing={0}>
-                                <Text as="span" noOfLines={1}>{discussion.user.pseudo}</Text>
-                                <Text as="small" color="gray">{dateParse(discussion.createdAt)}</Text>
-                            </Stack>
-                        </Stack>
+                        <UserSniped
+                            avatar={discussion.user.avatar}
+                            pseudo={discussion.user.pseudo}
+                            publishDate={discussion.createdAt}
+                        />
                         <Stack spacing={0}>
                             <Category category={discussion.category} />
                             <Text as="b" noOfLines={2}> {discussion.title} </Text>

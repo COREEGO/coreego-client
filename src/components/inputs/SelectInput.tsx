@@ -5,19 +5,18 @@ import React, { useState } from "react";
 interface SelectInputInterface {
     options: Array<any>,
     value: any,
+    updateValue: (e:any) => void,
     label?: string,
     emptyOptionLabel?: string,
-    name: string
 }
 
-const SelectInput: React.FC<SelectInputInterface> = ({ emptyOptionLabel, options, value, label, name }) => {
+const SelectInput: React.FC<SelectInputInterface> = ({ emptyOptionLabel, options, value,updateValue, label }) => {
 
-    const [defaultValue, setDefaultValue] = useState<any>(value ? value : '')
 
     return (
             <FormControl>
                 {label && <FormLabel color="var(--coreego-blue)" >{label}</FormLabel>}
-                <Select id={name} name={name} value={defaultValue} onChange={(e: any) => setDefaultValue(e.target.value)}>
+                <Select value={value} onChange={(e: any) => updateValue(e.target.value)}>
                     {emptyOptionLabel && <option value="">{emptyOptionLabel}</option>}
                     {options.map((option: any) => (
                         <option key={option.id} value={option.id}>

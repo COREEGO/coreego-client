@@ -3,7 +3,7 @@ import HomePage from "../HomePage";
 import ForumPage from "../forum/ForumPage";
 import LoginPage from "../authentification/LoginPage";
 import MarketPlacePage from "../marketplace/MarketPlacePage";
-import PrivateRoute from "../../components/navigation/PrivateRoute";
+import PrivateRoute from "./PrivateRoute";
 import TravelPage from "../travel/TravelPage";
 import DiscussionDetail from "../forum/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";

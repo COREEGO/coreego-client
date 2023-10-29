@@ -1,13 +1,10 @@
 import { Box, Card, CardBody, Stack, Text } from "@chakra-ui/react";
-import UserInfo from "./_UserInfo";
-import City from "./_City";
 import Category from "./_Category";
 import NoOfLikes from "./_NoOfLikes";
 import NoOfComments from "./_NoOfComments";
-import SlideSwiper from "../swipers/SlideSwiper";
-import PublishDateBadge from "../badges/PublishDateBadge";
-import PublishDateText from "../texts/PublichDateText";
 import Galery from "./_Galery";
+import Localisation from "./_Localisation";
+import UserSniped from "../react-ux/UserSniped";
 
 interface PlaceCardInterface {
     place: any,
@@ -26,11 +23,12 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place, mode, children }) => {
             }
             <CardBody>
                 <Stack position="relative" w="100%">
-                    <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <UserInfo user={place.user} size="sm" />
-                        <PublishDateText size="xs" date={place.createdAt} />
-                    </Stack>
-                    <City city={place.city} />
+                    <UserSniped
+                        avatar={place.user.avatar}
+                        pseudo={place.user.pseudo}
+                        publishDate={place.createdAt}
+                    />
+                    <Localisation city={place.city} district={place.district} />
                     <Category category={place.category} />
                     <Text noOfLines={1} fontWeight={500}>{place.title} </Text>
                     <Text noOfLines={2}>{place.description} </Text>

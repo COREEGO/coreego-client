@@ -1,16 +1,10 @@
-import { Box, Button, ButtonGroup, Card, CardBody, CardHeader, Editable, EditableInput, EditablePreview, Flex, FormControl, FormErrorMessage, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useDisclosure, useEditableControls, useToast } from "@chakra-ui/react"
-import UserInfo from "./_UserInfo"
+import { Button, Card, CardBody, CardHeader, Flex, FormControl, FormErrorMessage, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useDisclosure, useEditableControls, useToast } from "@chakra-ui/react"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import { MdBorderColor, MdCheck, MdClose, MdDelete, MdMoreVert, MdOutlineDelete } from "react-icons/md"
-import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons"
-import { useState } from "react"
+import { MdBorderColor,  MdDelete, MdMoreVert } from "react-icons/md"
 import { apiFetch } from "../../http-common/apiFetch"
-import moment from "moment"
-import PublishDateText from "../texts/PublichDateText"
-import AvatarUx from "../react-ux/AvatarUx"
-import { dateParse } from "../../utils"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { noEmptyValidator } from "../../utils/formValidation"
+import UserSniped from "../react-ux/UserSniped"
 
 
 interface CommentCardInterface {
@@ -67,72 +61,70 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
             })
             mutate()
         } catch (error: any) {
-        toast({
-            description: `${JSON.parse(error.message)}`,
-            status: 'error',
-        })
+            toast({
+                description: `${JSON.parse(error.message)}`,
+                status: 'error',
+            })
+        }
     }
-}
 
 
-return (
-    <>
-        <Card borderRadius={0} w="100%">
-            <CardHeader>
-                <Flex>
-                    <Flex flex={1}>
-                        <Stack direction="row" alignItems="center">
-                            <AvatarUx user={comment.user} />
-                            <Stack direction="column" spacing={0}>
-                                <Text as="span"> {comment.user.pseudo} </Text>
-                                <Text as="small" color="gray"> {dateParse(comment.createdAt)} </Text>
-                            </Stack>
-                        </Stack>
+    return (
+        <>
+            <Card borderRadius={0} w="100%">
+                <CardHeader>
+                    <Flex>
+                        <Flex flex={1}>
+                            <UserSniped
+                                avatar={comment.user.avatar}
+                                pseudo={comment.user.pseudo}
+                                publishDate={comment.createdAt}
+                            />
+                        </Flex>
+                        {
+                            isCommentUser &&
+                            <Menu>
+                                <MenuButton>
+                                    <IconButton variant='ghost' aria-label={"voir menu"} icon={<MdMoreVert />} />
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem onClick={onOpen} icon={<MdBorderColor />}>Modifier</MenuItem>
+                                    <MenuItem onClick={handleDeleteComment} icon={<MdDelete />}>Supprimer</MenuItem>
+                                </MenuList>
+                            </Menu>
+                        }
                     </Flex>
-                    {
-                        isCommentUser &&
-                        <Menu>
-                            <MenuButton>
-                                <IconButton variant='ghost' aria-label={"voir menu"} icon={<MdMoreVert />} />
-                            </MenuButton>
-                            <MenuList>
-                                <MenuItem onClick={onOpen} icon={<MdBorderColor />}>Modifier</MenuItem>
-                                <MenuItem onClick={handleDeleteComment} icon={<MdDelete />}>Supprimer</MenuItem>
-                            </MenuList>
-                        </Menu>
-                    }
-                </Flex>
-            </CardHeader>
-            <CardBody>
-                <Text whiteSpace="pre-line"> {comment.content}   </Text>
-            </CardBody>
-        </Card>
-        <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
-            <ModalOverlay />
-            <ModalContent>
-                <ModalHeader>Modifier votre commentaire</ModalHeader>
-                <ModalCloseButton />
-                <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
-                    <ModalBody>
-                        <FormControl isInvalid={errors.content ? true : false}>
-                            <Textarea
-                                defaultValue={comment.content}
-                                required
-                                {...register('content', { ...noEmptyValidator })}
-                                placeholder="Modifier votre commentaire" rows={10} />
-                            {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                        </FormControl>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button isLoading={isSubmitting} w="100%" colorScheme='blue' type="submit">
-                            Ajouter
-                        </Button>
-                    </ModalFooter>
-                </Stack>
-            </ModalContent>
-        </Modal>
-    </>
-)
+                </CardHeader>
+                <CardBody>
+                    <Text whiteSpace="pre-line"> {comment.content}   </Text>
+                </CardBody>
+            </Card>
+            <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Modifier votre commentaire</ModalHeader>
+                    <ModalCloseButton />
+                    <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
+                        <ModalBody>
+                            <FormControl isInvalid={errors.content ? true : false}>
+                                <Textarea
+                                    defaultValue={comment.content}
+                                    required
+                                    {...register('content', { ...noEmptyValidator })}
+                                    placeholder="Modifier votre commentaire" rows={10} />
+                                {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
+                            </FormControl>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button isLoading={isSubmitting} w="100%" colorScheme='blue' type="submit">
+                                Ajouter
+                            </Button>
+                        </ModalFooter>
+                    </Stack>
+                </ModalContent>
+            </Modal>
+        </>
+    )
 }
 
 export default CommentCard

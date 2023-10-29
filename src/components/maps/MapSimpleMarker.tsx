@@ -3,7 +3,12 @@ import useKakaoLoader from "./useKakaoLoader"
 
 
 
-const MapSimpleMarker: React.FC<{ lat: number, lng: number, withCircle: boolean }> = ({ lat, lng, withCircle = false }) => {
+const MapSimpleMarker: React.FC<{
+    lat: number,
+    lng: number,
+    zoom?: number,
+    withCircle?: boolean
+}> = ({ lat, lng, zoom = 8, withCircle = false }) => {
 
     useKakaoLoader()
 
@@ -16,7 +21,7 @@ const MapSimpleMarker: React.FC<{ lat: number, lng: number, withCircle: boolean 
                 width: "100%",
                 height: "100%",
             }}
-            level={8} // 지도의 확대 레벨
+            level={zoom} // 지도의 확대 레벨
         >
             {
                 withCircle && <Circle

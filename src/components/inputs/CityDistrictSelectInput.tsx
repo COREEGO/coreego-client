@@ -1,4 +1,4 @@
-import { Select, Stack } from "@chakra-ui/react";
+import { FormControl, FormLabel, Select, Stack } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -34,21 +34,21 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
 
     return (
         <Stack>
-            <Select value={selectedCity} onChange={(event: any) => setSelectedCity(event.target.value)}>
-                <option value="">Toutes les villes</option>
-                {cities.map((city: any) => {
-                    return <option key={city.id} value={city.id}>{city.label}</option>;
-                })}
-            </Select>
-            {districtsList.length ? (
-                <Select value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
-                    <option value="">Voir tous</option>
-                    {
-                        districtsList.map((district: any) => {
-                            return <option key={district.id} value={district.id}>{district.label} </option>;
-                        })
-                    }
+                <Select value={selectedCity} onChange={(event: any) => setSelectedCity(event.target.value)}>
+                    <option value="">Toutes les villes</option>
+                    {cities.map((city: any) => {
+                        return <option key={city.id} value={city.id}>{city.label}</option>;
+                    })}
                 </Select>
+            {districtsList.length ? (
+                    <Select value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
+                        <option value="">Tous les districts</option>
+                        {
+                            districtsList.map((district: any) => {
+                                return <option key={district.id} value={district.id}>{district.label} </option>;
+                            })
+                        }
+                    </Select>
             ) : (
                 <></>
             )}

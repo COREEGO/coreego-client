@@ -1,4 +1,4 @@
-import { Circle, CustomOverlayMap, Map } from "react-kakao-maps-sdk"
+import { Circle, Map } from "react-kakao-maps-sdk"
 import useKakaoLoader from "./useKakaoLoader"
 
 

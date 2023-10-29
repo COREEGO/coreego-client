@@ -1,14 +1,8 @@
-import { Text, Card, Center, Stack, CardBody, Box, FormControl, FormLabel, Input, CardFooter, Button, InputRightElement, Tooltip, CardHeader, FormErrorMessage } from "@chakra-ui/react"
-import { useNavigate } from "react-router"
+import { Text, Card, Stack, CardBody, Box, FormControl, FormLabel, Input, Button, CardHeader, FormErrorMessage } from "@chakra-ui/react"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { useState } from "react"
 import ErrorAlert from "../../components/alerts/ErrorAlert"
-import { apiFetch } from "../../http-common/apiFetch"
 import { NavLink } from "react-router-dom"
-import { InfoIcon } from "@chakra-ui/icons"
-import TitlePageUx from "../../components/react-ux/TitlePageUx"
-import PageTitle from "../../components/texts/Title"
-import HeaderSection from "../../components/sections/HeaderSection"
 import CenterLayout from "../layouts/CenterLayout"
 import { useForm } from "react-hook-form"
 import { emailValidator, noEmptyValidator } from "../../utils/formValidation"
@@ -20,10 +14,7 @@ type Inputs = {
 
 export default function LoginPage() {
 
-
-
     const { login, error } = useAuthContext()
-    const [isBusy, setIsBusy] = useState<boolean>(false)
 
     const {
         control,
@@ -85,7 +76,6 @@ export default function LoginPage() {
                     </Stack>
                 </CardBody>
             </Card>
-
         </CenterLayout>
     )
 

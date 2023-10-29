@@ -1,10 +1,8 @@
-import { Box, Container, Divider, Stack, Image, ListItem, ListIcon, List, useDisclosure, Drawer, DrawerOverlay, DrawerContent, DrawerBody, Button, DrawerHeader, IconButton, DrawerCloseButton, Avatar, Menu, MenuButton, MenuList, MenuItem, Hide } from "@chakra-ui/react";
-import { CONTAINER_SIZE } from "../../utils/variables";
-import { MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore, MdLogin, MdOutlineMenu, MdClose } from "react-icons/md";
+import { Box, Divider, Stack, Image, ListItem, ListIcon, List, useDisclosure, Drawer, DrawerContent, DrawerBody, Button, DrawerHeader, IconButton, Avatar, Menu, MenuButton, MenuList, MenuItem, Hide } from "@chakra-ui/react";
+import { MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore, MdOutlineMenu, MdClose } from "react-icons/md";
 import logo from '../../images/svgs/coreego-logo.svg'
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
-import AvatarUx from "../react-ux/AvatarUx";
 import ContainerSection from "../../pages/components/ContainerSection";
 
 const links = [

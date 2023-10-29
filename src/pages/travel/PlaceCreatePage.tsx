@@ -58,6 +58,7 @@ const PlaceCreatePage = () => {
                     setIsLocalisationBusy(true)
                     const response: any = await axios.get(`https://nominatim.openstreetmap.org/search?q=${address}&format=json&limit=1`)
                     if (response && 'data' in response && response.data.length) {
+                        console.log(response)
                         if (response.data[0].display_name.includes('South Korea')) {
                             setLocalisation(response.data[0])
                             clearErrors("address")

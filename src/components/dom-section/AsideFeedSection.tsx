@@ -6,11 +6,9 @@ import Title from "../texts/Title"
 
 interface AsideFeedSectionInterface {
     title: string,
-    buttonLabel: string,
-    buttonUrl: string
 }
 
-const AsideFeedSection: React.FC<AsideFeedSectionInterface> = ({ title, buttonLabel, buttonUrl }) => {
+const AsideFeedSection: React.FC<AsideFeedSectionInterface> = ({ title}) => {
 
     return (
         <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>

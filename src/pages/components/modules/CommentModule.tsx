@@ -7,12 +7,12 @@ import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../../utils/variables"
 import { useAuthContext } from "../../../contexts/AuthProvider"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { noEmptyValidator } from "../../../utils/formValidation"
+import ContainerSection from "../ContainerSection"
 
 
 interface CommentModuleInterface {
     comments: Array<any>,
     discussionId?: any
-    placeId?: any,
     mutate: Function
 }
 
@@ -20,10 +20,9 @@ type Inputs = {
     content: string
 }
 
-const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionId, placeId, mutate }) => {
+const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionId, mutate }) => {
 
     const toast = useToast()
-    const { user } = useAuthContext()
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -45,7 +44,6 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
         try {
             await apiFetch('/comments', 'POST', {
                 discussion: discussionId && 'api/discussions/' + discussionId,
-                place: placeId && 'api/places/' + placeId,
                 content: data.content
             })
             toast({
@@ -53,32 +51,28 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
                 status: 'success',
             })
 
-            comments.push({
-                user: user,
-                content: data.content,
-                createdAt: new Date()
-            })
             reset()
             mutate()
             onClose()
+
         } catch (error: any) {
             toast({
                 description: JSON.parse(error.message),
-                status: 'success',
+                status: 'error',
             })
         }
     }
 
     return (
-        <Box>
-            <Container maxW={CONTAINER_SIZE}>
-                <Stack>
+        <Box py={VERTICAL_SPACING} boxShadow={"0 -2px 1px lightblue"}>
+            <ContainerSection withPadding={true}>
+                <Stack spacing={VERTICAL_SPACING}>
                     <Stack direction="row" alignItems="center">
                         <Text as="b">Commentaires</Text>
                         <Button size="sm" colorScheme="twitter" onClick={onOpen}>Ajouter</Button>
                     </Stack>
                     {
-                        comments.length && <Stack mt={5}>
+                        comments.length && <Stack>
                             {
                                 comments.map((comment: any) => {
                                     return (
@@ -89,7 +83,7 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
                         </Stack>
                     }
                 </Stack>
-            </Container>
+            </ContainerSection>
             <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
                 <ModalOverlay />
                 <ModalContent>

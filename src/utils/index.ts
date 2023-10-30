@@ -47,3 +47,11 @@ export const wonToEuro = (price: number) => {
 export const isAlreadyLoked = (likes : Array<any>, user: any ) => {
   return likes.find((like: any) => like.user.id === user.id)
 }
+
+export const userAlreadyTaken = (datas: Array<any>, user:any) => {
+  return datas.find((like: any) => like.user.id === user.id)
+}
+
+export const isAlreadySaved = (likes : Array<any>, user: any ) => {
+  return likes.find((like: any) => like.user.id === user.id)
+}

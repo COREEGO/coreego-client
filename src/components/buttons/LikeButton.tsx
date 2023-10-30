@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { apiFetch } from "../../http-common/apiFetch"
-import { isAlreadyLoked } from "../../utils"
+import { isAlreadyLoked, userAlreadyTaken } from "../../utils"
 import { BsHeart, BsHeartFill } from "react-icons/bs"
 
 interface LikeButtonInterface {
@@ -26,8 +26,8 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
     const [isBusy, setIsBusy] = useState<boolean>(false)
 
     useEffect(() => {
-        const currentUserLiked = isAlreadyLoked(likes, user)
-        setUserLike(currentUserLiked || null);
+        const alreadyTaken = userAlreadyTaken(likes, user)
+        setUserLike(alreadyTaken || null);
     }, [likes, user.id]);
 
 

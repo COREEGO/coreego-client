@@ -18,6 +18,10 @@ import { VERTICAL_SPACING } from "../../utils/variables"
 import SlideSwiper from "../../components/swipers/SlideSwiper"
 import Galery from "../../components/card/_Galery"
 import CommentModule from "../components/modules/CommentModule"
+import ReviewModule from "../components/modules/ReviewModule"
+import StarsAverage from "../../components/texts/StarsAverage"
+import Category from "../../components/card/_Category"
+import { NavLink } from "react-router-dom"
 
 const Detail = () => {
 
@@ -25,63 +29,68 @@ const Detail = () => {
 
     const { data: place, error, mutate, isLoading } = useSWR('/places/' + params.id, { suspense: true })
 
-    const [tabIndex, setTabIndex] = useState(0)
-
     return (
-        <Stack my={VERTICAL_SPACING} spacing={VERTICAL_SPACING}>
-            <ContainerSection withPadding={true}>
-                <Stack spacing={VERTICAL_SPACING}>
-                    <Flex alignItems={"start"} flexWrap="wrap" gap={5}>
-                        <Stack>
-                            <Title text={place.title} />
-                            <Localisation city={place.city} district={place.district} />
+        <Box py={VERTICAL_SPACING}>
+            <Stack spacing={VERTICAL_SPACING}>
+                <ContainerSection withPadding={true}>
+                    <Stack spacing={VERTICAL_SPACING}>
+                        <Flex alignItems={"start"} flexWrap="wrap" gap={5}>
+                            <Stack>
+                                <Title text={place.title} />
+                                <NavLink to={"/voyage?category=" + place.category.id}>
+                                    <Category category={place.category} />
+                                </NavLink>
+                                <NavLink to={`/voyage?city=${place.city.id}&district=${place.district.id}`}>
+                                    <Localisation city={place.city} district={place.district} />
+                                </NavLink>
+                                <StarsAverage datas={place.reviews} />
+                            </Stack>
+                            <Spacer />
                             <HStack>
-                                <BsFillStarFill color="orange" />
-                                <Text>4.5</Text>
-                                <Text color="grey">(0 review) </Text>
+                                <LikeButton likes={place.likes} mutate={() => mutate()} placeId={place.id} />
+                                <SavePlaceButton
+                                    placeId={place.id}
+                                    savedPlaces={place.savedPlaces}
+                                    mutate={() => mutate()}
+                                />
+                                <ShareButton />
                             </HStack>
-                        </Stack>
-                        <Spacer />
-                        <HStack>
-                            <LikeButton likes={place.likes} mutate={() => mutate()} placeId={place.id} />
-                            <SavePlaceButton showLabel={false} />
-                            <ShareButton />
-                        </HStack>
-                    </Flex>
-                    <Box h={{ base: 300, md: 350 }} w="100%">
-                        <SlideSwiper images={place.images} />
-                    </Box>
-                    <Stack>
-                        <Text as="b" fontSize="xl">Description :</Text>
-                        <Text whiteSpace={"pre-line"}>
-                            {place.description}
-                        </Text>
-                    </Stack>
-                    <Box>
-                        <Divider />
-                        <Box py={3}>
-                            <UserSniped
-                                avatar={place.user.avatar}
-                                pseudo={place.user.pseudo}
-                                publishDate={place.createdAt}
-                            />
-                        </Box>
-                        <Divider />
-                    </Box>
-                    <Stack>
-                        <Text> {place.address} </Text>
+                        </Flex>
                         <Box h={{ base: 300, md: 350 }} w="100%">
-                            <MapSimpleMarker
-                                lng={place.longitude}
-                                lat={place.latitude}
-                                zoom={12}
-                            />
+                            <SlideSwiper images={place.images} />
                         </Box>
+                        <Stack>
+                            <Text as="b" fontSize="lg">Description :</Text>
+                            <Text whiteSpace={"pre-line"}>
+                                {place.description}
+                            </Text>
+                        </Stack>
+                        <Box>
+                            <Divider />
+                            <Box py={3}>
+                                <UserSniped
+                                    avatar={place.user.avatar}
+                                    pseudo={place.user.pseudo}
+                                    publishDate={place.createdAt}
+                                />
+                            </Box>
+                            <Divider />
+                        </Box>
+                        <Stack>
+                            <Text> {place.address} </Text>
+                            <Box h={{ base: 300, md: 350 }} w="100%">
+                                <MapSimpleMarker
+                                    lng={place.longitude}
+                                    lat={place.latitude}
+                                    zoom={12}
+                                />
+                            </Box>
+                        </Stack>
                     </Stack>
-                </Stack>
-            </ContainerSection>
-            <CommentModule comments={place.comments} mutate={() => mutate()} placeId={place.id} />
-        </Stack>
+                </ContainerSection>
+                <ReviewModule placeId={place.id} mutate={() => mutate()} reviews={place.reviews} />
+            </Stack>
+        </Box>
     )
 
 }

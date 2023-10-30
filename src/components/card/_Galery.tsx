@@ -21,7 +21,7 @@ const Galery: React.FC<GaleryInterface> = ({ images }) => {
         <Stack spacing={0} flexWrap="wrap" direction="row" h="100%" w="100%">
             {
                 imgToLoad.map((image: any) => {
-                    return <Image p={2} borderRadius="md" key={image.id} w={imageWidth} h={imageHeight} objectPosition="center" objectFit="cover" src={BASE_URL + image.filePath} />
+                    return <Image p={0.5} borderRadius="md" key={image.id} w={imageWidth} h={imageHeight} objectPosition="center" objectFit="cover" src={BASE_URL + image.filePath} />
                 })
             }
         </Stack>

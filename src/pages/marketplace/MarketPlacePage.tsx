@@ -23,8 +23,8 @@ const MarketPlacePage = () => {
     return (
         <>
             <ImageHeader imgUrl={HEADER_IMG} />
-            <Stack spacing={VERTICAL_SPACING}>
-                <AsideFeedSection title="Market Place" buttonLabel="+ Produit" buttonUrl="/market-place/product/create" />
+            <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>
+                <AsideFeedSection title="Market Place" />
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <Stack spacing={VERTICAL_SPACING}>

@@ -1,6 +1,6 @@
-import { Button, Card, CardBody, CardHeader, Flex, FormControl, FormErrorMessage, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Text, Textarea, useDisclosure, useEditableControls, useToast } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, CardHeader, Flex, FormControl, FormErrorMessage, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Stack, Text, Textarea, useDisclosure, useEditableControls, useToast } from "@chakra-ui/react"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import { MdBorderColor,  MdDelete, MdMoreVert } from "react-icons/md"
+import { MdBorderColor, MdDelete, MdMoreVert } from "react-icons/md"
 import { apiFetch } from "../../http-common/apiFetch"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { noEmptyValidator } from "../../utils/formValidation"
@@ -55,7 +55,6 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
 
             await apiFetch('/comments/' + comment.id, 'DELETE')
             toast({
-                title: 'Suucès',
                 description: "Commentaire supprimé",
                 status: 'success',
             })
@@ -71,21 +70,20 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
 
     return (
         <>
-            <Card borderRadius={0} w="100%">
+            <Card w="100%">
                 <CardHeader>
-                    <Flex>
-                        <Flex flex={1}>
-                            <UserSniped
-                                avatar={comment.user.avatar}
-                                pseudo={comment.user.pseudo}
-                                publishDate={comment.createdAt}
-                            />
-                        </Flex>
+                    <Flex alignItems={"flex-start"}>
+                        <UserSniped
+                            avatar={comment.user.avatar}
+                            pseudo={comment.user.pseudo}
+                            publishDate={comment.createdAt}
+                        />
+                        <Spacer />
                         {
                             isCommentUser &&
                             <Menu>
                                 <MenuButton>
-                                    <IconButton variant='ghost' aria-label={"voir menu"} icon={<MdMoreVert />} />
+                                    <MdMoreVert />
                                 </MenuButton>
                                 <MenuList>
                                     <MenuItem onClick={onOpen} icon={<MdBorderColor />}>Modifier</MenuItem>
@@ -95,7 +93,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
                         }
                     </Flex>
                 </CardHeader>
-                <CardBody>
+                <CardBody pt={0}>
                     <Text whiteSpace="pre-line"> {comment.content}   </Text>
                 </CardBody>
             </Card>

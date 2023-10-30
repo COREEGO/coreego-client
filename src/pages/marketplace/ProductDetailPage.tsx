@@ -27,36 +27,39 @@ const Detail = () => {
 
     return (
 
-            <Modal size="full" motionPreset="none" onClose={() => console.log('closed')} isOpen={true}>
-                <ModalContent>
-                    <NavLink to="/market-place">
-                        <IconButton
-                            isRound={true}
-                            width={"fit-content"}
-                            position={"fixed"}
-                            left={2} top={2}
-                            colorScheme="red"
-                            aria-label={"close"}
-                            icon={<BsXLg />}
-                            zIndex={10}
-                            opacity={0.8}
-                        />
-                    </NavLink>
-                    <Stack
-                        spacing={0}
-                        direction={{ base: 'column', md: 'row' }}>
-                        <Center h={{ base: 300, md: "100vh" }} width={"100%"} flex={1} bg="gray.100">
-                            <Box w="100%" h={"100%"}>
-                                <ThumbSwiper images={data.images} />
-                            </Box>
-                        </Center>
-                        <Box bg="white" boxShadow={"0 0 5px grey"} w={{ base: '100%', md: 400 }} >
-                            <Stack p={3}>
+        <Modal size="full" motionPreset="none" onClose={() => console.log('closed')} isOpen={true}>
+            <ModalContent>
+                <NavLink to="/market-place">
+                    <IconButton
+                        isRound={true}
+                        width={"fit-content"}
+                        position={"fixed"}
+                        left={2} top={2}
+                        colorScheme="red"
+                        aria-label={"close"}
+                        icon={<BsXLg />}
+                        zIndex={10}
+                        opacity={0.8}
+                    />
+                </NavLink>
+                <Stack
+                    spacing={0}
+                    direction={{ base: 'column', md: 'row' }}>
+                    <Center h={{ base: 300, md: "100vh" }} width={"100%"} flex={1} bg="gray.100">
+                        <Box w="100%" h={"100%"}>
+                            <ThumbSwiper images={data.images} />
+                        </Box>
+                    </Center>
+                    <Box bg="white" boxShadow={"0 0 5px grey"} w={{ base: '100%', md: 400 }} >
+                        <Stack p={3} spacing={VERTICAL_SPACING}>
+                            <Stack>
                                 <Title text={data.title} />
                                 <Box maxH={200} overflowY="auto">
                                     <Text whiteSpace="pre-line"> {data.description} </Text>
                                 </Box>
                                 <Text as="b">{data.price} ₩</Text>
+                            </Stack>
+                            <Stack>
                                 <Divider />
                                 <UserSniped
                                     avatar={data.user.avatar}
@@ -64,10 +67,10 @@ const Detail = () => {
                                     publishDate={data.createdAt}
                                 />
                                 <Divider />
+                            </Stack>
+                            <Stack>
                                 <Text as="b">Localisation :</Text>
-                                <Text as="p" fontWeight="bold">
-                                    <Localisation city={data.city} district={data.district} />
-                                </Text>
+                                <Localisation city={data.city} district={data.district} />
                                 <Box h={200} w={"100%"} maxW={"100%"}>
                                     <KakaoMap
                                         lat={data.district.latitude}
@@ -75,12 +78,13 @@ const Detail = () => {
                                         withCircle={true}
                                     />
                                 </Box>
-                                <Button colorScheme="messenger" leftIcon={<BsMessenger />}>Contacter le vendeur</Button>
                             </Stack>
-                        </Box>
-                    </Stack>
-                </ModalContent>
-            </Modal>
+                            <Button colorScheme="messenger" leftIcon={<BsMessenger />}>Contacter le vendeur</Button>
+                        </Stack>
+                    </Box>
+                </Stack>
+            </ModalContent>
+        </Modal>
     )
 }
 

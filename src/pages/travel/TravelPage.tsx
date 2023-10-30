@@ -25,8 +25,8 @@ const TravelPage = () => {
     return (
         <>
             <ImageHeader imgUrl={HEADER_IMG} />
-            <Stack spacing={VERTICAL_SPACING}>
-                <AsideFeedSection title="Voyage" buttonLabel="+ Lieu" buttonUrl="/voyage/place/create" />
+            <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>
+                <AsideFeedSection title="Voyage" />
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <Flex gap='2' alignItems="center" flexWrap="wrap">

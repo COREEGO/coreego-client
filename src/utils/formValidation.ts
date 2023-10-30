@@ -13,6 +13,12 @@ export const minLengthValidatior = (lenth: number) => {
   };
 };
 
+export const minNumber = (value: number) => {
+  return {
+    min: {value: value, message: `Minimum de ${value} ` }
+  }
+}
+
 export const maxLengthValidator = (lenth: number) => {
   return {
     maxLength: { value: lenth, message: `Maximum ${lenth} caratères` },

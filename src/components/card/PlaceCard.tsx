@@ -5,6 +5,8 @@ import NoOfComments from "./_NoOfComments";
 import Galery from "./_Galery";
 import Localisation from "./_Localisation";
 import UserSniped from "../react-ux/UserSniped";
+import Stars from "./_Stars";
+import StarsAverage from "../texts/StarsAverage";
 
 interface PlaceCardInterface {
     place: any,
@@ -35,7 +37,9 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place, mode, children }) => {
                     {
                         mode === 'feed' ? <Stack direction="row">
                             <NoOfLikes nb={place.likes.length} />
-                            <NoOfComments nb={place.comments.length} />
+                            <StarsAverage datas={place.reviews}  />
+                            {/* <Stars star={} /> */}
+                            {/* <NoOfComments nb={place.comments.length} /> */}
                         </Stack> : <>
                             {children}
                         </>

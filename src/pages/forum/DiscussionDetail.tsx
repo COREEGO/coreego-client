@@ -28,16 +28,19 @@ const Detail: React.FC<any> = () => {
         <>
             <Box py={VERTICAL_SPACING} bg="white">
                 <ContainerPage withPadding={true}>
-                    <Stack>
-                        <UserSniped
-                            avatar={data.user.avatar}
-                            pseudo={data.user.pseudo}
-                            publishDate={data.createdAt}
-                        />
+                    <Stack spacing={VERTICAL_SPACING}>
                         <Stack>
-                            <NavLink to={'/discussions?category=' + data.category.id}>
+
+                            <UserSniped
+                                avatar={data.user.avatar}
+                                pseudo={data.user.pseudo}
+                                publishDate={data.createdAt}
+                            />
+                            <NavLink to={'/forum?category=' + data.category.id}>
                                 <Category category={data.category} />
                             </NavLink>
+                        </Stack>
+                        <Stack>
                             <Title text={data.title} />
                         </Stack>
                         <Flex alignItems="center" gap={2}>
@@ -55,16 +58,15 @@ const Detail: React.FC<any> = () => {
                         {
                             data.images && <Flex flexWrap="wrap" gap={2}>
                                 {data.images.map((image: any) => {
-                                    return <Image height={250} w="auto" maxW="100%" src={BASE_URL + image.filePath} />
+                                    return <Image key={image.id} height={250} w="auto" maxW="100%" src={BASE_URL + image.filePath} />
                                 })}
                             </Flex>
                         }
                     </Stack>
                 </ContainerPage>
             </Box>
-            <Box py={VERTICAL_SPACING} bg="white">
-                <CommentModule mutate={() => mutate()} discussionId={params.id} comments={data.comments} />
-            </Box>
+            <CommentModule mutate={() => mutate()} discussionId={params.id} comments={data.comments} />
+
         </>
     )
 }

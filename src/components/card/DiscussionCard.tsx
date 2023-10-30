@@ -15,7 +15,7 @@ interface DiscussionCardProps {
 const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, mode, children }) => {
 
     return (
-        <Card borderRadius={0} >
+        <Card>
             <CardBody>
                 <Stack direction="row" alignItems="flex-start">
                     <Stack>

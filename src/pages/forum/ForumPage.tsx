@@ -22,8 +22,8 @@ const ForumPage: React.FC<any> = () => {
     return (
         <>
             <ImageHeader imgUrl={HEADER_IMG} />
-            <Stack spacing={VERTICAL_SPACING}>
-                <AsideFeedSection title="Forum" buttonLabel="+ Discussion" buttonUrl="/discussions/create" />
+            <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>
+                <AsideFeedSection title="Forum" />
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <Flex gap='2' alignItems="center" flexWrap="wrap">

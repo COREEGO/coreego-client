@@ -83,7 +83,7 @@ const DrawerNavigation = () => {
 }
 
 const NavigationUserMenu = () => {
-    const { user, logout } = useAuthContext()
+    const { user, logout } : any = useAuthContext()
 
     return (
         <Menu>
@@ -96,7 +96,10 @@ const NavigationUserMenu = () => {
             <MenuList>
                 {user ?
                     <>
-                        <MenuItem>menu 1</MenuItem>
+                        <NavLink to={`/user/profil/${user.id}`}>
+                            <MenuItem>Profil</MenuItem>
+                        </NavLink>
+
                         <MenuItem>menu 2</MenuItem>
                         <Divider />
                         <MenuItem onClick={logout} >Se deconnecter</MenuItem>

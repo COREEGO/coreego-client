@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, Divider, Text, Stack, Flex, Image, Button, Spacer } from "@chakra-ui/react";
+import { Avatar, Box, Card, Divider, Text, Stack, Flex, Image, Button, Spacer, useToast } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
@@ -28,9 +28,8 @@ const Detail: React.FC<any> = () => {
         <>
             <Box py={VERTICAL_SPACING} bg="white">
                 <ContainerPage withPadding={true}>
-                    <Stack spacing={VERTICAL_SPACING}>
+                    <Stack>
                         <Stack>
-
                             <UserSniped
                                 avatar={data.user.avatar}
                                 pseudo={data.user.pseudo}

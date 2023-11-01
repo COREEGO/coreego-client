@@ -1,4 +1,4 @@
-import { Badge, Flex, Stack, Text } from "@chakra-ui/react"
+import { Badge, Box, Flex, Stack, Text } from "@chakra-ui/react"
 import { MdLens } from "react-icons/md"
 
 
@@ -10,12 +10,15 @@ interface CategoryInterface {
 const Category: React.FC<CategoryInterface> = ({ category, size = 'md' }) => {
 
     return (
-        <Flex gap={1} alignItems="center">
-            <Text fontSize={size}>
-                <MdLens color={category.color}  />
-            </Text>
-            <Text fontSize={size}> {category.label} </Text>
-        </Flex>
+        <Box>
+            <Badge color="white" bg={category.color}> {category.label} </Badge>
+        </Box>
+        // <Flex gap={1} alignItems="center">
+        //     <Text fontSize={size}>
+        //         <MdLens color={category.color}  />
+        //     </Text>
+        //     <Text fontSize={size}> {category.label} </Text>
+        // </Flex>
     )
 
 }

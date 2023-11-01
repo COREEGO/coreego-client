@@ -8,11 +8,9 @@ import UserSniped from "../react-ux/UserSniped";
 
 interface DiscussionCardProps {
     discussion: any,
-    mode: 'feed' | 'detail',
-    children?: React.ReactNode
 }
 
-const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, mode, children }) => {
+const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
 
     return (
         <Card>

@@ -24,35 +24,11 @@ const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
 
     const { user }: any = useAuthContext()
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const { register, control, handleSubmit, reset, formState: { errors, isSubmitting }
-    } = useForm<Inputs>({ mode: 'onTouched' })
 
     const isReviewUser = user.id === review.user.id
 
     const toast = useToast()
 
-
-    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
-        try {
-            await apiFetch('/reviews/' + review.id, 'PATCH', {
-                content: data.content,
-                stars: data.stars
-            })
-            toast({
-                description: "Commentaire modifié",
-                status: 'success',
-            })
-            mutate()
-            onClose()
-        } catch (error: any) {
-            toast({
-                description: `${JSON.parse(error.message)}`,
-                status: 'error',
-            })
-        }
-    }
 
     const handleDeleteReview = async () => {
         try {
@@ -74,7 +50,6 @@ const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
     }
 
     return (
-        <>
             <Card>
                 <CardHeader>
                     <Flex alignItems={"flex-start"}>
@@ -91,7 +66,6 @@ const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
                                     <MdMoreVert />
                                 </MenuButton>
                                 <MenuList>
-                                    <MenuItem onClick={onOpen} icon={<MdBorderColor />}>Modifier</MenuItem>
                                     <MenuItem onClick={handleDeleteReview} icon={<MdDelete />}>Supprimer</MenuItem>
                                 </MenuList>
                             </Menu>
@@ -105,44 +79,7 @@ const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
                     </Stack>
                 </CardBody>
             </Card>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Modifier votre commentaire</ModalHeader>
-                    <ModalCloseButton />
-                    <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
-                        <ModalBody>
-                            <Stack>
-                                <FormControl isInvalid={errors.stars ? true : false}>
-                                    <Controller
-                                        control={control}
-                                        name="stars"
-                                        rules={{...minNumber(1), ...noEmptyValidator}}
-                                        render={({ field: { onChange, value = review.stars } }) => (
-                                            <StarsButton onChange={onChange} value={value} />
-                                        )}
-                                    />
-                                    {errors.stars && <FormErrorMessage>{errors.stars.message}</FormErrorMessage>}
-                                </FormControl>
-                                <FormControl isInvalid={errors.content ? true : false}>
-                                    <Textarea
-                                        defaultValue={review.content}
-                                        required
-                                        {...register('content', { ...noEmptyValidator })}
-                                        placeholder="Ecrivez votre commentaire" rows={10} />
-                                    {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                                </FormControl>
-                            </Stack>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button isLoading={isSubmitting} w="100%" colorScheme='blue' type="submit">
-                                Modifier
-                            </Button>
-                        </ModalFooter>
-                    </Stack>
-                </ModalContent>
-            </Modal>
-        </>
+
     )
 
 }

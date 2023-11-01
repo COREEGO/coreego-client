@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { apiFetch } from "../../http-common/apiFetch"
-import { isAlreadyLoked, userAlreadyTaken } from "../../utils"
+import { userAlreadyTaken } from "../../utils"
 import { BsHeart, BsHeartFill } from "react-icons/bs"
 
 interface LikeButtonInterface {

@@ -10,19 +10,15 @@ import StarsAverage from "../texts/StarsAverage";
 
 interface PlaceCardInterface {
     place: any,
-    mode: 'feed' | 'detail',
-    children?: React.ReactNode
 }
 
-const PlaceCard: React.FC<PlaceCardInterface> = ({ place, mode, children }) => {
+const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
 
     return (
         <Card >
-            {
-                mode === 'feed' && <Box h={{ base: 200, md: 250 }} w="100%">
-                    <Galery images={place.images} />
-                </Box>
-            }
+            <Box h={{ base: 200, md: 250 }} w="100%">
+                <Galery images={place.images} />
+            </Box>
             <CardBody>
                 <Stack position="relative" w="100%">
                     <UserSniped
@@ -34,17 +30,10 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place, mode, children }) => {
                     <Category category={place.category} />
                     <Text noOfLines={1} fontWeight={500}>{place.title} </Text>
                     <Text noOfLines={2}>{place.description} </Text>
-                    {
-                        mode === 'feed' ? <Stack direction="row">
-                            <NoOfLikes nb={place.likes.length} />
-                            <StarsAverage datas={place.reviews}  />
-                            {/* <Stars star={} /> */}
-                            {/* <NoOfComments nb={place.comments.length} /> */}
-                        </Stack> : <>
-                            {children}
-                        </>
-                    }
-
+                    <Stack direction="row">
+                        <NoOfLikes nb={place.likes.length} />
+                        <StarsAverage datas={place.reviews} />
+                    </Stack>
                 </Stack>
             </CardBody>
         </Card>

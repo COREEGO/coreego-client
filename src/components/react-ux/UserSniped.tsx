@@ -5,14 +5,15 @@ import { dateParse } from "../../utils"
 interface UserSnipedInterface {
     avatar: string,
     pseudo?: string,
-    publishDate?: Date
+    publishDate?: Date,
+    size?: string
 }
 
-const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate }) => {
+const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate, size = "sm" }) => {
 
     return (
         <HStack>
-            <Avatar size="sm" src={BASE_URL + avatar} />
+            <Avatar size={size} src={BASE_URL + avatar} />
             {
                 (pseudo || publishDate) && <Stack spacing={0}>
                     {pseudo && <Text as="span" noOfLines={1}>{pseudo}</Text>}

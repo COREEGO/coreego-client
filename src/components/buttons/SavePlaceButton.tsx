@@ -35,7 +35,7 @@ const SavePlaceButton: React.FC<SavePlaceButtonInterfcae> = ({ showLabel = false
                 await apiFetch('/saved_places/' + userSavedPlace.id, 'DELETE')
                 setUserSavedPlace(null)
                 toast({
-                    description: "Place non enregistré",
+                    description: "lieu non enregistré",
                     status: 'success'
                 })
             }else{
@@ -44,7 +44,7 @@ const SavePlaceButton: React.FC<SavePlaceButtonInterfcae> = ({ showLabel = false
                 })
                 setUserSavedPlace(user)
                 toast({
-                    description: "Place enregistré",
+                    description: "lieu enregistré",
                     status: 'success'
                 })
             }

@@ -5,9 +5,9 @@ import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../../utils/variables"
 import { minLengthValidatior, minNumber, noEmptyValidator } from "../../../utils/formValidation"
 import { apiFetch } from "../../../http-common/apiFetch"
 import StarsButton from "../../../components/buttons/StarsButton"
-import { ReactElement, JSXElementConstructor } from "react"
 import ReviewCard from "../../../components/card/ReviewCard"
 import ContainerSection from "../ContainerSection"
+import { userAlreadyTaken } from "../../../utils"
 
 interface ReviewModuleInterface {
     placeId: number,
@@ -26,6 +26,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const { user } = useAuthContext()
 
     reviews = reviews.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -41,18 +42,30 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
         mode: 'onTouched'
     })
 
+    const ownReview = userAlreadyTaken(reviews, user)
+
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            await apiFetch('/reviews', 'post', {
-                place: '/api/places/' + placeId,
-                stars: data.stars,
-                content: data.content
-            })
-
-            toast({
-                description: "Avis ajouté",
-                status: 'success',
-            })
+            if (!ownReview) {
+                await apiFetch('/reviews', 'post', {
+                    place: '/api/places/' + placeId,
+                    stars: data.stars,
+                    content: data.content
+                })
+                toast({
+                    description: "Avis ajouté",
+                    status: 'success',
+                })
+            } else {
+                await apiFetch('/reviews/' + ownReview.id, 'PATCH', {
+                    content: data.content,
+                    stars: data.stars
+                })
+                toast({
+                    description: "Commentaire modifié",
+                    status: 'success',
+                })
+            }
 
             reset()
             mutate()
@@ -66,13 +79,18 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
         }
     }
 
+
     return (
         <Box py={VERTICAL_SPACING} boxShadow={"0 -2px 1px lightblue"}>
             <ContainerSection withPadding={true}>
                 <Stack spacing={VERTICAL_SPACING}>
                     <Stack direction="row" alignItems="center">
                         <Text as="b">Avis</Text>
-                        <Button size="sm" colorScheme="twitter" onClick={onOpen}>Ajouter</Button>
+                        <Button size="sm" colorScheme="twitter" onClick={onOpen}>
+                            {
+                                ownReview ? 'Modifier' : 'Ajouter'
+                            }
+                        </Button>
                     </Stack>
                     {
                         reviews.length && <Stack>
@@ -99,7 +117,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                                         control={control}
                                         name="stars"
                                         rules={{ ...minNumber(1), ...noEmptyValidator }}
-                                        render={({ field: { onChange, value } }) => (
+                                        render={({ field: { onChange, value = ownReview ? ownReview.stars : 0 } }) => (
                                             <StarsButton onChange={onChange} value={value} />
                                         )}
                                     />
@@ -108,6 +126,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                                 <FormControl isInvalid={errors.content ? true : false}>
                                     <Textarea
                                         required
+                                        defaultValue={ownReview ? ownReview.content : ''}
                                         {...register('content', { ...noEmptyValidator })}
                                         placeholder="Ecrivez votre commentaire" rows={10} />
                                     {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}

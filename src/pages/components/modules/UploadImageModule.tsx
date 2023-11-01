@@ -5,13 +5,9 @@ import { useEffect } from "react"
 import { FaTrashCan } from "react-icons/fa6";
 
 
-interface UploadImageModuleInterface {
-    onChange: Function,
-}
+const UploadImageModule: React.FC<{onChange: Function, multiple?: boolean}> = ({ onChange, multiple = true }) => {
 
-const UploadImageModule: React.FC<UploadImageModuleInterface> = ({ onChange }) => {
-
-    const { files, addFile, removeFile } = useFile()
+    const { files, addFile, removeFile } = useFile(multiple)
 
     useEffect(() => {
         onChange(files)
@@ -29,7 +25,7 @@ const UploadImageModule: React.FC<UploadImageModuleInterface> = ({ onChange }) =
                 })
             }
             <Box borderRadius="md" border="3px dashed grey" w={100} h={100} position="relative">
-                <Input accept="image/*" multiple onChange={(file: any) => addFile(file.target.files)} opacity={0} border="none" type="file" position="absolute" left={0} top={0} h="100%" w="100%" />
+                <Input accept="image/*" multiple={multiple} onChange={(file: any) => addFile(file.target.files)} opacity={0} border="none" type="file" position="absolute" left={0} top={0} h="100%" w="100%" />
                 <Center justifyContent="center" h="100%">
                     <MdImage size={50} color="grey" />
                 </Center>

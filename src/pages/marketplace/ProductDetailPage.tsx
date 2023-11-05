@@ -1,29 +1,25 @@
-import { Box, Button, Card, CardBody, Center, Container, Divider, Flex, Grid, GridItem, IconButton, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Stack, Table, TableContainer, Tbody, Td, Text, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Center, Divider, IconButton, Modal, ModalContent, Stack, Text } from "@chakra-ui/react"
 import { VERTICAL_SPACING } from "../../utils/variables"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import { Suspense } from "react"
 import LoadingPage from "../../components/LoadingPage"
-import { BsMessenger, BsSend, BsXLg } from "react-icons/bs";
-import ProductCard from "../../components/card/ProductCard"
-import ContainerSection from "../components/ContainerSection"
-import SlideSwiper from "../../components/swipers/SlideSwiper"
+import { BsMessenger, BsXLg } from "react-icons/bs";
 import ThumbSwiper from "../../components/swipers/ThumbSwiper"
 import { NavLink } from "react-router-dom"
-import Title from "../../components/texts/Title"
-import { dateParse, wonToEuro } from "../../utils"
-import AvatarUx from "../../components/react-ux/AvatarUx"
+import TitleText from "../../components/texts/TitleText"
 import KakaoMap from "../../components/maps/KakaoMap"
-import Localisation from "../../components/card/_Localisation"
 import UserSniped from "../../components/react-ux/UserSniped"
+import LocalisationText from "../../components/texts/LocalisationText"
+import PriceText from "../../components/texts/PriceText"
 
 const Detail = () => {
 
     const params = useParams()
 
-    const { data, error, mutate, isLoading } = useSWR('/products/' + params.id, { suspense: true })
+    const { data, error } = useSWR('/products/' + params.id, { suspense: true })
 
-    //maintenant 37.54'7 a modifier'015, 126.87'2 a modifier'307
+    if(error) console.error(error)
 
     return (
 
@@ -53,11 +49,11 @@ const Detail = () => {
                     <Box bg="white" boxShadow={"0 0 5px grey"} w={{ base: '100%', md: 400 }} >
                         <Stack p={3} spacing={VERTICAL_SPACING}>
                             <Stack>
-                                <Title text={data.title} />
+                                <TitleText text={data.title} />
                                 <Box maxH={200} overflowY="auto">
                                     <Text whiteSpace="pre-line"> {data.description} </Text>
                                 </Box>
-                                <Text as="b">{data.price} ₩</Text>
+                                <PriceText price={data.price} />
                             </Stack>
                             <Stack>
                                 <Divider />
@@ -70,7 +66,7 @@ const Detail = () => {
                             </Stack>
                             <Stack>
                                 <Text as="b">Localisation :</Text>
-                                <Localisation city={data.city} district={data.district} />
+                                <LocalisationText city={data.city} district={data.district} />
                                 <Box h={200} w={"100%"} maxW={"100%"}>
                                     <KakaoMap
                                         lat={data.district.latitude}

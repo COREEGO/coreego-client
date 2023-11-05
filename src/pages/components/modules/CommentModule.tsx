@@ -12,7 +12,8 @@ import ContainerSection from "../ContainerSection"
 
 interface CommentModuleInterface {
     comments: Array<any>,
-    discussionId?: any
+    discussionId?: any,
+    placeId?: any,
     mutate: Function
 }
 
@@ -20,7 +21,7 @@ type Inputs = {
     content: string
 }
 
-const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionId, mutate }) => {
+const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionId, placeId, mutate }) => {
 
     const toast = useToast()
 
@@ -44,6 +45,7 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
         try {
             await apiFetch('/comments', 'POST', {
                 discussion: discussionId && 'api/discussions/' + discussionId,
+                place: placeId && 'api/places/' + placeId,
                 content: data.content
             })
             toast({
@@ -63,6 +65,25 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
         }
     }
 
+    const onDelete = async (commentId: number) => {
+        try {
+            const result = window.confirm('Supprimer ce commentaire ?')
+            if (!result) return
+
+            await apiFetch('/comments/' + commentId, 'DELETE')
+            toast({
+                description: "Commentaire supprimé",
+                status: 'success',
+            })
+            mutate()
+        } catch (error: any) {
+            toast({
+                description: `${JSON.parse(error.message)}`,
+                status: 'error',
+            })
+        }
+    }
+
     return (
         <Box py={VERTICAL_SPACING} boxShadow={"0 -2px 1px lightblue"}>
             <ContainerSection withPadding={true}>
@@ -76,7 +97,8 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
                             {
                                 comments.map((comment: any) => {
                                     return (
-                                        <CommentCard mutate={() => mutate()} key={comment.id} comment={comment} />
+                                        <CommentCard mutate={mutate} onDelete={(id:number) => onDelete(id)}
+                                         key={comment.id} comment={comment} />
                                     )
                                 })
                             }

@@ -1,9 +1,9 @@
 import { Card, CardBody, Stack, Text } from "@chakra-ui/react";
-import NoOfComments from "./_NoOfComments";
-import NoOfLikes from "./_NoOfLikes";
-import Category from "./_Category";
-import NoOfImage from "./_NoOfImage";
 import UserSniped from "../react-ux/UserSniped";
+import ImageCountIcon from "../icons/ImageCountIcon";
+import LikeCountIcon from "../icons/LikeCountIcon";
+import CommentCountIcon from "../icons/CommentCounterIcon";
+import CategoryText from "../texts/CategoryText";
 
 
 interface DiscussionCardProps {
@@ -23,14 +23,14 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
                             publishDate={discussion.createdAt}
                         />
                         <Stack spacing={0}>
-                            <Category category={discussion.category} />
+                            <CategoryText category={discussion.category} />
                             <Text as="b" noOfLines={2}> {discussion.title} </Text>
                             <Text as="span" noOfLines={1}> {discussion.content} </Text>
                         </Stack>
                         <Stack direction="row">
-                            <NoOfComments nb={discussion.comments.length} />
-                            <NoOfLikes nb={discussion.likes.length} />
-                            <NoOfImage nb={discussion.images.length} />
+                            <CommentCountIcon length={discussion.comments.length} />
+                            <LikeCountIcon length={discussion.likes.length} />
+                            <ImageCountIcon length={discussion.images.length} />
                         </Stack>
                     </Stack>
                 </Stack>

@@ -44,7 +44,7 @@ export const wonToEuro = (price: number) => {
   return convertir;
 };
 
-export const userAlreadyTaken = (datas: Array<any>, user:any) => {
+export const findMatchingUser = (datas: Array<any>, user:any) => {
   return datas.find((like: any) => like.user.id === user.id)
 }
 

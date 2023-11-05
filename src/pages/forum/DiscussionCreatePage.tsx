@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardBody, CardFooter, CardHeader, Container, FormControl, FormErrorMessage, FormHelperText, FormLabel, Grid, GridItem, Input, Select, Stack, Textarea, useToast } from "@chakra-ui/react"
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
-import Title from "../../components/texts/Title"
+import TitleText from "../../components/texts/TitleText"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import RichEditor from "../../components/editor/RichEditor"
@@ -77,7 +77,7 @@ const DiscussionCreatePage = () => {
             <ContainerSection>
                 <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
                     <Card>
-                        <CardHeader><Title text="Ajouter une discussion" /></CardHeader>
+                        <CardHeader><TitleText text="Ajouter une discussion" /></CardHeader>
                         <CardBody>
                             <Stack>
                                 <FormControl isInvalid={errors.title ? true : false}>

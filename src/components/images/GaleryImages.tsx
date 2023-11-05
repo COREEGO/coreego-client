@@ -1,16 +1,14 @@
-import { Box, Center, Grid, GridItem, Image, Stack } from "@chakra-ui/react"
+import { Box, Center, Grid, GridItem, HStack, Image, Stack, Wrap } from "@chakra-ui/react"
 
 
 
-interface GaleryInterface {
+interface PropsInterface {
     images: Array<any>
 }
 
-const Galery: React.FC<GaleryInterface> = ({ images }) => {
+const GaleryImages: React.FC<PropsInterface> = ({ images }) => {
 
     const BASE_URL = process.env.REACT_APP_BASE_URL;
-
-    const repeatNb = images.length > 1 ? 2 : 1
 
     const imgToLoad = images.filter((image: any, index: number) => (images.length > 4 ? index < 4 : index >= 0))
 
@@ -18,16 +16,16 @@ const Galery: React.FC<GaleryInterface> = ({ images }) => {
     const imageWidth = imgToLoad.length > 1 ? '50%' : '100%'
 
     return (
-        <Stack spacing={0} flexWrap="wrap" direction="row" h="100%" w="100%">
+        <HStack flexWrap={"wrap"} h="100%" w="100%" spacing={0}>
             {
                 imgToLoad.map((image: any) => {
                     return <Image p={0.5} borderRadius="md" key={image.id} w={imageWidth} h={imageHeight} objectPosition="center" objectFit="cover" src={BASE_URL + image.filePath} />
                 })
             }
-        </Stack>
+        </HStack>
 
     )
 
 }
 
-export default Galery
+export default GaleryImages

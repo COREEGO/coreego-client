@@ -1,13 +1,12 @@
-import { Box, Button, Container, Stack, useDisclosure, useToast, Text, FormControl, FormErrorMessage, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea } from "@chakra-ui/react"
+import {Button, Stack, useDisclosure, useToast, FormControl, FormErrorMessage, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, FocusLock, Popover, PopoverArrow, PopoverCloseButton, PopoverContent, PopoverTrigger } from "@chakra-ui/react"
 import { useAuthContext } from "../../../contexts/AuthProvider"
-import { Controller, ControllerFieldState, ControllerRenderProps, FieldValues, SubmitHandler, UseFormStateReturn, useForm } from "react-hook-form"
-import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../../utils/variables"
-import { minLengthValidatior, minNumber, noEmptyValidator } from "../../../utils/formValidation"
+import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { minNumber, noEmptyValidator } from "../../../utils/formValidation"
 import { apiFetch } from "../../../http-common/apiFetch"
-import StarsButton from "../../../components/buttons/StarsButton"
 import ReviewCard from "../../../components/card/ReviewCard"
-import ContainerSection from "../ContainerSection"
-import { userAlreadyTaken } from "../../../utils"
+import { findMatchingUser } from "../../../utils"
+import StarsAverageIcon from "../../../components/icons/StarsAverageIcon"
+import ReviewScoreCheckbox from "../../../components/inputs/ReviewScoreCheckbox"
 
 interface ReviewModuleInterface {
     placeId: number,
@@ -26,11 +25,15 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
+    const { isOpen: isOpenNew, onOpen: onOpenNew, onClose: onCloseNew } = useDisclosure()
+
     const { user } = useAuthContext()
 
     reviews = reviews.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
     });
+
+    const currentValue = findMatchingUser(reviews, user)
 
     const {
         control,
@@ -39,14 +42,17 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
         reset,
         formState: { errors, isSubmitting },
     } = useForm<Inputs>({
-        mode: 'onTouched'
+        mode: 'onTouched',
+        defaultValues: {
+            stars: currentValue ? currentValue.stars : 0,
+            content: currentValue ? currentValue.content : ''
+        }
     })
 
-    const ownReview = userAlreadyTaken(reviews, user)
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            if (!ownReview) {
+            if (!currentValue) {
                 await apiFetch('/reviews', 'post', {
                     place: '/api/places/' + placeId,
                     stars: data.stars,
@@ -57,7 +63,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                     status: 'success',
                 })
             } else {
-                await apiFetch('/reviews/' + ownReview.id, 'PATCH', {
+                await apiFetch('/reviews/' + currentValue.id, 'PATCH', {
                     content: data.content,
                     stars: data.stars
                 })
@@ -67,9 +73,10 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                 })
             }
 
+
             reset()
             mutate()
-            onClose()
+            onCloseNew()
 
         } catch (error: any) {
             toast({
@@ -79,69 +86,102 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
         }
     }
 
+    const handleClose = () => {
+        reset()
+        onClose()
+    }
+
+    const handleCloseNew = () => {
+        onCloseNew()
+        if (!currentValue) reset()
+    }
+
+    const onDelete = async (id: number) => {
+        try {
+            const result = window.confirm('Supprimer ce commentaire ?')
+            if (!result) return
+
+            await apiFetch('/reviews/' + id, 'DELETE')
+            toast({
+                description: "Commentaire supprimé",
+                status: 'success',
+            })
+            mutate()
+            reset()
+        } catch (error: any) {
+            toast({
+                description: error.message,
+                status: 'error',
+            })
+        }
+    }
+
 
     return (
-        <Box py={VERTICAL_SPACING} boxShadow={"0 -2px 1px lightblue"}>
-            <ContainerSection withPadding={true}>
-                <Stack spacing={VERTICAL_SPACING}>
-                    <Stack direction="row" alignItems="center">
-                        <Text as="b">Avis</Text>
-                        <Button size="sm" colorScheme="twitter" onClick={onOpen}>
-                            {
-                                ownReview ? 'Modifier' : 'Ajouter'
-                            }
-                        </Button>
-                    </Stack>
-                    {
-                        reviews.length && <Stack>
-                            {
-                                reviews.map((review: any) => {
-                                    return (
-                                        <ReviewCard key={review.id} review={review} mutate={() => mutate()} />)
-                                })
-                            }
-                        </Stack>
-                    }
-                </Stack>
-            </ContainerSection>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
-                <ModalOverlay />
+        <>
+            <Button variant="outline" onClick={onOpen}> <StarsAverageIcon datas={reviews} /> </Button>
+            <Modal isOpen={isOpen} onClose={handleClose} size="full" scrollBehavior={"inside"}>
                 <ModalContent>
-                    <ModalHeader>Votre avis sur ce lieu</ModalHeader>
+                    <ModalHeader>Avis</ModalHeader>
                     <ModalCloseButton />
-                    <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
-                        <ModalBody>
-                            <Stack>
-                                <FormControl isInvalid={errors.stars ? true : false}>
-                                    <Controller
-                                        control={control}
-                                        name="stars"
-                                        rules={{ ...minNumber(1), ...noEmptyValidator }}
-                                        render={({ field: { onChange, value = ownReview ? ownReview.stars : 0 } }) => (
-                                            <StarsButton onChange={onChange} value={value} />
-                                        )}
-                                    />
-                                    {errors.stars && <FormErrorMessage>{errors.stars.message}</FormErrorMessage>}
-                                </FormControl>
-                                <FormControl isInvalid={errors.content ? true : false}>
-                                    <Textarea
-                                        required
-                                        defaultValue={ownReview ? ownReview.content : ''}
-                                        {...register('content', { ...noEmptyValidator })}
-                                        placeholder="Ecrivez votre commentaire" rows={10} />
-                                    {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                                </FormControl>
-                            </Stack>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button isLoading={isSubmitting} w="100%" colorScheme='blue' type="submit">
-                                Ajouter
-                            </Button>
-                        </ModalFooter>
-                    </Stack>
+                    <ModalBody>
+                        {
+                            reviews.length ? <Stack>
+                                {
+                                    reviews.map((review: any) => {
+                                        return (
+                                            <ReviewCard
+                                                onDelete={(id:number) => onDelete(id)}
+                                                key={review.id} review={review}
+                                            />)
+                                    })
+                                }
+                            </Stack> : 'Aucun avis'
+                        }
+                    </ModalBody>
+                    <ModalFooter>
+                        <Popover
+                            isOpen={isOpenNew}
+                            onOpen={onOpenNew}
+                            onClose={handleCloseNew}
+                            placement='top'
+                            closeOnBlur={false}
+                        >
+                            <PopoverTrigger>
+                                <Button colorScheme="blue" w="100%">{currentValue ? 'Modifier mon avis' : 'Ajouter un avis'}</Button>
+                            </PopoverTrigger>
+                            <PopoverContent p={5}>
+                                <FocusLock persistentFocus={false}>
+                                    <PopoverArrow />
+                                    <PopoverCloseButton />
+                                    <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+                                        <FormControl isInvalid={errors.stars ? true : false}>
+                                            <Controller
+                                                control={control}
+                                                name="stars"
+                                                rules={{ ...minNumber(1), ...noEmptyValidator }}
+                                                render={({ field: { onChange, value } }) => (
+                                                    <ReviewScoreCheckbox onChange={onChange} value={value} />
+                                                )}
+                                            />
+                                            {errors.stars && <FormErrorMessage>{errors.stars.message}</FormErrorMessage>}
+                                        </FormControl>
+                                        <FormControl isInvalid={errors.content ? true : false}>
+                                            <Textarea
+                                                required
+                                                {...register('content', { ...noEmptyValidator })}
+                                                placeholder="Ecrivez votre commentaire" rows={10} />
+                                            {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
+                                        </FormControl>
+                                        <Button isLoading={isSubmitting} type="submit" colorScheme={"blue"}>{currentValue ? 'Modifier' : 'Ajouter'}</Button>
+                                    </Stack>
+                                </FocusLock>
+                            </PopoverContent>
+                        </Popover>
+                    </ModalFooter>
                 </ModalContent>
             </Modal>
-        </Box>
+        </>
     )
 
 }

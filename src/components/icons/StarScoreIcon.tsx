@@ -1,18 +1,18 @@
 import { HStack, Text } from "@chakra-ui/react"
 import { BsFillStarFill } from "react-icons/bs"
 
-interface StarsInterface{
-    star: number
+interface PropsInterface{
+    scrore: number
 }
 
-const Stars : React.FC<StarsInterface> = ({star}) => {
+const StarScoreIcon : React.FC<PropsInterface> = ({scrore}) => {
 
     return(
         <HStack>
             <BsFillStarFill color="orange" />
-            <Text>{star}</Text>
+            <Text>{scrore + '/5'}</Text>
         </HStack>
     )
 }
 
-export default Stars
+export default StarScoreIcon

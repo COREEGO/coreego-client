@@ -1,17 +1,15 @@
-import { Card, CardBody, CardHeader, FormControl, FormLabel, Text, Stack, useToast, FormErrorMessage, Input, Select, Box, CardFooter, Button, Textarea } from "@chakra-ui/react"
+import { Card, CardBody, CardHeader, FormControl, FormLabel, Text, Stack, useToast, FormErrorMessage, Input, Select, CardFooter, Button, Textarea } from "@chakra-ui/react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router"
-import Title from "../../components/texts/Title"
+import TitleText from "../../components/texts/TitleText"
 import { VERTICAL_SPACING } from "../../utils/variables"
 import ContainerSection from "../components/ContainerSection"
 import { noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
 import UploadImageModule from "../components/modules/UploadImageModule"
 import { useState } from "react"
-import MapMarker from "../../components/maps/MapSimpleMarker"
 import { apiFetch } from "../../http-common/apiFetch"
 import axios from "axios"
-import LoadingPage from "../../components/LoadingPage"
 
 type Inputs = {
     title: string
@@ -124,7 +122,7 @@ const PlaceCreatePage = () => {
             <ContainerSection>
                 <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
                     <Card>
-                        <CardHeader><Title text="Ajouter un lieu" /></CardHeader>
+                        <CardHeader><TitleText text="Ajouter un lieu" /></CardHeader>
                         <CardBody>
                             <Stack>
                                 <FormControl>

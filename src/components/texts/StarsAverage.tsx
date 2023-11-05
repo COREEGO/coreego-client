@@ -12,14 +12,13 @@ const StarsAverage: React.FC<StarsAverageInterface> = ({ datas }) => {
 
     const average = sum / datas.length || 0
 
+    const reviewLabel = `(${datas.length} review ${datas.length > 1 ? 's' : ''})`
 
     return (
         <HStack spacing={1}>
             <BsFillStarFill color="orange" />
-            {
-                average > 0 &&  <Text> {average} </Text>
-            }
-            <Text color="grey">({datas.length} review) </Text>
+            { average > 0 &&  <Text> {average} </Text> }
+            <Text color="grey" fontSize="sm"> {reviewLabel} </Text>
         </HStack>
     )
 

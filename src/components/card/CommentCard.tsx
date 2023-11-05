@@ -9,6 +9,7 @@ import UserSniped from "../react-ux/UserSniped"
 
 interface CommentCardInterface {
     comment: any,
+    onDelete: (id: any) => any,
     mutate: Function
 }
 
@@ -16,7 +17,7 @@ type Inputs = {
     content: string
 }
 
-const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
+const CommentCard: React.FC<CommentCardInterface> = ({ comment, onDelete, mutate }) => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -38,27 +39,10 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
                 description: "Commentaire modifié",
                 status: 'success',
             })
-            mutate()
+
             onClose()
-        } catch (error: any) {
-            toast({
-                description: `${JSON.parse(error.message)}`,
-                status: 'error',
-            })
-        }
-    }
-
-    const handleDeleteComment = async () => {
-        try {
-            const result = window.confirm('Supprimer ce commentaire ?')
-            if (!result) return
-
-            await apiFetch('/comments/' + comment.id, 'DELETE')
-            toast({
-                description: "Commentaire supprimé",
-                status: 'success',
-            })
             mutate()
+
         } catch (error: any) {
             toast({
                 description: `${JSON.parse(error.message)}`,
@@ -66,7 +50,6 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
             })
         }
     }
-
 
     return (
         <>
@@ -87,7 +70,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
                                 </MenuButton>
                                 <MenuList>
                                     <MenuItem onClick={onOpen} icon={<MdBorderColor />}>Modifier</MenuItem>
-                                    <MenuItem onClick={handleDeleteComment} icon={<MdDelete />}>Supprimer</MenuItem>
+                                    <MenuItem onClick={() => onDelete(comment.id)} icon={<MdDelete />}>Supprimer</MenuItem>
                                 </MenuList>
                             </Menu>
                         }

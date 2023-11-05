@@ -14,14 +14,14 @@ interface PropsInterface {
 const FeedProfil: React.FC<PropsInterface> = ({ noLengthLabel, cardName, datas }) => {
 
     return (
-        <Grid gap={10} templateColumns={
+        <Grid gap={5} templateColumns={
             {
                 base: "repeat(1, 1fr)",
                 md: "repeat(3, 1fr)"
             }
         }>
             {
-               datas.length ? datas.map((data: any) => {
+               datas?.length ? datas.map((data: any) => {
                     return <GridItem key={data.id}>
                         {cardName === "discussion" && <SmallDiscussionCard discussion={data} />}
                         {cardName === "product" && <SmallProductCard product={data} />}

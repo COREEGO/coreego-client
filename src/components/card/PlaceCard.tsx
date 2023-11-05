@@ -1,12 +1,10 @@
 import { Box, Card, CardBody, Stack, Text } from "@chakra-ui/react";
-import Category from "./_Category";
-import NoOfLikes from "./_NoOfLikes";
-import NoOfComments from "./_NoOfComments";
-import Galery from "./_Galery";
-import Localisation from "./_Localisation";
 import UserSniped from "../react-ux/UserSniped";
-import Stars from "./_Stars";
-import StarsAverage from "../texts/StarsAverage";
+import LikeCountIcon from "../icons/LikeCountIcon";
+import StarsAverageIcon from "../icons/StarsAverageIcon";
+import LocalisationText from "../texts/LocalisationText";
+import CategoryText from "../texts/CategoryText";
+import GaleryImages from "../images/GaleryImages";
 
 interface PlaceCardInterface {
     place: any,
@@ -15,9 +13,9 @@ interface PlaceCardInterface {
 const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
 
     return (
-        <Card >
+        <Card id={place.id}>
             <Box h={{ base: 200, md: 250 }} w="100%">
-                <Galery images={place.images} />
+                <GaleryImages images={place.images} />
             </Box>
             <CardBody>
                 <Stack position="relative" w="100%">
@@ -26,13 +24,13 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place }) => {
                         pseudo={place.user.pseudo}
                         publishDate={place.createdAt}
                     />
-                    <Localisation city={place.city} district={place.district} />
-                    <Category category={place.category} />
+                    <LocalisationText city={place.city} district={place.district} />
+                    <CategoryText category={place.category} />
                     <Text noOfLines={1} fontWeight={500}>{place.title} </Text>
                     <Text noOfLines={2}>{place.description} </Text>
                     <Stack direction="row">
-                        <NoOfLikes nb={place.likes.length} />
-                        <StarsAverage datas={place.reviews} />
+                        <LikeCountIcon length={place.likes.length} />
+                        <StarsAverageIcon datas={place.reviews} />
                     </Stack>
                 </Stack>
             </CardBody>

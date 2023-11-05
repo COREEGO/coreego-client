@@ -25,9 +25,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         onLoadedApplication()
     }, [])
 
+    // useEffect(() => {
+    //     authentificate()
+    // }, [localStorage.getItem('token')])
+
     const onLoadedApplication = async () => {
         try {
             setAppLoaded(false)
+
             authentificate()
 
             const discussionCategories = await apiFetch('/discussion_categories', 'GET')
@@ -38,8 +43,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             if (placeCategories) dispath(initPlaceCategories(placeCategories))
             if (cities) dispath(initCities(cities))
 
-        } catch (error) {
-            console.error(error)
+
+        } catch (error:any) {
+            console.log(JSON.parse(error.message).message)
         } finally {
             setAppLoaded(true)
         }

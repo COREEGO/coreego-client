@@ -3,7 +3,7 @@ import { IconButton, VStack, Text, useToast } from "@chakra-ui/react";
 import { BsBookmark, BsBookmarkStarFill } from "react-icons/bs";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { useEffect, useState } from "react";
-import { userAlreadyTaken } from "../../utils";
+import { findMatchingUser } from "../../utils";
 import { apiFetch } from "../../http-common/apiFetch";
 
 interface SavePlaceButtonInterfcae {
@@ -24,7 +24,7 @@ const SavePlaceButton: React.FC<SavePlaceButtonInterfcae> = ({ showLabel = false
     const toast = useToast()
 
     useEffect(() => {
-        const alreadyTaken = userAlreadyTaken(savedPlaces, user)
+        const alreadyTaken = findMatchingUser(savedPlaces, user)
         setUserSavedPlace(alreadyTaken || null);
     }, [savedPlaces, user.id]);
 

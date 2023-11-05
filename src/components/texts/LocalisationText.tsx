@@ -3,7 +3,7 @@ import { MdLocationOn } from "react-icons/md"
 
 
 
-const Localisation: React.FC<{ city: any, district: any }> = ({ city, district }) => {
+const LocalisationText: React.FC<{ city: any, district: any }> = ({ city, district }) => {
 
     return (
         <Flex as="span" color="var(--coreego-blue)" flex={1} alignItems="center">
@@ -15,4 +15,4 @@ const Localisation: React.FC<{ city: any, district: any }> = ({ city, district }
     )
 }
 
-export default Localisation
+export default LocalisationText

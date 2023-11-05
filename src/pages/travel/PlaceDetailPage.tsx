@@ -1,33 +1,29 @@
-import { Suspense, useState } from "react"
+import { Suspense } from "react"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import LoadingPage from "../../components/LoadingPage"
-import { Box, Image, Divider, IconButton, Modal, ModalContent, Stack, Text, Tabs, Tab, TabList, TabPanel, TabPanels, Flex, HStack, VStack, Button, Spacer } from "@chakra-ui/react"
+import { Box, Divider, Stack, Text, Flex, HStack, Spacer } from "@chakra-ui/react"
 import MapSimpleMarker from "../../components/maps/MapSimpleMarker"
-import { getFirstImage } from "../../utils"
-import Title from "../../components/texts/Title"
-import Localisation from "../../components/card/_Localisation"
+import TitleText from "../../components/texts/TitleText"
 import UserSniped from "../../components/react-ux/UserSniped"
 import SavePlaceButton from "../../components/buttons/SavePlaceButton"
 import ShareButton from "../../components/buttons/ShareButton"
 import LikeButton from "../../components/buttons/LikeButton"
-import { BsFillStarFill, BsImages } from "react-icons/bs"
-import ImageMap from "../../components/maps/ImageMap"
 import ContainerSection from "../components/ContainerSection"
 import { VERTICAL_SPACING } from "../../utils/variables"
 import SlideSwiper from "../../components/swipers/SlideSwiper"
-import Galery from "../../components/card/_Galery"
 import CommentModule from "../components/modules/CommentModule"
 import ReviewModule from "../components/modules/ReviewModule"
-import StarsAverage from "../../components/texts/StarsAverage"
-import Category from "../../components/card/_Category"
+
 import { NavLink } from "react-router-dom"
+import LocalisationText from "../../components/texts/LocalisationText"
+import CategoryText from "../../components/texts/CategoryText"
 
 const Detail = () => {
 
     const params = useParams()
 
-    const { data: place, error, mutate, isLoading } = useSWR('/places/' + params.id, { suspense: true })
+    const { data: place, mutate } = useSWR('/places/' + params.id, { suspense: true })
 
     return (
         <Box py={VERTICAL_SPACING}>
@@ -36,22 +32,22 @@ const Detail = () => {
                     <Stack spacing={VERTICAL_SPACING}>
                         <Flex alignItems={"start"} flexWrap="wrap" gap={5}>
                             <Stack>
-                                <Title text={place.title} />
+                                <TitleText text={place.title} />
                                 <NavLink to={"/voyage?category=" + place.category.id}>
-                                    <Category category={place.category} />
+                                    <CategoryText category={place.category} />
                                 </NavLink>
                                 <NavLink to={`/voyage?city=${place.city.id}&district=${place.district.id}`}>
-                                    <Localisation city={place.city} district={place.district} />
+                                    <LocalisationText city={place.city} district={place.district} />
                                 </NavLink>
-                                <StarsAverage datas={place.reviews} />
+                                <ReviewModule placeId={place.id} mutate={mutate} reviews={place.reviews} />
                             </Stack>
                             <Spacer />
                             <HStack>
-                                <LikeButton likes={place.likes} mutate={() => mutate()} placeId={place.id} />
+                                <LikeButton likes={place.likes} mutate={mutate} placeId={place.id} />
                                 <SavePlaceButton
                                     placeId={place.id}
                                     savedPlaces={place.savedPlaces}
-                                    mutate={() => mutate()}
+                                    mutate={mutate}
                                 />
                                 <ShareButton />
                             </HStack>
@@ -88,7 +84,7 @@ const Detail = () => {
                         </Stack>
                     </Stack>
                 </ContainerSection>
-                <ReviewModule placeId={place.id} mutate={() => mutate()} reviews={place.reviews} />
+                <CommentModule placeId={place.id}  comments={place.comments} mutate={mutate} />
             </Stack>
         </Box>
     )

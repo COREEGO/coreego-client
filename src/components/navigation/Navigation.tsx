@@ -62,8 +62,6 @@ const DrawerNavigation = () => {
 
     const { isOpen, onOpen, onClose } = useDisclosure()
 
-    const { user } = useAuthContext()
-
     return (
         <>
             <IconButton fontSize={24} color="black" onClick={onOpen} variant="link" icon={<MdOutlineMenu />} aria-label={"er"} />
@@ -83,7 +81,38 @@ const DrawerNavigation = () => {
 }
 
 const NavigationUserMenu = () => {
-    const { user, logout } : any = useAuthContext()
+    const { user, logout }: any = useAuthContext()
+
+    const UserloggedMenu = () => {
+        return (
+            <>
+                <NavLink to={`/user/profil/${user.id}`}>
+                    <MenuItem>Profil</MenuItem>
+                </NavLink>
+                <NavLink to={`/user/carnet-de-voyage/${user.id}`}>
+                    <MenuItem>Mon carnet de voyage</MenuItem>
+                </NavLink>
+                <MenuItem>menu 2</MenuItem>
+                <Divider />
+                <MenuItem onClick={logout} >Se deconnecter</MenuItem>
+            </>
+        )
+    }
+
+    const UserUnloggedMenu = () => {
+        return (
+            <>
+                <NavLink style={{ display: "block" }} to="/login">
+                    <MenuItem>
+                        Se connecter
+                    </MenuItem>
+                </NavLink>
+                <NavLink style={{ display: "block" }} to="/register">
+                    <MenuItem>S'inscrire</MenuItem>
+                </NavLink>
+            </>
+        )
+    }
 
     return (
         <Menu>
@@ -94,27 +123,7 @@ const NavigationUserMenu = () => {
                 </Stack>
             </MenuButton>
             <MenuList>
-                {user ?
-                    <>
-                        <NavLink to={`/user/profil/${user.id}`}>
-                            <MenuItem>Profil</MenuItem>
-                        </NavLink>
-
-                        <MenuItem>menu 2</MenuItem>
-                        <Divider />
-                        <MenuItem onClick={logout} >Se deconnecter</MenuItem>
-                    </> :
-                    <>
-                        <NavLink style={{ display: "block" }} to="/login">
-                            <MenuItem>
-                                Se connecter
-                            </MenuItem>
-                        </NavLink>
-                        <NavLink style={{ display: "block" }} to="/register">
-                            <MenuItem>S'inscrire</MenuItem>
-                        </NavLink>
-                    </>
-                }
+                {user ? <UserloggedMenu /> : <UserUnloggedMenu />}
             </MenuList>
         </Menu>
     )

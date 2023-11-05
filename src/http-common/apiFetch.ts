@@ -10,6 +10,8 @@ export async function apiFetch<T>(
 
   let body: any = payload ? JSON.stringify(payload) : undefined;
 
+  const token = localStorage.getItem("token");
+
   const headers: any = {
     Accept: "application/json",
   };
@@ -17,10 +19,13 @@ export async function apiFetch<T>(
   if (payload instanceof FormData) {
     body = payload;
   } else if (method.toLocaleLowerCase() === "patch") {
-    console.log('application/merge-patch')
     headers["Content-Type"] = "application/merge-patch+json";
   } else {
     headers["Content-Type"] = "application/json";
+  }
+
+  if (token) {
+    headers["authorization"] = "Bearer " + token;
   }
 
   try {
@@ -36,6 +41,7 @@ export async function apiFetch<T>(
       return response.data;
     }
   } catch (error: any) {
+    console.log(error);
     if (error.response && error.response.data) {
       throw new Error(JSON.stringify(error.response.data));
     }

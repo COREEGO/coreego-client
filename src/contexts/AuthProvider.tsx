@@ -33,30 +33,33 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const authentificate = async () => {
         await apiFetch('/me', 'GET').then((user: any) => {
             setUser(user)
-        }).catch((error: any) => setError(error))
+        }).catch((error: any) => localStorage.removeItem('token'))
     }
 
     const login = async (username: string, password: string) => {
         setError('')
-        await apiFetch('/login', 'POST', {
-            username, password
-        }).then((user: any) => {
-            setUser(user)
-            if(user){
+
+        try {
+            const response : any = await apiFetch('/login', 'POST', {username, password})
+            if(response){
+                localStorage.setItem('token', response.token)
+                await authentificate()
                 navigate('/', {replace: true} )
             }
-        }).catch((error: any) => {
+        } catch (error:any) {
+            console.log(error.message)
             setError(JSON.parse(error.message).error)
-        })
+        }
     }
 
     const logout = async () => {
-        await apiFetch('/logout', 'post').then((res: any) => {
-            setUser(res)
+        await apiFetch('/token/invalidate', 'post').then((res: any) => {
+            localStorage.removeItem('token')
             navigate("/login")
         }).catch((e: any) => {
             console.log(e)
         })
+        authentificate()
     }
 
 

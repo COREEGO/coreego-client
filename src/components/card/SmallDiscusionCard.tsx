@@ -1,6 +1,7 @@
-import { Box, Card, CardBody, Flex, Menu, MenuButton, MenuItem, MenuList, Stack, Text } from "@chakra-ui/react"
-import Category from "./_Category"
-import { MdMoreVert, MdBorderColor, MdDelete } from "react-icons/md"
+import { Box, Card, CardBody, Flex, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react"
+import { MdMoreVert, MdBorderColor, MdDelete, MdRemoveRedEye } from "react-icons/md"
+import { NavLink } from "react-router-dom"
+import CategoryText from "../texts/CategoryText"
 
 
 
@@ -15,7 +16,7 @@ const SmallDiscussionCard: React.FC<PropsInterface> = ({ discussion }) => {
             <CardBody>
                 <Flex alignItems={"flex-start"}>
                     <Box>
-                        <Category category={discussion.category} />
+                        <CategoryText category={discussion.category} />
                         <Text as="b" noOfLines={1}> {discussion.title} </Text>
                         <Text as="span" fontSize="sm" noOfLines={1}> {discussion.content} </Text>
                     </Box>
@@ -24,9 +25,11 @@ const SmallDiscussionCard: React.FC<PropsInterface> = ({ discussion }) => {
                             <MdMoreVert />
                         </MenuButton>
                         <MenuList>
-                            <MenuItem  icon={<MdBorderColor />}>Appercu</MenuItem>
-                            <MenuItem  icon={<MdBorderColor />}>Modifier</MenuItem>
-                            <MenuItem  icon={<MdDelete />}>Supprimer</MenuItem>
+                            <NavLink to={`/forum/discussion/detail/${discussion.id}`}>
+                                <MenuItem icon={<MdRemoveRedEye />}>Voir détail</MenuItem>
+                            </NavLink>
+                            <MenuItem icon={<MdBorderColor />}>Modifier</MenuItem>
+                            <MenuItem icon={<MdDelete />}>Supprimer</MenuItem>
                         </MenuList>
                     </Menu>
                 </Flex>

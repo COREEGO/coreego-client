@@ -16,12 +16,6 @@ const LocalisationCheckbox: React.FC<LocalisationCheckboxInterface> = (
 
     const { cities } = useSelector((state: any) => state.app);
 
-    // const [checkedItems, setCheckedItems] = useState<boolean>(false)
-
-    // useEffect(() => {
-    //     console.log(checkedItems)
-    // }, [checkedItems] )
-
     const [districtsList, setDistrictList] = useState<Array<any>>([]);
 
     const [selectedCity, setSelectedCity] = useState<string>(cityValue)

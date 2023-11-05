@@ -39,7 +39,6 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
 
   useEffect(() => {
     setSearchParams(params);
-    console.log({params})
   }, [params]);
 
   return (

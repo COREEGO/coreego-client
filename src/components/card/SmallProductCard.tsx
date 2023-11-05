@@ -1,7 +1,8 @@
 import { Card, HStack, Image, VStack, Text, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react"
 import { BASE_URL } from "../../utils/variables"
 import { getFirstImage } from "../../utils"
-import { MdMoreVert, MdBorderColor, MdDelete } from "react-icons/md"
+import { MdMoreVert, MdBorderColor, MdDelete, MdRemoveRedEye } from "react-icons/md"
+import { NavLink } from "react-router-dom"
 
 
 
@@ -29,7 +30,9 @@ const SmallProductCard: React.FC<PropsInterface> = ({ product }) => {
                         <MdMoreVert />
                     </MenuButton>
                     <MenuList>
-                        <MenuItem icon={<MdBorderColor />}>Appercu</MenuItem>
+                        <NavLink to={`/market-place/product/detail/${product.id}`}>
+                            <MenuItem icon={<MdRemoveRedEye />}>Voir détail</MenuItem>
+                        </NavLink>
                         <MenuItem icon={<MdBorderColor />}>Modifier</MenuItem>
                         <MenuItem icon={<MdDelete />}>Supprimer</MenuItem>
                     </MenuList>

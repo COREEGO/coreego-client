@@ -1,9 +1,9 @@
 import { Heading } from "@chakra-ui/react"
 
-const Title : React.FC<{text:string}> = ({text }) => {
+const TitleText : React.FC<{text:string}> = ({text }) => {
     return (
         <Heading as="h1" fontSize={{base: 'xl', md: '2xl'}}> {text} </Heading>
     )
 }
 
-export default Title
+export default TitleText

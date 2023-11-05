@@ -16,13 +16,69 @@ import FeedProfil from "../components/FeedProfil"
 
 
 
+const Publications = () => {
+    const params = useParams()
+
+    const { data: publications, error } = useSWR(`/user/${params.id}/publications`, { suspense: true })
+
+    if (error) console.error(error)
+
+    return (
+        <Stack spacing={VERTICAL_SPACING}>
+            <Stack>
+                <Text as="b" fontSize="lg" >Discussions</Text>
+                <FeedProfil datas={publications.discussions} noLengthLabel={"Aucune discussions publié"} cardName={"discussion"} />
+            </Stack>
+            <Stack>
+                <Text as="b" fontSize="lg" >Produits en vente</Text>
+                <FeedProfil datas={publications.products} noLengthLabel={"Aucun produit en vente"} cardName="product" />
+            </Stack>
+            <Stack>
+                <Text as="b" fontSize="lg" >Lieux partagés</Text>
+                <FeedProfil datas={publications.places} noLengthLabel={"Aucun lieux publié"} cardName="place" />
+            </Stack>
+        </Stack>
+    )
+
+}
+
+const PublicationsLike = () => {
+    const params = useParams()
+
+    const { data, error } = useSWR(`/user/${params.id}/publications/liked`, { suspense: true })
+
+
+    if (error) console.error({ error })
+
+    const discussions = data.likes.filter((item:any) => item.hasOwnProperty("discussion")).map((item: any) => item.discussion)
+    const places = data.likes.filter((item:any) => item.hasOwnProperty("place")).map((item: any) => item.place)
+
+    return (
+        <Stack spacing={VERTICAL_SPACING}>
+            <Stack>
+                <Text as="b" fontSize="lg" >Discussions</Text>
+                <FeedProfil datas={discussions} noLengthLabel={"Aucune discussions publié"} cardName={"discussion"} />
+            </Stack>
+            <Stack>
+                <Text as="b" fontSize="lg" >Lieux</Text>
+                <FeedProfil datas={places} noLengthLabel={"Aucun lieux aimé"} cardName="place" />
+            </Stack>
+        </Stack>
+    )
+
+}
+
 const UserDetail = () => {
     const params = useParams()
 
-    const { data, error, mutate, isLoading } = useSWR('/users/' + params.id, { suspense: true })
-    const { user }: any = useAuthContext()
+    const { user: currentUser }: any = useAuthContext()
 
-    const currentUserProfil = user.id === data.id
+    const { data: user, error: userError } = useSWR('/user/' + params.id, { suspense: true })
+
+    const currentUserProfil = currentUser.id === user.id
+
+    if (userError) console.error({ userError })
+
 
     return (
         <>
@@ -30,7 +86,7 @@ const UserDetail = () => {
                 <ContainerSection withPadding={true}>
                     <Stack alignItems="flex-start">
                         <HStack>
-                            <UserSniped size="lg" avatar={data.avatar} pseudo={data.pseudo} />
+                            <UserSniped size="lg" avatar={user.avatar} pseudo={user.pseudo} />
                             {currentUserProfil && <Button size="sm" variant="outline">Modifier mon profil</Button>}
                         </HStack>
                         <Text>
@@ -51,30 +107,19 @@ const UserDetail = () => {
                     <Tabs>
                         <TabList>
                             <Tab>Publications</Tab>
-                            <Tab>Aimés</Tab>
+                            {currentUserProfil && <Tab>Publications aimées</Tab>}
                             <Tab>Three</Tab>
                         </TabList>
                         <TabPanels>
-                            <TabPanel>
-                                <Stack spacing={VERTICAL_SPACING}>
-                                    <Stack>
-                                        <Text as="b" fontSize="lg" >Discussions</Text>
-                                        <FeedProfil datas={data.discussions} noLengthLabel={"Aucune discussions publié"} cardName={"discussion"}  />
-                                    </Stack>
-                                    <Stack>
-                                        <Text as="b" fontSize="lg" >Produits en vente</Text>
-                                        <FeedProfil datas={data.products} noLengthLabel={"Aucun produit en vente"} cardName="product" />
-                                    </Stack>
-                                    <Stack>
-                                        <Text as="b" fontSize="lg" >Lieux partagés</Text>
-                                        <FeedProfil datas={data.places} noLengthLabel={"Aucun lieux publié"} cardName="place" />
-                                    </Stack>
-                                </Stack>
+                            <TabPanel px={0}>
+                                <Publications />
                             </TabPanel>
-                            <TabPanel>
-                                <p>Yeah yeah. What's up?</p>
-                            </TabPanel>
-                            <TabPanel>
+                            {
+                                currentUserProfil && <TabPanel px={0}>
+                                    <PublicationsLike />
+                                </TabPanel>
+                            }
+                            <TabPanel px={0}>
                                 <p>Oh, hello there.</p>
                             </TabPanel>
                         </TabPanels>

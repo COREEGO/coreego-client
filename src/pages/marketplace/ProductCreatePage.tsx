@@ -1,5 +1,5 @@
 import { Container, Box, Text, Grid, GridItem, Stack, NumberInput, FormControl, FormErrorMessage, FormLabel, Input, Select, NumberDecrementStepper, NumberIncrementStepper, NumberInputStepper, NumberInputField, InputRightAddon, InputGroup, Button, useToast, Textarea, FormHelperText, CardHeader, Card, CardBody, InputLeftAddon } from "@chakra-ui/react"
-import Title from "../../components/texts/Title"
+import TitleText from "../../components/texts/TitleText"
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../utils/variables"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
@@ -78,7 +78,7 @@ const ProductCreatePage = () => {
             <ContainerSection>
                 <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
                     <Card>
-                        <CardHeader><Title text="Ajouter un produit" /></CardHeader>
+                        <CardHeader><TitleText text="Ajouter un produit" /></CardHeader>
                         <CardBody>
                             <Stack>
                                 <FormControl>

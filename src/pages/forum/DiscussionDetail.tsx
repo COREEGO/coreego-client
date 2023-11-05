@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, Divider, Text, Stack, Flex, Image, Button, Spacer, useToast } from "@chakra-ui/react";
+import { Box, Text, Stack, Flex, Image, Button, Spacer } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
@@ -6,15 +6,11 @@ import LoadingPage from "../../components/LoadingPage";
 import LikeButton from "../../components/buttons/LikeButton";
 import CommentModule from "../components/modules/CommentModule";
 import { BASE_URL, VERTICAL_SPACING } from "../../utils/variables";
-import ThumbSwiper from "../../components/swipers/ThumbSwiper";
 import ContainerPage from "../components/ContainerSection";
-import DiscussionCard from "../../components/card/DiscussionCard";
-import Title from "../../components/texts/Title";
-import AvatarUx from "../../components/react-ux/AvatarUx";
+import TitleText from "../../components/texts/TitleText";
 import { NavLink } from "react-router-dom";
-import { dateParse } from "../../utils";
-import Category from "../../components/card/_Category";
 import UserSniped from "../../components/react-ux/UserSniped";
+import CategoryText from "../../components/texts/CategoryText";
 
 
 
@@ -22,7 +18,7 @@ const Detail: React.FC<any> = () => {
 
     const params = useParams()
 
-    const { data, error, mutate, isLoading } = useSWR('/discussions/' + params.id, { suspense: true })
+    const { data, mutate } = useSWR('/discussions/' + params.id, { suspense: true })
 
     return (
         <>
@@ -36,11 +32,9 @@ const Detail: React.FC<any> = () => {
                                 publishDate={data.createdAt}
                             />
                             <NavLink to={'/forum?category=' + data.category.id}>
-                                <Category category={data.category} />
+                                <CategoryText category={data.category} />
                             </NavLink>
-                        </Stack>
-                        <Stack>
-                            <Title text={data.title} />
+                            <TitleText text={data.title} />
                         </Stack>
                         <Flex alignItems="center" gap={2}>
                             <Spacer />

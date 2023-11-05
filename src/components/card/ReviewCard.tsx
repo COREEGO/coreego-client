@@ -1,53 +1,20 @@
-import { Box, Button, Card, Text, CardBody, CardHeader, Flex, FormControl, FormErrorMessage, IconButton, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Stack, Textarea, useDisclosure, useToast } from "@chakra-ui/react"
+import { Box, Button, Card, Text, CardBody, CardHeader, Flex, FormControl, FormErrorMessage, IconButton, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Stack, Textarea, useDisclosure, useToast, VStack } from "@chakra-ui/react"
 import UserSniped from "../react-ux/UserSniped"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import { MdMoreVert, MdBorderColor, MdDelete } from "react-icons/md"
-import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { control } from "leaflet"
-import { minLengthValidatior, minNumber, noEmptyValidator } from "../../utils/formValidation"
-import StarsButton from "../buttons/StarsButton"
-import { apiFetch } from "../../http-common/apiFetch"
-import Stars from "./_Stars"
+import { MdMoreVert, MdDelete } from "react-icons/md"
+import StarScoreIcon from "../icons/StarScoreIcon"
 
 
 interface ReviewCardInterface {
     review: any,
-    mutate: Function
+    onDelete: (id:any) => any
 }
 
-type Inputs = {
-    content: string,
-    stars: number
-}
-
-const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
+const ReviewCard: React.FC<ReviewCardInterface> = ({ review, onDelete }) => {
 
     const { user }: any = useAuthContext()
 
-
     const isReviewUser = user.id === review.user.id
-
-    const toast = useToast()
-
-
-    const handleDeleteReview = async () => {
-        try {
-            const result = window.confirm('Supprimer ce commentaire ?')
-            if (!result) return
-
-            await apiFetch('/reviews/' + review.id, 'DELETE')
-            toast({
-                description: "Commentaire supprimé",
-                status: 'success',
-            })
-            mutate()
-        } catch (error: any) {
-            toast({
-                description: `${JSON.parse(error.message)}`,
-                status: 'error',
-            })
-        }
-    }
 
     return (
             <Card>
@@ -66,26 +33,20 @@ const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
                                     <MdMoreVert />
                                 </MenuButton>
                                 <MenuList>
-                                    <MenuItem onClick={handleDeleteReview} icon={<MdDelete />}>Supprimer</MenuItem>
+                                    <MenuItem onClick={() => onDelete(review.id)} icon={<MdDelete />}>Supprimer</MenuItem>
                                 </MenuList>
                             </Menu>
                         }
                     </Flex>
                 </CardHeader>
                 <CardBody pt={0}>
-                    <Stack>
-                        <Stars star={review.stars} />
+                    <VStack alignItems={"flex-start"}>
+                        <StarScoreIcon scrore={review.stars} />
                         <Text whiteSpace="pre-line">{review.content}</Text>
-                    </Stack>
+                    </VStack>
                 </CardBody>
             </Card>
-
     )
-
 }
 
 export default ReviewCard
-
-function toast(arg0: { description: string; status: string }) {
-    throw new Error("Function not implemented.")
-}

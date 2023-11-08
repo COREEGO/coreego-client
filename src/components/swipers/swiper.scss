@@ -1,18 +1,52 @@
 .default-swiper{
+    position: relative;
     height: 100%;
+
+    overflow-y: visible;
+
+
+    .swiper-slide{
+        width: auto;
+        height: 100%;
+    }
+
+    .swiper-button-prev{
+        position: absolute;
+        top: -20px;
+        right: 50px;
+        left: auto;
+        height: 35px;
+        width: 35px;
+        border: 1px solid black;
+        border-radius: 90%;
+        &::after{
+            font-size: 18px;
+            font-weight: bolder;
+            color: black;
+        }
+    }
+    .swiper-button-next{
+        position: absolute;
+        top: -20px;
+        right: 0;
+        height: 35px;
+        width: 35px;
+        border: 1px solid black;
+        border-radius: 90%;
+        &::after{
+            font-size: 18px;
+            color: black;
+        }
+    }
+
 }
-
-
 
 .swiper-wrapper{
-    width: 0px;
+    width: 0;
     height: 100%;
 }
 
-.default-swiper .swiper-slide{
-    width: auto;
-    height: 100%;
-}
+
 
 .thumb_swiper_top{
     height: 100%;

@@ -45,7 +45,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, onDelete, mutate
 
         } catch (error: any) {
             toast({
-                description: `${JSON.parse(error.message)}`,
+                description: JSON.parse(error.message).detail,
                 status: 'error',
             })
         }

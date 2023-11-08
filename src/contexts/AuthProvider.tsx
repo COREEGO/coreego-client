@@ -38,15 +38,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const login = async (username: string, password: string) => {
         setError('')
-
         try {
-            const response : any = await apiFetch('/login', 'POST', {username, password})
-            if(response){
+            const response: any = await apiFetch('/login', 'POST', { username, password })
+            if (response) {
                 localStorage.setItem('token', response.token)
                 await authentificate()
-                navigate('/', {replace: true} )
+                navigate('/', { replace: true })
             }
-        } catch (error:any) {
+        } catch (error: any) {
             console.log(error.message)
             setError(JSON.parse(error.message).error)
         }
@@ -55,11 +54,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = async () => {
         await apiFetch('/token/invalidate', 'post').then((res: any) => {
             localStorage.removeItem('token')
+            authentificate()
             navigate("/login")
         }).catch((e: any) => {
             console.log(e)
         })
-        authentificate()
     }
 
 

@@ -89,7 +89,7 @@ const NavigationUserMenu = () => {
                 <NavLink to={`/user/profil/${user.id}`}>
                     <MenuItem>Profil</MenuItem>
                 </NavLink>
-                <NavLink to={`/user/carnet-de-voyage/${user.id}`}>
+                <NavLink to={`/user/carnet-de-voyage`}>
                     <MenuItem>Mon carnet de voyage</MenuItem>
                 </NavLink>
                 <MenuItem>menu 2</MenuItem>

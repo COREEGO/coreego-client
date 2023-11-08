@@ -31,7 +31,7 @@ const Detail = () => {
                 <ContainerSection withPadding={true}>
                     <Stack spacing={VERTICAL_SPACING}>
                         <Flex alignItems={"start"} flexWrap="wrap" gap={5}>
-                            <Stack>
+                            <Stack alignItems={"flex-start"}>
                                 <TitleText text={place.title} />
                                 <NavLink to={"/voyage?category=" + place.category.id}>
                                     <CategoryText category={place.category} />
@@ -74,11 +74,13 @@ const Detail = () => {
                         </Box>
                         <Stack>
                             <Text> {place.address} </Text>
-                            <Box h={{ base: 300, md: 350 }} w="100%">
+                            <Box h={{ base: 250, md: 400 }} position={"relative"} w="100%">
                                 <MapSimpleMarker
                                     lng={place.longitude}
                                     lat={place.latitude}
                                     zoom={12}
+                                    displayMapMode={true}
+                                    displayMapType={true}
                                 />
                             </Box>
                         </Stack>

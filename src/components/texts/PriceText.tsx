@@ -7,7 +7,7 @@ interface PriceInterface {
 const PriceText: React.FC<PriceInterface> = ({ price }) => {
 
   return (
-    <Text fontWeight={500}>{price} €</Text>
+    <Text fontWeight={500}>{price} ₩</Text>
   )
 };
 

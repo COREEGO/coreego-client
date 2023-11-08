@@ -3,14 +3,14 @@ import { MdLocationOn } from "react-icons/md"
 
 
 
-const LocalisationText: React.FC<{ city: any, district: any }> = ({ city, district }) => {
+const LocalisationText: React.FC<{ city: any, district?: any }> = ({ city, district = '' }) => {
 
     return (
         <Flex as="span" color="var(--coreego-blue)" flex={1} alignItems="center">
             <Text as="span">
                 <MdLocationOn />
             </Text>
-            <Text as="span" noOfLines={1}> {city.label}, {district.label} </Text>
+            <Text as="span" noOfLines={1}> {city.label} {district && ', ' + district?.label} </Text>
         </Flex>
     )
 }

@@ -2,7 +2,7 @@ import { Suspense } from "react"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import LoadingPage from "../../components/LoadingPage"
-import { Avatar, Box, Button, FormControl, FormErrorMessage, Grid, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Textarea, VStack, useDisclosure } from "@chakra-ui/react"
+import { Avatar, Box, Button, Card, CardBody, Divider, FormControl, FormErrorMessage, Grid, GridItem, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Textarea, VStack, Wrap, useDisclosure } from "@chakra-ui/react"
 import { VERTICAL_SPACING } from "../../utils/variables"
 import ContainerSection from "../components/ContainerSection"
 import UserSniped from "../../components/react-ux/UserSniped"
@@ -10,59 +10,62 @@ import { noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidatio
 import { Controller, useForm } from "react-hook-form"
 import UploadImageModule from "../components/modules/UploadImageModule"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import FeedList from "../components/FeedList"
-import SmallDiscussionCard from "../../components/card/SmallDiscusionCard"
-import FeedProfil from "../components/FeedProfil"
+import ProfilPublicationsModal from "../../components/Modals/ProfilPublicationsModal"
+import LikesUserModal from "../../components/Modals/LikesUserModal"
 
 
 
 const Publications = () => {
     const params = useParams()
 
-    const { data: publications, error } = useSWR(`/user/${params.id}/publications`, { suspense: true })
+    const { data: places, error } = useSWR(`/places/user?user=${params.id}`, { suspense: true })
+    const { data: discussions, error: errorPublication } = useSWR(`/discussions/user?user=${params.id}`, { suspense: true })
+    const { data: products, error: errorProduct } = useSWR(`/products/user?user=${params.id}`, { suspense: true })
+    const { data: likes, error: errorLike } = useSWR(`/likes/user?current_logged=true`, { suspense: true })
 
-    if (error) console.error(error)
+    const likesPlaces = likes.reduce((prev: any, curr: any) => {
+        if ('place' in curr) prev.push(curr.place)
+        return prev
+    }, [])
 
-    return (
-        <Stack spacing={VERTICAL_SPACING}>
-            <Stack>
-                <Text as="b" fontSize="lg" >Discussions</Text>
-                <FeedProfil datas={publications.discussions} noLengthLabel={"Aucune discussions publié"} cardName={"discussion"} />
-            </Stack>
-            <Stack>
-                <Text as="b" fontSize="lg" >Produits en vente</Text>
-                <FeedProfil datas={publications.products} noLengthLabel={"Aucun produit en vente"} cardName="product" />
-            </Stack>
-            <Stack>
-                <Text as="b" fontSize="lg" >Lieux partagés</Text>
-                <FeedProfil datas={publications.places} noLengthLabel={"Aucun lieux publié"} cardName="place" />
-            </Stack>
-        </Stack>
-    )
-
-}
-
-const PublicationsLike = () => {
-    const params = useParams()
-
-    const { data, error } = useSWR(`/user/${params.id}/publications/liked`, { suspense: true })
-
-
-    if (error) console.error({ error })
-
-    const discussions = data.likes.filter((item:any) => item.hasOwnProperty("discussion")).map((item: any) => item.discussion)
-    const places = data.likes.filter((item:any) => item.hasOwnProperty("place")).map((item: any) => item.place)
+    const likesDiscussion = likes.reduce((prev: any, curr: any) => {
+        if ('discussion' in curr) prev.push(curr.discussion)
+        return prev
+    }, [])
 
     return (
-        <Stack spacing={VERTICAL_SPACING}>
-            <Stack>
-                <Text as="b" fontSize="lg" >Discussions</Text>
-                <FeedProfil datas={discussions} noLengthLabel={"Aucune discussions publié"} cardName={"discussion"} />
-            </Stack>
-            <Stack>
-                <Text as="b" fontSize="lg" >Lieux</Text>
-                <FeedProfil datas={places} noLengthLabel={"Aucun lieux aimé"} cardName="place" />
-            </Stack>
+        <Stack>
+            <Text as="h2" fontWeight={"bold"} fontSize={"2xl"}>Publications</Text>
+            <Grid
+                gap={5}
+                templateColumns={{
+                    base: "repeat(1, 1fr)",
+                    sm: "repeat(1, 1fr)",
+                    md: "repeat(2, 1fr)",
+                }}>
+                {places.length &&
+                    <GridItem>
+                        <ProfilPublicationsModal datas={places} cardName={"place"} />
+                    </GridItem>
+                }
+                {
+                    discussions.length &&
+                    <GridItem>
+                        <ProfilPublicationsModal datas={discussions} cardName={"discussion"} />
+                    </GridItem>
+                }
+                {
+                    products.length &&
+                    <GridItem>
+                        <ProfilPublicationsModal datas={products} cardName={"product"} />
+                    </GridItem>
+                }
+                {
+                    (likesPlaces.length && likesDiscussion.length) && <GridItem>
+                        <LikesUserModal places={likesPlaces} discussions={likesDiscussion} />
+                    </GridItem>
+                }
+            </Grid>
         </Stack>
     )
 
@@ -81,53 +84,56 @@ const UserDetail = () => {
 
 
     return (
-        <>
-            <Box py={VERTICAL_SPACING} bg="white">
-                <ContainerSection withPadding={true}>
-                    <Stack alignItems="flex-start">
-                        <HStack>
-                            <UserSniped size="lg" avatar={user.avatar} pseudo={user.pseudo} />
-                            {currentUserProfil && <Button size="sm" variant="outline">Modifier mon profil</Button>}
-                        </HStack>
-                        <Text>
-                            "The quick brown fox jumps over the lazy dog" is an English-language pangram—a
-                            sentence that contains all of the letters of the English alphabet. Owing to
-                            its existence, Chakra was created.
-                        </Text>
-                        <HStack>
-                            <Box>FB</Box>
-                            <Box>YT</Box>
-                            <Box>TIKTOK</Box>
-                        </HStack>
-                    </Stack>
-                </ContainerSection>
-            </Box>
-            <Box>
-                <ContainerSection withPadding={true}>
-                    <Tabs>
-                        <TabList>
-                            <Tab>Publications</Tab>
-                            {currentUserProfil && <Tab>Publications aimées</Tab>}
-                            <Tab>Three</Tab>
-                        </TabList>
-                        <TabPanels>
-                            <TabPanel px={0}>
+        <Box my={VERTICAL_SPACING} >
+            <ContainerSection withPadding={true}>
+                <Grid
+                    gap={10}
+                    templateColumns={{
+                        base: "repeat(1, 1fr)",
+                        md: "repeat(10, 1fr)",
+                    }}>
+                    <GridItem colSpan={{
+                        base: 1,
+                        md: 3
+                    }}>
+                        <Card>
+                            <CardBody>
+                                <Stack direction={"row"} justifyContent={"center"}>
+                                    <VStack>
+                                        <UserSniped size="xl" avatar={user.avatar} />
+                                        <Text as="h1" fontSize={"lg"} fontWeight={"bold"}> {user.pseudo} </Text>
+                                    </VStack>
+                                </Stack>
+                            </CardBody>
+                        </Card>
+                    </GridItem>
+                    <GridItem colSpan={{
+                        base: 1,
+                        md: 7
+                    }}>
+                        <HStack spacing={VERTICAL_SPACING} alignItems={"flex-start"}>
+                            <Stack spacing={VERTICAL_SPACING}>
+                                <Stack alignItems={"flex-start"}>
+                                    <Text as="h2" fontWeight={"bold"} fontSize={"2xl"}>A propos de {user.pseudo} </Text>
+                                    {currentUserProfil && <Button size="sm" variant="outline">Modifier mon profil</Button>}
+                                    <Wrap spacing={1}>
+                                        <Text w={{ base: '100%', sm: '49%' }}>d'autre info comme airbnb azer tr er</Text>
+                                        <Text w={{ base: '100%', sm: '49%' }}>d'autre info comme airbnb</Text>
+                                        <Text w={{ base: '100%', sm: '49%' }}>d'autre info comme airbnb</Text>
+                                    </Wrap>
+                                </Stack>
+                                <Stack>
+                                    <Text fontWeight={500} fontSize={"xl"}>Présentation</Text>
+                                    <Text> Lorem ipsum dolor sit amet consectetur adipisicing elit. Error, doloremque nesciunt suscipit quos consequuntur accusamus ab optio nostrum aut labore laudantium natus necessitatibus sapiente earum sequi quasi culpa, porro voluptates. </Text>
+                                </Stack>
+                                <Divider opacity={1} />
                                 <Publications />
-                            </TabPanel>
-                            {
-                                currentUserProfil && <TabPanel px={0}>
-                                    <PublicationsLike />
-                                </TabPanel>
-                            }
-                            <TabPanel px={0}>
-                                <p>Oh, hello there.</p>
-                            </TabPanel>
-                        </TabPanels>
-                    </Tabs>
-                </ContainerSection>
-            </Box>
-        </>
-    )
+                            </Stack>
+                        </HStack>
+                    </GridItem>
+                </Grid>
+            </ContainerSection>
+        </Box>    )
 }
 
 const ProfilPage = () => {

@@ -16,7 +16,7 @@ interface FilterProviderProps {
 }
 
 export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
-  const location = useLocation();
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [params, setParams] = useState<FilterContextType['params']>({});

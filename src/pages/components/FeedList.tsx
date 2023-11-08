@@ -50,17 +50,17 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
                     <GridItem key={data.id}>
                         {cardName === "discussion" &&
                             <NavLink to={'/forum/discussion/detail/' + data.id}>
-                                <DiscussionCard discussion={data}  />
+                                <DiscussionCard size="xl" discussion={data}  />
                             </NavLink>
                         }
                         {cardName === "product" &&
                             <NavLink to={'/market-place/product/detail/' + data.id}>
-                                <ProductCard  product={data} />
+                                <ProductCard size="xl"  product={data} />
                             </NavLink>
                         }
                         {cardName === "place" &&
                             <NavLink to={'/voyage/place/detail/' + data.id}>
-                                <PlaceCard  place={data} />
+                                <PlaceCard size="xl" place={data} />
                             </NavLink>
                         }
                     </GridItem>

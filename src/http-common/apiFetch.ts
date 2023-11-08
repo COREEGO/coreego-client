@@ -24,9 +24,11 @@ export async function apiFetch<T>(
     headers["Content-Type"] = "application/json";
   }
 
-  if (token) {
-    headers["authorization"] = "Bearer " + token;
-  }
+
+    if (token) {
+      headers["authorization"] = "Bearer " + token;
+    }
+
 
   try {
     const response = await axios({

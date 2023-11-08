@@ -38,7 +38,7 @@ export default function RouterOutleft() {
                 <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
 
                 <Route path="/user/profil/:id" element={<ProfilPage />} />
-                <Route path="/user/carnet-de-voyage/:id" element={<TraveloguePage />} />
+                <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />
 
             </Route>
             <Route path="/login" element={<LoginPage />} />

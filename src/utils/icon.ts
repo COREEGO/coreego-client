@@ -1,6 +1,5 @@
 import { BsHeart, BsPerson } from "react-icons/bs";
 import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore } from "react-icons/md";
-
 import { AiOutlineUser } from "react-icons/ai";
 
 export const FORUM_ICON = MdOutlineComment

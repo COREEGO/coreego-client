@@ -51,19 +51,6 @@ const Detail = () => {
                     cityId === savedplace.place.city.id &&
                     <GridItem key={savedplace.id}>
                         <PlaceCard size="sm" place={savedplace.place} />
-                        {/* <SmallPlaceCard place={savedplace.place}>
-                            <Menu>
-                                <MenuButton>
-                                    <MdMoreVert />
-                                </MenuButton>
-                                <MenuList>
-                                    <Link to={`/voyage/place/detail/${savedplace.place.id}`}>
-                                        <MenuItem icon={<MdRemoveRedEye />}>Voir détail</MenuItem>
-                                    </Link>
-                                    <MenuItem onClick={() => onRemoveThis(savedplace.id)} icon={<MdDelete />}>Supprimer de la liste</MenuItem>
-                                </MenuList>
-                            </Menu>
-                        </SmallPlaceCard> */}
                     </GridItem>
                 )
             })
@@ -93,7 +80,8 @@ const Detail = () => {
                     }
                 </Stack>
             </ContainerSection>
-            <TravelLogueModal places={places} />
+            { places.length ? <TravelLogueModal places={places} /> : <></>}
+
         </Box>
 
     );

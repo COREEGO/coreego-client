@@ -2,69 +2,198 @@ import { Suspense } from "react"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import LoadingPage from "../../components/LoadingPage"
-import { Avatar, Box, Button, Card, CardBody, Divider, FormControl, FormErrorMessage, Grid, GridItem, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Stack, Tab, TabList, TabPanel, TabPanels, Tabs, Text, Textarea, VStack, Wrap, useDisclosure } from "@chakra-ui/react"
+import { Box, Button, Card, CardBody, Divider, Grid, GridItem, HStack, Stack, Text, VStack, Wrap } from "@chakra-ui/react"
 import { VERTICAL_SPACING } from "../../utils/variables"
 import ContainerSection from "../components/ContainerSection"
 import UserSniped from "../../components/react-ux/UserSniped"
-import { noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
-import { Controller, useForm } from "react-hook-form"
-import UploadImageModule from "../components/modules/UploadImageModule"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import ProfilPublicationsModal from "../../components/Modals/ProfilPublicationsModal"
-import LikesUserModal from "../../components/Modals/LikesUserModal"
+import ModalWrapper from "../../components/Modals/ModalWraper"
+import { templateColumns } from "../../utils"
+import DiscussionCard from "../../components/card/DiscussionCard"
+import PlaceCard from "../../components/card/PlaceCard"
+import { NavLink } from "react-router-dom"
+import { FORUM_ICON, DISLIKE_ICON, TRAVEL_ICON, MARKET_PLACE_ICON } from "../../utils/icon"
+import ProductCard from "../../components/card/ProductCard"
 
+const ButtonOpenModal: React.FC<{ onClick: () => void, label: string, icon: any }> = ({ onClick, label, icon }) => {
+    return (
+        <Card w="100%" as="button" onClick={onClick}>
+            <CardBody display={"flex"} justifyContent={"center"} w="100%">
+                <Text fontSize="lg" as="span">
+                    <HStack>
+                        {icon}
+                        <Text>{label}</Text>
+                    </HStack>
+                </Text>
+            </CardBody>
+        </Card>
+    )
+}
 
+const PublicationLiked = () => {
 
-const Publications = () => {
-    const params = useParams()
+    const { data: likes, error } = useSWR(`/likes/user?current_logged=true`, { suspense: true })
 
-    const { data: places, error } = useSWR(`/places/user?user=${params.id}`, { suspense: true })
-    const { data: discussions, error: errorPublication } = useSWR(`/discussions/user?user=${params.id}`, { suspense: true })
-    const { data: products, error: errorProduct } = useSWR(`/products/user?user=${params.id}`, { suspense: true })
-    const { data: likes, error: errorLike } = useSWR(`/likes/user?current_logged=true`, { suspense: true })
+    if (error) console.error(error)
 
-    const likesPlaces = likes.reduce((prev: any, curr: any) => {
+    const places = likes.reduce((prev: any, curr: any) => {
         if ('place' in curr) prev.push(curr.place)
         return prev
     }, [])
 
-    const likesDiscussion = likes.reduce((prev: any, curr: any) => {
+    const discussions = likes.reduce((prev: any, curr: any) => {
         if ('discussion' in curr) prev.push(curr.discussion)
         return prev
     }, [])
+
+    return <ModalWrapper
+        id="like"
+        title={<>{<DISLIKE_ICON />} J'aimes</>}
+        renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"J'aimes"} icon={<DISLIKE_ICON />} />}
+        params={{ size: 'full' }}
+    >
+        <Stack spacing={VERTICAL_SPACING}>
+            {
+                places.length && <Stack>
+                    <Text fontWeight={500} fontSize={"xl"}>Lieux</Text>
+                    <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+                        {
+                            places.map((place: any) => {
+                                return <GridItem key={'p-' + place.id}>
+                                    <NavLink to={'/voyage/place/detail/' + place.id}>
+                                        <PlaceCard size="sm" place={place} />
+                                    </NavLink>
+                                </GridItem>
+                            })
+                        }
+                    </Grid>
+                </Stack>
+            }
+            {
+                discussions.length && <Stack>
+                    <Text fontWeight={500} fontSize={"xl"}>Discussions</Text>
+                    <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+                        {
+                            discussions.map((discussion: any) => {
+                                return <GridItem key={'d-' + discussion.id}>
+                                    <NavLink to={'/forum/discussion/detail/' + discussion.id}>
+                                        <DiscussionCard size="sm" discussion={discussion} />
+                                    </NavLink>
+                                </GridItem>
+                            })
+                        }
+                    </Grid>
+                </Stack>
+            }
+        </Stack>
+    </ModalWrapper>
+}
+
+const PlacePublication = () => {
+
+    const params = useParams()
+
+    const { data: places, error } = useSWR(`/places/user?user=${params.id}`, { suspense: true })
+    if (error) console.error(error)
+
+    return (
+        <ModalWrapper
+            id="places"
+            title={<>{<TRAVEL_ICON />} Lieux</>}
+            renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Lieux"} icon={<TRAVEL_ICON />} />}
+            params={{ size: 'full' }}
+        >
+            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+                {
+                    places.map((place: any) => {
+                        return <GridItem key={place.id}>
+                            <NavLink to={'/voyage/place/detail/' + place.id}>
+                                <PlaceCard size="sm" place={place} />
+                            </NavLink>
+                        </GridItem>
+                    })
+                }
+            </Grid>
+        </ModalWrapper>
+    )
+}
+
+const DiscusionPublication = () => {
+    const params = useParams()
+
+    const { data: discussions, error } = useSWR(`/discussions/user?user=${params.id}`, { suspense: true })
+
+    if (error) console.error(error)
+
+    return (
+        <ModalWrapper
+            id="discussions"
+            title={<><FORUM_ICON />Discussions</>}
+            renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Discussions"} icon={<FORUM_ICON />} />}
+            params={{ size: 'full' }}
+        >
+            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+                {
+                    discussions.map((discussion: any) => {
+                        return <GridItem key={discussion.id}>
+                            <NavLink to={'/forum/discussion/detail/' + discussion.id}>
+                                <DiscussionCard size="sm" discussion={discussion} />
+                            </NavLink>
+                        </GridItem>
+                    })
+                }
+            </Grid>
+        </ModalWrapper>
+    )
+}
+
+const ProductPublication = () => {
+    const params = useParams()
+
+    const { data: products, error: errorProduct } = useSWR(`/products/user?user=${params.id}`, { suspense: true })
+
+    return (
+        <ModalWrapper
+            id="produits"
+            title={<><MARKET_PLACE_ICON />Produits mis en vente</>}
+            renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Produits mis en vente"} icon={<MARKET_PLACE_ICON />} />}
+            params={{ size: 'full' }}
+        >
+            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+                {
+                    products.map((product: any) => {
+                        return <GridItem key={product.id}>
+                            <NavLink to={'/market-place/product/detail/' + product.id}>
+                                <ProductCard size="sm" product={product} />
+                            </NavLink>
+                        </GridItem>
+                    })
+                }
+            </Grid>
+        </ModalWrapper>
+    )
+}
+
+const Publications = () => {
+    const params = useParams()
+    const { user: currentUser }: any = useAuthContext()
 
     return (
         <Stack>
             <Text as="h2" fontWeight={"bold"} fontSize={"2xl"}>Publications</Text>
             <Grid
                 gap={5}
-                templateColumns={{
-                    base: "repeat(1, 1fr)",
-                    sm: "repeat(1, 1fr)",
-                    md: "repeat(2, 1fr)",
-                }}>
-                {places.length &&
-                    <GridItem>
-                        <ProfilPublicationsModal datas={places} cardName={"place"} />
-                    </GridItem>
-                }
-                {
-                    discussions.length &&
-                    <GridItem>
-                        <ProfilPublicationsModal datas={discussions} cardName={"discussion"} />
-                    </GridItem>
-                }
-                {
-                    products.length &&
-                    <GridItem>
-                        <ProfilPublicationsModal datas={products} cardName={"product"} />
-                    </GridItem>
-                }
-                {
-                    (likesPlaces.length && likesDiscussion.length) && <GridItem>
-                        <LikesUserModal places={likesPlaces} discussions={likesDiscussion} />
-                    </GridItem>
-                }
+                templateColumns={templateColumns({ base: 1, sm: 1, md: 2 })}>
+                <GridItem>
+                    <PlacePublication />
+                </GridItem>
+                <GridItem>
+                    <DiscusionPublication />
+                </GridItem>
+                <GridItem>
+                    <ProductPublication />
+                </GridItem>
+                {currentUser && currentUser.id == params.id ? <GridItem> <PublicationLiked /> </GridItem> : <></>}
             </Grid>
         </Stack>
     )
@@ -133,7 +262,7 @@ const UserDetail = () => {
                     </GridItem>
                 </Grid>
             </ContainerSection>
-        </Box>    )
+        </Box>)
 }
 
 const ProfilPage = () => {

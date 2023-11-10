@@ -4,22 +4,25 @@ import logo from '../../images/svgs/coreego-logo.svg'
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import ContainerSection from "../../pages/components/ContainerSection";
+import { CLOSE_ICON, FORUM_ICON, MARKET_PLACE_ICON, PROFIL_ICON, TRAVEL_ICON } from "../../utils/icon";
+import { BsPerson } from "react-icons/bs";
+import { AiOutlineUser } from "react-icons/ai";
 
 const links = [
     {
         path: '/forum',
         label: "Forum",
-        icon: MdOutlineComment
+        icon: FORUM_ICON
     },
     {
         path: '/market-place',
         label: "Market place",
-        icon: MdOutlineShoppingBag
+        icon: MARKET_PLACE_ICON
     },
     {
         path: '/voyage',
         label: 'Voyage',
-        icon: MdOutlineTravelExplore
+        icon: TRAVEL_ICON
     }
 ]
 
@@ -39,7 +42,7 @@ const NavigationLink: React.FC<{ onClick?: any }> = ({ onClick }) => {
                             style={{ marginRight: 10 }}
                         >
                             <ListItem key={index}
-                                fontSize={14}
+                                fontSize="md"
                                 fontWeight={600}
                                 alignItems="center"
                                 display="flex"
@@ -68,7 +71,7 @@ const DrawerNavigation = () => {
             <Drawer size="full" useInert={true} placement="right" onClose={onClose} isOpen={isOpen}>
                 <DrawerContent opacity={0.98}>
                     <DrawerHeader>
-                        <IconButton fontSize={24} color={"black"} onClick={onClose} variant="link" icon={<MdClose />} aria-label={"close drawer"} />
+                        <IconButton fontSize={24} color={"black"} onClick={onClose} variant="link" icon={<CLOSE_ICON />} aria-label={"close drawer"} />
                     </DrawerHeader>
                     <DrawerBody display={"flex"} alignItems={"center"} justifyContent={"center"}>
                         <NavigationLink onClick={onClose} />
@@ -87,7 +90,7 @@ const NavigationUserMenu = () => {
         return (
             <>
                 <NavLink to={`/user/profil/${user.id}`}>
-                    <MenuItem>Profil</MenuItem>
+                    <MenuItem icon={<AiOutlineUser fontSize={16} />}>Profil</MenuItem>
                 </NavLink>
                 <NavLink to={`/user/carnet-de-voyage`}>
                     <MenuItem>Mon carnet de voyage</MenuItem>

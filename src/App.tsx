@@ -11,6 +11,7 @@ import Layout from './pages/layouts/Layout';
 import { FilterProvider } from './contexts/FilterProvider';
 import { SWRConfig } from 'swr';
 import { swrConfig } from './http-common/swrConfig';
+import { ModalProvider } from './contexts/ModalProvider';
 
 const theme = extendTheme({
   fonts: {
@@ -38,13 +39,13 @@ function App() {
     }}>
       <SWRConfig value={swrConfig}>
         <AuthProvider>
-          <FilterProvider>
-            <Provider store={store}>
-              <Layout>
-                <RouterOutleft />
-              </Layout>
-            </Provider>
-          </FilterProvider>
+            <FilterProvider>
+              <Provider store={store}>
+                <Layout>
+                  <RouterOutleft />
+                </Layout>
+              </Provider>
+            </FilterProvider>
         </AuthProvider>
       </SWRConfig>
     </ChakraProvider >

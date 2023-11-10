@@ -44,10 +44,21 @@ export const wonToEuro = (price: number) => {
   return convertir;
 };
 
-export const findMatchingUser = (datas: Array<any>, user:any) => {
-  return datas.find((like: any) => like.user.id === user.id)
-}
+export const findMatchingUser = (datas: Array<any>, user: any) => {
+  return datas.find((data: any) => data?.user?.id === user.id);
+};
 
-export const isAlreadySaved = (likes : Array<any>, user: any ) => {
-  return likes.find((like: any) => like.user.id === user.id)
-}
+export const isAlreadySaved = (likes: Array<any>, user: any) => {
+  return likes.find((like: any) => like.user.id === user.id);
+};
+
+export const templateColumns = ({ base, sm, md, lg }: { base?: number; sm?: number; md?: number; lg?: number }) => {
+  const template: any = {};
+
+  if (base) template.base = `repeat(${base}, 1fr)`;
+  if (sm) template.sm = `repeat(${sm}, 1fr)`; // Fix: Use 'sm' property instead of 'base' for sm
+  if (md) template.md = `repeat(${md}, 1fr)`; // Fix: Use 'md' property instead of 'base' for md
+  if (lg) template.lg = `repeat(${lg}, 1fr)`; // Fix: Use 'lg' property instead of 'base' for lg
+
+  return template;
+};

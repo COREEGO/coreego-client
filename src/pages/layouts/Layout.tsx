@@ -17,17 +17,16 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     const [appLoaded, setAppLoaded] = useState<boolean>(false)
 
-    const { authentificate } = useAuthContext()
+    const { authentificate, refreshToken } = useAuthContext()
+
+    const refresh_token = localStorage.getItem('refresh_token')
+
 
     const dispath = useDispatch()
 
     useEffect(() => {
         onLoadedApplication()
     }, [])
-
-    // useEffect(() => {
-    //     authentificate()
-    // }, [localStorage.getItem('token')])
 
     const onLoadedApplication = async () => {
         try {
@@ -44,8 +43,15 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             if (cities) dispath(initCities(cities))
 
 
+
         } catch (error:any) {
-            console.log(JSON.parse(error.message).message)
+           const message = JSON.parse(error.message)
+            if(message.code === 401){
+                console.log('token expired')
+                if(refresh_token){
+                    refreshToken()
+                }
+            }
         } finally {
             setAppLoaded(true)
         }

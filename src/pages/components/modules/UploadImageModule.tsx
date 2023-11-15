@@ -7,7 +7,7 @@ import { FaTrashCan } from "react-icons/fa6";
 
 const UploadImageModule: React.FC<{onChange: Function, multiple?: boolean}> = ({ onChange, multiple = true }) => {
 
-    const { files, addFile, removeFile } = useFile(multiple)
+    const { files, addFile, removeFile } = useFile()
 
     useEffect(() => {
         onChange(files)

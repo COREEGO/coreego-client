@@ -24,7 +24,7 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place, size = 'xl' }) => {
                 <CardBody>
                     <VStack alignItems={"flex-start"} position="relative">
                         <UserSniped
-                            avatar={place.user.avatar}
+                            avatar={place.user.avatarUrl}
                             pseudo={place.user.pseudo}
                             publishDate={place.createdAt}
                         />

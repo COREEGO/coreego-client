@@ -1,31 +1,28 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import React, { JSXElementConstructor, ReactElement, Suspense, useEffect, useState } from 'react';
 import { Box, ChakraProvider, Container, Fade, SkipNavLink, extendTheme, position, withDefaultColorScheme } from '@chakra-ui/react'
 import './App.scss';
 import RouterOutleft from './pages/components/RouterOutlet';
-import { CONTAINER_SIZE } from './utils/variables';
-// import { swrConfig } from './http-common/swrConfig'
-import { AuthProvider } from './contexts/AuthProvider';
 import { Provider } from 'react-redux';
 import store from './store/app.store';
 import Layout from './pages/layouts/Layout';
 import { FilterProvider } from './contexts/FilterProvider';
 import { SWRConfig } from 'swr';
 import { swrConfig } from './http-common/swrConfig';
-import { ModalProvider } from './contexts/ModalProvider';
+import { AuthProvider } from './contexts/AuthProvider';
 
 const theme = extendTheme({
   fonts: {
     heading: `'Roboto', sans-serif`,
     body: `'Roboto', sans-serif`,
   },
-  styles: {
-    global: {
-      // Modifier la couleur du texte du corps ici
-      body: {
-        backgroundColor: 'var(--main)',
-      },
-    }
-  },
+  // styles: {
+  //   global: {
+  //     // Modifier la couleur du texte du corps ici
+  //     body: {
+  //       backgroundColor: 'var(--main)',
+  //     },
+  //   }
+  // },
 },
 )
 
@@ -38,15 +35,15 @@ function App() {
       }
     }}>
       <SWRConfig value={swrConfig}>
-        <AuthProvider>
-            <FilterProvider>
-              <Provider store={store}>
-                <Layout>
-                  <RouterOutleft />
-                </Layout>
-              </Provider>
-            </FilterProvider>
-        </AuthProvider>
+        <FilterProvider>
+          <Provider store={store}>
+            <AuthProvider>
+              <Layout>
+                <RouterOutleft />
+              </Layout>
+            </AuthProvider>
+          </Provider>
+        </FilterProvider>
       </SWRConfig>
     </ChakraProvider >
   );

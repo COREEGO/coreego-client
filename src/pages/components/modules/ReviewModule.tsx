@@ -27,7 +27,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
 
     const { isOpen: isOpenNew, onOpen: onOpenNew, onClose: onCloseNew } = useDisclosure()
 
-    const { user } = useAuthContext()
+    const { user } : any = useAuthContext()
 
     reviews = reviews.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();

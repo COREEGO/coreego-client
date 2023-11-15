@@ -16,36 +16,37 @@ import ProductCreatePage from "../marketplace/ProductCreatePage";
 import PlaceCreatePage from "../travel/PlaceCreatePage";
 import ProfilPage from '../user/ProfilPage'
 import TraveloguePage from "../user/TraveloguePage";
+import ProfilEditPage from "../user/ProfilEditPage";
+import Layout from "../layouts/Layout";
 
 
 export default function RouterOutleft() {
 
     return (
-        <Routes>
-            <Route element={<PrivateRoute />} >
-                <Route path="/" element={<HomePage />} />
 
-                <Route path="/forum" element={<ForumPage />} />
-                <Route path="/forum/discussion/detail/:id" element={<DiscussionDetail />} />
-                <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
+            <Routes>
+                <Route element={<PrivateRoute />} >
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/forum" element={<ForumPage />} />
+                    <Route path="/forum/discussion/detail/:id" element={<DiscussionDetail />} />
+                    <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
 
-                <Route path="/market-place" element={<MarketPlacePage />} />
-                <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />
-                <Route path="/market-place/product/create" element={<ProductCreatePage />} />
+                    <Route path="/market-place" element={<MarketPlacePage />} />
+                    <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />
+                    <Route path="/market-place/product/create" element={<ProductCreatePage />} />
 
-                <Route path="/voyage" element={<TravelPage />} />
-                <Route path="/voyage/place/detail/:id" element={<PlaceDetail />} />
-                <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
+                    <Route path="/voyage" element={<TravelPage />} />
+                    <Route path="/voyage/place/detail/:id" element={<PlaceDetail />} />
+                    <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
 
-                <Route path="/user/profil/:id" element={<ProfilPage />} />
-                <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />
-
-            </Route>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/password/reset/:id?/:token?" element={<PasswordReset />} />
-            <Route path="/user/validation/account/:id/:token" element={<ValidationAccountPage />} />
-        </Routes>
+                    <Route path="/user/profil/:id" element={<ProfilPage />} />
+                    <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />
+                </Route>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/password/reset/:id?/:token?" element={<PasswordReset />} />
+                <Route path="/user/validation/account/:id/:token" element={<ValidationAccountPage />} />
+            </Routes>
     )
 
 }

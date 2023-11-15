@@ -7,6 +7,7 @@ import ContainerSection from "../../pages/components/ContainerSection";
 import { CLOSE_ICON, FORUM_ICON, MARKET_PLACE_ICON, PROFIL_ICON, TRAVEL_ICON } from "../../utils/icon";
 import { BsPerson } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
+import UserSniped from "../react-ux/UserSniped";
 
 const links = [
     {
@@ -121,7 +122,7 @@ const NavigationUserMenu = () => {
         <Menu>
             <MenuButton borderRadius={90} borderWidth={2} p={1}>
                 <Stack direction="row" alignItems="center">
-                    <Avatar size="xs" />
+                    <UserSniped size="xs" avatar={user ? user.avatarUrl : null }  />
                     <MdOutlineMenu fontSize={20} />
                 </Stack>
             </MenuButton>
@@ -130,12 +131,11 @@ const NavigationUserMenu = () => {
             </MenuList>
         </Menu>
     )
-
 }
 
 const Navigation: React.FC<NavigationInterface> = () => {
 
-    const { user, logout } = useAuthContext()
+    const { user } : any = useAuthContext()
 
     return (
         <Box bg="white" borderBottomWidth={2} position="sticky" top={0} zIndex={900}>

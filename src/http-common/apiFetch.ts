@@ -1,29 +1,23 @@
+/** @format */
 import axios from "axios";
-import axiosInstance from './axiosInstance'
 
 export async function apiFetch<T>(
-  url: string,
+  url: any,
   method: string,
   payload?: any
 ): Promise<T | { data: any } | { error: any } | null> {
-  const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
-  let body: any = payload instanceof FormData ? payload : JSON.stringify(payload);
-
+  let body: any = payload ? JSON.stringify(payload) : undefined;
 
   const headers: any = {
     Accept: "application/json",
   };
 
-  const access_token = localStorage.getItem('access_token');
-
-    if (access_token) {
-      headers["Authorization"] = `Bearer ${access_token}`;
-    }
-
   if (payload instanceof FormData) {
+    headers['Content-type'] = "multipart/form-data"
     body = payload;
-  } else if (method.toLowerCase() === "patch") {
+  } else if (method.toLocaleLowerCase() === "patch") {
     headers["Content-Type"] = "application/merge-patch+json";
   } else {
     headers["Content-Type"] = "application/json";
@@ -31,21 +25,18 @@ export async function apiFetch<T>(
 
   try {
     const response = await axios({
-      url: `${API_BASE_URL}${url}`,
+      url: BASE_URL + url,
       method,
       withCredentials: true,
-      headers: { ...headers, ...axiosInstance.defaults.headers } ,
+      headers,
       data: body,
     });
 
-    if ("data" in response) {
+    if (response && "data" in response) {
       return response.data;
     }
-  } catch (error:any) {
-    console.error(error);
-    if (error.response && error.response.data) {
-      throw new Error(JSON.stringify(error.response.data));
-    }
+  } catch (error: any) {
+      throw new Error(JSON.stringify(error.response));
   }
 
   return null; // Return a default value if the response is not as expected

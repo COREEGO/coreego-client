@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/fr';
-
+import { AuthProvider } from './contexts/AuthProvider';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,9 +15,9 @@ const root = ReactDOM.createRoot(
 moment.locale('fr')
 
 root.render(
-  <BrowserRouter>
+    <BrowserRouter>
       <App />
-  </BrowserRouter>
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,11 +1,14 @@
+import * as React from 'react'
+import useSignIn from 'react-auth-kit';
 import { Text, Card, Stack, CardBody, Box, FormControl, FormLabel, Input, Button, CardHeader, FormErrorMessage } from "@chakra-ui/react"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { useEffect, useState } from "react"
 import ErrorAlert from "../../components/alerts/ErrorAlert"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import CenterLayout from "../layouts/CenterLayout"
 import { useForm } from "react-hook-form"
 import { emailValidator, noEmptyValidator } from "../../utils/formValidation"
+import { apiFetch } from '../../http-common/apiFetch';
 
 type Inputs = {
     email: string,
@@ -14,7 +17,10 @@ type Inputs = {
 
 export default function LoginPage() {
 
-    const { login, error } = useAuthContext()
+    const { authentification }: any = useAuthContext()
+
+
+    const navigate = useNavigate()
 
     const {
         control,
@@ -29,7 +35,23 @@ export default function LoginPage() {
     })
 
     const onsubmit = async (data: Inputs) => {
-        await login(data.email.trim(), data.password.trim())
+        try {
+            await apiFetch('/login', 'post', {
+                username: data.email.trim(),
+                password: data.password.trim()
+            })
+            await authentification()
+            navigate('/')
+        } catch (e: any) {
+            let errorMessage;
+            if (JSON.parse(e.message).status == 401){
+                errorMessage = "Email ou Mot de passe incorrect"
+            }
+            setError('root', {
+                message: errorMessage
+            })
+        }
+
     }
 
     return (
@@ -43,7 +65,7 @@ export default function LoginPage() {
                 </CardHeader>
                 <CardBody>
                     <Stack>
-                        <ErrorAlert message={error} />
+                        <ErrorAlert message={errors?.root?.message} />
                         <Stack as="form" onSubmit={handleSubmit(onsubmit)} action="/login" spacing={5}>
                             <FormControl isInvalid={errors.email ? true : false}>
                                 <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Votre email</FormLabel>

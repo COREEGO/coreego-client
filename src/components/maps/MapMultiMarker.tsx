@@ -1,4 +1,4 @@
-import { CustomOverlayMap, Map, MapMarker} from "react-kakao-maps-sdk"
+import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk"
 import useKakaoLoader from "./useKakaoLoader"
 import { useState } from "react"
 import { Box, ButtonGroup, IconButton } from "@chakra-ui/react"

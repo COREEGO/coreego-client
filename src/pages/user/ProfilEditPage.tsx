@@ -17,6 +17,23 @@ import { useSelector } from "react-redux";
 import { getValueFiltered } from "../../utils";
 import { NavLink } from "react-router-dom";
 
+const CustomButton: React.FC<{ onClick: () => any, icon: any, title: string, data: string }> = ({ onClick, icon, data, title }) => {
+    return <Button
+        whiteSpace={"break-spaces"}
+        py="30px"
+        h="auto"
+        justifyContent={"flex-start"}
+        flexWrap={"wrap"}
+        textAlign="left"
+        w="100%"
+        variant={"ghost"}
+        onClick={onClick}
+        alignItems={"center"}
+        leftIcon={<Box fontSize={25}>{icon}</Box>}>
+        {title + ' : '}
+        <Text as="span" fontWeight={"normal"}> {data}</Text>
+    </Button>
+}
 
 interface PropsInterface {
     profil: any,
@@ -96,23 +113,6 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
         }
     }
 
-    const CustomButton: React.FC<{ onClick: () => any, icon: any, title: string, data: string }> = ({ onClick, icon, data, title }) => {
-        return <Button
-            whiteSpace={"break-spaces"}
-            py="30px"
-            h="auto"
-            justifyContent={"flex-start"}
-            flexWrap={"wrap"}
-            textAlign="left"
-            w="100%"
-            variant={"ghost"}
-            onClick={onClick}
-            alignItems={"center"}
-            leftIcon={<Box fontSize={25}>{icon}</Box>}>
-            {title + ' : '}
-            <Text as="span" fontWeight={"normal"}> {data}</Text>
-        </Button>
-    }
 
     return (
         <Stack>

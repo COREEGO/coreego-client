@@ -77,3 +77,20 @@ export const getValueFiltered : any = (datas: Array<any>, value: string = "") =>
   let DATAS = [...datas]
   return value.length ? [...DATAS].filter((language: any) => language.label.toLowerCase().includes(value.toLowerCase())) : datas
 };
+
+export const isStikyElement = (className:string) => {
+
+  const stackElement : any = document.querySelector(className);
+
+  window.addEventListener('scroll', () => {
+  const isSticky = stackElement.getBoundingClientRect().bottom <= 0;
+    console.log(stackElement.getBoundingClientRect().bottom)
+  if (isSticky) {
+    return true
+    // stackElement.classList.add('sticky');
+  } else {
+    return false
+    // stackElement.classList.remove('sticky');
+  }
+});
+}

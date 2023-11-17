@@ -1,4 +1,4 @@
-import { Box, Text, Stack, Flex, Image, Button, Spacer } from "@chakra-ui/react";
+import { Box, Text, Stack, Flex, Image, Button, Spacer, HStack, Wrap } from "@chakra-ui/react";
 import { Suspense } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
@@ -11,6 +11,8 @@ import TitleText from "../../components/texts/TitleText";
 import { NavLink } from "react-router-dom";
 import UserSniped from "../../components/react-ux/UserSniped";
 import CategoryText from "../../components/texts/CategoryText";
+import ContainerSection from "../components/ContainerSection";
+import ShareButton from "../../components/buttons/ShareButton";
 
 
 
@@ -23,8 +25,8 @@ const Detail: React.FC<any> = () => {
     return (
         <>
             <Box py={VERTICAL_SPACING} bg="white">
-                <ContainerPage withPadding={true}>
-                    <Stack>
+                <Stack spacing={VERTICAL_SPACING}>
+                    <ContainerSection withPadding={true}>
                         <Stack>
                             <UserSniped
                                 avatar={data.user.avatar}
@@ -35,28 +37,25 @@ const Detail: React.FC<any> = () => {
                                 <CategoryText category={data.category} />
                             </NavLink>
                             <TitleText text={data.title} />
+                            <Text whiteSpace="pre-line"> {data.content} </Text>
+                            {
+                                data.images && <Wrap flexWrap="wrap" gap={2}>
+                                    {data.images.map((image: any) => {
+                                        return <Image borderRadius={"md"} key={image.id} height={250} w="auto" maxW="100%" src={BASE_URL + image.filePath} />
+                                    })}
+                                </Wrap>
+                            }
                         </Stack>
-                        <Flex alignItems="center" gap={2}>
-                            <Spacer />
-                            <LikeButton size="sm" discussionId={data.id} likes={data.likes} mutate={() => mutate()} />
-                            <Button size="sm" className="btn_blue">Partager</Button>
-                        </Flex>
+                    </ContainerSection>
+                    <Stack bg="white" position={"sticky"} bottom={0} py={3} zIndex={100}>
+                        <ContainerSection withPadding={true}>
+                            <HStack>
+                                <LikeButton size="sm" discussionId={data.id} likes={data.likes} mutate={() => mutate()} />
+                                <ShareButton />
+                            </HStack>
+                        </ContainerSection>
                     </Stack>
-                </ContainerPage>
-            </Box>
-            <Box py={VERTICAL_SPACING}>
-                <ContainerPage withPadding={true}>
-                    <Stack spacing={VERTICAL_SPACING}>
-                        <Text whiteSpace="pre-line"> {data.content} </Text>
-                        {
-                            data.images && <Flex flexWrap="wrap" gap={2}>
-                                {data.images.map((image: any) => {
-                                    return <Image key={image.id} height={250} w="auto" maxW="100%" src={BASE_URL + image.filePath} />
-                                })}
-                            </Flex>
-                        }
-                    </Stack>
-                </ContainerPage>
+                </Stack>
             </Box>
             <CommentModule mutate={() => mutate()} discussionId={params.id} comments={data.comments} />
 

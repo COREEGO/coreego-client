@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"; // Import React from 'react'
+import React, { Suspense, useEffect, useState } from "react"; // Import React from 'react'
 import LoadingPage from "../../components/LoadingPage";
 import { Box, Grid, GridItem, Stack, Text } from "@chakra-ui/react";
 import { NavLink } from "react-router-dom"; // Import from "react-router-dom"
@@ -7,28 +7,16 @@ import { VERTICAL_SPACING } from "../../utils/variables";
 import { apiFetch } from "../../http-common/apiFetch";
 import ContainerSection from "../components/ContainerSection";
 import TravelLogueModal from "../../components/Modals/TravelLogueModal";
+import useSWR from "swr";
 
-const TraveloguePage = () => {
+const Detail = () => {
 
-    const [data, setData] = useState<Array<any>>([])
 
     const [isBusy, setIsBusy] = useState<boolean>(false)
 
-    useEffect(()=>{
-        onLoad()
-    },[])
+    const {data, error} = useSWR("/saved_places", {suspense: true})
 
-    const onLoad = async () => {
-        try {
-            setIsBusy(true)
-            const response : any= await apiFetch("/saved_places", "get")
-            setData(response)
-        } catch (error) {
-            console.log(error)
-        }finally{
-            setIsBusy(false)
-        }
-    }
+    if(error) console.log(error)
 
     const getPlaceByCityid = (cityId: number) => {
         return (
@@ -47,7 +35,7 @@ const TraveloguePage = () => {
 
     useEffect(() => {
         getCities()
-    }, [data]);
+    }, []);
 
     const getCities = () => {
         return data.reduce((prev: any[], curr: any) => {
@@ -60,13 +48,13 @@ const TraveloguePage = () => {
     }
 
      const getPlaces = () => {
-        return data.reduce((prev: Array<any>, curr: any) => {
+        return data.reduce((prev: any[], curr: any) => {
             prev.push(curr.place)
             return prev
         }, [])
     }
 
-    return !isBusy ? (
+    return (
         <Box py={VERTICAL_SPACING}>
             <ContainerSection withPadding={true}>
                 <Stack spacing={VERTICAL_SPACING}>
@@ -92,8 +80,17 @@ const TraveloguePage = () => {
             { getPlaces().length ? <TravelLogueModal places={getPlaces()} /> : <></>}
         </Box>
 
-    ) : <LoadingPage type={"page"}  />
+    )
 
 }
 
-export default TraveloguePage;
+const TraveloguePage = () => {
+
+    return (
+        <Suspense fallback={<LoadingPage type="data" />}>
+            <Detail />
+        </Suspense>
+    )
+}
+
+export default TraveloguePage

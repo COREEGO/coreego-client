@@ -7,6 +7,7 @@ import ReviewCard from "../../../components/card/ReviewCard"
 import { findMatchingUser } from "../../../utils"
 import StarsAverageIcon from "../../../components/icons/StarsAverageIcon"
 import ReviewScoreCheckbox from "../../../components/inputs/ReviewScoreCheckbox"
+import { useEffect } from "react"
 
 interface ReviewModuleInterface {
     placeId: number,
@@ -168,6 +169,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                                         </FormControl>
                                         <FormControl isInvalid={errors.content ? true : false}>
                                             <Textarea
+                                                defaultValue={currentValue?.content}
                                                 required
                                                 {...register('content', { ...noEmptyValidator })}
                                                 placeholder="Ecrivez votre commentaire" rows={10} />

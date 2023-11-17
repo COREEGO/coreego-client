@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import LoadingPage from "../../components/LoadingPage"
@@ -30,28 +30,16 @@ const Detail = () => {
             <Stack spacing={VERTICAL_SPACING}>
                 <ContainerSection withPadding={true}>
                     <Stack spacing={VERTICAL_SPACING}>
-                        <Flex alignItems={"start"} flexWrap="wrap" gap={5}>
-                            <Stack alignItems={"flex-start"}>
-                                <TitleText text={place.title} />
-                                <NavLink to={"/voyage?category=" + place.category.id}>
-                                    <CategoryText category={place.category} />
-                                </NavLink>
-                                <NavLink to={`/voyage?city=${place.city.id}&district=${place.district.id}`}>
-                                    <LocalisationText city={place.city} district={place.district} />
-                                </NavLink>
-                                <ReviewModule placeId={place.id} mutate={mutate} reviews={place.reviews} />
-                            </Stack>
-                            <Spacer />
-                            <HStack>
-                                <LikeButton likes={place.likes} mutate={mutate} placeId={place.id} />
-                                <SavePlaceButton
-                                    placeId={place.id}
-                                    savedPlaces={place.savedPlaces}
-                                    mutate={mutate}
-                                />
-                                <ShareButton />
-                            </HStack>
-                        </Flex>
+                        <Stack alignItems={"flex-start"}>
+                            <TitleText text={place.title} />
+                            <NavLink to={"/voyage?category=" + place.category.id}>
+                                <CategoryText category={place.category} />
+                            </NavLink>
+                            <NavLink to={`/voyage?city=${place.city.id}&district=${place.district.id}`}>
+                                <LocalisationText city={place.city} district={place.district} />
+                            </NavLink>
+                            <ReviewModule placeId={place.id} mutate={mutate} reviews={place.reviews} />
+                        </Stack>
                         <Box h={{ base: 300, md: 350 }} w="100%">
                             <SlideSwiper images={place.images} />
                         </Box>
@@ -86,7 +74,20 @@ const Detail = () => {
                         </Stack>
                     </Stack>
                 </ContainerSection>
-                <CommentModule placeId={place.id}  comments={place.comments} mutate={mutate} />
+                <Stack  bg="white" position={"sticky"} bottom={0} py={3} zIndex={100}>
+                    <ContainerSection withPadding={true}>
+                        <HStack>
+                            <LikeButton likes={place.likes} mutate={mutate} placeId={place.id} />
+                            <SavePlaceButton
+                                placeId={place.id}
+                                savedPlaces={place.savedPlaces}
+                                mutate={mutate}
+                            />
+                            <ShareButton />
+                        </HStack>
+                    </ContainerSection>
+                </Stack>
+                <CommentModule placeId={place.id} comments={place.comments} mutate={mutate} />
             </Stack>
         </Box>
     )

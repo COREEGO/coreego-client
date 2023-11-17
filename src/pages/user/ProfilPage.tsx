@@ -19,6 +19,7 @@ import {
   ListItem,
   Stack,
   Text,
+  Tooltip,
   VStack,
   Wrap,
 } from "@chakra-ui/react";
@@ -48,22 +49,15 @@ import ProfilEditPage from "./ProfilEditPage";
 import { templateColumns } from "../../utils";
 import { VERTICAL_SPACING } from "../../utils/variables";
 
-const ButtonOpenModal: React.FC<{ onClick: () => void; label: string; icon: any }> = ({ onClick, label, icon }) => (
-  <Card w="100%" as="button" onClick={onClick}>
-    <CardBody display={"flex"} justifyContent={"center"} w="100%">
-      <Text fontSize="lg" as="span">
-        <HStack>
-          {icon}
-          <Text>{label}</Text>
-        </HStack>
-      </Text>
-    </CardBody>
-  </Card>
-);
+const ButtonOpenModal: React.FC<{ onClick: () => void; label: string; icon: any }> = ({ onClick, label, icon }) => {
+  return (
+    <Button w="100%" onClick={onClick} py="30px" variant={"outline"} leftIcon={icon}>{label}</Button>
+  )
+}
 
 const PublicationLiked = () => {
   const params = useParams();
-  const { data: likes, error } = useSWR(`/likes?user=${params.id}`, { suspense: true });
+  const { data: likes, error } = useSWR(`/likes`, { suspense: true });
 
   if (error) console.error(error);
 
@@ -83,7 +77,7 @@ const PublicationLiked = () => {
             <Text fontWeight={500} fontSize={"xl"}>
               Lieux
             </Text>
-            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
               {places.map((place: any) => (
                 <GridItem key={'p-' + place.id}>
                   <NavLink to={'/voyage/place/detail/' + place.id}>
@@ -99,7 +93,7 @@ const PublicationLiked = () => {
             <Text fontWeight={500} fontSize={"xl"}>
               Discussions
             </Text>
-            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
               {discussions.map((discussion: any) => (
                 <GridItem key={'d-' + discussion.id}>
                   <NavLink to={'/forum/discussion/detail/' + discussion.id}>
@@ -127,7 +121,7 @@ const PlacePublication = () => {
       renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Lieux"} icon={<TRAVEL_ICON />} />}
       params={{ size: 'full' }}
     >
-      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
         {places.map((place: any) => (
           <GridItem key={place.id}>
             <NavLink to={'/voyage/place/detail/' + place.id}>
@@ -153,7 +147,7 @@ const DiscusionPublication = () => {
       renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Discussions"} icon={<FORUM_ICON />} />}
       params={{ size: 'full' }}
     >
-      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
         {discussions.map((discussion: any) => (
           <GridItem key={discussion.id}>
             <NavLink to={'/forum/discussion/detail/' + discussion.id}>
@@ -177,7 +171,7 @@ const ProductPublication = () => {
       renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Produits mis en vente"} icon={<MARKET_PLACE_ICON />} />}
       params={{ size: 'full' }}
     >
-      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
+      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
         {products.map((product: any) => (
           <GridItem key={product.id}>
             <NavLink to={'/market-place/product/detail/' + product.id}>
@@ -227,27 +221,42 @@ const Resume: React.FC<{ profil: any }> = ({ profil }) => {
         }
       </Stack>
       <List spacing={5}>
-        <Divider />
-        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-          <ListIcon as={OCCUPATION_ICON} fontSize={25} />
-          <Text><Text as="span" fontWeight={500}>Profession :</Text> Titre de la profession</Text>
-        </ListItem>
-        <Divider />
-        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-          <ListIcon as={DISLIKE_ICON} fontSize={25} />
-          <Text><Text as="span" fontWeight={500}>Ce que j'aime :</Text> La culture asiatique, le baseball et apprendre des langues</Text>
-        </ListItem>
-        <Divider />
-        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-          <ListIcon as={LOCALISATION_ICON} fontSize={25} />
-          <Text><Text as="span" fontWeight={500}>Où j'habite :</Text> Séoul, Mapo-gu</Text>
-        </ListItem>
-        <Divider />
-        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-          <ListIcon as={LANGUAGE_ICON} fontSize={25} />
-          <Text><Text as="span" fontWeight={500}>Langues parlées :</Text> Français, Coréen</Text>
-        </ListItem>
-        <Divider />
+        {
+          profil.occupation && <>
+            <Divider />
+            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+              <ListIcon as={OCCUPATION_ICON} fontSize={25} />
+              <Text><Text as="span" fontWeight={500}>Profession :</Text> {profil.occupation}</Text>
+            </ListItem>
+          </>
+        }
+        {
+          profil.hobby && <>
+            <Divider />
+            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+              <ListIcon as={DISLIKE_ICON} fontSize={25} />
+              <Text><Text as="span" fontWeight={500}>Ce que j'aime :</Text> {profil.hobby}</Text>
+            </ListItem>
+          </>
+        }
+        {
+          profil.localisation && <>
+            <Divider />
+            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+              <ListIcon as={LOCALISATION_ICON} fontSize={25} />
+              <Text><Text as="span" fontWeight={500}>Où j'habite :</Text> {profil.localisation?.city?.label + ' , ' + profil.localisation.label} </Text>
+            </ListItem>
+          </>
+        }
+        {
+          profil.languages.length && <>
+            <Divider />
+            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+              <ListIcon as={LANGUAGE_ICON} fontSize={25} />
+              <Text><Text as="span" fontWeight={500}>Langues parlées :</Text> {profil.languages.join(' , ')} </Text>
+            </ListItem>
+          </>
+        }
       </List>
       <Wrap>
         {
@@ -259,30 +268,49 @@ const Resume: React.FC<{ profil: any }> = ({ profil }) => {
         {
           profil.instagramlink && <><NavLink to={`https://www.instagram.com/${profil.instagramlink.replace(' ', '_')}`} target="_blank">
             <IconButton
-            variant={"outline"}
-            isRound
-            size="lg"
-            icon={<INSTAGRAM_ICON fontSize={25} />}
-            aria-label={profil.instagramlink} />
+              variant={"outline"}
+              isRound
+              size="lg"
+              icon={<INSTAGRAM_ICON fontSize={25} />}
+              aria-label={profil.instagramlink} />
           </NavLink>
           </>
         }
         {
           profil.kakaolink && <>
+            <Tooltip hasArrow label={profil.kakaolink} >
+              <IconButton
+                variant={"outline"}
+                isRound
+                size="lg"
+                icon={<KAKAO_ICON fontSize={25} />}
+                aria-label={profil.kakaolink} />
+            </Tooltip>
+          </>
+        }
+        {
+          profil.tiktoklink && <><NavLink to={`https://www.tiktok.com/@${profil.tiktoklink.replace(' ', '')}`} target="_blank">
             <IconButton
-            variant={"outline"}
-            isRound
-            size="lg"
-            icon={<KAKAO_ICON fontSize={25} />}
-            aria-label={profil.kakaolink} />
+              variant={"outline"}
+              isRound
+              size="lg"
+              icon={<TIKTOK_ICON fontSize={25} />}
+              aria-label={profil.instagramlink} />
+          </NavLink>
+          </>
+        }
+        {
+          profil.facebooklink && <><NavLink to={`https://www.tiktok.com/@${profil.facebooklink.replace(' ', '')}`} target="_blank">
+            <IconButton
+              variant={"outline"}
+              isRound
+              size="lg"
+              icon={<FACEBOOK_ICON fontSize={25} />}
+              aria-label={profil.facebooklink} />
+          </NavLink>
           </>
         }
       </Wrap>
-      <Flex gap={3}>
-        <Box as="a" href="/"><KAKAO_ICON fontSize={25} /></Box>
-        <Box as="a" href="/"><FACEBOOK_ICON fontSize={25} /></Box>
-        <Box as="a" href="/"><TIKTOK_ICON fontSize={25} /></Box>
-      </Flex>
     </Stack>
   )
 }
@@ -326,7 +354,7 @@ const UserDetail = () => {
                     <CardBody>
                       <Stack direction={"row"} justifyContent={"center"}>
                         <VStack>
-                          <UserSniped size="xl" avatar={profil.avatarPath} />
+                          <UserSniped size="2xl" avatar={profil.avatarPath} />
                           <Text as="h1" fontSize={"lg"} fontWeight={"bold"}>
                             {profil.user.pseudo}
                           </Text>
@@ -352,7 +380,6 @@ const UserDetail = () => {
                         </Text>
                         <Resume profil={profil} />
                       </Stack>
-                      <Divider opacity={1} />
                       <Publications />
                     </Stack>
                   </Stack>

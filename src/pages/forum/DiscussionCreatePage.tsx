@@ -11,6 +11,7 @@ import { useNavigate } from "react-router"
 import { useForm, SubmitHandler, Controller } from "react-hook-form"
 import { noEmptyValidator } from "../../utils/formValidation"
 import ContainerSection from "../components/ContainerSection"
+import DiscussionForm from "../../components/forms/DiscussionForm"
 
 type Inputs = {
     title: string
@@ -73,62 +74,21 @@ const DiscussionCreatePage = () => {
 
 
     return (
-        <Stack my={VERTICAL_SPACING}>
-            <ContainerSection>
-                <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
-                    <Card>
-                        <CardHeader><TitleText text="Ajouter une discussion" /></CardHeader>
-                        <CardBody>
-                            <Stack>
-                                <FormControl isInvalid={errors.title ? true : false}>
-                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Titre</FormLabel>
-                                    <Input size="lg" {...register('title', noEmptyValidator)} type="text"
-                                        placeholder="Titre de la discussion"
-                                    />
-                                    {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
-                                </FormControl>
+        <DiscussionForm />
 
-                                <FormControl isInvalid={errors.category ? true : false}>
-                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Catégorie</FormLabel>
-                                    <Select size="lg"  {...register('category', noEmptyValidator)}>
-                                        <option value="">--selectionner une catégorie</option>
-                                        {discussionCategories.map((category: any) => {
-                                            return (
-                                                <option key={category.id} value={category.id}>{category.label}</option>
-                                            )
-                                        })
-                                        }
-                                    </Select>
-                                    {errors.category && <FormErrorMessage>{errors.category.message}</FormErrorMessage>}
-                                </FormControl>
 
-                                <FormControl isInvalid={errors.content ? true : false}>
-                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Contenu de la discussion</FormLabel>
-                                    <Textarea
-                                        {...register('content', noEmptyValidator)}
-                                        rows={10}  placeholder="Mon contenu" />
-                                    {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                                </FormControl>
 
-                                <FormControl>
-                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Ajouter des photos</FormLabel>
-                                    <Controller
-                                        control={control}
-                                        name="files"
-                                        render={({ field: { onChange } }) => (
-                                            <UploadImageModule onChange={(files: Array<any>) => onChange(files)} />
-                                        )}
-                                    />
-                                </FormControl>
-                            </Stack>
-                        </CardBody>
-                        <CardFooter>
-                            <Button w="fit-content" isLoading={isSubmitting} type="submit" colorScheme="blue">Créer la discussion</Button>
-                        </CardFooter>
-                    </Card>
-                </Stack>
-            </ContainerSection>
-        </Stack>
+
+
+        //                     </Stack>
+        //                 </CardBody>
+        //                 <CardFooter>
+        //                     <Button w="fit-content" isLoading={isSubmitting} type="submit" colorScheme="blue">Créer la discussion</Button>
+        //                 </CardFooter>
+        //             </Card>
+        //         </Stack>
+        //     </ContainerSection>
+        // </Stack>
     )
 }
 

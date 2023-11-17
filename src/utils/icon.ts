@@ -3,6 +3,7 @@ import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore
 import { AiOutlineUser } from "react-icons/ai";
 import { HiLanguage } from "react-icons/hi2";
 import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiTiktokLine, RiYoutubeFill } from "react-icons/ri";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 export const FORUM_ICON = MdOutlineComment
 export const TRAVEL_ICON = MdOutlineTravelExplore
@@ -25,3 +26,5 @@ export const TIKTOK_ICON = RiTiktokLine
 export const YOUTUBE_ICON = RiYoutubeFill
 
 export const CAMERA_ICON = BsCameraFill
+
+export const TRASH_ICON = DeleteIcon

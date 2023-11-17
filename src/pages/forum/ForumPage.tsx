@@ -13,6 +13,7 @@ import SelectInput from "../../components/inputs/SelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 import AddNewTopikButton from "../../components/buttons/AddTopicButton";
+import { NavLink } from "react-router-dom";
 
 const ForumPage: React.FC<any> = () => {
 
@@ -27,7 +28,7 @@ const ForumPage: React.FC<any> = () => {
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <Flex gap='2' alignItems="center" flexWrap="wrap">
-                            <AddNewTopikButton label="Nouveau sujet" url="/" />
+                                <AddNewTopikButton label="Nouveau sujet" url="/forum/discussion/create" />
                             <FilterModal>
                                 <SectionModal title={"Catégories"}>
                                     <SelectInput

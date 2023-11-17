@@ -6,14 +6,15 @@ interface UserSnipedInterface {
     avatar: string,
     pseudo?: string,
     publishDate?: Date,
-    size?: string
+    size?: string,
+    styles?: any
 }
 
-const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate, size = "sm" }) => {
+const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate, size = "sm", styles }) => {
 
     return (
         <HStack>
-            <Avatar size={size} src={BASE_URL + avatar} />
+            <Avatar {...styles} size={size} src={BASE_URL + avatar} />
             {
                 (pseudo || publishDate) && <Stack spacing={0}>
                     {pseudo && <Text as="span" noOfLines={1}>{pseudo}</Text>}

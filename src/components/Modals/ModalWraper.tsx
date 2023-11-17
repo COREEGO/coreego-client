@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
-import { Divider, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@chakra-ui/react";
+import { Divider, Text, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useDisclosure, ModalOverlay, Portal } from "@chakra-ui/react";
 
 interface ModalWrapperProps {
     id: string;
@@ -7,7 +7,7 @@ interface ModalWrapperProps {
     renderButton: (onOpen: () => void) => ReactNode;
     renderFooter?: () => ReactNode;
     children: ReactNode;
-    params: Record<string, string>,
+    params?: Record<any, any>,
     showDivider?: boolean
 }
 
@@ -25,16 +25,20 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
     return (
         <>
             {renderButton(onOpen)}
-            <Modal id={id} {...params} isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
-                <ModalContent>
-                    <ModalHeader>{title && <HStack> {title} </HStack>}</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>{children}</ModalBody>
-                    {
-                        renderFooter && <ModalFooter> {renderFooter()} </ModalFooter>
-                    }
-                </ModalContent>
-            </Modal>
+            {
+                isOpen && <Modal id={id} {...params} isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
+                    <ModalOverlay />
+                    <ModalContent >
+                        <ModalHeader>{title && <HStack> {title} </HStack>}</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>{children}</ModalBody>
+                        {
+                            renderFooter && <ModalFooter> {renderFooter()} </ModalFooter>
+                        }
+                    </ModalContent>
+                </Modal>
+            }
+
         </>
     );
 };

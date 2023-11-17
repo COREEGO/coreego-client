@@ -15,10 +15,11 @@ interface UseFileHook {
   files: FileItem[];
   addFile: (newFiles: FileList, multiple?: boolean) => Promise<void>;
   removeFile: (fileIndex: number) => void;
+  clearFiles: Function
 }
 
 const useFile = (): UseFileHook => {
-  const allowedExtensions = ["image/jpg", "image/jpeg", "image/png"];
+  const allowedExtensions = ["image/jpg", "image/jpeg", "image/png", "capture=camera"];
 
   const [files, setFiles] = useState<FileItem[]>([]);
 
@@ -63,10 +64,15 @@ const useFile = (): UseFileHook => {
     setFiles((prevFiles) => prevFiles.filter((_, index) => index !== fileIndex));
   };
 
+  const clearFiles = () => {
+    setFiles([])
+  }
+
   return {
     files,
     addFile,
     removeFile,
+    clearFiles
   };
 };
 

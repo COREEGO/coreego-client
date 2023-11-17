@@ -122,7 +122,7 @@ const NavigationUserMenu = () => {
         <Menu>
             <MenuButton borderRadius={90} borderWidth={2} p={1}>
                 <Stack direction="row" alignItems="center">
-                    <UserSniped size="xs" avatar={user ? user.avatarUrl : null }  />
+                    <UserSniped size="xs" avatar={user ? user.avatarPath : null }  />
                     <MdOutlineMenu fontSize={20} />
                 </Stack>
             </MenuButton>

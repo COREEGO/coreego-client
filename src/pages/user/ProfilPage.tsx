@@ -13,6 +13,7 @@ import {
   GridItem,
   HStack,
   Icon,
+  IconButton,
   List,
   ListIcon,
   ListItem,
@@ -66,8 +67,8 @@ const PublicationLiked = () => {
 
   if (error) console.error(error);
 
-  const places = likes.map((like:any) => ('place' in like ? like.place : null)).filter(Boolean);
-  const discussions = likes.map((like:any) => ('discussion' in like ? like.discussion : null)).filter(Boolean);
+  const places = likes.map((like: any) => ('place' in like ? like.place : null)).filter(Boolean);
+  const discussions = likes.map((like: any) => ('discussion' in like ? like.discussion : null)).filter(Boolean);
 
   return (
     <ModalWrapper
@@ -83,7 +84,7 @@ const PublicationLiked = () => {
               Lieux
             </Text>
             <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
-              {places.map((place:any) => (
+              {places.map((place: any) => (
                 <GridItem key={'p-' + place.id}>
                   <NavLink to={'/voyage/place/detail/' + place.id}>
                     <PlaceCard size="sm" place={place} />
@@ -99,7 +100,7 @@ const PublicationLiked = () => {
               Discussions
             </Text>
             <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
-              {discussions.map((discussion:any) => (
+              {discussions.map((discussion: any) => (
                 <GridItem key={'d-' + discussion.id}>
                   <NavLink to={'/forum/discussion/detail/' + discussion.id}>
                     <DiscussionCard size="sm" discussion={discussion} />
@@ -127,7 +128,7 @@ const PlacePublication = () => {
       params={{ size: 'full' }}
     >
       <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
-        {places.map((place:any) => (
+        {places.map((place: any) => (
           <GridItem key={place.id}>
             <NavLink to={'/voyage/place/detail/' + place.id}>
               <PlaceCard size="sm" place={place} />
@@ -153,7 +154,7 @@ const DiscusionPublication = () => {
       params={{ size: 'full' }}
     >
       <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
-        {discussions.map((discussion:any) => (
+        {discussions.map((discussion: any) => (
           <GridItem key={discussion.id}>
             <NavLink to={'/forum/discussion/detail/' + discussion.id}>
               <DiscussionCard size="sm" discussion={discussion} />
@@ -177,7 +178,7 @@ const ProductPublication = () => {
       params={{ size: 'full' }}
     >
       <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 3, lg: 4 })}>
-        {products.map((product:any) => (
+        {products.map((product: any) => (
           <GridItem key={product.id}>
             <NavLink to={'/market-place/product/detail/' + product.id}>
               <ProductCard size="sm" product={product} />
@@ -214,83 +215,118 @@ const Publications = () => {
   );
 };
 
-const Resume: React.FC<{ data: any }> = ({ data }) => {
-    return (
-        <Stack spacing={VERTICAL_SPACING}>
-            <Stack>
-                <Text fontWeight={500} fontSize={"xl"}>Introduction</Text>
-                <Text>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quam exercitationem facilis perferendis, laboriosam aut magnam itaque dolores eum ducimus natus perspiciatis. Inventore distinctio itaque, placeat asperiores iste ex ut!</Text>
-            </Stack>
-            <List spacing={5}>
-                <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-                    <ListIcon as={OCCUPATION_ICON} fontSize={25} />
-                    <Text><Text as="span" fontWeight={500}>Profession :</Text> Titre de la profession</Text>
-                </ListItem>
-                <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-                    <ListIcon as={DISLIKE_ICON} fontSize={25} />
-                    <Text><Text as="span" fontWeight={500}>Ce que j'aime :</Text> La culture asiatique, le baseball et apprendre des langues</Text>
-                </ListItem>
-                <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-                    <ListIcon as={LOCALISATION_ICON} fontSize={25} />
-                    <Text><Text as="span" fontWeight={500}>Où j'habite :</Text> Séoul, Mapo-gu</Text>
-                </ListItem>
-                <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-                    <ListIcon as={LANGUAGE_ICON} fontSize={25} />
-                    <Text><Text as="span" fontWeight={500}>Langues parlées :</Text> Français, Coréen</Text>
-                </ListItem>
-            </List>
-
-            <Flex gap={3}>
-                <Box as="a" href="/"><YOUTUBE_ICON fontSize={25} /></Box>
-                <Box as="a" href="/"><INSTAGRAM_ICON fontSize={25} /></Box>
-                <Box as="a" href="/"><KAKAO_ICON fontSize={25} /></Box>
-                <Box as="a" href="/"><FACEBOOK_ICON fontSize={25} /></Box>
-                <Box as="a" href="/"><TIKTOK_ICON fontSize={25} /></Box>
-            </Flex>
-
-        </Stack>
-    )
+const Resume: React.FC<{ profil: any }> = ({ profil }) => {
+  return (
+    <Stack spacing={VERTICAL_SPACING}>
+      <Stack>
+        {
+          profil.introduction && <>
+            <Text fontWeight={500} fontSize={"xl"}>Introduction</Text>
+            <Text>{profil.introduction} </Text>
+          </>
+        }
+      </Stack>
+      <List spacing={5}>
+        <Divider />
+        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+          <ListIcon as={OCCUPATION_ICON} fontSize={25} />
+          <Text><Text as="span" fontWeight={500}>Profession :</Text> Titre de la profession</Text>
+        </ListItem>
+        <Divider />
+        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+          <ListIcon as={DISLIKE_ICON} fontSize={25} />
+          <Text><Text as="span" fontWeight={500}>Ce que j'aime :</Text> La culture asiatique, le baseball et apprendre des langues</Text>
+        </ListItem>
+        <Divider />
+        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+          <ListIcon as={LOCALISATION_ICON} fontSize={25} />
+          <Text><Text as="span" fontWeight={500}>Où j'habite :</Text> Séoul, Mapo-gu</Text>
+        </ListItem>
+        <Divider />
+        <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
+          <ListIcon as={LANGUAGE_ICON} fontSize={25} />
+          <Text><Text as="span" fontWeight={500}>Langues parlées :</Text> Français, Coréen</Text>
+        </ListItem>
+        <Divider />
+      </List>
+      <Wrap>
+        {
+          profil.youtubelink && <><NavLink to={`https://www.youtube.com/@${profil.youtubelink.replace(' ', '')}`} target="_blank">
+            <IconButton variant={"outline"} isRound size="lg" icon={<YOUTUBE_ICON fontSize={25} />} aria-label={profil.youtubelink} />
+          </NavLink>
+          </>
+        }
+        {
+          profil.instagramlink && <><NavLink to={`https://www.instagram.com/${profil.instagramlink.replace(' ', '_')}`} target="_blank">
+            <IconButton
+            variant={"outline"}
+            isRound
+            size="lg"
+            icon={<INSTAGRAM_ICON fontSize={25} />}
+            aria-label={profil.instagramlink} />
+          </NavLink>
+          </>
+        }
+        {
+          profil.kakaolink && <>
+            <IconButton
+            variant={"outline"}
+            isRound
+            size="lg"
+            icon={<KAKAO_ICON fontSize={25} />}
+            aria-label={profil.kakaolink} />
+          </>
+        }
+      </Wrap>
+      <Flex gap={3}>
+        <Box as="a" href="/"><KAKAO_ICON fontSize={25} /></Box>
+        <Box as="a" href="/"><FACEBOOK_ICON fontSize={25} /></Box>
+        <Box as="a" href="/"><TIKTOK_ICON fontSize={25} /></Box>
+      </Flex>
+    </Stack>
+  )
 }
 const UserDetail = () => {
-    const params = useParams();
-    const { user: currentUser }: any = useAuthContext();
-    const { data: profil, error } = useSWR(`/profil/user?user=${params.id}`, { suspense: true });
-    const [openEditMode, setOpenEditMode] = useState<boolean>(false);
-    const currentUserProfil = currentUser ? currentUser.id === profil.user.id : false;
+  const params = useParams();
+  const { user: currentUser }: any = useAuthContext();
+  const { data: profil, error, mutate } = useSWR(`/profil/user?user=${params.id}`, { suspense: true });
+  const [openEditMode, setOpenEditMode] = useState<boolean>(false);
+  const currentUserProfil = currentUser ? currentUser.id === profil.user.id : false;
 
-    if (error) {
-      console.error({ error });
-    }
+  if (error) {
+    console.error({ error });
+  }
 
-    const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
-    useEffect(() => {
-      setOpenEditMode(searchParams.get('editMode') ? currentUser.id === profil.user.id : false);
-    }, [searchParams, currentUser.id, profil.user.id]);
+  useEffect(() => {
+    setOpenEditMode(searchParams.get('editMode') ? currentUser.id === profil.user.id : false);
+  }, [searchParams, currentUser.id, profil.user.id]);
 
-    return (
-      <>
-        {openEditMode ? (
-          <ProfilEditPage profil={profil} />
-        ) : (
-          <Box my={VERTICAL_SPACING}>
-            <ContainerSection withPadding={true}>
+  return (
+    <>
+      {openEditMode ? (
+        <ProfilEditPage profil={profil} mutate={mutate} />
+      ) : (
+        <Box my={VERTICAL_SPACING}>
+          <ContainerSection withPadding={true}>
+            <Box w={{ base: 500, lg: '100%' }} m="auto" maxW={"100%"}>
               <Grid
                 gap={10}
                 templateColumns={{
                   base: "repeat(1, 1fr)",
-                  md: "repeat(10, 1fr)",
+                  lg: "repeat(10, 1fr)",
                 }}
               >
                 <GridItem colSpan={{
                   base: 1,
-                  md: 3,
+                  lg: 3,
                 }}>
                   <Card>
                     <CardBody>
                       <Stack direction={"row"} justifyContent={"center"}>
                         <VStack>
-                          <UserSniped size="xl" avatar={profil.user.avatar} />
+                          <UserSniped size="xl" avatar={profil.avatarPath} />
                           <Text as="h1" fontSize={"lg"} fontWeight={"bold"}>
                             {profil.user.pseudo}
                           </Text>
@@ -306,7 +342,7 @@ const UserDetail = () => {
                 </GridItem>
                 <GridItem colSpan={{
                   base: 1,
-                  md: 7,
+                  lg: 7,
                 }}>
                   <Stack spacing={VERTICAL_SPACING}>
                     <Stack spacing={VERTICAL_SPACING} w="100%">
@@ -314,7 +350,7 @@ const UserDetail = () => {
                         <Text as="h2" fontWeight={"bold"} fontSize={"2xl"}>
                           A propos de {profil.user.pseudo}
                         </Text>
-                        <Resume data={profil} />
+                        <Resume profil={profil} />
                       </Stack>
                       <Divider opacity={1} />
                       <Publications />
@@ -322,18 +358,19 @@ const UserDetail = () => {
                   </Stack>
                 </GridItem>
               </Grid>
-            </ContainerSection>
-          </Box>
-        )}
-      </>
-    );
-  };
+            </Box>
+          </ContainerSection>
+        </Box>
+      )}
+    </>
+  );
+};
 
 const ProfilPage = () => {
 
-    return <Suspense fallback={<LoadingPage type="page" />}>
-        <UserDetail />
-    </Suspense>
+  return <Suspense fallback={<LoadingPage type="page" />}>
+    <UserDetail />
+  </Suspense>
 }
 
 export default ProfilPage

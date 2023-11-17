@@ -52,7 +52,17 @@ export const isAlreadySaved = (likes: Array<any>, user: any) => {
   return likes.find((like: any) => like.user.id === user.id);
 };
 
-export const templateColumns = ({ base, sm, md, lg }: { base?: number; sm?: number; md?: number; lg?: number }) => {
+export const templateColumns = ({
+  base,
+  sm,
+  md,
+  lg,
+}: {
+  base?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+}) => {
   const template: any = {};
 
   if (base) template.base = `repeat(${base}, 1fr)`;
@@ -61,4 +71,9 @@ export const templateColumns = ({ base, sm, md, lg }: { base?: number; sm?: numb
   if (lg) template.lg = `repeat(${lg}, 1fr)`; // Fix: Use 'lg' property instead of 'base' for lg
 
   return template;
+};
+
+export const getValueFiltered : any = (datas: Array<any>, value: string = "") => {
+  let DATAS = [...datas]
+  return value.length ? [...DATAS].filter((language: any) => language.label.toLowerCase().includes(value.toLowerCase())) : datas
 };

@@ -1,4 +1,4 @@
-import { BsHeart, BsHouseDoor, BsPerson, BsPersonWorkspace } from "react-icons/bs";
+import { BsHeart, BsHouseDoor, BsPerson, BsPersonWorkspace, BsCameraFill } from "react-icons/bs";
 import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiLanguage } from "react-icons/hi2";
@@ -23,3 +23,5 @@ export const KAKAO_ICON = RiKakaoTalkFill
 export const FACEBOOK_ICON = RiFacebookBoxFill
 export const TIKTOK_ICON = RiTiktokLine
 export const YOUTUBE_ICON = RiYoutubeFill
+
+export const CAMERA_ICON = BsCameraFill

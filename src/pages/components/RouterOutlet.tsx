@@ -7,8 +7,8 @@ import PrivateRoute from "./PrivateRoute";
 import TravelPage from "../travel/TravelPage";
 import DiscussionDetail from "../forum/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";
-import ValidationAccountPage from "../authentification/ValidationAccountPage";
-import PasswordReset from "../authentification/PasswordReset";
+import VerifEmailPage from "../authentification/VerifEmailPage";
+import ResetPasswordCheckMailPage from "../authentification/ResetPasswordCheckMailPage";
 import ProductDetail from "../marketplace/ProductDetailPage";
 import PlaceDetail from "../travel/PlaceDetailPage";
 import DiscussionCreatePage from "../forum/DiscussionCreatePage";
@@ -16,8 +16,7 @@ import ProductCreatePage from "../marketplace/ProductCreatePage";
 import PlaceCreatePage from "../travel/PlaceCreatePage";
 import ProfilPage from '../user/ProfilPage'
 import TraveloguePage from "../user/TraveloguePage";
-import ProfilEditPage from "../user/ProfilEditPage";
-import Layout from "../layouts/Layout";
+import UpdatePasswordPage from "../authentification/UpdatePasswordPage";
 
 
 export default function RouterOutleft() {
@@ -44,8 +43,9 @@ export default function RouterOutleft() {
                 </Route>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/register" element={<RegisterPage />} />
-                <Route path="/password/reset/:id?/:token?" element={<PasswordReset />} />
-                <Route path="/user/validation/account/:id/:token" element={<ValidationAccountPage />} />
+                <Route path="/reset-password/email" element={<ResetPasswordCheckMailPage />} />
+                <Route path="/reset-password/reset/:token" element={<UpdatePasswordPage />} />
+                <Route path="/verif/email" element={<VerifEmailPage />} />
             </Routes>
     )
 

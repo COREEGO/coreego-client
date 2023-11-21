@@ -9,6 +9,7 @@ import { Box, Container, Fade, Stack } from "@chakra-ui/react"
 import { apiFetch } from "../../http-common/apiFetch"
 import useSWR from "swr"
 import useRefreshToken from "../../hooks/useRefreshToken"
+import { useLocation, useNavigate, useParams } from "react-router"
 interface LayoutProps {
     children: React.ReactNode
 }
@@ -16,9 +17,8 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
-    const { user, setUser }: any = useAuthContext()
     const dispath = useDispatch()
-
+    const {authentification} : any = useAuthContext()
     useEffect(() => {
         onLoadedApplication()
     }, [])
@@ -26,14 +26,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     const onLoadedApplication = async () => {
         try {
             setIsLoaded(false)
-
-            const discussionCategories = await apiFetch('/discussion_categories', 'GET')
+            await authentification()
+            const discussionCategories : any = await apiFetch('/discussion_categories', 'GET')
             const placeCategories = await apiFetch('/place_categories', 'GET')
             const cities = await apiFetch('/cities', 'GET')
             const languages = await apiFetch('/languages', 'GET')
 
 
-            if (discussionCategories) dispath(initDiscussionCategories(discussionCategories))
+            if (discussionCategories){
+                dispath(initDiscussionCategories(discussionCategories))
+                localStorage.setItem('discussion_categories', JSON.stringify(discussionCategories))
+            }
             if (placeCategories) dispath(initPlaceCategories(placeCategories))
             if (cities) dispath(initCities(cities))
             if(languages) dispath(initLanguages(languages))

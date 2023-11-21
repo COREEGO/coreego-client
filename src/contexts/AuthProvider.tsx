@@ -17,21 +17,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<any>(null)
     const navigate = useNavigate()
 
-    useEffect(() => {
-        authentification()
-    }, [])
-
     const authentification = async () => {
         try {
             const response: any = await apiFetch('/me', 'get');
-            const profil: any = await apiFetch(`/profil/user?user=${response.id}`, 'get');
-
-            if (profil && response) {
-                setUser({
-                    ...response,
-                    avatarPath: profil.avatarPath
-                });
-            }
+            setUser(response)
         } catch (error) {
             console.error(error);
         }

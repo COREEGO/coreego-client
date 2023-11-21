@@ -28,9 +28,9 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
     const { isOpen, onOpen, onClose } = useDisclosure()
 
 
-    comments = comments.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
+    // comments = comments.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
+    //     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    // });
 
     const {
         register,

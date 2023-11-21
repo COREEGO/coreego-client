@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
+import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
 interface FilterContextType {
@@ -8,6 +8,7 @@ interface FilterContextType {
 
 const FilterContext = createContext<FilterContextType>({
   params: {},
+
   updateFilter: () => {},
 });
 
@@ -37,9 +38,11 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    setSearchParams(params);
-  }, [params]);
+  // const values = useMemo(() => {
+  //   return setSearchParams(params);
+  // }, [params]);
+
+
 
   return (
     <FilterContext.Provider value={{ params, updateFilter }}>

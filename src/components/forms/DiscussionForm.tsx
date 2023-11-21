@@ -10,6 +10,7 @@ import UpladButton from "../buttons/UplaodButton"
 import useFile from "../../hooks/useFile"
 import { CAMERA_ICON, TRASH_ICON } from "../../utils/icon"
 import FormImage from "../images/FormImage"
+import { apiFetch } from "../../http-common/apiFetch"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -28,7 +29,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data }) 
     const navigate = useNavigate()
     const toast = useToast()
 
-    const { files: images,
+    const { files,
         addFile,
         removeFile,
         clearFiles
@@ -46,17 +47,36 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data }) 
         mode: 'onTouched'
     })
 
-    const onSubmitForm: SubmitHandler<Inputs> = (data: any) => {
+    const onSubmitForm: SubmitHandler<Inputs> = async (data: any) => {
         try {
-
-        } catch (error) {
-            console.log(error)
+            const response: any = await apiFetch('/discussion', 'post', {
+                title: data.title,
+                category: `/api/discussion_categories/${data.category}`,
+                content: data.content
+            })
+            if (response && files && Array.isArray(files) && files.length) {
+                for (const file of files) {
+                    const formData = new FormData();
+                    formData.append('file', file.file);
+                    formData.append('discussion', `/api/discussions/${response.id}`);
+                    await apiFetch('/images', 'post', formData);
+                }
+            }
+            toast({
+                description: 'Sujet créé',
+                status: 'success'
+            })
+            clearFiles()
+            navigate(`/forum/discussion/detail/${response.id}`)
+        } catch (error:any) {
+            toast({
+                description: JSON.parse(error.message),
+                status: 'error'
+            })
         }
     }
 
-    const onChangeFiles = (e: any) => {
 
-    }
 
     return (
         <Box py={VERTICAL_SPACING}>
@@ -95,11 +115,12 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data }) 
                             </FormControl>
 
                             {
-                                images.length ? <Wrap>
+                                files.length ? <Wrap>
                                     {
-                                        images.map((image: any, index: number) => {
+                                        files.map((image: any, index: number) => {
                                             return (
                                                 <FormImage
+                                                    key={index}
                                                     imageUrl={image.url}
                                                     onRemove={() => removeFile(index)}
                                                 />
@@ -126,7 +147,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data }) 
                     <ContainerSection withPadding={true}>
                         <Flex>
                             <Spacer />
-                            <Button colorScheme="green">Créer ce sujet</Button>
+                            <Button isLoading={isSubmitting} type="submit" colorScheme="green">Créer ce sujet</Button>
                         </Flex>
                     </ContainerSection>
                 </Box>

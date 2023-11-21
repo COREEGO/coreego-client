@@ -77,7 +77,7 @@ export default function LoginPage() {
                             <FormControl isInvalid={errors.password ? true : false}>
                                 <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
-                                    <NavLink style={{ fontSize: '14px', color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/password/reset">Mot de passe oublié ?</NavLink>
+                                    <NavLink style={{ fontSize: '14px', color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/reset-password/email">Mot de passe oublié ?</NavLink>
                                 </Stack>
                                 <Input
                                     {...register('password', {

@@ -13,12 +13,13 @@ import SelectInput from "../../components/inputs/SelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 import AddNewTopikButton from "../../components/buttons/AddTopicButton";
-import { NavLink } from "react-router-dom";
+import { NavLink, useSearchParams } from "react-router-dom";
 
 const ForumPage: React.FC<any> = () => {
 
     const { discussionCategories } = useSelector((state: any) => state.app);
-    const { updateFilter, params } = useFilterContext()
+    const { updateFilter } = useFilterContext()
+    const [searchParams, setSearchParams] = useSearchParams();
 
     return (
         <>
@@ -33,8 +34,11 @@ const ForumPage: React.FC<any> = () => {
                                 <SectionModal title={"Catégories"}>
                                     <SelectInput
                                         options={discussionCategories}
-                                        value={params.category}
-                                        updateValue={(e: any) => updateFilter('category', e)}
+                                        value={Number(searchParams.get('category')) || ''}
+                                        updateValue={(e: any) => setSearchParams({
+                                            ...searchParams,
+                                            category: e
+                                        })}
                                         emptyOptionLabel="Toutes les catégories"
                                     />
                                 </SectionModal>

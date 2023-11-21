@@ -14,12 +14,14 @@ import { useFilterContext } from "../../contexts/FilterProvider"
 import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput"
 import SelectInput from "../../components/inputs/SelectInput"
 import AddNewTopikButton from "../../components/buttons/AddTopicButton"
+import { useSearchParams } from "react-router-dom"
 
 const TravelPage = () => {
 
     const { placeCategories, cities } = useSelector((state: any) => state.app)
 
     const { updateFilter, params } = useFilterContext()
+    const [searchParams, setSearchParams] = useSearchParams();
 
 
     return (
@@ -34,17 +36,26 @@ const TravelPage = () => {
                             <FilterModal>
                                 <SectionModal title={"Localisation"}>
                                     <CityDistrictSelectInput
-                                        updateCity={(e: any) => updateFilter('city', e)}
-                                        cityValue={params.city}
-                                        updateDistrict={(e: any) => updateFilter('district', e)}
-                                        districtValue={params.district}
+                                        updateCity={(e: any) => setSearchParams({
+                                            ...searchParams,
+                                            'city': e
+                                        })}
+                                        cityValue={searchParams.get('city') || ''}
+                                        updateDistrict={(e: any) => setSearchParams({
+                                            ...searchParams,
+                                            'district': e
+                                        })}
+                                        districtValue={searchParams.get('district') || ''}
                                     />
                                 </SectionModal>
                                 <SectionModal title={"Catégories"}>
                                     <SelectInput
                                         options={placeCategories}
-                                        value={params.category}
-                                        updateValue={(e: any) => updateFilter('category', e)}
+                                        value={searchParams.get('category') || ''}
+                                        updateValue={ (e: any) => setSearchParams({
+                                            ...searchParams,
+                                            'category': e
+                                        })}
                                         emptyOptionLabel="Toutes les catégories"
                                     />
                                 </SectionModal>

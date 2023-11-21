@@ -34,17 +34,17 @@ function App() {
         isClosable: true,
       }
     }}>
-      <SWRConfig value={swrConfig}>
-        <FilterProvider>
-          <Provider store={store}>
-            <AuthProvider>
+      <AuthProvider>
+        <SWRConfig value={swrConfig}>
+          <FilterProvider>
+            <Provider store={store}>
               <Layout>
                 <RouterOutleft />
               </Layout>
-            </AuthProvider>
-          </Provider>
-        </FilterProvider>
-      </SWRConfig>
+            </Provider>
+          </FilterProvider>
+        </SWRConfig>
+      </AuthProvider>
     </ChakraProvider >
   );
 }

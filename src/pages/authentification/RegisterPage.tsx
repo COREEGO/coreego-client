@@ -38,7 +38,6 @@ const RegisterPage: React.FC<any> = () => {
             await apiFetch('/register', 'post', {
                 pseudo: data.pseudo,
                 email: data.email,
-                hasConfirmTerm: data.hasConfirmTerm,
                 plainPassword: data.password,
             })
             reset()

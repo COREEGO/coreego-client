@@ -2,13 +2,13 @@ import { useLocation } from "react-router";
 import useSWRInfinite from "swr/infinite";
 import {useEffect, useState} from 'react'
 import { useSearchParams } from "react-router-dom";
+import { useFilterContext } from "../contexts/FilterProvider";
 
 
 
 export const usePagination = <T>(url: string) => {
 
     const location = useLocation();
-
     const getKey = (pageIndex: number, previousPageData: T[]) => {
         pageIndex = pageIndex + 1
         let searchParams = location.search;
@@ -27,9 +27,9 @@ export const usePagination = <T>(url: string) => {
 
 
 
-    useEffect(() => {
-        mutate();
-    }, [location]);
+    // useEffect(() => {
+    //     mutate();
+    // }, [location]);
 
 
     return {

@@ -317,7 +317,7 @@ const Resume: React.FC<{ profil: any }> = ({ profil }) => {
 const UserDetail = () => {
   const params = useParams();
   const { user: currentUser }: any = useAuthContext();
-  const { data: profil, error, mutate } = useSWR(`/profil/user?user=${params.id}`, { suspense: true });
+  const { data: profil, error, mutate } = useSWR(`/user/${params.id}`, { suspense: true });
   const [openEditMode, setOpenEditMode] = useState<boolean>(false);
   const currentUserProfil = currentUser ? currentUser.id === profil.user.id : false;
 

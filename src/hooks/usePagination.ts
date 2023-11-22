@@ -9,6 +9,7 @@ import { useFilterContext } from "../contexts/FilterProvider";
 export const usePagination = <T>(url: string) => {
 
     const location = useLocation();
+
     const getKey = (pageIndex: number, previousPageData: T[]) => {
         pageIndex = pageIndex + 1
         let searchParams = location.search;

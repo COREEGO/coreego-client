@@ -35,7 +35,7 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
     }
 
     const districtObject = () => {
-        return cityObject() ? cityObject()?.districts.find((district:any)=> district.id == selectedDistrict ) : null
+        return cityObject() ? cityObject()?.districts.find((district: any) => district.id == selectedDistrict) : null
     }
 
     useEffect(() => {
@@ -57,11 +57,11 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
         if (selectedCity) {
             longitude = cityObject()?.longitude
             latitude = cityObject()?.latitude
-            if(selectedDistrict){
+            if (selectedDistrict) {
                 longitude = districtObject()?.longitude
                 latitude = districtObject()?.latitude
             }
-        }else{
+        } else {
             longitude = null;
             latitude = null
         }
@@ -76,16 +76,19 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
                     return <option key={city.id} value={city.id}>{city.label}</option>;
                 })}
             </Select>
-            <Select value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
-                <option value="">Tous les districts</option>
-                {
-                    districtsList.map((district: any) => {
-                        return <option key={district.id} value={district.id}>{district.label} </option>;
-                    })
-                }
-            </Select>
             {
-                (showMap && getGeopoint()) ? <Box w="100%" h={200} ><MapSimpleMarker lat={getGeopoint()?.lat} lng={getGeopoint()?.lng}/></Box>  : <></>
+                selectedCity && <Select value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
+                    <option value="">Tous les districts</option>
+                    {
+                        districtsList.map((district: any) => {
+                            return <option key={district.id} value={district.id}>{district.label} </option>;
+                        })
+                    }
+                </Select>
+            }
+
+            {
+                (showMap && getGeopoint()) ? <Box w="100%" h={200} ><MapSimpleMarker lat={getGeopoint()?.lat} lng={getGeopoint()?.lng} /></Box> : <></>
             }
         </Stack>
     );

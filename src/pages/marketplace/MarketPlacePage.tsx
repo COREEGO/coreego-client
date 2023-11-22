@@ -18,7 +18,7 @@ import AddNewTopikButton from "../../components/buttons/AddTopicButton";
 
 const MarketPlacePage = () => {
 
-    const { updateFilter, params } = useFilterContext()
+    const { updateFilter, searchParams } = useFilterContext()
 
     return (
         <>
@@ -34,9 +34,9 @@ const MarketPlacePage = () => {
                                     <SectionModal title={"Localisation"}>
                                         <CityDistrictSelectInput
                                             updateCity={(e: any) => updateFilter('city', e)}
-                                            cityValue={params.city}
+                                            cityValue={searchParams.get('city') || ''}
                                             updateDistrict={(e: any) => updateFilter('district', e)}
-                                            districtValue={params.district}
+                                            districtValue={searchParams.get('district') || ''}
                                         />
                                     </SectionModal>
                                 </FilterModal>

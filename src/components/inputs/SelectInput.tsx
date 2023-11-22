@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 interface SelectInputInterface {
     options: Array<any>,
-    value: any,
+    value: string,
     updateValue: (e:any) => void,
     label?: string,
     emptyOptionLabel?: string,

@@ -5,7 +5,7 @@ import { useFilterContext } from "../../../contexts/FilterProvider";
 
 export default function SearchFilter() {
 
-    const {updateFilter, params} = useFilterContext()
+    const {updateFilter} = useFilterContext()
 
 
     const handleSubmit = (e: any) => {

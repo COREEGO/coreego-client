@@ -56,6 +56,7 @@ type Inputs = {
 const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
 
     const toast = useToast()
+    const params = useParams()
     const { languages } = useSelector((state: any) => state.app)
     const [languageTextInput, setLanguageTextInput] = useState<string>('')
     const [languagesFiltered, setLanguagesFiltered] = useState(languages)
@@ -302,7 +303,7 @@ const ProfilEditPage: React.FC<PropsInterface> = ({ profil, mutate }) => {
 
     const { authentification }: any = useAuthContext()
     const [isUploadBusy, setIsUploadBusy] = useState<boolean>(false)
-
+    const params = useParams()
     const { files, addFile, clearFiles } = useFile()
 
     useEffect(() => {
@@ -383,7 +384,7 @@ const ProfilEditPage: React.FC<PropsInterface> = ({ profil, mutate }) => {
                     <ContainerSection withPadding={true}>
                         <Flex>
                             <Spacer />
-                            <NavLink to={`/user/profil/${profil.user.id}`}>
+                            <NavLink to={`/user/profil/${params.id}`}>
                                 <Button colorScheme="blackAlpha" bg="black">Ok</Button>
                             </NavLink>
                         </Flex>

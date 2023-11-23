@@ -15,14 +15,23 @@ const theme = extendTheme({
     heading: `'Roboto', sans-serif`,
     body: `'Roboto', sans-serif`,
   },
-  // styles: {
-  //   global: {
-  //     // Modifier la couleur du texte du corps ici
-  //     body: {
-  //       backgroundColor: 'var(--main)',
-  //     },
-  //   }
-  // },
+  styles: {
+    global: {
+      // Modifier la couleur du texte du corps ici
+      body: {
+        '&::-webkit-scrollbar-thumb': {
+          background: 'gray',
+          borderRradius: '90px',
+          borderRadius: 'md'
+        },
+        '&::-webkit-scrollbar': {
+          width: '7px !important',
+          padding: '10px',
+          height: '5px !important'
+        }
+      },
+    }
+  },
 },
 )
 

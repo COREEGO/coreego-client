@@ -56,7 +56,7 @@ const ButtonOpenModal: React.FC<{ onClick: () => void; label: string; icon: any 
 }
 
 const PublicationLiked = () => {
-  const params = useParams();
+
   const { data: likes, error } = useSWR(`/likes`, { suspense: true });
 
   if (error) console.error(error);
@@ -317,9 +317,9 @@ const Resume: React.FC<{ profil: any }> = ({ profil }) => {
 const UserDetail = () => {
   const params = useParams();
   const { user: currentUser }: any = useAuthContext();
-  const { data: profil, error, mutate } = useSWR(`/user/${params.id}`, { suspense: true });
+  const { data: user, error, mutate } = useSWR(`/user/${params.id}`, { suspense: true });
   const [openEditMode, setOpenEditMode] = useState<boolean>(false);
-  const currentUserProfil = currentUser ? currentUser.id === profil.user.id : false;
+  const currentUserProfil = currentUser ? currentUser.id == params.id : false;
 
   if (error) {
     console.error({ error });
@@ -328,13 +328,13 @@ const UserDetail = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    setOpenEditMode(searchParams.get('editMode') ? currentUser.id === profil.user.id : false);
-  }, [searchParams, currentUser.id, profil.user.id]);
+    setOpenEditMode(searchParams.get('editMode') ? currentUser.id === user.id : false);
+  }, [searchParams, currentUser.id, user.id]);
 
   return (
     <>
       {openEditMode ? (
-        <ProfilEditPage profil={profil} mutate={mutate} />
+        <ProfilEditPage profil={user.profil} mutate={mutate} />
       ) : (
         <Box my={VERTICAL_SPACING}>
           <ContainerSection withPadding={true}>
@@ -354,9 +354,9 @@ const UserDetail = () => {
                     <CardBody>
                       <Stack direction={"row"} justifyContent={"center"}>
                         <VStack>
-                          <UserSniped size="2xl" avatar={profil.avatarPath} />
+                          <UserSniped size="2xl" avatar={user.profil.avatarPath} />
                           <Text as="h1" fontSize={"lg"} fontWeight={"bold"}>
-                            {profil.user.pseudo}
+                            {user.pseudo}
                           </Text>
                           {currentUserProfil && (
                             <Button onClick={() => setSearchParams('editMode=true')} variant="outline">
@@ -376,9 +376,9 @@ const UserDetail = () => {
                     <Stack spacing={VERTICAL_SPACING} w="100%">
                       <Stack alignItems={"flex-start"}>
                         <Text as="h2" fontWeight={"bold"} fontSize={"2xl"}>
-                          A propos de {profil.user.pseudo}
+                          A propos de {user.pseudo}
                         </Text>
-                        <Resume profil={profil} />
+                        <Resume profil={user.profil} />
                       </Stack>
                       <Publications />
                     </Stack>

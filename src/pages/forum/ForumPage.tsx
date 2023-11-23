@@ -1,5 +1,5 @@
-import React from "react";
-import { Flex, Stack } from "@chakra-ui/react";
+import React, { useEffect } from "react";
+import { Box, Button, Flex, IconButton, Stack } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
 import ImageHeader from "../../components/headers/ImageHeader";
@@ -12,6 +12,9 @@ import SelectInput from "../../components/inputs/SelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
 import AddNewTopikButton from "../../components/buttons/AddTopicButton";
+import RadioGroupInput from "../../components/inputs/RadioGroupInput";
+import { NEW_TOPIC_ICON } from "../../utils/icon";
+import { NavLink } from "react-router-dom";
 
 const ForumPage: React.FC<any> = () => {
 
@@ -20,25 +23,36 @@ const ForumPage: React.FC<any> = () => {
 
     return (
         <>
+            <NavLink to="/forum/discussion/create">
+                <IconButton zIndex={10} position="fixed" bottom={3} right={3} aria-label="ajouter une discussion" icon={<NEW_TOPIC_ICON />} isRound colorScheme="whatsapp" />
+            </NavLink>
             <ImageHeader imgUrl={HEADER_IMG} />
-            <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>
+            <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING} overflowX={"hidden"}>
                 <AsideFeedSection title="Forum" />
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
-                        <Flex gap='2' alignItems="center" flexWrap="wrap">
-                                <AddNewTopikButton label="Nouveau sujet" url="/forum/discussion/create" />
-                            <FilterModal>
-                                <SectionModal title={"Catégories"}>
-                                    <SelectInput
-                                        options={discussionCategories}
-                                        value={searchParams.get('category') || ''}
-                                        updateValue={(e: any) => updateFilter('category', e)}
-                                        emptyOptionLabel="Toutes les catégories"
-                                    />
-                                </SectionModal>
-                            </FilterModal>
-                        </Flex>
+                        <Box overflowX="auto" className="scrollbar" minWidth={"100%"}>
+                            <RadioGroupInput
+                                name="categories"
+                                value={searchParams.get('category') || ''}
+                                onChange={(e: any) => updateFilter('category', e)}
+                                labelEmptyBox="Tout"
+                                datas={discussionCategories}
+                                options={{
+                                    borderWidth: 1,
+                                    borderRadius: 'md',
+                                    px: 3,
+                                    py: 2,
+                                    _checked: {
+                                        bg: 'var(--coreego-blue)',
+                                        color: 'white',
+                                        borderColor: 'teal.600',
+                                    }
+                                }}
+                            />
+                        </Box>
                     </ContainerSection>
+
                     <ContainerSection withPadding={true}>
                         <FeedList
                             url="/discussions"

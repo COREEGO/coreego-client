@@ -13,15 +13,14 @@ interface DiscussionCardProps {
 
 const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, size }) => {
 
-
     const XlCard = () => {
         return (
-            <Card>
+            <Card _hover={{backgroundColor: 'var(--light)'}} borderRadius={0} borderLeft={"5px solid " + discussion.category.color}>
                 <CardBody>
                     <Stack direction="row" alignItems="flex-start">
                         <Stack>
                             <UserSniped
-                                avatar={discussion.user.avatar}
+                                avatar={'/images/' +discussion.user.avatarPath}
                                 pseudo={discussion.user.pseudo}
                                 publishDate={discussion.createdAt}
                             />

@@ -44,4 +44,13 @@ div.chakra-alert {
 label.chakra-form__label {
   font-weight: 400;
   text-transform: uppercase;
+}
+
+.scrollbar::-webkit-scrollbar {
+  height: 5px !important;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+  background: var(--coreego-blue);
+  border-radius: 90px;
 }/*# sourceMappingURL=App.css.map */

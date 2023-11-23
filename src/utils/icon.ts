@@ -1,9 +1,11 @@
-import { BsHeart, BsHouseDoor, BsPerson, BsPersonWorkspace, BsCameraFill } from "react-icons/bs";
+import { BsHeart, BsHouseDoor, BsPersonWorkspace, BsCameraFill } from "react-icons/bs";
 import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 import { HiLanguage } from "react-icons/hi2";
 import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiTiktokLine, RiYoutubeFill } from "react-icons/ri";
-import { DeleteIcon } from "@chakra-ui/icons";
+import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { FaCircle } from "react-icons/fa";
+import { TfiWrite } from "react-icons/tfi";
 
 export const FORUM_ICON = MdOutlineComment
 export const TRAVEL_ICON = MdOutlineTravelExplore
@@ -28,3 +30,7 @@ export const YOUTUBE_ICON = RiYoutubeFill
 export const CAMERA_ICON = BsCameraFill
 
 export const TRASH_ICON = DeleteIcon
+
+export const CIRCLE_ICON = FaCircle
+
+export const NEW_TOPIC_ICON = TfiWrite

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import * as imageConversion from "image-conversion";
+import { apiFetch } from "../http-common/apiFetch";
+import { useToast } from "@chakra-ui/react";
 
 interface CompressedImage {
   file: File;
@@ -15,13 +17,16 @@ interface UseFileHook {
   files: FileItem[];
   addFile: (newFiles: FileList, multiple?: boolean) => Promise<void>;
   removeFile: (fileIndex: number) => void;
-  clearFiles: Function
+  deleteFile: (fileId:number) => void;
+  clearFiles: Function;
 }
 
-const useFile = (): UseFileHook => {
+const useFile = (mutate?: Function | null): UseFileHook => {
   const allowedExtensions = ["image/jpg", "image/jpeg", "image/png", "capture=camera"];
 
   const [files, setFiles] = useState<FileItem[]>([]);
+
+  const toast = useToast()
 
   const compressFile = async (file: File): Promise<CompressedImage | null> => {
     if (!allowedExtensions.includes(file.type)) {
@@ -64,6 +69,26 @@ const useFile = (): UseFileHook => {
     setFiles((prevFiles) => prevFiles.filter((_, index) => index !== fileIndex));
   };
 
+  const deleteFile = async (fileId: number) => {
+    try {
+        const confirm = window.confirm("Supprimer l'image ?")
+        if(!confirm) return;
+        await apiFetch(`/image/${fileId}`, 'DELETE')
+        if(mutate){
+          mutate()
+        }
+        toast({
+            description: 'Image supprimée',
+            status: 'success'
+        })
+    } catch (error:any) {
+        toast({
+            description: JSON.parse(error.message),
+            status: 'error'
+        })
+    }
+}
+
   const clearFiles = () => {
     setFiles([])
   }
@@ -72,6 +97,7 @@ const useFile = (): UseFileHook => {
     files,
     addFile,
     removeFile,
+    deleteFile,
     clearFiles
   };
 };

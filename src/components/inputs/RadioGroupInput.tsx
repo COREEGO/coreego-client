@@ -40,7 +40,7 @@ const RadioGroupInput: React.FC<PropsInterface> = ({ value, onChange, datas, lab
     const dataList: any = [...datas]
 
     return (
-        <HStack {...group}>
+        <HStack {...group} flexWrap={"wrap"}>
             {labelEmptyBox && (
                 <RadioCard
                     {...getRadioProps({ value: '' })}

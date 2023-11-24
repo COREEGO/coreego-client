@@ -1,10 +1,11 @@
-import { Box, IconButton, Image } from "@chakra-ui/react"
+import { Box, IconButton, Image, useToast } from "@chakra-ui/react"
 import { TRASH_ICON } from "../../utils/icon"
+import { apiFetch } from "../../http-common/apiFetch"
 
 
 interface PropsInterface {
     imageUrl: string,
-    onRemove: () => void
+    onRemove?: () => void
 }
 
 const FormImage: React.FC<PropsInterface> = ({ imageUrl, onRemove }) => {
@@ -30,3 +31,7 @@ const FormImage: React.FC<PropsInterface> = ({ imageUrl, onRemove }) => {
 }
 
 export default FormImage
+
+function usestate<T>(arg0: boolean): [any, any] {
+    throw new Error("Function not implemented.")
+}

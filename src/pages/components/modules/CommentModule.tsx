@@ -14,7 +14,7 @@ interface CommentModuleInterface {
     comments: Array<any>,
     discussionId?: any,
     placeId?: any,
-    mutate: Function
+    mutate: () => void
 }
 
 type Inputs = {
@@ -28,9 +28,9 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
     const { isOpen, onOpen, onClose } = useDisclosure()
 
 
-    // comments = comments.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
-    //     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    // });
+    comments = comments.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
     const {
         register,
@@ -44,7 +44,7 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
             await apiFetch('/comments', 'POST', {
-                discussion: discussionId && 'api/discussions/' + discussionId,
+                discussion: discussionId && 'api/discussion/' + discussionId,
                 place: placeId && 'api/places/' + placeId,
                 content: data.content
             })
@@ -70,7 +70,7 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
             const result = window.confirm('Supprimer ce commentaire ?')
             if (!result) return
 
-            await apiFetch('/comments/' + commentId, 'DELETE')
+            await apiFetch('/comment/' + commentId, 'DELETE')
             toast({
                 description: "Commentaire supprimé",
                 status: 'success',

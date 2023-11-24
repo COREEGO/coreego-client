@@ -3,9 +3,11 @@ import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore
 import { AiOutlineUser } from "react-icons/ai";
 import { HiLanguage } from "react-icons/hi2";
 import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiTiktokLine, RiYoutubeFill } from "react-icons/ri";
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon } from "@chakra-ui/icons";
 import { FaCircle } from "react-icons/fa";
 import { TfiWrite } from "react-icons/tfi";
+import { LuSettings2 } from "react-icons/lu";
+import { LiaEdit } from "react-icons/lia";
 
 export const FORUM_ICON = MdOutlineComment
 export const TRAVEL_ICON = MdOutlineTravelExplore
@@ -34,3 +36,5 @@ export const TRASH_ICON = DeleteIcon
 export const CIRCLE_ICON = FaCircle
 
 export const NEW_TOPIC_ICON = TfiWrite
+export const FILTER_ICON = LuSettings2
+export const EDIT_ICON = LiaEdit

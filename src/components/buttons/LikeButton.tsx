@@ -24,6 +24,7 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
     const [likeLength, setLikeLength] = useState<number>(likes.length);
 
     const [isBusy, setIsBusy] = useState<boolean>(false)
+    const toast = useToast()
 
     useEffect(() => {
         const alreadyTaken = findMatchingUser(likes, user)
@@ -36,13 +37,21 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
         try {
             setIsBusy(true)
             if (userLike) {
-                await apiFetch('/likes/' + userLike.id, 'DELETE')
+                await apiFetch('/like/' + userLike.id, 'DELETE')
+                toast({
+                    description: "Je n'aime plus",
+                    status: 'success'
+                })
                 setUserLike(null)
                 setLikeLength(likeLength - 1)
             } else {
                 await apiFetch('/likes', 'POST', {
-                    discussion: discussionId ? '/api/discussions/' + discussionId : null,
-                    place: placeId ? '/api/places/' + placeId : null,
+                    discussion: discussionId ? '/api/discussion/' + discussionId : null,
+                    place: placeId ? '/api/place/' + placeId : null,
+                })
+                toast({
+                    description: "J'aime",
+                    status: 'success'
                 })
                 setUserLike(user)
                 setLikeLength(likeLength + 1)
@@ -70,7 +79,7 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
                 />
                 <Text>{likeLength}</Text>
             </HStack>
-            {showLabel && <Text as="small">j'aime</Text> }
+            {showLabel && <Text as="small">j'aime</Text>}
         </VStack>
     )
 

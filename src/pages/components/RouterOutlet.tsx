@@ -17,6 +17,7 @@ import PlaceCreatePage from "../travel/PlaceCreatePage";
 import ProfilPage from '../user/ProfilPage'
 import TraveloguePage from "../user/TraveloguePage";
 import UpdatePasswordPage from "../authentification/UpdatePasswordPage";
+import DiscussionEditPage from "../forum/DiscussionEditPage";
 
 
 export default function RouterOutleft() {
@@ -29,6 +30,7 @@ export default function RouterOutleft() {
                     <Route path="/forum" element={<ForumPage />} />
                     <Route path="/forum/discussion/detail/:id" element={<DiscussionDetail />} />
                     <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
+                    <Route path="/forum/discussion/edit/:id" element={<DiscussionEditPage />} />
 
                     <Route path="/market-place" element={<MarketPlacePage />} />
                     <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />

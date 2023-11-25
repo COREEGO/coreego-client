@@ -109,81 +109,6 @@ const PublicationLiked = () => {
   );
 };
 
-const PlacePublication = () => {
-  const params = useParams();
-  const { data: places, error } = useSWR(`/places/user?user=${params.id}`, { suspense: true });
-  if (error) console.error(error);
-
-  return (
-    <ModalWrapper
-      id="places"
-      title={<>{<TRAVEL_ICON />} Lieux</>}
-      renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Lieux"} icon={<TRAVEL_ICON />} />}
-      params={{ size: 'full' }}
-    >
-      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
-        {places.map((place: any) => (
-          <GridItem key={place.id}>
-            <NavLink to={'/voyage/place/detail/' + place.id}>
-              <PlaceCard size="sm" place={place} />
-            </NavLink>
-          </GridItem>
-        ))}
-      </Grid>
-    </ModalWrapper>
-  );
-};
-
-const DiscusionPublication = () => {
-  const params = useParams();
-  const { data: discussions, error } = useSWR(`/discussions/user?user=${params.id}`, { suspense: true });
-
-  if (error) console.error(error);
-
-  return (
-    <ModalWrapper
-      id="discussions"
-      title={<><FORUM_ICON />Discussions</>}
-      renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Discussions"} icon={<FORUM_ICON />} />}
-      params={{ size: 'full' }}
-    >
-      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
-        {discussions.map((discussion: any) => (
-          <GridItem key={discussion.id}>
-            <NavLink to={'/forum/discussion/detail/' + discussion.id}>
-              <DiscussionCard size="sm" discussion={discussion} />
-            </NavLink>
-          </GridItem>
-        ))}
-      </Grid>
-    </ModalWrapper>
-  );
-};
-
-const ProductPublication = () => {
-  const params = useParams();
-  const { data: products, error: errorProduct } = useSWR(`/products/user?user=${params.id}`, { suspense: true });
-
-  return (
-    <ModalWrapper
-      id="produits"
-      title={<><MARKET_PLACE_ICON />Produits mis en vente</>}
-      renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"Produits mis en vente"} icon={<MARKET_PLACE_ICON />} />}
-      params={{ size: 'full' }}
-    >
-      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
-        {products.map((product: any) => (
-          <GridItem key={product.id}>
-            <NavLink to={'/market-place/product/detail/' + product.id}>
-              <ProductCard size="sm" product={product} />
-            </NavLink>
-          </GridItem>
-        ))}
-      </Grid>
-    </ModalWrapper>
-  );
-};
-
 const Publications = () => {
   const params = useParams();
   const { user: currentUser }: any = useAuthContext();
@@ -195,13 +120,19 @@ const Publications = () => {
       </Text>
       <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2 })}>
         <GridItem>
-          <PlacePublication />
+          <NavLink to={`/voyage?user=${params.id}`}>
+            <Button w="100%" py="30px" variant={"outline"} leftIcon={<TRAVEL_ICON />}>Lieux</Button>
+          </NavLink>
         </GridItem>
         <GridItem>
-          <DiscusionPublication />
+          <NavLink to={`/forum?user=${params.id}`}>
+            <Button w="100%" py="30px" variant={"outline"} leftIcon={<FORUM_ICON />}>Discussions</Button>
+          </NavLink>
         </GridItem>
         <GridItem>
-          <ProductPublication />
+          <NavLink to={`/market-place?user=${params.id}`}>
+            <Button w="100%" py="30px" variant={"outline"} leftIcon={<FORUM_ICON />}>Produits en vente</Button>
+          </NavLink>
         </GridItem>
         {currentUser && currentUser.id == params.id ? <GridItem> <PublicationLiked /> </GridItem> : <></>}
       </Grid>

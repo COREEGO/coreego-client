@@ -1,4 +1,4 @@
-import { Stack, Box, Text, Divider, Container, Button, Flex, Heading, Spacer, Grid, GridItem, Hide, useDisclosure, FormControl, FormErrorMessage, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack } from "@chakra-ui/react";
+import { Stack, Box, Text, Divider, Container, Button, Flex, Heading, Spacer, Grid, GridItem, Hide, useDisclosure, FormControl, FormErrorMessage, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, IconButton, Show, HStack } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
 import SearchFilter from "../components/filters/SearchFilter";
@@ -14,48 +14,77 @@ import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectI
 import SelectInput from "../../components/inputs/SelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import AddNewTopikButton from "../../components/buttons/AddTopicButton";
+import ModalWrapper from "../../components/Modals/ModalWraper";
+import RadioGroupInput from "../../components/inputs/RadioGroupInput";
+import { FILTER_ICON, NEW_TOPIC_ICON } from "../../utils/icon";
+import TitleText from "../../components/texts/TitleText";
+import { NavLink } from "react-router-dom";
 
-
-const MarketPlacePage = () => {
-
+const FiltresSection = () => {
     const { updateFilter, searchParams } = useFilterContext()
 
     return (
+        <ModalWrapper
+            id="filtres"
+            title={<><FILTER_ICON /> Filtres</>}
+            renderButton={(onOpen) => (
+                <>
+                    <Show above={"md"}><Button onClick={onOpen} leftIcon={<FILTER_ICON />} variant={"outline"}>Filtres</Button></Show>
+                    <Show below={"md"}><IconButton onClick={onOpen} isRound aria-label="boutton open modal filter" icon={<FILTER_ICON />} variant={"outline"} /></Show>
+                </>
+            )}
+        >
+            <Stack>
+                <Text as="b">Localisation</Text>
+                <CityDistrictSelectInput
+                    showMap={true}
+                    updateCity={(e: any) => updateFilter('city', e)}
+                    cityValue={searchParams.get('city') || ''}
+                    updateDistrict={(e: any) => updateFilter('district', e)}
+                    districtValue={searchParams.get('district') || ''}
+                />
+            </Stack>
+        </ModalWrapper>
+    )
+}
+
+const MarketPlacePage = () => {
+    return (
         <>
+            <NavLink to="/market-place/product/create">
+                <IconButton zIndex={10} position="fixed" bottom={3} right={3} aria-label="ajouter une discussion" icon={<NEW_TOPIC_ICON />} isRound colorScheme="whatsapp" />
+            </NavLink>
             <ImageHeader imgUrl={HEADER_IMG} />
             <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>
-                <AsideFeedSection title="Market Place" />
+                <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>
+                    <ContainerSection withPadding={true}>
+                        <Stack spacing={{ base: 5, md: 20 }} direction={{ base: 'column', md: 'row' }} alignItems={{ base: 'flex-start', md: 'center' }}>
+                            <TitleText text="Market Place" />
+                            <HStack w="100%" flex={1}>
+                                <Box flex={1}>
+                                    <SearchFilter />
+                                </Box>
+                                <FiltresSection />
+                            </HStack>
+                        </Stack>
+                    </ContainerSection>
+                </Box>
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
-                        <Stack spacing={VERTICAL_SPACING}>
-                            <Stack direction="row" flexWrap={"wrap"}>
-                                <AddNewTopikButton label="Ajouter un article" url="/" />
-                                <FilterModal>
-                                    <SectionModal title={"Localisation"}>
-                                        <CityDistrictSelectInput
-                                            updateCity={(e: any) => updateFilter('city', e)}
-                                            cityValue={searchParams.get('city') || ''}
-                                            updateDistrict={(e: any) => updateFilter('district', e)}
-                                            districtValue={searchParams.get('district') || ''}
-                                        />
-                                    </SectionModal>
-                                </FilterModal>
-                            </Stack>
-                            <FeedList
-                                url="/products"
-                                cardName="product"
-                                noLengthLabel="Aucun produits trouvées"
-                                buttonLabel="Voir plus"
-                                templateColumns={
-                                    {
-                                        base: "repeat(1, 1fr)",
-                                        sm: "repeat(2, 1fr)",
-                                        md: "repeat(3, 1fr)",
-                                        lg: "repeat(4, 1fr)"
-                                    }
+                        <FeedList
+                            url="/products"
+                            cardName="product"
+                            noLengthLabel="Aucun produits trouvées"
+                            buttonLabel="Voir plus"
+                            templateColumns={
+                                {
+                                    base: "repeat(1, 1fr)",
+                                    sm: "repeat(2, 1fr)",
+                                    md: "repeat(3, 1fr)",
+                                    lg: "repeat(4, 1fr)"
                                 }
-                            />
-                        </Stack>
+                            }
+                        />
                     </ContainerSection>
                 </Stack>
             </Stack>

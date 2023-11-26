@@ -19,13 +19,13 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
     return (
         <Box width="100%" height="100%">
             <Stack
-                width="100%" justifyContent="space-between" height="100%" p={2}>
+               height="100%" p={2}>
                 <Swiper
                     spaceBetween={0}
                     navigation={true}
                     thumbs={{ swiper: thumbsSwiper }}
                     modules={[FreeMode, Navigation, Thumbs]}
-                    className="thumb_swiper_top"
+                    className="thumb_swiper_top default-swiper"
                 >
                     {
                         images.map((image: any) => {

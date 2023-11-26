@@ -5,14 +5,16 @@ import MapSimpleMarker from "../maps/MapSimpleMarker";
 
 interface CityDistrictSelectInputInterface {
     updateCity?: (e: any) => void,
+    variant?: string,
     cityValue: string,
     updateDistrict?: (e: any) => void,
     districtValue: string,
-    showMap?: boolean
+    showMap?: boolean,
+    withCircle?: boolean
 }
 
 const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
-    updateCity, cityValue, updateDistrict, districtValue, showMap = false
+    updateCity, cityValue, updateDistrict, districtValue, showMap = false, variant = 'outline', withCircle = false
 }) => {
     const { cities } = useSelector((state: any) => state.app);
 
@@ -70,14 +72,14 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
 
     return (
         <Stack w="100%">
-            <Select value={selectedCity} onChange={(event: any) => setSelectedCity(event.target.value)}>
+            <Select variant={variant} value={selectedCity} onChange={(event: any) => setSelectedCity(event.target.value)}>
                 <option value="">Toutes les villes</option>
                 {cities.map((city: any) => {
                     return <option key={city.id} value={city.id}>{city.label}</option>;
                 })}
             </Select>
             {
-                selectedCity && <Select value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
+                selectedCity && <Select variant={variant}  value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
                     <option value="">Tous les districts</option>
                     {
                         districtsList.map((district: any) => {
@@ -88,7 +90,7 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
             }
 
             {
-                (showMap && getGeopoint()) ? <Box w="100%" h={200} ><MapSimpleMarker lat={getGeopoint()?.lat} lng={getGeopoint()?.lng} /></Box> : <></>
+                (showMap && getGeopoint()) ? <Box w="100%" h={200} ><MapSimpleMarker withCircle={withCircle} lat={getGeopoint()?.lat} lng={getGeopoint()?.lng} /></Box> : <></>
             }
         </Stack>
     );

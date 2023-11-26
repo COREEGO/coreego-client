@@ -329,9 +329,9 @@ const ProfilEditPage: React.FC<PropsInterface> = ({ profil, mutate }) => {
             const formData = new FormData();
             formData.append("file", files[0].file, files[0].file.name);
             await apiFetch(`/profil/${profil.id}/avatar`, 'post', formData)
+            clearFiles()
             mutate()
             await authentification()
-            clearFiles()
             toast({
                 description: "Photo de profil modifié",
                 status: "success",

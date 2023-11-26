@@ -32,8 +32,15 @@ export const emailValidator = {
   },
 };
 
+export const noEmptyLocalisationValidator = (city:string, district: string) => {
+  if(city === '' || district === ''){
+    return "La ville et le district ne doivent pas être vide"
+  }
+  return
+}
+
 export const noEmtyFileValidator = (files: Array<any>) => {
-  return files.length > 0 || "Minimum 1 image";
+  return files.length > 0 || "Une image au minimum est attendu";
 };
 
 export const passwordMatchValidator = (password:string, confirmPassword:string) => {

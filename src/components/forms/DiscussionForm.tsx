@@ -11,6 +11,7 @@ import useFile from "../../hooks/useFile"
 import { CAMERA_ICON, TRASH_ICON } from "../../utils/icon"
 import FormImage from "../images/FormImage"
 import { apiFetch } from "../../http-common/apiFetch"
+import { useEffect } from "react"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -43,6 +44,8 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
     const {
         control,
         register,
+        getValues,
+        setValue,
         handleSubmit,
         setError,
         formState: { errors, isSubmitting },
@@ -52,6 +55,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
             title: data?.title,
             content: data?.content,
             category: data?.category.id,
+            files: []
         }
     })
 
@@ -63,9 +67,9 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                 content: data.content
             })
             if (response && files && Array.isArray(files) && files.length) {
-                for (const file of files) {
+                for (const file of data.files) {
                     const formData = new FormData();
-                    formData.append('file', file.file);
+                    formData.append('file', file);
                     formData.append('discussion', `/api/discussion/${response.id}`);
                     await apiFetch('/images', 'post', formData);
                 }
@@ -84,10 +88,12 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
         }
     }
 
-    const handleDeledeFile = (fileId: number) => {
-        deleteFile(fileId)
-        data = []
-    }
+    useEffect(()=>{
+        setValue('files', files.map((file: any) => {
+            return file.file
+        }))
+    }, [files])
+
 
     return (
         <Box py={VERTICAL_SPACING}>
@@ -136,7 +142,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                                                     <FormImage
                                                         key={index}
                                                         imageUrl={BASE_URL + image.filePath}
-                                                        onRemove={() => handleDeledeFile(image.id)}
+                                                        onRemove={() => deleteFile(image.id)}
                                                     />
                                                 )
                                             })

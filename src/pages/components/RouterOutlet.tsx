@@ -18,6 +18,7 @@ import ProfilPage from '../user/ProfilPage'
 import TraveloguePage from "../user/TraveloguePage";
 import UpdatePasswordPage from "../authentification/UpdatePasswordPage";
 import DiscussionEditPage from "../forum/DiscussionEditPage";
+import ProductEditPage from "../marketplace/ProductEditPage";
 
 
 export default function RouterOutleft() {
@@ -35,6 +36,7 @@ export default function RouterOutleft() {
                     <Route path="/market-place" element={<MarketPlacePage />} />
                     <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />
                     <Route path="/market-place/product/create" element={<ProductCreatePage />} />
+                    <Route path="/market-place/product/edit/:id" element={<ProductEditPage />} />
 
                     <Route path="/voyage" element={<TravelPage />} />
                     <Route path="/voyage/place/detail/:id" element={<PlaceDetail />} />

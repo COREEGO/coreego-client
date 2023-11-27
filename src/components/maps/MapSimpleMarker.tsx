@@ -8,13 +8,14 @@ import { BsMapFill } from "react-icons/bs"
 
 
 const MapSimpleMarker: React.FC<{
-    lat: number,
-    lng: number,
-    zoom?: number,
-    withCircle?: boolean
-    displayMapMode?: boolean
-    displayMapType?: boolean
-}> = ({ lat, lng, zoom = 8, withCircle = false, displayMapMode = false, displayMapType = false }) => {
+    lat: number;
+    lng: number;
+    zoom?: number;
+    withCircle?: boolean;
+    displayMapMode?: boolean;
+    displayMapType?: boolean;
+    updateMarker?: (event: {lat:number,lng:number}) => void;
+}> = ({ lat, lng, zoom = 8,updateMarker, withCircle = false, displayMapMode = false, displayMapType = false }) => {
 
     const [mapMode, setMapMode] = useState<'map' | 'roadview'>("map")
     const [mapType, setMapType] = useState<"ROADMAP" | "HYBRID">("ROADMAP")
@@ -35,8 +36,11 @@ const MapSimpleMarker: React.FC<{
                 }}
                 mapTypeId={mapType}
                 level={zoom} // 지도의 확대 레벨
+                onClick={(_t, mouseEvent) => updateMarker ? updateMarker(
+                    {lat: mouseEvent.latLng.getLat(), lng: mouseEvent.latLng.getLng()}
+                ): {}}
             >
-                <MapMarker position={{ ...position }} />
+                {position && <MapMarker position={{ ...position }} /> }
                 {
                     withCircle && <Circle
                         center={{ ...position }}
@@ -62,7 +66,7 @@ const MapSimpleMarker: React.FC<{
                     </>
                 }
                 {
-                    (displayMapType && mapMode === 'map' ) && <ButtonGroup
+                    (displayMapType && mapMode === 'map') && <ButtonGroup
                         colorScheme="blue"
                         position={"absolute"}
                         top={3}

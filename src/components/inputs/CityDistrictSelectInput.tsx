@@ -72,14 +72,14 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
 
     return (
         <Stack w="100%">
-            <Select variant={variant} value={selectedCity} onChange={(event: any) => setSelectedCity(event.target.value)}>
+            <Select size="lg" variant={variant} value={selectedCity} onChange={(event: any) => setSelectedCity(event.target.value)}>
                 <option value="">Toutes les villes</option>
                 {cities.map((city: any) => {
                     return <option key={city.id} value={city.id}>{city.label}</option>;
                 })}
             </Select>
             {
-                selectedCity && <Select variant={variant}  value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
+                selectedCity && <Select size="lg" variant={variant}  value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
                     <option value="">Tous les districts</option>
                     {
                         districtsList.map((district: any) => {

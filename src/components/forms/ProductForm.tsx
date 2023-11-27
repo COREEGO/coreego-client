@@ -69,8 +69,8 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
                 title: data.title,
                 description: data.description,
                 price: parseInt(data.price),
-                city: 'api/cities/' + data.city,
-                district: 'api/districts/' + data.district
+                city: '/api/city/' + data.city,
+                district: '/api/district/' + data.district
             })
             if (response && data.files && Array.isArray(data.files) && data.files.length) {
                 for (const file of data.files) {

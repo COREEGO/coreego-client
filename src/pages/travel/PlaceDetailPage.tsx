@@ -2,7 +2,7 @@ import { Suspense, useEffect, useState } from "react"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import LoadingPage from "../../components/LoadingPage"
-import { Box, Divider, Stack, Text, Flex, HStack, Spacer } from "@chakra-ui/react"
+import { Box, Divider, Stack, Text, Flex, HStack, Spacer, Button } from "@chakra-ui/react"
 import MapSimpleMarker from "../../components/maps/MapSimpleMarker"
 import TitleText from "../../components/texts/TitleText"
 import UserSniped from "../../components/react-ux/UserSniped"
@@ -18,12 +18,19 @@ import ReviewModule from "../components/modules/ReviewModule"
 import { NavLink } from "react-router-dom"
 import LocalisationText from "../../components/texts/LocalisationText"
 import CategoryText from "../../components/texts/CategoryText"
+import { belongsToAuth } from "../../utils"
+import { EDIT_ICON } from "../../utils/icon"
+import { useAuthContext } from "../../contexts/AuthProvider"
 
 const Detail = () => {
 
     const params = useParams()
+    const {user}:any = useAuthContext()
+    const { data: place, mutate } = useSWR('/place/' + params.id, { suspense: true })
 
-    const { data: place, mutate } = useSWR('/places/' + params.id, { suspense: true })
+    useEffect(()=>{
+        if(place) mutate()
+    }, [])
 
     return (
         <Box py={VERTICAL_SPACING}>
@@ -31,6 +38,14 @@ const Detail = () => {
                 <ContainerSection withPadding={true}>
                     <Stack spacing={VERTICAL_SPACING}>
                         <Stack alignItems={"flex-start"}>
+                            {
+                                belongsToAuth(place.user.id, user?.id) ?
+                                    <NavLink to={`/voyage/place/edit/${params.id}`}>
+                                        <Button variant="outline" leftIcon={<EDIT_ICON />}>Modifier</Button>
+                                    </NavLink>
+                                    :
+                                    <></>
+                            }
                             <TitleText text={place.title} />
                             <NavLink to={"/voyage?category=" + place.category.id}>
                                 <CategoryText category={place.category} />
@@ -74,7 +89,7 @@ const Detail = () => {
                         </Stack>
                     </Stack>
                 </ContainerSection>
-                <Stack  bg="white" position={"sticky"} bottom={0} py={3} zIndex={100}>
+                <Stack bg="white" position={"sticky"} bottom={0} py={3} zIndex={100}>
                     <ContainerSection withPadding={true}>
                         <HStack>
                             <LikeButton likes={place.likes} mutate={mutate} placeId={place.id} />

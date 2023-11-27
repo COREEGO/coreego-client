@@ -25,9 +25,7 @@ const Detail = () => {
     const { data, error, mutate } = useSWR('/product/' + params.id, { suspense: true })
 
     useEffect(()=>{
-        if(data){
-            mutate()
-        }
+        if(data) mutate()
     }, [])
 
     if (error) console.error(error)

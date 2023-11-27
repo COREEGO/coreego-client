@@ -13,7 +13,6 @@ import SectionModal from "../../components/Modals/_SectionModal";
 import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
 import SelectInput from "../../components/inputs/SelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
-import AddNewTopikButton from "../../components/buttons/AddTopicButton";
 import ModalWrapper from "../../components/Modals/ModalWraper";
 import RadioGroupInput from "../../components/inputs/RadioGroupInput";
 import { FILTER_ICON, NEW_TOPIC_ICON } from "../../utils/icon";

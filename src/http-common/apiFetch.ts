@@ -4,7 +4,8 @@ import axios from "axios";
 export async function apiFetch<T>(
   url: any,
   method: string,
-  payload?: any
+  payload?: any,
+  isPrivateRoute?: boolean
 ): Promise<T | { data: any } | { error: any } | null> {
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -13,6 +14,10 @@ export async function apiFetch<T>(
   const headers: any = {
     Accept: "application/json",
   };
+
+  if(isPrivateRoute){
+    headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+  }
 
   if (payload instanceof FormData) {
     headers['Content-type'] = "multipart/form-data"
@@ -36,7 +41,7 @@ export async function apiFetch<T>(
       return response.data;
     }
   } catch (error: any) {
-      throw new Error(JSON.stringify(error.response));
+      throw new Error(JSON.stringify(error));
   }
 
   return null; // Return a default value if the response is not as expected

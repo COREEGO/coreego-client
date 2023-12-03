@@ -23,19 +23,24 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         onLoadedApplication()
     }, [])
 
+    useEffect(()=>{
+        if(localStorage.getItem('token')){
+            authentification()
+        }
+    }, [localStorage.getItem('token') ])
+
     const onLoadedApplication = async () => {
         try {
             setIsLoaded(false)
-            await authentification()
-            const discussionCategories : any = await apiFetch('/discussion_categories', 'GET')
-            const placeCategories = await apiFetch('/place_categories', 'GET')
+
+            const discussionCategories : any = await apiFetch('/discussion-categories', 'GET')
+            const placeCategories = await apiFetch('/place-categories', 'GET')
             const cities = await apiFetch('/cities', 'GET')
             const languages = await apiFetch('/languages', 'GET')
 
 
             if (discussionCategories){
                 dispath(initDiscussionCategories(discussionCategories))
-                localStorage.setItem('discussion_categories', JSON.stringify(discussionCategories))
             }
             if (placeCategories) dispath(initPlaceCategories(placeCategories))
             if (cities) dispath(initCities(cities))

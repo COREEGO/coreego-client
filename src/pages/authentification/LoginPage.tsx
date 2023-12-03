@@ -36,7 +36,7 @@ export default function LoginPage() {
 
     const onsubmit = async (data: Inputs) => {
         try {
-            await apiFetch('/login', 'post', {
+            const response = await apiFetch('/login', 'post', {
                 username: data.email.trim(),
                 password: data.password.trim()
             })

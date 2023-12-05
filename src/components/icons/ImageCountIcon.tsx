@@ -1,8 +1,9 @@
 
 
 
-import { HStack, Text } from "@chakra-ui/react"
-import { BsCardImage } from "react-icons/bs"
+import { Stack } from "@chakra-ui/react"
+import { IMAGE_ICON } from "../../utils/icon"
+import { Typography } from "@mui/material"
 
 
 interface PropsInterface{
@@ -12,11 +13,10 @@ interface PropsInterface{
 const ImageCountIcon : React.FC<PropsInterface> = ({length}) => {
 
     return (
-        <HStack>
-            <BsCardImage />
-            <Text as="span">{length}</Text>
-        </HStack>
-
+        <Stack direction={"row"} spacing={0}>
+            <IMAGE_ICON />
+            <Typography component="span">{length || 0}</Typography>
+        </Stack>
     )
 
 }

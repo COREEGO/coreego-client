@@ -1,8 +1,8 @@
 
 
 
-import { HStack, Text } from "@chakra-ui/react"
-import { BsChatLeft } from "react-icons/bs"
+import { Typography, Stack } from "@mui/material"
+import { COMMENT_ICON } from "../../utils/icon"
 
 
 interface PropsInterface{
@@ -12,10 +12,10 @@ interface PropsInterface{
 const CommentCountIcon : React.FC<PropsInterface> = ({length}) => {
 
     return (
-        <HStack>
-            <BsChatLeft />
-            <Text as="span">{length}</Text>
-        </HStack>
+        <Stack direction={"row"} spacing={0}>
+            <COMMENT_ICON />
+            <Typography component="span">{length || 0}</Typography>
+        </Stack>
     )
 
 }

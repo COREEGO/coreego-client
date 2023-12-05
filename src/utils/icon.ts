@@ -5,17 +5,20 @@ import { HiLanguage } from "react-icons/hi2";
 import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiTiktokLine, RiYoutubeFill } from "react-icons/ri";
 import { DeleteIcon } from "@chakra-ui/icons";
 import { FaCircle } from "react-icons/fa";
-import { TfiWrite } from "react-icons/tfi";
-import { LuSettings2 } from "react-icons/lu";
 import { LiaEdit } from "react-icons/lia";
 import TuneIcon from '@mui/icons-material/Tune';
 import EditIcon from '@mui/icons-material/Edit';
-
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import ImageIcon from '@mui/icons-material/Image';
 
 export const FORUM_ICON = MdOutlineComment
 export const TRAVEL_ICON = MdOutlineTravelExplore
 export const MARKET_PLACE_ICON = MdOutlineShoppingBag
-export const DISLIKE_ICON = BsHeart
+
+export const COMMENT_ICON = ChatBubbleOutlineIcon
+export const DISLIKE_ICON = FavoriteBorderIcon
+export const IMAGE_ICON = ImageIcon
 
 export const LOCALISATION_ICON = BsHouseDoor
 export const OCCUPATION_ICON = BsPersonWorkspace

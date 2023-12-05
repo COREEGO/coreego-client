@@ -1,8 +1,9 @@
+import { Stack } from "@chakra-ui/react"
+import { Typography } from "@mui/material"
+import { DISLIKE_ICON } from "../../utils/icon"
 
 
 
-import { HStack, Text } from "@chakra-ui/react"
-import { BsHeart } from "react-icons/bs"
 
 
 interface PropsInterface{
@@ -12,10 +13,10 @@ interface PropsInterface{
 const LikeCountIcon : React.FC<PropsInterface> = ({length}) => {
 
     return (
-        <HStack>
-            <BsHeart />
-            <Text as="span">{length}</Text>
-        </HStack>
+        <Stack direction={"row"} spacing={0}>
+            <DISLIKE_ICON />
+            <Typography component="span">{length || 0}</Typography>
+        </Stack>
     )
 
 }

@@ -1,6 +1,6 @@
-import { Avatar, Flex, HStack, Stack, Text } from "@chakra-ui/react"
 import { BASE_URL } from "../../utils/variables"
 import { dateParse } from "../../utils"
+import { Avatar, Stack, Typography } from "@mui/material"
 
 interface UserSnipedInterface {
     avatar: string,
@@ -13,15 +13,15 @@ interface UserSnipedInterface {
 const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate, size = "sm", styles }) => {
 
     return (
-        <HStack>
+        <Stack spacing={1} direction={"row"} alignItems={"center"}>
             <Avatar {...styles} size={size} src={BASE_URL + avatar} />
             {
                 (pseudo || publishDate) && <Stack spacing={0}>
-                    {pseudo && <Text as="span" noOfLines={1}>{pseudo}</Text>}
-                    {publishDate && <Text as="small" color="gray">{dateParse(publishDate)}</Text>}
+                    {pseudo && <Typography component="span" noWrap={true}>{pseudo}</Typography>}
+                    {publishDate && <Typography component="span" color="gray">{dateParse(publishDate)}</Typography>}
                 </Stack>
             }
-        </HStack>
+        </Stack>
     )
 
 }

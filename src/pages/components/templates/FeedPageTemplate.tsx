@@ -18,7 +18,7 @@ interface PropsInterface {
     noLengthLabel: string,
     isLoading: boolean,
     cardName: "discussion" | "product" | "place",
-    breackpoints : Record<any, any>
+    breackpoints : Record<any, any>,
 }
 
 const FeedPageTemplate: React.FC<PropsInterface> = ({

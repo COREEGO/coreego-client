@@ -8,6 +8,7 @@ import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
 import { VERTICAL_SPACING } from "../../utils/variables";
 import { FILTER_ICON, NEW_TOPIC_ICON } from "../../utils/icon";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const ForumPage: React.FC = () => {
     const { updateFilter, searchParams } = useFilterContext();
@@ -15,24 +16,31 @@ const ForumPage: React.FC = () => {
     const { data, isLoading, error } = useSWR(`/discussions${location.search}`);
 
     if (error) console.error('API ERROR:', error);
-    if (isLoading) console.log('Loading...');
+
+    const {discussionCategories} = useSelector((state:any) => state.app)
 
     return (
         <>
             <FeedPageTemplate
                 title="Forum"
-                addTopicLink="/"
+                addTopicLink="/forum/discussion/create"
                 renderFilterBody={() => (
                     <FormControl>
-                        <FormLabel id="demo-controlled-radio-buttons-group">Gender</FormLabel>
+                        <FormLabel id="demo-radio-buttons-group-label">Catégory</FormLabel>
                         <RadioGroup
-                            aria-labelledby="demo-controlled-radio-buttons-group"
-                            name="controlled-radio-buttons-group"
-                            value={searchParams.get('category') || ''}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => updateFilter('category', e.target.value)}
+                            row
+                            aria-labelledby="demo-radio-buttons-group-label"
+                            name="radio-buttons-group"
+                            onChange={(event:any) => updateFilter('category', event.target.value )}
+
                         >
-                            <FormControlLabel value="female" control={<Radio />} label="Female" />
-                            <FormControlLabel value="male" control={<Radio />} label="Male" />
+                            {
+                                discussionCategories.map((category:any) => {
+                                    return (
+                                        <FormControlLabel checked={searchParams.get('category') == category.id} key={category.id} value={category.id} control={<Radio />} label={category.label} />
+                                    )
+                                })
+                            }
                         </RadioGroup>
                     </FormControl>
                 )}
@@ -43,9 +51,9 @@ const ForumPage: React.FC = () => {
                 cardName="discussion"
                 breackpoints={{ xs: 12, md: 6 }}
             />
-            <Container maxWidth="lg" sx={{ mt: 5 }}>
+            <Container maxWidth="lg" sx={{ my: 5, display: 'flex', justifyContent: 'center' }}>
                 <Pagination
-                    page={Number(searchParams.get('page')) || 0}
+                    page={Number(searchParams.get('page')) || 1}
                     onChange={(event: React.ChangeEvent<unknown>, value: number) => updateFilter('page', value.toString())}
                     count={data?.meta.last_page || 0}
                     variant="outlined"

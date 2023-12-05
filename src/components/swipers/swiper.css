@@ -1,3 +1,8 @@
+.swiper-wrapper {
+  width: 0;
+  height: 100%;
+}
+
 .default-swiper {
   position: relative;
   height: 100%;
@@ -36,21 +41,17 @@
   color: black;
 }
 
-.swiper-wrapper {
-  width: 0;
-  height: 100%;
-}
-
 .thumb_swiper_top {
-  height: 100%;
+  height: 70%;
   width: 100%;
 }
 
 .thumb_swiper_footer {
   width: 100%;
+  max-height: 100px;
 }
 .thumb_swiper_footer .swiper-slide-thumb-active img {
-  border: 5px solid var(--coreego-blue);
+  border: 2px solid var(--coreego-blue);
 }
 .thumb_swiper_footer .swiper-slide:not(.swiper-slide-thumb-active) {
   opacity: 0.5;

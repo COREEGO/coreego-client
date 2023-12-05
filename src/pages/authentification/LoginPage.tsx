@@ -36,10 +36,13 @@ export default function LoginPage() {
 
     const onsubmit = async (data: Inputs) => {
         try {
-            const response = await apiFetch('/login', 'post', {
-                username: data.email.trim(),
+            const response : any = await apiFetch('/login', 'post', {
+                email: data.email.trim(),
                 password: data.password.trim()
             })
+            if(response){
+                localStorage.setItem('token', response.token)
+            }
             await authentification()
             navigate('/')
         } catch (e: any) {

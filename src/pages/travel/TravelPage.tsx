@@ -31,7 +31,7 @@ const TravelPage = () => {
             </NavLink>
             <ImageHeader imgUrl={HEADER_IMG} />
             <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>
-                <AsideFeedSection title="Voyage" />
+                {/* <AsideFeedSection title="Voyage" /> */}
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
                         <Flex gap='2' alignItems="center" flexWrap="wrap">
@@ -62,13 +62,6 @@ const TravelPage = () => {
                             noLengthLabel="Aucun lieux trouvés"
                             buttonLabel="Voir plus"
                             cardName="place"
-                            templateColumns={
-                                {
-                                    base: "repeat(1, 1fr)",
-                                    sm: "repeat(2, 1fr)",
-                                    md: "repeat(3, 1fr)",
-                                }
-                            }
                         />
                     </ContainerSection>
                 </Stack>

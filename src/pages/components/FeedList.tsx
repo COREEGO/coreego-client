@@ -1,5 +1,4 @@
-import React from "react";
-import { Button, Grid, GridItem, Stack } from "@chakra-ui/react";
+import React, { useEffect, useRef } from "react";
 import LoadingPage from "../../components/LoadingPage";
 import { usePagination } from "../../hooks/usePagination";
 import DiscussionCard from "../../components/card/DiscussionCard";
@@ -7,13 +6,15 @@ import ProductCard from "../../components/card/ProductCard";
 import PlaceCard from "../../components/card/PlaceCard";
 import { Suspense } from "react";
 import { NavLink } from "react-router-dom";
+import { Grid, Stack } from "@mui/material";
 
 interface FeedListInterface {
     url: string;
     noLengthLabel: string;
     buttonLabel: string;
+    fetchData?: any,
     cardName: "discussion" | "product" | "place";
-    templateColumns: any
+    breackpoints?: any
 }
 
 const FeedListGrid: React.FC<FeedListInterface> = ({
@@ -21,59 +22,59 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
     noLengthLabel,
     buttonLabel,
     cardName,
-    templateColumns
+    fetchData,
+    breackpoints
 }) => {
 
-    const {
-        paginationData: datas,
-        isReachedEnd,
-        loadingMore,
-        size,
-        setSize,
-        error,
-        isLoading,
-    } = usePagination<any>(url);
+    // const {
+    //     paginationData: datas,
+    //     isReachedEnd,
+    //     loadingMore,
+    //     size,
+    //     setSize,
+    //     error,
+    //     isLoading,
+    // } = usePagination<any>(url);
 
-    if (error) return <p>Une erreur est survenue</p>;
+    // if (error) return <p>Une erreur est survenue</p>;
 
-    if (!datas.length) return <p>{noLengthLabel}</p>;
+    // if (!datas?.data?.length) return <p>{noLengthLabel}</p>;
 
-    if (isLoading) return <LoadingPage type="data" />;
+    // if (isLoading) return <LoadingPage type="data" />;
+
+    useEffect(()=>{
+        console.log(fetchData)
+    }, [fetchData])
 
     return (
-        <Stack>
+        <Stack mt={5}>
             <Grid
-                templateColumns={templateColumns}
-                gap={5}
+                container
+                spacing={3}
             >
-                {datas?.map((data: any) => (
-                    <GridItem key={data.id}>
-                        {cardName === "discussion" &&
-                            <NavLink to={'/forum/discussion/detail/' + data.id}>
-                                <DiscussionCard size="xl" discussion={data}  />
-                            </NavLink>
-                        }
-                        {cardName === "product" &&
-                            <NavLink to={'/market-place/product/detail/' + data.id}>
-                                <ProductCard size="xl"  product={data} />
-                            </NavLink>
-                        }
-                        {cardName === "place" &&
-                            <NavLink to={'/voyage/place/detail/' + data.id}>
-                                <PlaceCard size="xl" place={data} />
-                            </NavLink>
-                        }
-                    </GridItem>
-                ))}
+                {fetchData?.data.map((data: any) => {
+                    return (
+                        <Grid item {...breackpoints} key={data.id}>
+                            {cardName === "discussion" &&
+                                <NavLink to={'/forum/discussion/detail/' + data.id}>
+                                    <DiscussionCard size="xl" discussion={data} />
+                                </NavLink>
+                            }
+                            {cardName === "product" &&
+                                <NavLink to={'/market-place/product/detail/' + data.id}>
+                                    <ProductCard size="xl" product={data} />
+                                </NavLink>
+                            }
+                            {cardName === "place" &&
+                                <NavLink to={'/voyage/place/detail/' + data.id}>
+                                    <PlaceCard size="xl" place={data} />
+                                </NavLink>
+                            }
+                        </Grid>
+                    )
+                }
+                )}
             </Grid>
-            {loadingMore && <LoadingPage type="data" />}
-            {
-                !isReachedEnd && (
-                    <Button onClick={() => setSize(size + 1)} className="btn_blue">
-                        {buttonLabel}
-                    </Button>
-                )
-            }
         </Stack >
     );
 };
@@ -83,16 +84,18 @@ const FeedList: React.FC<FeedListInterface> = ({
     noLengthLabel,
     buttonLabel,
     cardName,
-    templateColumns
+    fetchData,
+    breackpoints = {}
 }) => {
     return (
         <Suspense fallback={<LoadingPage type="data" />}>
             <FeedListGrid
                 url={url}
+                fetchData={fetchData}
                 noLengthLabel={noLengthLabel}
                 buttonLabel={buttonLabel}
                 cardName={cardName}
-                templateColumns={templateColumns}
+                breackpoints={breackpoints}
             />
         </Suspense>
     );

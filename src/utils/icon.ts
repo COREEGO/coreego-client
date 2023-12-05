@@ -8,6 +8,9 @@ import { FaCircle } from "react-icons/fa";
 import { TfiWrite } from "react-icons/tfi";
 import { LuSettings2 } from "react-icons/lu";
 import { LiaEdit } from "react-icons/lia";
+import TuneIcon from '@mui/icons-material/Tune';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 export const FORUM_ICON = MdOutlineComment
 export const TRAVEL_ICON = MdOutlineTravelExplore
@@ -35,6 +38,6 @@ export const TRASH_ICON = DeleteIcon
 
 export const CIRCLE_ICON = FaCircle
 
-export const NEW_TOPIC_ICON = TfiWrite
-export const FILTER_ICON = LuSettings2
+export const NEW_TOPIC_ICON = EditIcon
+export const FILTER_ICON = TuneIcon
 export const EDIT_ICON = LiaEdit

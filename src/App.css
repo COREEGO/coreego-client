@@ -41,11 +41,6 @@ div.chakra-alert {
   border-radius: 3px;
 }
 
-label.chakra-form__label {
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
 .scrollbar::-webkit-scrollbar {
   height: 5px !important;
 }

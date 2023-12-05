@@ -1,14 +1,18 @@
 import React, { ReactNode, useEffect } from "react";
-import { Divider, Text, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useDisclosure, ModalOverlay, Portal } from "@chakra-ui/react";
+import { Divider, Text, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useDisclosure, ModalOverlay, Portal, Button } from "@chakra-ui/react";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Stack } from "@mui/material";
+import { Transition } from "framer-motion";
 
 interface ModalWrapperProps {
     id: string;
     title?: any;
     renderButton: (onOpen: () => void) => ReactNode;
     renderFooter?: () => ReactNode;
-    children: ReactNode;
+    children?: ReactNode;
     params?: Record<any, any>,
-    showDivider?: boolean
+    options?: Record<any, any>,
+    showDivider?: boolean,
+    renderFilterBody?: Function
 }
 
 const ModalWrapper: React.FC<ModalWrapperProps> = ({
@@ -17,26 +21,38 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
     renderFooter,
     children,
     params,
+    options,
     title,
+    renderFilterBody
 }) => {
+    const [open, setOpen] = React.useState<boolean>(false);
 
-    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <>
-            {renderButton(onOpen)}
+            {renderButton(() => setOpen(true))}
             {
-                isOpen && <Modal id={id} {...params} isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
-                    <ModalOverlay />
-                    <ModalContent >
-                        <ModalHeader>{title && <HStack> {title} </HStack>}</ModalHeader>
-                        <ModalCloseButton />
-                        <ModalBody>{children}</ModalBody>
-                        {
-                            renderFooter && <ModalFooter> {renderFooter()} </ModalFooter>
-                        }
-                    </ModalContent>
-                </Modal>
+                open && <Dialog
+                    {...options}
+                    open={open}
+                    keepMounted
+                    onClose={() => setOpen(false)}
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                    {
+                        title ? <DialogTitle><Stack direction={"row"} alignItems={"center"}> {title} </Stack></DialogTitle> : <></>
+                    }
+                    {
+                        renderFilterBody ? <DialogContent>
+                            {renderFilterBody()}
+                        </DialogContent> : <></>
+                    }
+
+                    {
+                        renderFooter && <DialogActions> {renderFooter()} </DialogActions>
+                    }
+
+                </Dialog>
             }
 
         </>

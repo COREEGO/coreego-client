@@ -1,8 +1,8 @@
-import { Heading } from "@chakra-ui/react"
+import { Typography } from "@mui/material"
 
 const TitleText : React.FC<{text:string}> = ({text }) => {
     return (
-        <Heading as="h1" fontSize={{base: 'xl', md: '2xl'}}> {text} </Heading>
+        <Typography variant="h1" fontSize={24} fontWeight="bold" gutterBottom>{text}</Typography>
     )
 }
 

@@ -37,12 +37,7 @@ const theme = extendTheme({
 
 function App() {
   return (
-    <ChakraProvider theme={theme} toastOptions={{
-      defaultOptions: {
-        position: 'top', duration: 2000,
-        isClosable: true,
-      }
-    }}>
+
       <AuthProvider>
         <SWRConfig value={swrConfig}>
           <FilterProvider>
@@ -54,7 +49,7 @@ function App() {
           </FilterProvider>
         </SWRConfig>
       </AuthProvider>
-    </ChakraProvider >
+
   );
 }
 

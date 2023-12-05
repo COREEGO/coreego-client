@@ -1,87 +1,50 @@
-import { Box, Divider, Stack, Image, ListItem, ListIcon, List, useDisclosure, Drawer, DrawerContent, DrawerBody, Button, DrawerHeader, IconButton, Avatar, Menu, MenuButton, MenuList, MenuItem, Hide } from "@chakra-ui/react";
+// import { Box, Divider, Stack, Image, ListItem, ListIcon, List, useDisclosure, Drawer, DrawerContent, DrawerBody, Button, DrawerHeader, IconButton, Avatar, Menu, MenuButton, MenuList, MenuItem, Hide, Container, MenuIcon, Tooltip } from "@chakra-ui/react";
 import { MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore, MdOutlineMenu, MdClose } from "react-icons/md";
 import logo from '../../images/svgs/coreego-logo.svg'
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import ContainerSection from "../../pages/components/ContainerSection";
-import { CLOSE_ICON, FORUM_ICON, MARKET_PLACE_ICON, PROFIL_ICON, TRAVEL_ICON } from "../../utils/icon";
+// import { CLOSE_ICON, FORUM_ICON, MARKET_PLACE_ICON, PROFIL_ICON, TRAVEL_ICON } from "../../utils/icon";
 import { BsPerson } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import UserSniped from "../react-ux/UserSniped";
+import React from "react";
+
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import AdbIcon from '@mui/icons-material/Adb';
+import PersonIcon from '@mui/icons-material/Person';
+import { CardMedia, Divider, ImageListItem, ListItemIcon, ListItemText } from "@mui/material";
+
 
 const links = [
     {
         path: '/forum',
         label: "Forum",
-        icon: FORUM_ICON
     },
     {
         path: '/market-place',
         label: "Market place",
-        icon: MARKET_PLACE_ICON
     },
     {
         path: '/voyage',
         label: 'Voyage',
-        icon: TRAVEL_ICON
+
     }
 ]
 
 interface NavigationInterface {
     // children: React.ReactNode
-}
-
-const NavigationLink: React.FC<{ onClick?: any }> = ({ onClick }) => {
-    return (
-        <List alignItems="center" display={{ base: 'block', md: 'flex' }}  >
-            {
-                links.map((link: any, index: number) => {
-                    return (
-                        <NavLink to={link.path}
-                            onClick={onClick}
-                            key={index}
-                            style={{ marginRight: 10 }}
-                        >
-                            <ListItem key={index}
-                                fontSize="md"
-                                fontWeight={600}
-                                alignItems="center"
-                                display="flex"
-                                width="100%"
-                                cursor="pointer"
-                            >
-                                <ListIcon as={link.icon} />
-                                <Box as="span"> {link.label} </Box>
-                            </ListItem>
-                        </NavLink>
-                    );
-                })
-            }
-        </List>
-    )
-}
-
-
-const DrawerNavigation = () => {
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    return (
-        <>
-            <IconButton fontSize={24} color="black" onClick={onOpen} variant="link" icon={<MdOutlineMenu />} aria-label={"er"} />
-            <Drawer size="full" useInert={true} placement="right" onClose={onClose} isOpen={isOpen}>
-                <DrawerContent opacity={0.98}>
-                    <DrawerHeader>
-                        <IconButton fontSize={24} color={"black"} onClick={onClose} variant="link" icon={<CLOSE_ICON />} aria-label={"close drawer"} />
-                    </DrawerHeader>
-                    <DrawerBody display={"flex"} alignItems={"center"} justifyContent={"center"}>
-                        <NavigationLink onClick={onClose} />
-                    </DrawerBody>
-                </DrawerContent>
-            </Drawer>
-        </>
-    )
-
 }
 
 const NavigationUserMenu = () => {
@@ -91,14 +54,16 @@ const NavigationUserMenu = () => {
         return (
             <>
                 <NavLink to={`/user/profil/${user.id}`}>
-                    <MenuItem icon={<AiOutlineUser fontSize={16} />}>Profil</MenuItem>
+                    <MenuItem sx={{ color: 'black' }}>
+                        <ListItemIcon><PersonIcon /></ListItemIcon>
+                        <ListItemText>Profil</ListItemText>
+                    </MenuItem>
                 </NavLink>
                 <NavLink to={`/user/carnet-de-voyage`}>
-                    <MenuItem>Mon carnet de voyage</MenuItem>
+                    <MenuItem sx={{ color: 'black' }}>Mon carnet de voyage</MenuItem>
                 </NavLink>
-                <MenuItem>menu 2</MenuItem>
                 <Divider />
-                <MenuItem onClick={logout} >Se deconnecter</MenuItem>
+                <MenuItem sx={{ color: 'black' }} onClick={logout} >Se deconnecter</MenuItem>
             </>
         )
     }
@@ -119,43 +84,151 @@ const NavigationUserMenu = () => {
     }
 
     return (
-        <Menu>
-            <MenuButton borderRadius={90} borderWidth={2} p={1}>
-                <Stack direction="row" alignItems="center">
-                    <UserSniped size="xs" avatar={user?.avatarPath}  />
-                    <MdOutlineMenu fontSize={20} />
-                </Stack>
-            </MenuButton>
-            <MenuList>
-                {user ? <UserloggedMenu /> : <UserUnloggedMenu />}
-            </MenuList>
-        </Menu>
+        <>
+            {user ? <UserloggedMenu /> : <UserUnloggedMenu />}
+        </>
     )
+
 }
 
 const Navigation: React.FC<NavigationInterface> = () => {
 
-    const { user } : any = useAuthContext()
+    const { user }: any = useAuthContext()
+    const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+
+    const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorElNav(event.currentTarget);
+    };
+
+
+
+    const pages = ['Products', 'Pricing', 'Blog'];
+    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+    const mode = null
 
     return (
-        <Box bg="white" borderBottomWidth={2} position="sticky" top={0} zIndex={900}>
-            <ContainerSection withPadding={true}>
-                <Box py={5} >
-                    <Stack direction="row" alignItems="center">
-                        <Stack flex={1} role="navigation left" direction="row" alignItems="center">
-                            <Image mr={3} position="relative" src={logo} width={100} height="auto" />
-                            {user && <Hide below="md"> <NavigationLink /></Hide>}
-                        </Stack>
-                        <Stack direction="row" alignItems="center">
-                            <NavigationUserMenu />
-                            <Hide above="md">
-                                <DrawerNavigation />
-                            </Hide>
-                        </Stack>
-                    </Stack>
+
+        <AppBar position="static" color="transparent" >
+            <Container maxWidth="lg">
+                <Toolbar disableGutters>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
+                        <img
+                            width={120}
+                            height="auto"
+                            src={logo}
+                            title="coreego"
+                        />
+                    </Box>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={(event: React.MouseEvent<HTMLElement>) =>
+                                setAnchorElNav(event.currentTarget)
+                            }
+                        color="inherit"
+                        >
+                        <MenuIcon />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorElNav}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        open={Boolean(anchorElNav)}
+                        onClose={() => setAnchorElNav(null)}
+                        sx={{
+                            display: { xs: 'block', md: 'none' },
+                        }}
+                    >
+
+                        {links.map((link: any) => (
+                            <NavLink to={link.path} key={link.path}>
+                                <MenuItem sx={{ color: 'black' }} onClick={() => setAnchorElNav(null)}>
+                                    <Typography textAlign="center" >{link.label} </Typography>
+                                </MenuItem>
+                            </NavLink>
+                        ))}
+                    </Menu>
                 </Box>
-            </ContainerSection>
-        </Box>
+                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, mr: 1 }}>
+                    <img
+                        width={120}
+                        height="auto"
+                        src={logo}
+                        title="coreego"
+                    />
+                </Box>
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+                    {links.map((link: any) => (
+                        <NavLink to={link.path} key={link.path}>
+                            <Button
+                                sx={{ my: 2, color: 'black', fontWeight: 'bold', display: 'block' }}
+                            >
+                                {link.label}
+                            </Button>
+                        </NavLink>
+                    ))}
+                </Box>
+
+                <Box sx={{ flexGrow: 0 }}>
+                    <Tooltip title="Open settings">
+                        <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
+                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                        </IconButton>
+                    </Tooltip>
+                    <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={() => setAnchorElUser(null)}
+                    >
+                        <NavigationUserMenu />
+                    </Menu>
+                </Box>
+            </Toolbar>
+        </Container>
+        </AppBar >
+
+        // <Box bg="white" borderBottomWidth={2} position="sticky" top={0} zIndex={900}>
+        //     <ContainerSection withPadding={true}>
+        //         <Box py={5} >
+        //             <Stack direction="row" alignItems="center">
+        //                 <Stack flex={1} role="navigation left" direction="row" alignItems="center">
+        //                     <Image mr={3} position="relative" src={logo} width={100} height="auto" />
+        //                     {user && <Hide below="md"> <NavigationLink /></Hide>}
+        //                 </Stack>
+        //                 <Stack direction="row" alignItems="center">
+        //                     <NavigationUserMenu />
+        //                     <Hide above="md">
+        //                         <DrawerNavigation />
+        //                     </Hide>
+        //                 </Stack>
+        //             </Stack>
+        //         </Box>
+        //     </ContainerSection>
+        // </Box>
     )
 
 }

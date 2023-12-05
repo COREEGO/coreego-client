@@ -27,12 +27,6 @@ export const usePagination = <T>(url: string) => {
     const isReachedEnd = data && data[data.length - 1]?.length < 20;
 
 
-
-    // useEffect(() => {
-    //     mutate();
-    // }, [location]);
-
-
     return {
         paginationData,
         isReachedEnd,

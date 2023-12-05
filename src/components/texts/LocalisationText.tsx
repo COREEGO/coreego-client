@@ -1,17 +1,15 @@
-import { Flex, Text } from "@chakra-ui/react"
-import { MdLocationOn } from "react-icons/md"
+import { Stack, Typography } from "@mui/material"
+import { MARKER_ICON } from "../../utils/icon"
 
 
 
 const LocalisationText: React.FC<{ city: any, district?: any }> = ({ city, district = '' }) => {
 
     return (
-        <Flex as="span" color="var(--coreego-blue)" flex={1} alignItems="center">
-            <Text as="span">
-                <MdLocationOn />
-            </Text>
-            <Text as="span" noOfLines={1}> {city.label} {district && ', ' + district?.label} </Text>
-        </Flex>
+        <Stack direction={"row"} flex={1} color="var(--coreego-blue)">
+            <MARKER_ICON />
+            <Typography  noWrap={true}> {city.label} {district && ', ' + district?.label} </Typography>
+        </Stack>
     )
 }
 

@@ -4,7 +4,7 @@ import ImageHeader from "../../../components/headers/ImageHeader"
 import FeedList from "../FeedList"
 import { Box, Fab, Button, Container, Stack } from "@mui/material"
 import { NavLink } from "react-router-dom"
-import { FILTER_ICON, NEW_TOPIC_ICON } from "../../../utils/icon"
+import { FILTER_ICON, EDIT_ICON } from "../../../utils/icon"
 import ModalWrapper from "../../../components/Modals/ModalWraper"
 import TitleText from "../../../components/texts/TitleText"
 import SearchFilter from "../filters/SearchFilter"
@@ -29,7 +29,7 @@ const FeedPageTemplate: React.FC<PropsInterface> = ({
         <>
             <NavLink to={addTopicLink}>
                 <Fab sx={{ position: 'fixed', bottom: 10, right: 10 }} color="success" aria-label="add">
-                    <NEW_TOPIC_ICON />
+                    <EDIT_ICON />
                 </Fab>
             </NavLink>
             <Box

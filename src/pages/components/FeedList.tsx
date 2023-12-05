@@ -29,6 +29,8 @@ const FeedList: React.FC<FeedListInterface> = ({
     breackpoints = {}
 }) => {
 
+    if(!fetchData?.data.length) return <p> {noLengthLabel} </p>
+
     return (
         <Stack mt={5}>
             {

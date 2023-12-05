@@ -109,8 +109,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
     const mode = null
 
     return (
-
-        <AppBar position="static" color="transparent" >
+        <AppBar position="sticky" sx={{top: 0, backgroundColor: 'white'}} color="transparent"  >
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>

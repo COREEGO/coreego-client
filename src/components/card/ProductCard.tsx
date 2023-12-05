@@ -1,7 +1,8 @@
-import { Card, Stack, Text, Image, CardBody, VStack } from "@chakra-ui/react";
+import { Card, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
 import { getFirstImage } from "../../utils";
 import LocalisationText from "../texts/LocalisationText";
 import PriceText from "../texts/PriceText";
+import { Stack } from "@chakra-ui/react";
 
 interface ProductCardInterface {
     product: any
@@ -12,37 +13,56 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product, size }) => {
 
     const XlCard = () => {
         return (
-            <Card id={product.id}>
-                <Image w="100%" h={{
-                    base: 200,
-                    sm: 200,
-                    md: 200,
-                    lg: 250
-                }} borderRadius="md" objectFit="cover" src={getFirstImage(product.images)} />
-                <CardBody>
-                    <PriceText price={product.price} />
-                    <Text noOfLines={1} as="b"> {product.title}</Text>
-                    <Text noOfLines={2}> {product.description}</Text>
-                    <LocalisationText city={product.city} district={product.district} />
-                </CardBody>
+            <Card>
+                <CardMedia
+                    component="img"
+                    height="194"
+                    image={getFirstImage(product.images) || "https://www.pourquoidocteur.fr/media/article/COPY_istock-1159377900-1621781021.jpg"}
+                    alt="Paella dish"
+                />
+                <CardContent>
+                    <Stack spacing={5}>
+                        <PriceText price={product.price} />
+                        <Stack spacing={0}>
+                            <Typography fontWeight={"bold"} noWrap={true}>{product.title}</Typography>
+                            <Typography noWrap={true}> {product.description}</Typography>
+                        </Stack>
+                        <LocalisationText city={product.city} district={product.district} />
+                    </Stack>
+                </CardContent>
             </Card>
+            // <Card id={product.id}>
+            //     <Image w="100%" h={{
+            //         base: 200,
+            //         sm: 200,
+            //         md: 200,
+            //         lg: 250
+            //     }} borderRadius="md" objectFit="cover" src={getFirstImage(product.images)} />
+            //     <CardBody>
+            //         <PriceText price={product.price} />
+            //         <Text noOfLines={1} as="b"> {product.title}</Text>
+            //         <Text noOfLines={2}> {product.description}</Text>
+            //         <LocalisationText city={product.city} district={product.district} />
+            //     </CardBody>
+            // </Card>
         )
     }
 
     const SmCard = () => {
         return (
-            <Card direction={"row"}>
-                <Image
-                    w={120}
-                    borderRadius="md" objectFit="cover" src={getFirstImage(product.images)} />
-                <CardBody>
-                    <VStack alignItems={"flex-start"} spacing={0}>
-                        <Text as="b"> {product.price} ₩</Text>
-                        <Text noOfLines={1}> {product.title} </Text>
-                        <Text noOfLines={1} fontSize="sm"> {product.description} </Text>
-                    </VStack>
-                </CardBody>
-            </Card>
+            <></>
+            // <Card direction={"row"}>
+            //     <Image
+            //         w={120}
+            //         borderRadius="md" objectFit="cover" src={getFirstImage(product.images)} />
+            //     <CardBody>
+            //         <VStack alignItems={"flex-start"} spacing={0}>
+            //             <Text as="b"> {product.price} ₩</Text>
+            //             <Text noOfLines={1}> {product.title} </Text>
+            //             <Text noOfLines={1} fontSize="sm"> {product.description} </Text>
+            //         </VStack>
+            //     </CardBody>
+            // </Card>
         )
     }
 

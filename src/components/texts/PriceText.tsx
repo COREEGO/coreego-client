@@ -1,4 +1,5 @@
 import { Text } from "@chakra-ui/react";
+import { Typography } from "@mui/material";
 
 interface PriceInterface {
   price: number
@@ -7,7 +8,7 @@ interface PriceInterface {
 const PriceText: React.FC<PriceInterface> = ({ price }) => {
 
   return (
-    <Text fontWeight={500}>{price} ₩</Text>
+    <Typography fontWeight={500}>{price} ₩</Typography>
   )
 };
 

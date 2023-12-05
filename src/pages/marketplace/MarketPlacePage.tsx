@@ -1,4 +1,3 @@
-import { Stack, Box, Text, Divider, Container, Button, Flex, Heading, Spacer, Grid, GridItem, Hide, useDisclosure, FormControl, FormErrorMessage, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack, IconButton, Show, HStack } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import FeedList from "../components/FeedList";
 import SearchFilter from "../components/filters/SearchFilter";
@@ -15,72 +14,47 @@ import SelectInput from "../../components/inputs/SelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import ModalWrapper from "../../components/Modals/ModalWraper";
 import RadioGroupInput from "../../components/inputs/RadioGroupInput";
-import { FILTER_ICON, NEW_TOPIC_ICON } from "../../utils/icon";
+import { FILTER_ICON, EDIT_ICON } from "../../utils/icon";
 import TitleText from "../../components/texts/TitleText";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import useSWR from "swr";
+import FeedPageTemplate from "../components/templates/FeedPageTemplate";
+import { Container, Pagination } from "@mui/material";
 
-const FiltresSection = () => {
-    const { updateFilter, searchParams } = useFilterContext()
-
-    return (
-        <ModalWrapper
-            id="filtres"
-            title={<><FILTER_ICON /> Filtres</>}
-            renderButton={(onOpen) => (
-                <>
-                    <Show above={"md"}><Button onClick={onOpen} leftIcon={<FILTER_ICON />} variant={"outline"}>Filtres</Button></Show>
-                    <Show below={"md"}><IconButton onClick={onOpen} isRound aria-label="boutton open modal filter" icon={<FILTER_ICON />} variant={"outline"} /></Show>
-                </>
-            )}
-        >
-            <Stack>
-                <Text as="b">Localisation</Text>
-                <CityDistrictSelectInput
-                    showMap={true}
-                    updateCity={(e: any) => updateFilter('city', e)}
-                    cityValue={searchParams.get('city') || ''}
-                    updateDistrict={(e: any) => updateFilter('district', e)}
-                    districtValue={searchParams.get('district') || ''}
-                />
-            </Stack>
-        </ModalWrapper>
-    )
-}
 
 const MarketPlacePage = () => {
+    const { updateFilter, searchParams } = useFilterContext();
+    const location = useLocation();
+    const { data, isLoading, error } = useSWR(`/products${location.search}`);
+
+    if (error) console.error('API ERROR:', error);
+
+    // const { discussionCategories } = useSelector((state: any) => state.app)
+
     return (
         <>
-            <NavLink to="/market-place/product/create">
-                <IconButton zIndex={10} position="fixed" bottom={3} right={3} aria-label="ajouter une discussion" icon={<NEW_TOPIC_ICON />} isRound colorScheme="whatsapp" />
-            </NavLink>
-            <ImageHeader imgUrl={HEADER_IMG} />
-            <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>
-                <Box as="aside" bg="white" boxShadow="0 0 3px grey" py={5}>
-                    <ContainerSection withPadding={true}>
-                        <Stack spacing={{ base: 5, md: 20 }} direction={{ base: 'column', md: 'row' }} alignItems={{ base: 'flex-start', md: 'center' }}>
-                            <TitleText text="Market Place" />
-                            <HStack w="100%" flex={1}>
-                                <Box flex={1}>
-                                    <SearchFilter />
-                                </Box>
-                                <FiltresSection />
-                            </HStack>
-                        </Stack>
-                    </ContainerSection>
-                </Box>
-                <Stack spacing={VERTICAL_SPACING}>
-                    <ContainerSection withPadding={true}>
-                        {/* <FeedList
-                            url="/products"
-                            cardName="product"
-                            noLengthLabel="Aucun produits trouvées"
-                            buttonLabel="Voir plus"
-                        /> */}
-                    </ContainerSection>
-                </Stack>
-            </Stack>
+            <FeedPageTemplate
+                title="Market-place"
+                addTopicLink="/market-place/product/create"
+                renderFilterBody={() => null}
+                imgUrl={HEADER_IMG}
+                fetchData={data}
+                isLoading={isLoading}
+                noLengthLabel="Aucun produit"
+                cardName="product"
+                breackpoints={{ xs: 12, sm: 6, md: 3 }}
+            />
+            <Container maxWidth="lg" sx={{ my: 5, display: 'flex', justifyContent: 'center' }}>
+                <Pagination
+                    page={Number(searchParams.get('page')) || 1}
+                    onChange={(event: React.ChangeEvent<unknown>, value: number) => updateFilter('page', value.toString())}
+                    count={data?.meta.last_page || 0}
+                    variant="outlined"
+                    shape="rounded"
+                />
+            </Container>
         </>
-    )
+    );
 
 }
 

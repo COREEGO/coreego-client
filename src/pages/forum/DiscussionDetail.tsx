@@ -1,4 +1,3 @@
-import { Box, Text, Stack, Flex, Image, Button, Spacer, HStack, Wrap } from "@chakra-ui/react";
 import { Suspense, useEffect } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
@@ -16,6 +15,7 @@ import ShareButton from "../../components/buttons/ShareButton";
 import { belongsToAuth } from "../../utils";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { EDIT_ICON } from "../../utils/icon";
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
 
 
 
@@ -31,14 +31,14 @@ const Detail: React.FC<any> = () => {
 
     return (
         <>
-            <Box py={VERTICAL_SPACING} bg="white">
-                <Stack spacing={VERTICAL_SPACING}>
-                    <ContainerSection withPadding={true}>
-                        <Stack alignItems={"flex-start"}>
+            <Box my={5}>
+                <Stack>
+                    <Container maxWidth="lg">
+                        <Stack spacing={3}>
                             {
                                 belongsToAuth(data.user.id, user?.id) ?
-                                    <NavLink to={`/forum/discussion/edit/${params.id}`}>
-                                        <Button variant="outline" leftIcon={<EDIT_ICON />}>Modifier</Button>
+                                    <NavLink style={{width: 'fit-content'}} to={`/forum/discussion/edit/${params.id}`}>
+                                        <Button  variant="outlined" startIcon={<EDIT_ICON />}>Modifier</Button>
                                     </NavLink>
                                     :
                                     <></>
@@ -46,34 +46,39 @@ const Detail: React.FC<any> = () => {
                             <UserSniped
                                 avatar={data.user.avatar}
                                 pseudo={data.user.pseudo}
-                                publishDate={data.createdAt}
+                                publishDate={data.created_at}
                             />
                             <NavLink to={'/forum?category=' + data.category.id}>
                                 <CategoryText category={data.category} />
                             </NavLink>
-                            <TitleText text={data.title} />
-                            <Text whiteSpace="pre-line"> {data.content} </Text>
+                            <Typography sx={{wordBreak: 'break-all'}} component={"h1"} fontSize={24} fontWeight={"bold"}>{data.title}</Typography>
+                            <Typography paragraph={true}> {data.content} </Typography>
                             {
-                                data.images && <Wrap flexWrap="wrap" gap={2}>
+                                data.images && <Stack flexWrap="wrap" spacing={2}>
                                     {data.images.map((image: any) => {
-                                        return <Image borderRadius={"md"} key={image.id} height={250} w="auto" maxW="100%" src={BASE_URL + image.filePath} />
+                                        return <img
+                                        key={image.id}
+                                            src={BASE_URL + image.path}
+                                            height={250}
+                                            width="auto"
+                                            style={{borderRadius: 10, maxWidth: "100%" }}
+                                        />
                                     })}
-                                </Wrap>
+                                </Stack>
                             }
                         </Stack>
-                    </ContainerSection>
-                    <Stack bg="white" position={"sticky"} bottom={0} py={3} zIndex={100}>
-                        <ContainerSection withPadding={true}>
-                            <HStack>
+                    </Container>
+                    <Box sx={{position: 'sticky'}}  bottom={0} py={3} zIndex={100}>
+                        <Container maxWidth="lg">
+                            <Stack direction="row" spacing={1}>
                                 <LikeButton size="sm" discussionId={data.id} likes={data.likes} mutate={mutate} />
                                 <ShareButton />
-                            </HStack>
-                        </ContainerSection>
-                    </Stack>
+                            </Stack>
+                        </Container>
+                    </Box>
                 </Stack>
             </Box>
             <CommentModule mutate={mutate} discussionId={params.id} comments={data.comments} />
-
         </>
     )
 }

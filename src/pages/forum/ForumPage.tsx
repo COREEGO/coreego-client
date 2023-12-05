@@ -6,7 +6,7 @@ import FeedPageTemplate from "../components/templates/FeedPageTemplate";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
 import { VERTICAL_SPACING } from "../../utils/variables";
-import { FILTER_ICON, NEW_TOPIC_ICON } from "../../utils/icon";
+import { FILTER_ICON, EDIT_ICON } from "../../utils/icon";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -17,7 +17,7 @@ const ForumPage: React.FC = () => {
 
     if (error) console.error('API ERROR:', error);
 
-    const {discussionCategories} = useSelector((state:any) => state.app)
+    const { discussionCategories } = useSelector((state: any) => state.app)
 
     return (
         <>
@@ -31,11 +31,11 @@ const ForumPage: React.FC = () => {
                             row
                             aria-labelledby="demo-radio-buttons-group-label"
                             name="radio-buttons-group"
-                            onChange={(event:any) => updateFilter('category', event.target.value )}
-
+                            onChange={(event: any) => updateFilter('category', event.target.value)}
                         >
+                            <FormControlLabel checked={!searchParams.get('category')} value={''} control={<Radio />} label="Toutes les catégories" />
                             {
-                                discussionCategories.map((category:any) => {
+                                discussionCategories.map((category: any) => {
                                     return (
                                         <FormControlLabel checked={searchParams.get('category') == category.id} key={category.id} value={category.id} control={<Radio />} label={category.label} />
                                     )

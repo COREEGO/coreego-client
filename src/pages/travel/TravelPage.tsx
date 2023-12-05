@@ -15,7 +15,7 @@ import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectI
 import SelectInput from "../../components/inputs/SelectInput"
 import AddNewTopikButton from "../../components/buttons/AddTopicButton"
 import { NavLink } from "react-router-dom"
-import { NEW_TOPIC_ICON } from "../../utils/icon"
+import { EDIT_ICON } from "../../utils/icon"
 
 const TravelPage = () => {
 
@@ -27,7 +27,7 @@ const TravelPage = () => {
     return (
         <>
             <NavLink to="/voyage/place/create">
-                <IconButton zIndex={10} position="fixed" bottom={3} right={3} aria-label="ajouter une discussion" icon={<NEW_TOPIC_ICON />} isRound colorScheme="whatsapp" />
+                <IconButton zIndex={10} position="fixed" bottom={3} right={3} aria-label="ajouter une discussion" icon={<EDIT_ICON />} isRound colorScheme="whatsapp" />
             </NavLink>
             <ImageHeader imgUrl={HEADER_IMG} />
             <Stack spacing={VERTICAL_SPACING} pb={VERTICAL_SPACING}>

@@ -1,51 +1,18 @@
+body {
+  margin: 0;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+body a {
+  text-decoration: none;
+}
+
 :root {
   --coreego-blue: #005998;
-  --coreego-blue-light: #006ab5b5;
   --coreego-red: #CE293B;
+  --coreego-blue-light: #006ab5b5;
   --coreego-red-dark: #cc041b;
   --coreego-blue-dark: #014d83;
   --light: #f1f3f477;
   --light-dark: rgb(214, 214, 214);
   --main: #f7fafb;
-}
-
-.chakra-button.btn_blue {
-  background-color: var(--coreego-blue);
-  color: white;
-}
-.chakra-button.btn_blue:hover {
-  background-color: var(--coreego-blue-dark);
-}
-.chakra-button.blue_outlined {
-  border: 3px solid var(--coreego-blue);
-  color: black;
-  background-color: white;
-}
-.chakra-button.blue_outlined:hover {
-  border-color: var(--coreego-blue-dark);
-  background-color: white;
-}
-.chakra-button.btn_red {
-  background-color: var(--coreego-red);
-  color: white;
-}
-.chakra-button.btn_red:hover {
-  background-color: var(--coreego-red-dark);
-}
-
-a.active {
-  color: var(--coreego-blue);
-}
-
-div.chakra-alert {
-  border-radius: 3px;
-}
-
-.scrollbar::-webkit-scrollbar {
-  height: 5px !important;
-}
-
-.scrollbar::-webkit-scrollbar-thumb {
-  background: var(--coreego-blue);
-  border-radius: 90px;
 }/*# sourceMappingURL=App.css.map */

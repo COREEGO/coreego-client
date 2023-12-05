@@ -57,12 +57,12 @@ const TravelPage = () => {
                         </Flex>
                     </ContainerSection>
                     <ContainerSection withPadding={true}>
-                        <FeedList
+                        {/* <FeedList
                             url="/places"
                             noLengthLabel="Aucun lieux trouvés"
                             buttonLabel="Voir plus"
                             cardName="place"
-                        />
+                        /> */}
                     </ContainerSection>
                 </Stack>
             </Stack>

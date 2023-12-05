@@ -6,7 +6,7 @@ import ProductCard from "../../components/card/ProductCard";
 import PlaceCard from "../../components/card/PlaceCard";
 import { Suspense } from "react";
 import { NavLink } from "react-router-dom";
-import { Grid, Stack } from "@mui/material";
+import { Grid, Skeleton, Stack } from "@mui/material";
 
 interface FeedListInterface {
     url: string;
@@ -14,41 +14,25 @@ interface FeedListInterface {
     buttonLabel: string;
     fetchData?: any,
     cardName: "discussion" | "product" | "place";
-    breackpoints?: any
+    breackpoints?: any,
+    isLoading: boolean
 }
 
-const FeedListGrid: React.FC<FeedListInterface> = ({
+
+const FeedList: React.FC<FeedListInterface> = ({
     url,
     noLengthLabel,
     buttonLabel,
     cardName,
     fetchData,
-    breackpoints
+    isLoading,
+    breackpoints = {}
 }) => {
-
-    // const {
-    //     paginationData: datas,
-    //     isReachedEnd,
-    //     loadingMore,
-    //     size,
-    //     setSize,
-    //     error,
-    //     isLoading,
-    // } = usePagination<any>(url);
-
-    // if (error) return <p>Une erreur est survenue</p>;
-
-    // if (!datas?.data?.length) return <p>{noLengthLabel}</p>;
-
-    // if (isLoading) return <LoadingPage type="data" />;
-
-    useEffect(()=>{
-        console.log(fetchData)
-    }, [fetchData])
 
     return (
         <Stack mt={5}>
-            <Grid
+            {
+                !isLoading ? <Grid
                 container
                 spacing={3}
             >
@@ -74,30 +58,9 @@ const FeedListGrid: React.FC<FeedListInterface> = ({
                     )
                 }
                 )}
-            </Grid>
+            </Grid> : <LoadingPage type="data" />
+            }
         </Stack >
-    );
-};
-
-const FeedList: React.FC<FeedListInterface> = ({
-    url,
-    noLengthLabel,
-    buttonLabel,
-    cardName,
-    fetchData,
-    breackpoints = {}
-}) => {
-    return (
-        <Suspense fallback={<LoadingPage type="data" />}>
-            <FeedListGrid
-                url={url}
-                fetchData={fetchData}
-                noLengthLabel={noLengthLabel}
-                buttonLabel={buttonLabel}
-                cardName={cardName}
-                breackpoints={breackpoints}
-            />
-        </Suspense>
     );
 };
 

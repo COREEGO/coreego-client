@@ -16,12 +16,13 @@ interface PropsInterface {
     imgUrl: string,
     fetchData: any,
     noLengthLabel: string,
+    isLoading: boolean,
     cardName: "discussion" | "product" | "place",
     breackpoints : Record<any, any>
 }
 
 const FeedPageTemplate: React.FC<PropsInterface> = ({
-    title, renderFilterBody, imgUrl, fetchData, noLengthLabel, cardName, addTopicLink, breackpoints
+    title, renderFilterBody, imgUrl, fetchData, noLengthLabel, cardName, addTopicLink, breackpoints, isLoading
 }) => {
 
     return (
@@ -65,6 +66,7 @@ const FeedPageTemplate: React.FC<PropsInterface> = ({
             <Container maxWidth="lg">
                 <FeedList
                     fetchData={fetchData}
+                    isLoading={isLoading}
                     url="/discussions"
                     noLengthLabel={noLengthLabel}
                     buttonLabel="Voir plus"

@@ -70,12 +70,12 @@ const MarketPlacePage = () => {
                 </Box>
                 <Stack spacing={VERTICAL_SPACING}>
                     <ContainerSection withPadding={true}>
-                        <FeedList
+                        {/* <FeedList
                             url="/products"
                             cardName="product"
                             noLengthLabel="Aucun produits trouvées"
                             buttonLabel="Voir plus"
-                        />
+                        /> */}
                     </ContainerSection>
                 </Stack>
             </Stack>

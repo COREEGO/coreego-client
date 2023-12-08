@@ -1,17 +1,16 @@
-import { Box } from "@chakra-ui/react"
+import { Box } from "@mui/material"
 
 interface PropsInterface{
     children: React.ReactNode,
-    sx?: any
     onChange: (e:any) => void,
     multiple?: boolean
 }
 
-const UpladButton: React.FC<PropsInterface> = ({children, onChange, sx, multiple = true}) => {
+const UpladButton: React.FC<PropsInterface> = ({children, onChange, multiple = true}) => {
 
     return (
-        <Box {...sx} cursor={"pointer"} w="auto" as="span" position={"relative"}>
-            <Box opacity={0} w="100%" zIndex={10} right={0} position={"absolute"} left={0} as="input" type="file" multiple={multiple} onChange={onChange}></Box>
+        <Box  sx={{width: 'fit-content', position: 'relative'}} component="span">
+            <Box component="input" sx={{height: '100%', cursor: "pointer", opacity: 0, zIndex: 10, position: 'absolute', right: 0, left: 0}} type="file" multiple={multiple} onChange={onChange}></Box>
             {children}
         </Box>
     )

@@ -3,7 +3,6 @@ import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore
 import { AiOutlineUser } from "react-icons/ai";
 import { HiLanguage } from "react-icons/hi2";
 import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiTiktokLine, RiYoutubeFill } from "react-icons/ri";
-import { DeleteIcon } from "@chakra-ui/icons";
 import { FaCircle } from "react-icons/fa";
 import { LiaEdit } from "react-icons/lia";
 import TuneIcon from '@mui/icons-material/Tune';
@@ -14,6 +13,8 @@ import ImageIcon from '@mui/icons-material/Image';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import PlaceIcon from '@mui/icons-material/Place';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const FORUM_ICON = MdOutlineComment
 export const TRAVEL_ICON = MdOutlineTravelExplore
@@ -40,7 +41,7 @@ export const FACEBOOK_ICON = RiFacebookBoxFill
 export const TIKTOK_ICON = RiTiktokLine
 export const YOUTUBE_ICON = RiYoutubeFill
 
-export const CAMERA_ICON = BsCameraFill
+export const CAMERA_ICON = CameraAltIcon
 
 export const TRASH_ICON = DeleteIcon
 

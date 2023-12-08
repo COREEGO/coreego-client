@@ -1,4 +1,3 @@
-import { Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, IconButton, Image, Input, Select, Spacer, Stack, Textarea, Wrap, useToast } from "@chakra-ui/react"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router"
@@ -12,6 +11,7 @@ import { CAMERA_ICON, TRASH_ICON } from "../../utils/icon"
 import FormImage from "../images/FormImage"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useEffect } from "react"
+import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -29,7 +29,6 @@ type Inputs = {
 const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate = null }) => {
 
     const navigate = useNavigate()
-    const toast = useToast()
     const params = useParams()
 
     const { files,
@@ -74,21 +73,15 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                     await apiFetch('/images', 'post', formData);
                 }
             }
-            toast({
-                description: `${isEditMode ? 'Sujet modifier' : 'Sujet créé'}`,
-                status: 'success'
-            })
+
             clearFiles()
             navigate(`/forum/discussion/detail/${response.id}`)
         } catch (error: any) {
-            toast({
-                description: JSON.parse(error.message),
-                status: 'error'
-            })
+
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setValue('files', files.map((file: any) => {
             return file.file
         }))
@@ -96,103 +89,159 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
 
 
     return (
-        <Box py={VERTICAL_SPACING}>
-            <Stack spacing={VERTICAL_SPACING} as="form" onSubmit={handleSubmit(onSubmitForm)}>
-                <ContainerSection withPadding={true}>
-                    <Stack>
-                        <TitleText text={isEditMode ? "Modifier ce sujet" : "Nouveau sujet"} />
-                        <Stack>
-                            <FormControl isInvalid={errors.title ? true : false}>
-                                <FormLabel>Titre</FormLabel>
-                                <Input variant='filled' size="lg" {...register('title', noEmptyValidator)} type="text"
-                                    placeholder="Donnez un titre à votre sujet ?"
-                                />
-                                {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
-                            </FormControl>
+        <Box my={3}>
+            <Container maxWidth="lg">
+                <Stack spacing={3}>
+                    <TitleText text={isEditMode ? "Modifier ce sujet" : "Nouveau sujet"} />
+                    <Stack spacing={2} component="form" onSubmit={handleSubmit(onSubmitForm)}>
+                        <FormControl fullWidth>
+                            <TextField
+                                required
+                                error={errors.title ? true : false}
+                                {...register('title', noEmptyValidator)} fullWidth placeholder="titre" label="De quoi parlera votre discussion ?" id="title" />
+                            {errors.title && <FormHelperText id="component-error-text">{errors.title.message}</FormHelperText>}
+                        </FormControl>
 
-                            <FormControl isInvalid={errors.category ? true : false}>
-                                <FormLabel>Catégorie</FormLabel>
-                                <Select variant='filled' size="lg"  {...register('category', noEmptyValidator)}>
-                                    <option value="">--Selectionnez une catégorie--</option>
-                                    {discussionCategories.map((category: any) => {
-                                        return (
-                                            <option key={category.id} value={category.id}>{category.label}</option>
-                                        )
-                                    })
-                                    }
-                                </Select>
-                                {errors.category && <FormErrorMessage>{errors.category.message}</FormErrorMessage>}
-                            </FormControl>
+                        <FormControl required fullWidth error={errors.category ? true : false}>
+                            <InputLabel id="demo-simple-select-label">Catégorie</InputLabel>
+                            <Select
+                                {...register('category', noEmptyValidator)}
+                                labelId="demo-simple-select-label"
+                                id="demo-simple-select"
+                                label="Catégorie"
+                            >
+                                <MenuItem value=''>-------</MenuItem>
+                                {discussionCategories.map((category: any) => {
+                                    return (
+                                        <MenuItem key={category.id} value={category.id}>{category.label}</MenuItem>
+                                    )
+                                })
+                                }
+                            </Select>
+                            {errors.category && <FormHelperText id="component-error-text">{errors.category.message}</FormHelperText>}
+                        </FormControl>
 
-                            <FormControl isInvalid={errors.content ? true : false}>
-                                <FormLabel>Contenu</FormLabel>
-                                <Textarea
-                                    variant='filled'
-                                    {...register('content', noEmptyValidator)}
-                                    rows={10} placeholder="Partagez votre contenu..." />
-                                {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                            </FormControl>
-                            {
-                                (isEditMode && data?.images.length) ? <FormControl>
-                                    <FormLabel>Images</FormLabel>
-                                    <Wrap mb={2}>
-                                        {
-                                            data.images.map((image: any, index: number) => {
-                                                return (
-                                                    <FormImage
-                                                        key={index}
-                                                        imageUrl={BASE_URL + image.filePath}
-                                                        onRemove={() => deleteFile(image.id)}
-                                                    />
-                                                )
-                                            })
-                                        }
-                                    </Wrap>
-                                    <Divider />
-                                </FormControl> : <></>
-                            }
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Contenu"
+                                error={errors.content ? true : false}
+                                autoFocus
+                                required
+                                multiline
+                                rows={10}
+                                {...register('content', { ...noEmptyValidator })} />
+                            {errors.content && <FormHelperText id="component-error-text">{errors.content.message}</FormHelperText>}
+                        </FormControl>
 
-                            {
-                                files.length ? <Wrap>
+                        {
+                            (isEditMode && data?.images.length) ? <FormControl>
+                                <InputLabel>Images</InputLabel>
+                                <Stack  mb={2} spacing={1}>
                                     {
-                                        files.map((image: any, index: number) => {
+                                        data.images.map((image: any, index: number) => {
                                             return (
                                                 <FormImage
                                                     key={index}
-                                                    imageUrl={image.url}
-                                                    onRemove={() => removeFile(index)}
+                                                    imageUrl={BASE_URL + image.filePath}
+                                                    onRemove={() => deleteFile(image.id)}
                                                 />
                                             )
                                         })
                                     }
-                                </Wrap> : <></>
-                            }
-                            <FormControl>
-                                <Controller
-                                    control={control}
-                                    name="files"
-                                    render={() => (
-                                        <UpladButton onChange={(e: any) => addFile(e.target.files)}>
-                                            <Button variant="outline" leftIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
-                                        </UpladButton>
-                                    )}
-                                />
-                            </FormControl>
-                        </Stack>
+                                </Stack>
+                                <Divider />
+                            </FormControl> : <></>
+                        }
+
+                        {
+                            files.length ? <Stack direction="row" spacing={1}>
+                                {
+                                    files.map((image: any, index: number) => {
+                                        return (
+                                            <FormImage
+                                                key={index}
+                                                imageUrl={image.url}
+                                                onRemove={() => removeFile(index)}
+                                            />
+                                        )
+                                    })
+                                }
+                            </Stack> : <></>
+                        }
+                        <FormControl>
+                            <Controller
+                                control={control}
+                                name="files"
+                                render={() => (
+                                    <UpladButton onChange={(e: any) => addFile(e.target.files)}>
+                                        <Button variant="outlined" startIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
+                                    </UpladButton>
+                                )}
+                            />
+                        </FormControl>
+
                     </Stack>
-                </ContainerSection>
-                <Box py={3} bg="white" position="sticky" bottom={0}>
-                    <ContainerSection withPadding={true}>
-                        <Flex>
-                            <Spacer />
-                            <Button isLoading={isSubmitting} type="submit" colorScheme="green">
-                                {isEditMode ? "Modifier ce sujet" : " Créer ce sujet"}
-                            </Button>
-                        </Flex>
-                    </ContainerSection>
-                </Box>
-            </Stack>
-        </Box >
+                </Stack>
+            </Container>
+        </Box>
+        // <Box my={VERTICAL_SPACING}>
+        //     <Stack spacing={VERTICAL_SPACING} as="form" onSubmit={handleSubmit(onSubmitForm)}>
+        //         <ContainerSection withPadding={true}>
+        //             <Stack>
+        //                 <TitleText text={isEditMode ? "Modifier ce sujet" : "Nouveau sujet"} />
+        //                 <Stack>
+        //                     <FormControl isInvalid={errors.title ? true : false}>
+        //                         <FormLabel>Titre</FormLabel>
+        //                         <Input variant='filled' size="lg" {...register('title', noEmptyValidator)} type="text"
+        //                             placeholder="Donnez un titre à votre sujet ?"
+        //                         />
+        //                         {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
+        //                     </FormControl>
+
+        //                     <FormControl isInvalid={errors.category ? true : false}>
+        //                         <FormLabel>Catégorie</FormLabel>
+        //                         <Select variant='filled' size="lg"  {...register('category', noEmptyValidator)}>
+        //                             <option value="">--Selectionnez une catégorie--</option>
+
+        //                         </Select>
+        //                         {errors.category && <FormErrorMessage>{errors.category.message}</FormErrorMessage>}
+        //                     </FormControl>
+
+        //                     <FormControl isInvalid={errors.content ? true : false}>
+        //                         <FormLabel>Contenu</FormLabel>
+        //                         <Textarea
+        //                             variant='filled'
+        //                             {...register('content', noEmptyValidator)}
+        //                             rows={10} placeholder="Partagez votre contenu..." />
+        //                         {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
+        //                     </FormControl>
+
+        //                     <FormControl>
+        //                         <Controller
+        //                             control={control}
+        //                             name="files"
+        //                             render={() => (
+        //                                 <UpladButton onChange={(e: any) => addFile(e.target.files)}>
+        //                                     <Button variant="outline" leftIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
+        //                                 </UpladButton>
+        //                             )}
+        //                         />
+        //                     </FormControl>
+        //                 </Stack>
+        //             </Stack>
+        //         </ContainerSection>
+        //         <Box py={3} bg="white" position="sticky" bottom={0}>
+        //             <ContainerSection withPadding={true}>
+        //                 <Flex>
+        //                     <Spacer />
+        //                     <Button isLoading={isSubmitting} type="submit" colorScheme="green">
+        //                         {isEditMode ? "Modifier ce sujet" : " Créer ce sujet"}
+        //                     </Button>
+        //                 </Flex>
+        //             </ContainerSection>
+        //         </Box>
+        //     </Stack>
+        // </Box >
     )
 }
 

@@ -365,7 +365,7 @@ const ProfilEditPage: React.FC<PropsInterface> = ({ profil, mutate }) => {
 
                                 <VStack>
                                     <UserSniped styles={{ boxSize: '15em' }} avatar={profil.avatarPath} />
-                                    <UpladButton sx={{ mt: -3 }} onChange={(e: any) => onChangeFile(e)}>
+                                    <UpladButton onChange={(e: any) => onChangeFile(e)}>
                                         <Button isLoading={isUploadBusy} variant={"outline"} bg="white" leftIcon={<CAMERA_ICON />} size="sm">Modifier</Button>
                                     </UpladButton>
                                 </VStack>

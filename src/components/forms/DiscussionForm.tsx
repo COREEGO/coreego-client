@@ -11,7 +11,11 @@ import { CAMERA_ICON, TRASH_ICON } from "../../utils/icon"
 import FormImage from "../images/FormImage"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useEffect } from "react"
-import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField } from "@mui/material"
+import LoadingButton from '@mui/lab/LoadingButton';
+import { toast } from 'react-toastify';
+
+import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material"
+import { useAuthContext } from "../../contexts/AuthProvider"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -30,6 +34,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
 
     const navigate = useNavigate()
     const params = useParams()
+    const { user }: any = useAuthContext()
 
     const { files,
         addFile,
@@ -58,26 +63,36 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
         }
     })
 
+    useEffect(()=>{
+        console.log(data.category.id)
+    }, [data])
+
     const onSubmitForm: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            const response: any = await apiFetch(`/discussion${isEditMode ? `/${params.id}` : ''}`, `${isEditMode ? 'patch' : 'post'}`, {
+            const url = isEditMode ? `/discussion/edit/${params.id}` : '/discussion/new';
+            const method = isEditMode ? 'patch' : 'post';
+
+            const response: any = await apiFetch(url, method, {
                 title: data.title,
-                category: `/api/discussion_categories/${data.category}`,
-                content: data.content
+                category_id: data.category,
+                content: data.content,
+                user_id: user.id
             })
-            if (response && files && Array.isArray(files) && files.length) {
+
+            if ('data' in response && response.data && files && Array.isArray(files) && files.length) {
                 for (const file of data.files) {
                     const formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('discussion', `/api/discussion/${response.id}`);
-                    await apiFetch('/images', 'post', formData);
+                    formData.append('path', file);
+                    formData.append('discussion_id', response.data.id);
+                    formData.append('user_id', user.id)
+                    await apiFetch('/image/new', 'post', formData);
                 }
             }
-
+            toast.success(isEditMode ? "Discussion modifié" : "Disccussion créé");
             clearFiles()
-            navigate(`/forum/discussion/detail/${response.id}`)
+            navigate(`/forum/discussion/detail/${response.data.id}`)
         } catch (error: any) {
-
+            toast.error(JSON.parse(error.message), { autoClose: false });
         }
     }
 
@@ -106,11 +121,12 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                             <InputLabel id="demo-simple-select-label">Catégorie</InputLabel>
                             <Select
                                 {...register('category', noEmptyValidator)}
+                                defaultValue={getValues().category || ''}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 label="Catégorie"
                             >
-                                <MenuItem value=''>-------</MenuItem>
+                                <MenuItem value="">-------</MenuItem>
                                 {discussionCategories.map((category: any) => {
                                     return (
                                         <MenuItem key={category.id} value={category.id}>{category.label}</MenuItem>
@@ -134,35 +150,39 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                         </FormControl>
 
                         {
-                            (isEditMode && data?.images.length) ? <FormControl>
-                                <InputLabel>Images</InputLabel>
-                                <Stack  mb={2} spacing={1}>
+                            (isEditMode && data?.images.length) ? <Box>
+                                <Typography fontWeight={"bold"}>Images</Typography>
+                                <Stack direction="row" flexWrap={"wrap"} mt={2}>
                                     {
                                         data.images.map((image: any, index: number) => {
                                             return (
-                                                <FormImage
-                                                    key={index}
-                                                    imageUrl={BASE_URL + image.filePath}
-                                                    onRemove={() => deleteFile(image.id)}
-                                                />
+                                                <Box key={index} mr={1} mb={1}>
+                                                    <FormImage
+                                                        key={index}
+                                                        imageUrl={BASE_URL + '/storage/images/' + image.path}
+                                                        onRemove={() => deleteFile(image.id)}
+                                                    />
+                                                </Box>
                                             )
                                         })
                                     }
                                 </Stack>
                                 <Divider />
-                            </FormControl> : <></>
+                            </Box> : <></>
                         }
 
                         {
-                            files.length ? <Stack direction="row" spacing={1}>
+                            files.length ? <Stack direction="row" flexWrap={"wrap"} mb={2}>
                                 {
                                     files.map((image: any, index: number) => {
                                         return (
-                                            <FormImage
-                                                key={index}
-                                                imageUrl={image.url}
-                                                onRemove={() => removeFile(index)}
-                                            />
+                                            <Box mr={1} mb={1} key={index}>
+                                                <FormImage
+                                                    key={index}
+                                                    imageUrl={image.url}
+                                                    onRemove={() => removeFile(index)}
+                                                />
+                                            </Box>
                                         )
                                     })
                                 }
@@ -179,7 +199,15 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                                 )}
                             />
                         </FormControl>
-
+                        <Box sx={{ py: 2, position: 'sticky', bottom: 0, bgcolor: 'white' }}>
+                            <LoadingButton
+                                type="submit"
+                                loading={isSubmitting}
+                                variant="contained"
+                            >
+                                {isEditMode ? "Modifier ce sujet" : " Créer ce sujet"}
+                            </LoadingButton>
+                        </Box>
                     </Stack>
                 </Stack>
             </Container>

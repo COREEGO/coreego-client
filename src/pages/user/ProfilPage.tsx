@@ -70,41 +70,43 @@ const PublicationLiked = () => {
       title={<>{<DISLIKE_ICON />} J'aimes</>}
       renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"J'aimes"} icon={<DISLIKE_ICON />} />}
       params={{ size: 'full' }}
+      renderBody={() => (
+        <Stack spacing={VERTICAL_SPACING}>
+          {places.length && (
+            <Stack>
+              <Text fontWeight={500} fontSize={"xl"}>
+                Lieux
+              </Text>
+              <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
+                {places.map((place: any) => (
+                  <GridItem key={'p-' + place.id}>
+                    <NavLink to={'/voyage/place/detail/' + place.id}>
+                      <PlaceCard size="sm" place={place} />
+                    </NavLink>
+                  </GridItem>
+                ))}
+              </Grid>
+            </Stack>
+          )}
+          {discussions.length && (
+            <Stack>
+              <Text fontWeight={500} fontSize={"xl"}>
+                Discussions
+              </Text>
+              <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
+                {discussions.map((discussion: any) => (
+                  <GridItem key={'d-' + discussion.id}>
+                    <NavLink to={'/forum/discussion/detail/' + discussion.id}>
+                      <DiscussionCard size="sm" discussion={discussion} />
+                    </NavLink>
+                  </GridItem>
+                ))}
+              </Grid>
+            </Stack>
+          )}
+        </Stack>
+      )}
     >
-      <Stack spacing={VERTICAL_SPACING}>
-        {places.length && (
-          <Stack>
-            <Text fontWeight={500} fontSize={"xl"}>
-              Lieux
-            </Text>
-            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
-              {places.map((place: any) => (
-                <GridItem key={'p-' + place.id}>
-                  <NavLink to={'/voyage/place/detail/' + place.id}>
-                    <PlaceCard size="sm" place={place} />
-                  </NavLink>
-                </GridItem>
-              ))}
-            </Grid>
-          </Stack>
-        )}
-        {discussions.length && (
-          <Stack>
-            <Text fontWeight={500} fontSize={"xl"}>
-              Discussions
-            </Text>
-            <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
-              {discussions.map((discussion: any) => (
-                <GridItem key={'d-' + discussion.id}>
-                  <NavLink to={'/forum/discussion/detail/' + discussion.id}>
-                    <DiscussionCard size="sm" discussion={discussion} />
-                  </NavLink>
-                </GridItem>
-              ))}
-            </Grid>
-          </Stack>
-        )}
-      </Stack>
     </ModalWrapper>
   );
 };

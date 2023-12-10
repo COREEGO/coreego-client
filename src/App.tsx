@@ -9,6 +9,10 @@ import { FilterProvider } from './contexts/FilterProvider';
 import { SWRConfig } from 'swr';
 import { swrConfig } from './http-common/swrConfig';
 import { AuthProvider } from './contexts/AuthProvider';
+import { ToastContainer } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const theme = extendTheme({
   fonts: {
@@ -38,17 +42,29 @@ const theme = extendTheme({
 function App() {
   return (
 
-      <AuthProvider>
-        <SWRConfig value={swrConfig}>
-          <FilterProvider>
-            <Provider store={store}>
-              <Layout>
-                <RouterOutleft />
-              </Layout>
-            </Provider>
-          </FilterProvider>
-        </SWRConfig>
-      </AuthProvider>
+    <AuthProvider>
+      <SWRConfig value={swrConfig}>
+        <ToastContainer
+          position="top-right"
+          autoClose={1000}
+          hideProgressBar={true}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+        <FilterProvider>
+          <Provider store={store}>
+            <Layout>
+              <RouterOutleft />
+            </Layout>
+          </Provider>
+        </FilterProvider>
+      </SWRConfig>
+    </AuthProvider>
 
   );
 }

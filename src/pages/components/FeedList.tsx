@@ -9,32 +9,26 @@ import { NavLink } from "react-router-dom";
 import { Grid, Skeleton, Stack } from "@mui/material";
 
 interface FeedListInterface {
-    url: string;
     noLengthLabel: string;
-    buttonLabel: string;
     fetchData?: any,
     cardName: "discussion" | "product" | "place";
     breackpoints?: any,
-    isLoading: boolean
 }
 
 
 const FeedList: React.FC<FeedListInterface> = ({
-    url,
     noLengthLabel,
-    buttonLabel,
     cardName,
     fetchData,
-    isLoading,
+
     breackpoints = {}
 }) => {
 
-    if(!fetchData?.data.length) return <p> {noLengthLabel} </p>
+    if (!fetchData?.data.length) return <p> {noLengthLabel} </p>
 
     return (
         <Stack mt={5}>
-            {
-                !isLoading ? <Grid
+            <Grid
                 container
                 spacing={3}
             >
@@ -60,8 +54,7 @@ const FeedList: React.FC<FeedListInterface> = ({
                     )
                 }
                 )}
-            </Grid> : <LoadingPage type="data" />
-            }
+            </Grid>
         </Stack >
     );
 };

@@ -12,7 +12,7 @@ import SearchFilter from "../filters/SearchFilter"
 interface PropsInterface {
     title: string,
     addTopicLink: string,
-    renderFilterBody?: Function,
+    renderBody?: Function,
     imgUrl: string,
     fetchData: any,
     noLengthLabel: string,
@@ -22,7 +22,7 @@ interface PropsInterface {
 }
 
 const FeedPageTemplate: React.FC<PropsInterface> = ({
-    title, renderFilterBody, imgUrl, fetchData, noLengthLabel, cardName, addTopicLink, breackpoints, isLoading
+    title, renderBody, imgUrl, fetchData, noLengthLabel, cardName, addTopicLink, breackpoints, isLoading
 }) => {
 
     return (
@@ -57,7 +57,7 @@ const FeedPageTemplate: React.FC<PropsInterface> = ({
                                         </Button>
                                     </>
                                 )}
-                                renderFilterBody={renderFilterBody}
+                                renderBody={renderBody}
                             />
                         </Stack>
                     </Stack>
@@ -69,7 +69,6 @@ const FeedPageTemplate: React.FC<PropsInterface> = ({
                     isLoading={isLoading}
                     url="/discussions"
                     noLengthLabel={noLengthLabel}
-                    buttonLabel="Voir plus"
                     cardName={cardName}
                     breackpoints={breackpoints}
                 />

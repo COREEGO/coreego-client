@@ -12,7 +12,7 @@ interface ModalWrapperProps {
     params?: Record<any, any>,
     options?: Record<any, any>,
     showDivider?: boolean,
-    renderFilterBody?: Function
+    renderBody: Function
 }
 
 const ModalWrapper: React.FC<ModalWrapperProps> = ({
@@ -23,7 +23,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
     params,
     options,
     title,
-    renderFilterBody
+    renderBody
 }) => {
     const [open, setOpen] = React.useState<boolean>(false);
 
@@ -43,8 +43,8 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
                         title ? <DialogTitle><Stack direction={"row"} alignItems={"center"}> {title} </Stack></DialogTitle> : <></>
                     }
                     {
-                        renderFilterBody ? <DialogContent>
-                            {renderFilterBody()}
+                        renderBody ? <DialogContent>
+                            {renderBody()}
                         </DialogContent> : <></>
                     }
 

@@ -31,8 +31,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     const onLoadedApplication = async () => {
         try {
-            setIsLoaded(false)
-
             const discussionCategories : any = await apiFetch('/discussion-categories', 'GET')
             const placeCategories = await apiFetch('/place-categories', 'GET')
             const cities = await apiFetch('/cities', 'GET')

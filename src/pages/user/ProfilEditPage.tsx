@@ -127,12 +127,15 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                         title={<>Introduction</>}
                         params={{ isCentered: true, portalProps: 'containerRef' }}
                         renderButton={(onOpen) => <Text cursor={"pointer"} textDecoration={"underline"} as="b" onClick={onOpen}>Modifier</Text>}
-                    >
-                        <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                            <Textarea {...register('introduction')} defaultValue={profil.introduction} />
-                            <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                        </Stack>
-                    </ModalWrapper>
+                        renderBody={() => (
+                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                <Textarea {...register('introduction')} defaultValue={profil.introduction} />
+                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                            </Stack>
+                        )}
+                    />
+
+
                 </Stack>
 
                 <Stack>
@@ -143,13 +146,13 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                         renderButton={(onOpen) =>
                             <CustomButton onClick={onOpen} icon={<OCCUPATION_ICON />} title="Profession" data={profil.occupation} />
                         }
-                    >
-                        <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                            <Input {...register('occupation')} defaultValue={profil.occupation} />
-                            <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                        </Stack>
-                    </ModalWrapper>
-
+                        renderBody={() => (
+                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                <Input {...register('occupation')} defaultValue={profil.occupation} />
+                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                            </Stack>
+                        )}
+                    />
                     <ModalWrapper
                         id="hobby"
                         title={<><DISLIKE_ICON /> Ce que j'aime</>}
@@ -157,13 +160,13 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                         renderButton={(onOpen) =>
                             <CustomButton title="Ce que j'aime" onClick={onOpen} icon={<DISLIKE_ICON />} data={profil.hobby} />
                         }
-                    >
-                        <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                            <Input {...register('hobby')} defaultValue={profil.hobby} />
-                            <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                        </Stack>
-                    </ModalWrapper>
-
+                        renderBody={() => (
+                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                <Input {...register('hobby')} defaultValue={profil.hobby} />
+                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                            </Stack>
+                        )}
+                    />
                     <ModalWrapper
                         id="hobby"
                         title={<><LOCALISATION_ICON /> Où j'habite</>}
@@ -171,18 +174,18 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                         renderButton={(onOpen) =>
                             <CustomButton title="Où j'habite" onClick={onOpen} icon={<LOCALISATION_ICON />} data={profil.localisation && profil.localisation?.city?.label + ' , ' + profil.localisation.label} />
                         }
-                    >
-                        <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                            <Text color="gray">La selection d'un district est requis afin de valider la localisation sinon il sera compté comme vide</Text>
-                            <CityDistrictSelectInput
-                                showMap={true}
-                                cityValue={profil.localisation?.city?.id}
-                                updateDistrict={(e: any) => setValue('localisation', e)}
-                                districtValue={profil.localisation?.id} />
-                            <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                        </Stack>
-                    </ModalWrapper>
-
+                        renderBody={() => (
+                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                <Text color="gray">La selection d'un district est requis afin de valider la localisation sinon il sera compté comme vide</Text>
+                                <CityDistrictSelectInput
+                                    showMap={true}
+                                    cityValue={profil.localisation?.city?.id}
+                                    updateDistrict={(e: any) => setValue('localisation', e)}
+                                    districtValue={profil.localisation?.id} />
+                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                            </Stack>
+                        )}
+                    />
                     <ModalWrapper
                         id="hobby"
                         title={<><LANGUAGE_ICON /> Langues parlées</>}
@@ -190,33 +193,34 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                         renderButton={(onOpen) =>
                             <CustomButton title=" Langues parlées" onClick={onOpen} icon={<LANGUAGE_ICON />} data={profil.languages.join(' , ')} />
                         }
-                    >
-                        <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                            <Input bg="gray.200" borderRadius="full" placeholder="Recherchez une langue" type="search" value={languageTextInput} onChange={(e: any) => (
-                                setLanguageTextInput(e.target.value),
-                                setLanguagesFiltered(getValueFiltered(languages, e.target.value))
-                            )} />
-                            <Controller
-                                control={control}
-                                name="languages"
-                                render={({ field: { onChange, value } }) => (
-                                    <CheckboxGroup onChange={onChange} value={value} defaultValue={profil.languages}>
-                                        {languagesFiltered.map((language: any) => {
-                                            return (
-                                                <Box key={language.id} w="100%">
-                                                    <Checkbox isChecked={profil.languages.includes(language.label)} value={language.label} size="lg" w="100%" justifyContent={"space-between"} flexDirection={"row-reverse"}>
-                                                        {language.label}
-                                                    </Checkbox>
-                                                    <Divider my={2} />
-                                                </Box>
-                                            )
-                                        })}
-                                    </CheckboxGroup>
-                                )}
-                            />
-                            <Button position="sticky" bottom={0} right={0} colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                        </Stack>
-                    </ModalWrapper>
+                        renderBody={() => (
+                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                <Input bg="gray.200" borderRadius="full" placeholder="Recherchez une langue" type="search" value={languageTextInput} onChange={(e: any) => (
+                                    setLanguageTextInput(e.target.value),
+                                    setLanguagesFiltered(getValueFiltered(languages, e.target.value))
+                                )} />
+                                <Controller
+                                    control={control}
+                                    name="languages"
+                                    render={({ field: { onChange, value } }) => (
+                                        <CheckboxGroup onChange={onChange} value={value} defaultValue={profil.languages}>
+                                            {languagesFiltered.map((language: any) => {
+                                                return (
+                                                    <Box key={language.id} w="100%">
+                                                        <Checkbox isChecked={profil.languages.includes(language.label)} value={language.label} size="lg" w="100%" justifyContent={"space-between"} flexDirection={"row-reverse"}>
+                                                            {language.label}
+                                                        </Checkbox>
+                                                        <Divider my={2} />
+                                                    </Box>
+                                                )
+                                            })}
+                                        </CheckboxGroup>
+                                    )}
+                                />
+                                <Button position="sticky" bottom={0} right={0} colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                            </Stack>
+                        )}
+                    />
                 </Stack>
 
                 <Stack>
@@ -229,12 +233,13 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                             renderButton={(onOpen) =>
                                 <CustomButton title="Instagram" onClick={onOpen} icon={<INSTAGRAM_ICON />} data={profil.instagramlink} />
                             }
-                        >
-                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                                <Input {...register('instagramlink')} defaultValue={profil.instagramlink} />
-                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                            </Stack>
-                        </ModalWrapper>
+                            renderBody={() => (
+                                <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                    <Input {...register('instagramlink')} defaultValue={profil.instagramlink} />
+                                    <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                                </Stack>
+                            )}
+                        />
 
                         <ModalWrapper
                             id="hobby"
@@ -243,12 +248,13 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                             renderButton={(onOpen) =>
                                 <CustomButton title="Youtube" onClick={onOpen} icon={<YOUTUBE_ICON />} data={profil.youtubelink} />
                             }
-                        >
-                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                                <Input {...register('youtubelink')} defaultValue={profil.youtubelink} />
-                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                            </Stack>
-                        </ModalWrapper>
+                            renderBody={() => (
+                                <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                    <Input {...register('youtubelink')} defaultValue={profil.youtubelink} />
+                                    <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                                </Stack>
+                            )}
+                        />
                         <ModalWrapper
                             id="hobby"
                             title={<><TIKTOK_ICON /> TikTok</>}
@@ -256,12 +262,13 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                             renderButton={(onOpen) =>
                                 <CustomButton title="TikTok" onClick={onOpen} icon={<TIKTOK_ICON />} data={profil.tiktoklink} />
                             }
-                        >
-                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                                <Input {...register('tiktoklink')} defaultValue={profil.tiktoklink} />
-                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                            </Stack>
-                        </ModalWrapper>
+                            renderBody={() => (
+                                <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                    <Input {...register('tiktoklink')} defaultValue={profil.tiktoklink} />
+                                    <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                                </Stack>
+                            )}
+                        />
                         <ModalWrapper
                             id="hobby"
                             title={<><FACEBOOK_ICON /> Facebook</>}
@@ -269,12 +276,13 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                             renderButton={(onOpen) =>
                                 <CustomButton title="Facebook" onClick={onOpen} icon={<FACEBOOK_ICON />} data={profil.facebooklink} />
                             }
-                        >
-                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                                <Input {...register('facebooklink')} defaultValue={profil.facebooklink} />
-                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                            </Stack>
-                        </ModalWrapper>
+                            renderBody={() => (
+                                <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                    <Input {...register('facebooklink')} defaultValue={profil.facebooklink} />
+                                    <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                                </Stack>
+                            )}
+                        />
                         <ModalWrapper
                             id="hobby"
                             title={<><KAKAO_ICON /> Kakao</>}
@@ -282,16 +290,17 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                             renderButton={(onOpen) =>
                                 <CustomButton title="Kakao" onClick={onOpen} icon={<KAKAO_ICON />} data={profil.kakaolink} />
                             }
-                        >
-                            <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
-                                <Input {...register('kakaolink')} defaultValue={profil.kakaolink} />
-                                <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
-                            </Stack>
-                        </ModalWrapper>
+                            renderBody={() => (
+                                <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
+                                    <Input {...register('kakaolink')} defaultValue={profil.kakaolink} />
+                                    <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
+                                </Stack>
+                            )}
+                        />
                     </Stack>
                 </Stack>
             </Stack>
-        </Stack>
+        </Stack >
 
     )
 }

@@ -18,9 +18,8 @@ import { FILTER_ICON, EDIT_ICON } from "../../utils/icon";
 import TitleText from "../../components/texts/TitleText";
 import { NavLink, useLocation } from "react-router-dom";
 import useSWR from "swr";
-import FeedPageTemplate from "../components/templates/FeedPageTemplate";
-import { Container, Pagination } from "@mui/material";
-
+import { Box, Container, Fab, FormControl, FormLabel, Pagination } from "@mui/material";
+import LoadingPage from "../../components/LoadingPage";
 
 const MarketPlacePage = () => {
     const { updateFilter, searchParams } = useFilterContext();
@@ -33,17 +32,43 @@ const MarketPlacePage = () => {
 
     return (
         <>
-            <FeedPageTemplate
+            <NavLink to="/forum/discussion/create">
+                <Fab sx={{ position: 'fixed', bottom: 10, right: 10 }} color="success" aria-label="add">
+                    <EDIT_ICON />
+                </Fab>
+            </NavLink>
+            <Box
+                sx={{
+                    backgroundImage: `url(${HEADER_IMG})`,
+                    height: { xs: 150, md: 300 }, backgroundPosition: 'bottom', position: 'relative', backgroundSize: 'cover'
+                }}>
+            </Box>
+            <AsideFeedSection
+                title={"Forum"}
+                renderBody={() => null}
+            />
+            {/* <FeedPageTemplate
                 title="Market-place"
                 addTopicLink="/market-place/product/create"
-                renderFilterBody={() => null}
+                renderBody={() => null}
                 imgUrl={HEADER_IMG}
                 fetchData={data}
                 isLoading={isLoading}
                 noLengthLabel="Aucun produit"
                 cardName="product"
                 breackpoints={{ xs: 12, sm: 6, md: 3 }}
-            />
+            /> */}
+            <Container maxWidth="lg">
+                {
+                    !isLoading ? <FeedList
+                    fetchData={data}
+                    noLengthLabel="Aucun produit"
+                    cardName="product"
+                    breackpoints={{ xs: 12, sm: 6, md: 3 }}
+                /> : <Box my={5}><LoadingPage type="data" /></Box>
+                }
+
+            </Container>
             <Container maxWidth="lg" sx={{ my: 5, display: 'flex', justifyContent: 'center' }}>
                 <Pagination
                     page={Number(searchParams.get('page')) || 1}

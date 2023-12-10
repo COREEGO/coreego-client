@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as imageConversion from "image-conversion";
 import { apiFetch } from "../http-common/apiFetch";
-import { useToast } from "@chakra-ui/react";
+import { toast } from "react-toastify";
 
 interface CompressedImage {
   file: File;
@@ -25,8 +25,6 @@ const useFile = (mutate?: Function | null): UseFileHook => {
   const allowedExtensions = ["image/jpg", "image/jpeg", "image/png", "capture=camera"];
 
   const [files, setFiles] = useState<FileItem[]>([]);
-
-  const toast = useToast()
 
   const compressFile = async (file: File): Promise<CompressedImage | null> => {
     if (!allowedExtensions.includes(file.type)) {
@@ -73,19 +71,14 @@ const useFile = (mutate?: Function | null): UseFileHook => {
     try {
         const confirm = window.confirm("Supprimer l'image ?")
         if(!confirm) return;
-        await apiFetch(`/image/${fileId}`, 'DELETE')
+        await apiFetch(`/image/delete/${fileId}`, 'DELETE')
         if(mutate){
           mutate()
         }
-        toast({
-            description: 'Image supprimée',
-            status: 'success'
-        })
+        toast.success("Image supprimée");
+
     } catch (error:any) {
-        toast({
-            description: JSON.parse(error.message),
-            status: 'error'
-        })
+        toast.error(JSON.parse(error.message))
     }
 }
 

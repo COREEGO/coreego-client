@@ -1,20 +1,15 @@
-import { NavLink } from "react-router-dom"
 import SearchFilter from "../../pages/components/filters/SearchFilter"
-import { CONTAINER_SIZE } from "../../utils/variables"
 import TitleText from "../texts/TitleText"
-import { useSelector } from "react-redux"
-import { useFilterContext } from "../../contexts/FilterProvider"
 import { FILTER_ICON } from "../../utils/icon"
 import ModalWrapper from "../Modals/ModalWraper"
-import RadioGroupInput from "../inputs/RadioGroupInput"
 import { Box, Button, Container, Stack } from "@mui/material"
 
 interface AsideFeedSectionInterface {
     title: string,
-    renderFilterBody: () => React.ReactNode
+    renderBody: Function
 }
 
-const AsideFeedSection: React.FC<AsideFeedSectionInterface> = ({ renderFilterBody, title }) => {
+const AsideFeedSection: React.FC<AsideFeedSectionInterface> = ({ renderBody, title }) => {
 
     return (
         <>
@@ -37,9 +32,8 @@ const AsideFeedSection: React.FC<AsideFeedSectionInterface> = ({ renderFilterBod
                                         </Button>
                                     </>
                                 )}
-                            >
-                                {renderFilterBody()}
-                            </ModalWrapper>
+                                renderBody={renderBody}
+                            />
                         </Stack>
                     </Stack>
                 </Container>

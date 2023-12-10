@@ -1,6 +1,5 @@
 import { useParams } from "react-router"
-import { Suspense, useEffect, useState } from "react"
-import { apiFetch } from "../../http-common/apiFetch"
+import { Suspense } from "react"
 import LoadingPage from "../../components/LoadingPage"
 import useSWR from "swr"
 import ProductForm from "../../components/forms/ProductForm"

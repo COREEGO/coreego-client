@@ -63,9 +63,6 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
         }
     })
 
-    useEffect(()=>{
-        console.log(data.category.id)
-    }, [data])
 
     const onSubmitForm: SubmitHandler<Inputs> = async (data: any) => {
         try {
@@ -88,7 +85,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                     await apiFetch('/image/new', 'post', formData);
                 }
             }
-            toast.success(isEditMode ? "Discussion modifié" : "Disccussion créé");
+            toast.success(response.message);
             clearFiles()
             navigate(`/forum/discussion/detail/${response.data.id}`)
         } catch (error: any) {

@@ -32,7 +32,7 @@ const MarketPlacePage = () => {
 
     return (
         <>
-            <NavLink to="/forum/discussion/create">
+            <NavLink to="/market-place/product/create">
                 <Fab sx={{ position: 'fixed', bottom: 10, right: 10 }} color="success" aria-label="add">
                     <EDIT_ICON />
                 </Fab>
@@ -47,27 +47,15 @@ const MarketPlacePage = () => {
                 title={"Forum"}
                 renderBody={() => null}
             />
-            {/* <FeedPageTemplate
-                title="Market-place"
-                addTopicLink="/market-place/product/create"
-                renderBody={() => null}
-                imgUrl={HEADER_IMG}
-                fetchData={data}
-                isLoading={isLoading}
-                noLengthLabel="Aucun produit"
-                cardName="product"
-                breackpoints={{ xs: 12, sm: 6, md: 3 }}
-            /> */}
             <Container maxWidth="lg">
                 {
                     !isLoading ? <FeedList
-                    fetchData={data}
-                    noLengthLabel="Aucun produit"
-                    cardName="product"
-                    breackpoints={{ xs: 12, sm: 6, md: 3 }}
-                /> : <Box my={5}><LoadingPage type="data" /></Box>
+                        fetchData={data}
+                        noLengthLabel="Aucun produit"
+                        cardName="product"
+                        breackpoints={{ xs: 12, sm: 6, md: 3 }}
+                    /> : <Box my={5}><LoadingPage type="data" /></Box>
                 }
-
             </Container>
             <Container maxWidth="lg" sx={{ my: 5, display: 'flex', justifyContent: 'center' }}>
                 <Pagination

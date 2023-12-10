@@ -1,17 +1,19 @@
-import { Box, Button, Divider, Flex, FormControl, FormErrorMessage, FormLabel, Input, InputGroup, InputRightAddon, NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper, Spacer, Stack, Textarea, Wrap, useToast } from "@chakra-ui/react"
 import { useNavigate, useParams } from "react-router"
 import useFile from "../../hooks/useFile"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import ContainerSection from "../../pages/components/ContainerSection"
-import { BASE_URL, VERTICAL_SPACING } from "../../utils/variables"
 import TitleText from "../texts/TitleText"
 import { noEmptyLocalisationValidator, noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput"
 import { useEffect } from "react"
-import { CAMERA_ICON } from "../../utils/icon"
+import { apiFetch } from "../../http-common/apiFetch"
+import { useAuthContext } from "../../contexts/AuthProvider"
+import { Box, Button, Container, Divider, FormControl, FormHelperText, Stack, TextField, Typography } from "@mui/material"
 import UpladButton from "../buttons/UplaodButton"
 import FormImage from "../images/FormImage"
-import { apiFetch } from "../../http-common/apiFetch"
+import { BASE_URL } from "../../utils/variables"
+import { CAMERA_ICON } from "../../utils/icon"
+import LoadingButton from "@mui/lab/LoadingButton"
+import { toast } from "react-toastify"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -23,16 +25,17 @@ type Inputs = {
     title: string
     description: string
     price: number
-    city: number | string
-    district: number | string
+    city: string
+    district: string
     files: any[]
 }
 
 const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate = null }) => {
 
     const navigate = useNavigate()
-    const toast = useToast()
     const params = useParams()
+
+    const { user }: any = useAuthContext()
 
     const { files,
         addFile,
@@ -47,47 +50,45 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
         handleSubmit,
         setValue,
         getValues,
-        clearErrors,
-        setError,
         formState: { errors, isSubmitting },
     } = useForm<Inputs>({
         mode: 'onTouched',
         defaultValues: {
             title: data?.title,
             description: data?.description,
-            city: data?.city.id || '',
-            district: data?.district.id || '',
+            city: data?.city.id,
+            district: data?.district.id,
             price: data?.price || 1000,
             files: []
         }
     })
 
     const onSubmitForm: SubmitHandler<Inputs> = async (data: any) => {
-
+        const url = isEditMode ? `/product/edit/${params.id}` : '/product/new';
+        const method = isEditMode ? 'patch' : 'post';
         try {
-            const response: any = await apiFetch(`/product${isEditMode ? `/${params.id}` : ''}`, `${isEditMode ? 'patch' : 'post'}`, {
+            const response: any = await apiFetch(url, method, {
                 title: data.title,
                 description: data.description,
                 price: parseInt(data.price),
-                city: '/api/city/' + data.city,
-                district: '/api/district/' + data.district
+                city_id: data.city,
+                district_id: data.district,
+                user_id: user.id
             })
-            if (response && data.files && Array.isArray(data.files) && data.files.length) {
+            if ('data' in response && response.data && files && Array.isArray(files) && files.length) {
                 for (const file of data.files) {
                     const formData = new FormData();
-                    formData.append('file', file);
-                    formData.append('product', `/api/product/${response.id}`);
-                    await apiFetch('/images', 'post', formData);
+                    formData.append('path', file);
+                    formData.append('product_id', response.data.id);
+                    formData.append('user_id', user.id)
+                    await apiFetch('/image/new', 'post', formData);
                 }
             }
-            toast({
-                description: `${isEditMode ? 'Produit modifier' : 'Produit créé'}`,
-                status: 'success'
-            })
+            toast.success(response.message);
             clearFiles()
-            navigate(`/market-place/product/detail/${response.id}`)
+            navigate(`/market-place/product/detail/${response.data.id}`)
         } catch (error: any) {
-            console.log(error)
+            toast.error(JSON.parse(error.message))
         }
     }
 
@@ -95,142 +96,131 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
         setValue('files', files.map((file: any) => {
             return file.file
         }))
-        console.log(getValues().files)
     }, [files])
 
     return (
-        <Box py={VERTICAL_SPACING}>
-            <Stack spacing={VERTICAL_SPACING} as="form" onSubmit={handleSubmit(onSubmitForm)}>
-                <ContainerSection withPadding={true}>
-                    <Stack>
-                        <TitleText text={isEditMode ? "Modifier ce produit" : "Mettre en vente un produit"} />
-                        <Stack>
-                            <FormControl isInvalid={errors.title ? true : false}>
-                                <FormLabel>Titre du produit</FormLabel>
-                                <Input variant='filled' size="lg" {...register('title', noEmptyValidator)} type="text"
-                                    placeholder="Donnez un titre à votre produit"
-                                />
-                                {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
-                            </FormControl>
-                            <FormControl isInvalid={errors.description ? true : false}>
-                                <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Description du produit</FormLabel>
-                                <Textarea
-                                    variant='filled'
-                                    {...register('description', noEmptyValidator)}
-                                    size="lg"
-                                    rows={10} placeholder="Description de votre produit" />
-                                {errors.description && <FormErrorMessage>{errors.description.message}</FormErrorMessage>}
-                            </FormControl>
-                            <FormControl variant='filled' isInvalid={errors.district ? true : false}>
-                                <FormLabel>Localisation</FormLabel>
-                                <Controller
-                                    control={control}
-                                    name="district"
-                                    rules={{
-                                        validate: () => noEmptyLocalisationValidator(getValues().city.toString(), getValues().district.toString())
-                                    }}
-                                    render={({ field: { onChange } }) => (
-                                        <CityDistrictSelectInput
-                                            withCircle={true}
-                                            variant="filled"
-                                            showMap={true}
-                                            updateCity={(e: any) => setValue('city', e)}
-                                            cityValue={getValues().city.toString()}
-                                            updateDistrict={(e: any) => setValue('district', e)}
-                                            districtValue={getValues().district.toString()}
-                                        />
-                                    )}
-                                />
-                                <FormErrorMessage> {errors.district ? errors.district.message : ''} </FormErrorMessage>
-                            </FormControl>
-                            <FormControl isInvalid={errors.price ? true : false}>
-                                <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Prix du produit</FormLabel>
-                                <Controller
-                                    control={control}
-                                    name="price"
-                                    rules={noEmptyValidator}
-                                    render={({ field: { onChange, value } }) => (
-                                        <>
-                                            <InputGroup size="lg">
-                                                <NumberInput variant='filled' w="100%" min={0} defaultValue={1000} step={1000} value={value}
-                                                    onChange={(e: any) => onChange(e < 0 ? 0 : e)}>
-                                                    <NumberInputField />
-                                                    <NumberInputStepper>
-                                                        <NumberIncrementStepper />
-                                                        <NumberDecrementStepper />
-                                                    </NumberInputStepper>
-                                                </NumberInput>
-                                                <InputRightAddon bg="white" children='₩' />
-                                            </InputGroup>
-                                        </>
-                                    )}
-                                />
-                                {errors.price && <FormErrorMessage> {errors.price.message} </FormErrorMessage>}
-                            </FormControl>
-                            {
-                                (isEditMode && data?.images.length) ? <FormControl>
-                                    <FormLabel>Images</FormLabel>
-                                    <Wrap mb={2}>
-                                        {
-                                            data.images.map((image: any, index: number) => {
-                                                return (
-                                                    <FormImage
-                                                        key={index}
-                                                        imageUrl={BASE_URL + image.filePath}
-                                                        onRemove={() => deleteFile(image.id)}
-                                                    />
-                                                )
-                                            })
-                                        }
-                                    </Wrap>
-                                    <Divider />
-                                </FormControl> : <></>
+        <Box my={3}>
+            <Container maxWidth="lg">
+                <Stack component="form" spacing={3} onSubmit={handleSubmit(onSubmitForm)}>
+                    <TitleText text={isEditMode ? "Modifier ce produit" : "Mettre en vente un produit"} />
+                    <FormControl fullWidth>
+                        <TextField
+                            required
+                            error={errors.title ? true : false}
+                            {...register('title', noEmptyValidator)} fullWidth placeholder="titre" label="Donnez un titre à votre produit ?" id="title" />
+                        {errors.title && <FormHelperText id="component-error-text">{errors.title.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <TextField
+                            label="Decrivez le produit"
+                            placeholder="Description"
+                            error={errors.description ? true : false}
+                            autoFocus
+                            required
+                            multiline
+                            rows={10}
+                            {...register('description', { ...noEmptyValidator })} />
+                        {errors.description && <FormHelperText id="component-error-text">{errors.description.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <TextField
+                            type="number"
+                            required
+                            min={1}
+                            onInput={(event: any) => {
+                                const value = event.target.value
+                                if (value < 0) setValue('price', 0)
                             }
-
-                            {
-                                files.length ? <Wrap>
-                                    {
-                                        files.map((image: any, index: number) => {
-                                            return (
+                            }
+                            error={errors.price ? true : false}
+                            {...register('price', noEmptyValidator)} fullWidth placeholder="Prix" label="Quelle est son prix ?" id="price" />
+                        {errors.price && <FormHelperText id="component-error-text">{errors.price.message}</FormHelperText>}
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <Controller
+                            control={control}
+                            name="district"
+                            rules={{
+                                validate: () => noEmptyLocalisationValidator(getValues().city.toString(), getValues().district.toString())
+                            }}
+                            render={({ field: { onChange } }) => (
+                                <CityDistrictSelectInput
+                                    withCircle={true}
+                                    showMap={true}
+                                    updateCity={(e: any) => setValue('city', e)}
+                                    cityValue={getValues().city}
+                                    updateDistrict={(e: any) => setValue('district', e)}
+                                    districtValue={getValues().district}
+                                />
+                            )}
+                        />
+                        {errors.district && <FormHelperText id="component-error-text">{errors.district.message}</FormHelperText>}
+                    </FormControl>
+                    {
+                        (isEditMode && data?.images.length) ? <FormControl>
+                            <Typography fontWeight={"bold"}>Images</Typography>
+                            <Stack direction="row" flexWrap={"wrap"} mt={2}>
+                                {
+                                    data.images.map((image: any, index: number) => {
+                                        return (
+                                            <Box key={index} mr={1} mb={1}>
                                                 <FormImage
                                                     key={index}
-                                                    imageUrl={image.url}
-                                                    onRemove={() => removeFile(index)}
+                                                    imageUrl={BASE_URL + '/storage/images/' + image.path}
+                                                    onRemove={() => deleteFile(image.id)}
                                                 />
-                                            )
-                                        })
-                                    }
-                                </Wrap> : <></>
+                                            </Box>
+                                        )
+                                    })
+                                }
+                            </Stack>
+                            <Divider />
+                        </FormControl> : <></>
+                    }
+
+                    {
+                        files.length ? <Stack direction="row" flexWrap={"wrap"} mb={2}>
+                            {
+                                files.map((image: any, index: number) => {
+                                    return (
+                                        <Box key={index} mr={1} mb={1}>
+                                            <FormImage
+                                                key={index}
+                                                imageUrl={image.url}
+                                                onRemove={() => removeFile(index)}
+                                            />
+                                        </Box>
+                                    )
+                                })
                             }
-                            <FormControl isInvalid={errors.files ? true : false}>
-                                <Controller
-                                    control={control}
-                                    name="files"
-                                    rules={{
-                                        validate: () => noEmtyFileValidator(files.concat(data?.images || []))
-                                    }}
-                                    render={() => (
-                                        <UpladButton onChange={(e: any) => addFile(e.target.files)}>
-                                            <Button variant="outline" leftIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
-                                        </UpladButton>
-                                    )}
-                                />
-                                {errors.files ? <FormErrorMessage> {errors.files.message} </FormErrorMessage> : <></>}
-                            </FormControl>
-                        </Stack>
-                    </Stack>
-                </ContainerSection>
-                <Box py={3} bg="white" zIndex={10} position="sticky" bottom={0}>
-                    <ContainerSection withPadding={true}>
-                        <Flex>
-                            <Spacer />
-                            <Button isLoading={isSubmitting} type="submit" colorScheme="green">
-                                {isEditMode ? "Modifier ce sujet" : " Créer ce sujet"}
-                            </Button>
-                        </Flex>
-                    </ContainerSection>
-                </Box>
-            </Stack>
+                        </Stack> : <></>
+                    }
+                    <FormControl error={errors.files ? true : false}>
+                        <Controller
+                            control={control}
+                            name="files"
+                            rules={{
+                                validate: () => noEmtyFileValidator(files.concat(data?.images || []))
+                            }}
+                            render={() => (
+                                <UpladButton onChange={(e: any) => addFile(e.target.files)}>
+                                    <Button variant="outlined" startIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
+                                </UpladButton>
+                            )}
+                        />
+                        {errors.files ? <FormHelperText> {errors.files.message} </FormHelperText> : <></>}
+                    </FormControl>
+                    <Box sx={{ zIndex: 10, py: 2, position: 'sticky', bottom: 0, bgcolor: 'white' }}>
+                        <LoadingButton
+                            type="submit"
+                            loading={isSubmitting}
+                            variant="contained"
+                        >
+                            {isEditMode ? "Modifier le produit" : " Créer le produit"}
+                        </LoadingButton>
+                    </Box>
+                </Stack>
+            </Container>
         </Box>
     )
 }

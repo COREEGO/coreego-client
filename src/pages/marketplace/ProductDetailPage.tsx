@@ -1,4 +1,3 @@
-import { Box, Button, Center, Divider, Grid, GridItem, IconButton, Modal, ModalContent, Stack, Text } from "@chakra-ui/react"
 import { VERTICAL_SPACING } from "../../utils/variables"
 import { useParams } from "react-router"
 import useSWR from "swr"
@@ -17,6 +16,7 @@ import SlideSwiper from "../../components/swipers/SlideSwiper"
 import { belongsToAuth } from "../../utils"
 import { EDIT_ICON } from "../../utils/icon"
 import { useAuthContext } from "../../contexts/AuthProvider"
+import { Box, Button, Container, Divider, Grid, Stack, Typography } from "@mui/material"
 
 const Detail = () => {
 
@@ -24,61 +24,52 @@ const Detail = () => {
     const { user }: any = useAuthContext()
     const { data, error, mutate } = useSWR('/product/' + params.id, { suspense: true })
 
-    useEffect(()=>{
-        if(data) mutate()
+    useEffect(() => {
+        if (data) mutate()
     }, [])
 
     if (error) console.error(error)
 
     return (
         <Box my={VERTICAL_SPACING}>
-            <ContainerSection withPadding={true}>
-                <Box w={{ base: 500, lg: '100%' }} m="auto" maxW={"100%"}>
+            <Container maxWidth="lg">
+                <Box sx={{ width: { sm: 500, lg: '100%' }, m: 'auto', maxWidth: '100%' }}>
                     <Grid
-                        gap={10}
-                        templateColumns={{
-                            base: "repeat(1, 1fr)",
-                            lg: "repeat(10, 1fr)",
-                        }}
+                        container
+                        spacing={2}
                     >
-                        <GridItem colSpan={{
-                            base: 1,
-                            lg: 6,
-                        }}>
-                            <Box w="100%" h={{ base: 300, lg: 500 }}>
+                        <Grid sx={{width: '100%'}} item sm={12} lg={6}>
+                            <Box sx={{ height: { xs: 300, lg: 500 } }}>
                                 <ThumbSwiper images={data.images} />
                             </Box>
-                        </GridItem>
-                        <GridItem colSpan={{
-                            base: 1,
-                            lg: 4,
-                        }}>
-                            <Stack>
+                        </Grid>
+                        <Grid sx={{width: '100%'}} item sm={12} lg={6}>
+                            <Stack spacing={3}>
                                 {
                                     belongsToAuth(data.user.id, user?.id) ?
                                         <NavLink to={`/market-place/product/edit/${params.id}`}>
-                                            <Button variant="outline" leftIcon={<EDIT_ICON />}>Modifier</Button>
+                                            <Button variant="outlined" startIcon={<EDIT_ICON />}>Modifier</Button>
                                         </NavLink>
                                         :
                                         <></>
                                 }
                                 <TitleText text={data.title} />
-                                <Text whiteSpace="pre-line"> {data.description} </Text>
+                                    <Typography sx={{whiteSpace: 'pre-line'}}> {data.description}</Typography>
                                 <Divider />
                                 <PriceText price={data.price} />
-                                <Stack>
+                                <Stack spacing={2}>
                                     <Divider />
                                     <UserSniped
                                         avatar={data.user.avatar}
                                         pseudo={data.user.pseudo}
-                                        publishDate={data.createdAt}
+                                        publishDate={data.created_at}
                                     />
                                     <Divider />
                                 </Stack>
-                                <Stack>
-                                    <Text as="b">Localisation :</Text>
+                                <Stack spacing={3}>
+                                    <Typography sx={{fontWeight: 'bold'}}>Localisation :</Typography>
                                     <LocalisationText city={data.city} district={data.district} />
-                                    <Box h={200} w={"100%"} maxW={"100%"}>
+                                    <Box sx={{height: 200, w: '100%', maxWidth: '100%'}}>
                                         <KakaoMap
                                             lat={data.district.latitude}
                                             lng={data.district.longitude}
@@ -87,69 +78,17 @@ const Detail = () => {
                                     </Box>
                                 </Stack>
                                 {
-                                    !belongsToAuth(data.user.id, user?.id) ? <Box py={3} position={"sticky"} bottom={0} bg="white" zIndex={10} >
-                                        <Button w="100%" colorScheme="messenger" leftIcon={<BsMessenger />}>Contacter le vendeur</Button>
+                                    !belongsToAuth(data.user.id, user?.id) ?
+                                    <Box sx={{ zIndex: 10, py:2, position: 'sticky', bottom: 0, bgcolor: 'white'}} >
+                                        <Button fullWidth variant="contained" startIcon={<BsMessenger />}>Contacter le vendeur</Button>
                                     </Box> : <></>
                                 }
-
                             </Stack>
-                        </GridItem>
+                        </Grid>
                     </Grid>
-
                 </Box>
-            </ContainerSection>
+            </Container>
         </Box>
-
-        // <Modal size="full" motionPreset="none" onClose={() => console.log('closed')} isOpen={true}>
-        //     <ModalContent>
-        //         <NavLink to="/market-place">
-        //             <IconButton
-        //                 isRound={true}
-        //                 width={"fit-content"}
-        //                 position={"fixed"}
-        //                 left={2} top={2}
-        //                 colorScheme="red"
-        //                 aria-label={"close"}
-        //                 icon={<BsXLg />}
-        //                 zIndex={10}
-        //                 opacity={0.8}
-        //             />
-        //         </NavLink>
-        //         <Stack
-        //             spacing={0}
-        //             direction={{ base: 'column', md: 'row' }}>
-        //             <Center h={{ base: 300, md: "100vh" }} width={"100%"} flex={1} bg="gray.100">
-        //                 <Box w="100%" h={"100%"}>
-        //                     <ThumbSwiper images={data.images} />
-        //                 </Box>
-        //             </Center>
-        //             <Box bg="white" boxShadow={"0 0 5px grey"} w={{ base: '100%', md: 400 }} >
-        //                 <Stack p={3} spacing={VERTICAL_SPACING}>
-        //                     <Stack>
-        //                         <TitleText text={data.title} />
-        //                         <Box maxH={200} overflowY="auto">
-        //                             <Text whiteSpace="pre-line"> {data.description} </Text>
-        //                         </Box>
-        //                         <PriceText price={data.price} />
-        //                     </Stack>
-
-        //                     <Stack>
-        //                         <Text as="b">Localisation :</Text>
-        //                         <LocalisationText city={data.city} district={data.district} />
-        //                         <Box h={200} w={"100%"} maxW={"100%"}>
-        //                             <KakaoMap
-        //                                 lat={data.district.latitude}
-        //                                 lng={data.district.longitude}
-        //                                 withCircle={true}
-        //                             />
-        //                         </Box>
-        //                     </Stack>
-        //                     <Button colorScheme="messenger" leftIcon={<BsMessenger />}>Contacter le vendeur</Button>
-        //                 </Stack>
-        //             </Box>
-        //         </Stack>
-        //     </ModalContent>
-        // </Modal>
     )
 }
 

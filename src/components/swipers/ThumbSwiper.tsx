@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Box, Image, Stack } from '@chakra-ui/react';
 
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
@@ -11,6 +10,7 @@ import 'swiper/css/pagination';
 
 import './swiper.scss'
 import { BASE_URL } from '../../utils/variables';
+import { Box, Stack } from '@mui/material';
 
 const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
 
@@ -19,7 +19,7 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
     return (
         <Box width="100%" height="100%">
             <Stack
-               height="100%" p={2}>
+                height="100%" p={2}>
                 <Swiper
                     spaceBetween={0}
                     navigation={true}
@@ -30,11 +30,13 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                     {
                         images.map((image: any) => {
                             return <SwiperSlide key={image.id}>
-                                <Image objectFit='contain'
-                                    objectPosition="center"
-                                    width={"100%"}
-                                    h={"100%"}
-                                    src={BASE_URL + image.filePath} />
+                                <img
+                                    style={{ objectFit: 'contain', objectPosition: 'center' }}
+                                    width="100%"
+                                    height="100%"
+                                    // src={BASE_URL + '/storage/images/' + image.path}
+                                    src="https://www.universfreebox.com/wp-content/uploads/2021/10/smart-tv-oqee.jpg"
+                                />
                             </SwiperSlide>
                         })
                     }
@@ -51,12 +53,12 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                     {
                         images.map((image: any) => {
                             return <SwiperSlide key={'thumb-' + image.id}>
-                                <Image objectFit='cover'
-                                    objectPosition="center"
-                                    pointerEvents="none"
-                                    h="100%"
-                                    w="100%"
-                                    src={BASE_URL + image.filePath} />
+                                <img
+                                    style={{ objectFit: 'cover', objectPosition: 'center' }}
+                                    width="100%"
+                                    height="100%"
+                                    src={BASE_URL + '/storage/images/' + image.path}
+                                />
                             </SwiperSlide>
                         })
                     }

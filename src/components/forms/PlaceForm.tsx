@@ -66,13 +66,13 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
         mode: 'onTouched',
         defaultValues: {
             title: data?.title,
-            city: data?.city.id || '',
-            district: data?.district.id || '',
+            city: data?.city.id,
+            district: data?.district.id,
             category: data?.category.id,
             description: data?.description,
             longitude: data?.longitude,
             latitude: data?.latitude,
-            address: data?.address || '',
+            address: data?.address,
             files: []
         }
     })

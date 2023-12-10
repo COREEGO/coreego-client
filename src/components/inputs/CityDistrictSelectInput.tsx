@@ -1,7 +1,7 @@
-import { Box, FormControl, FormLabel, Select, Stack } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import MapSimpleMarker from "../maps/MapSimpleMarker";
+import { Box, FormControl, InputLabel, MenuItem, Select, Stack } from "@mui/material";
 
 interface CityDistrictSelectInputInterface {
     updateCity?: (e: any) => void,
@@ -14,7 +14,7 @@ interface CityDistrictSelectInputInterface {
 }
 
 const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
-    updateCity, cityValue, updateDistrict, districtValue, showMap = false, variant = 'outline', withCircle = false
+    updateCity, cityValue, updateDistrict, districtValue, showMap = false, withCircle = false
 }) => {
     const { cities } = useSelector((state: any) => state.app);
 
@@ -71,26 +71,33 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
     }
 
     return (
-        <Stack w="100%">
-            <Select size="lg" variant={variant} value={selectedCity} onChange={(event: any) => setSelectedCity(event.target.value)}>
-                <option value="">Toutes les villes</option>
-                {cities.map((city: any) => {
-                    return <option key={city.id} value={city.id}>{city.label}</option>;
-                })}
-            </Select>
-            {
-                selectedCity && <Select size="lg" variant={variant}  value={selectedDistrict} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
-                    <option value="">Tous les districts</option>
-                    {
-                        districtsList.map((district: any) => {
-                            return <option key={district.id} value={district.id}>{district.label} </option>;
-                        })
-                    }
+        <Stack spacing={1} sx={{ width: '100%' }}>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Villes</InputLabel>
+                <Select label="Villes"
+                    value={selectedCity.toString() || ''} onChange={(event: any) => setSelectedCity(event.target.value)}>
+                    <MenuItem value={""}>Toutes les villes</MenuItem>
+                    {cities.map((city: any) => {
+                        return <MenuItem key={city.id} value={city.id}>{city.label}</MenuItem>
+                    })}
                 </Select>
+            </FormControl>
+            {
+                selectedCity && <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Districts</InputLabel>
+                    <Select
+                        label="Districts" value={selectedDistrict.toString() || ''} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
+                        <MenuItem value={""}>Tous les districts</MenuItem>
+                        {districtsList.map((district: any) => {
+                            return <MenuItem key={district.id} value={district.id}>{district.label}</MenuItem>
+                        })}
+                    </Select>
+                </FormControl>
+
             }
 
             {
-                (showMap && getGeopoint()) ? <Box w="100%" h={200} ><MapSimpleMarker withCircle={withCircle} lat={getGeopoint()?.lat} lng={getGeopoint()?.lng} /></Box> : <></>
+                (showMap && getGeopoint()) ? <Box sx={{ width: '100%', height: 300 }} ><MapSimpleMarker withCircle={withCircle} lat={getGeopoint()?.lat} lng={getGeopoint()?.lng} /></Box> : <></>
             }
         </Stack>
     );

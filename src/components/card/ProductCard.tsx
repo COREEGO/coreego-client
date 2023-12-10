@@ -17,7 +17,7 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product, size }) => {
                 <CardMedia
                     component="img"
                     height="194"
-                    image={getFirstImage(product.images) || "https://www.pourquoidocteur.fr/media/article/COPY_istock-1159377900-1621781021.jpg"}
+                    image={getFirstImage(product.images) || "https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png"}
                     alt="Paella dish"
                 />
                 <CardContent>
@@ -31,20 +31,6 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product, size }) => {
                     </Stack>
                 </CardContent>
             </Card>
-            // <Card id={product.id}>
-            //     <Image w="100%" h={{
-            //         base: 200,
-            //         sm: 200,
-            //         md: 200,
-            //         lg: 250
-            //     }} borderRadius="md" objectFit="cover" src={getFirstImage(product.images)} />
-            //     <CardBody>
-            //         <PriceText price={product.price} />
-            //         <Text noOfLines={1} as="b"> {product.title}</Text>
-            //         <Text noOfLines={2}> {product.description}</Text>
-            //         <LocalisationText city={product.city} district={product.district} />
-            //     </CardBody>
-            // </Card>
         )
     }
 

@@ -1,5 +1,6 @@
 /** @format */
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export async function apiFetch<T>(
   url: any,
@@ -41,6 +42,7 @@ export async function apiFetch<T>(
       return response.data;
     }
   } catch (error: any) {
+      toast.error(error.response.data.message)
       throw new Error(JSON.stringify(error));
   }
 

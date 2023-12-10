@@ -27,7 +27,7 @@ export const getViolationField = (
 };
 
 export const getFirstImage = (images: Array<any>) => {
-  const url = images.length ? BASE_URL + images[0].filePath : null;
+  const url = images.length ? BASE_URL + '/storage/images/' + images[0].path : null;
   if (url) return url;
   return;
 };

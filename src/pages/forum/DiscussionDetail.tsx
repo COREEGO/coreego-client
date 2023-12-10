@@ -52,7 +52,7 @@ const Detail: React.FC<any> = () => {
                                 <CategoryText category={data.category} />
                             </NavLink>
                             <Typography sx={{ wordBreak: 'break-all' }} component={"h1"} fontSize={24} fontWeight={"bold"}>{data.title}</Typography>
-                            <Typography paragraph={true}> {data.content} </Typography>
+                            <Typography sx={{whiteSpace: 'pre-line'}}> {data.content} </Typography>
                             {
                                 data.images ? <ImageList variant="quilted" gap={3} sx={{ width: '100%', height: 'auto' }}>
                                     {data.images.map((image: any) => (

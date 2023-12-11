@@ -34,8 +34,7 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                                     style={{ objectFit: 'contain', objectPosition: 'center' }}
                                     width="100%"
                                     height="100%"
-                                    // src={BASE_URL + '/storage/images/' + image.path}
-                                    src="https://www.universfreebox.com/wp-content/uploads/2021/10/smart-tv-oqee.jpg"
+                                    src={BASE_URL + '/storage/images/' + image.path}
                                 />
                             </SwiperSlide>
                         })

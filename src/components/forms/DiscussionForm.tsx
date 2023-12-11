@@ -26,7 +26,7 @@ interface PropsInterface {
 type Inputs = {
     title: string
     content: string
-    category: number,
+    category: number | string,
     files: any
 }
 
@@ -52,6 +52,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
         setValue,
         handleSubmit,
         setError,
+        trigger,
         formState: { errors, isSubmitting },
     } = useForm<Inputs>({
         mode: 'onTouched',
@@ -99,7 +100,6 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
         }))
     }, [files])
 
-
     return (
         <Box my={3}>
             <Container maxWidth="lg">
@@ -118,18 +118,17 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                             <InputLabel id="demo-simple-select-label">Catégorie</InputLabel>
                             <Select
                                 {...register('category', noEmptyValidator)}
-                                defaultValue={getValues().category || ''}
+                                defaultValue={data?.category.id || ''}
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 label="Catégorie"
                             >
                                 <MenuItem value="">-------</MenuItem>
-                                {discussionCategories.map((category: any) => {
-                                    return (
-                                        <MenuItem key={category.id} value={category.id}>{category.label}</MenuItem>
-                                    )
-                                })
-                                }
+                                {discussionCategories.map((category: any) => (
+                                    <MenuItem key={category.id} value={category.id}>
+                                        {category.label}
+                                    </MenuItem>
+                                ))}
                             </Select>
                             {errors.category && <FormHelperText id="component-error-text">{errors.category.message}</FormHelperText>}
                         </FormControl>

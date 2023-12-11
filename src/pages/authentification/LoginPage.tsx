@@ -50,9 +50,10 @@ export default function LoginPage() {
             if (JSON.parse(e.message).status == 401){
                 errorMessage = "Email ou Mot de passe incorrect"
             }
-            setError('root', {
-                message: errorMessage
-            })
+            console.log(e)
+            // setError('root', {
+            //     message: errorMessage
+            // })
         }
 
     }

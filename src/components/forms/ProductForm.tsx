@@ -4,16 +4,17 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import TitleText from "../texts/TitleText"
 import { noEmptyLocalisationValidator, noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput"
-import { useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import { Box, Button, Container, Divider, FormControl, FormHelperText, Stack, TextField, Typography } from "@mui/material"
+import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material"
 import UpladButton from "../buttons/UplaodButton"
 import FormImage from "../images/FormImage"
 import { BASE_URL } from "../../utils/variables"
 import { CAMERA_ICON } from "../../utils/icon"
 import LoadingButton from "@mui/lab/LoadingButton"
 import { toast } from "react-toastify"
+import { useSelector } from "react-redux"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -25,8 +26,8 @@ type Inputs = {
     title: string
     description: string
     price: number
-    city: string
-    district: string
+    city: string | number
+    district: string | number
     files: any[]
 }
 
@@ -34,6 +35,8 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
 
     const navigate = useNavigate()
     const params = useParams()
+
+    const { cities } = useSelector((state: any) => state.app);
 
     const { user }: any = useAuthContext()
 
@@ -62,6 +65,7 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
             files: []
         }
     })
+
 
     const onSubmitForm: SubmitHandler<Inputs> = async (data: any) => {
         const url = isEditMode ? `/product/edit/${params.id}` : '/product/new';
@@ -136,26 +140,23 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
                             {...register('price', noEmptyValidator)} fullWidth placeholder="Prix" label="Quelle est son prix ?" id="price" />
                         {errors.price && <FormHelperText id="component-error-text">{errors.price.message}</FormHelperText>}
                     </FormControl>
-                    <FormControl fullWidth>
-                        <Controller
+                    <Controller
                             control={control}
                             name="district"
                             rules={{
-                                validate: () => noEmptyLocalisationValidator(getValues().city.toString(), getValues().district.toString())
+                                validate: () => noEmptyLocalisationValidator(getValues().city, getValues().district)
                             }}
-                            render={({ field: { onChange } }) => (
+                            render={() => (
                                 <CityDistrictSelectInput
-                                    withCircle={true}
+                                    cityValue={data?.city.id || ''}
+                                    districtValue={data?.district.id || ''}
+                                    updateCity={(e:any) => setValue('city', e) }
+                                    updateDistrict={(e:any) => setValue('district', e) }
                                     showMap={true}
-                                    updateCity={(e: any) => setValue('city', e)}
-                                    cityValue={getValues().city}
-                                    updateDistrict={(e: any) => setValue('district', e)}
-                                    districtValue={getValues().district}
                                 />
                             )}
                         />
-                        {errors.district && <FormHelperText id="component-error-text">{errors.district.message}</FormHelperText>}
-                    </FormControl>
+                        {errors.district ? <FormHelperText> {errors.district.message} </FormHelperText> : <></>}
                     {
                         (isEditMode && data?.images.length) ? <FormControl>
                             <Typography fontWeight={"bold"}>Images</Typography>

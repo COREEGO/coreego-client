@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import MapSimpleMarker from "../maps/MapSimpleMarker";
 import { Box, FormControl, InputLabel, MenuItem, Select, Stack } from "@mui/material";
 
 interface CityDistrictSelectInputInterface {
-    updateCity?: (e: any) => void,
-    variant?: string,
-    cityValue: string,
-    updateDistrict?: (e: any) => void,
-    districtValue: string,
-    showMap?: boolean,
-    withCircle?: boolean
+    updateCity: (e: any) => void;
+    variant?: string;
+    cityValue: string | number;
+    updateDistrict?: (e: any) => void;
+    districtValue: string | number;
+    showMap?: boolean;
+    withCircle?: boolean;
 }
 
 const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
@@ -18,86 +18,70 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
 }) => {
     const { cities } = useSelector((state: any) => state.app);
 
-    const [districtsList, setDistrictList] = useState<Array<any>>([]);
+    const [selectedCity, setSelectedCity] = useState<string | number>(cityValue)
+    const [selectedDistrict, setSelectedDistrict] = useState<string | number>(districtValue)
 
-    const [selectedCity, setSelectedCity] = useState<string>(cityValue)
-    const [selectedDistrict, setSelectedDistrict] = useState<string>(districtValue)
+    const districts = useMemo(() => {
+        const city = cities.find((city: any) => city.id == selectedCity);
+        return city?.districts || null;
+    }, [selectedCity, cities]);
 
+    const geopoint = useMemo(() => {
+        const district = districts ? districts.find((district: any) => district.id == selectedDistrict) : null;
+        return district ? { latitude: district.latitude, longitude: district.longitude } : null
+    }, [selectedDistrict])
 
-    useEffect(() => {
-        setDistrictList(cityObject() ? cityObject().districts : [])
-        updateCity && updateCity(selectedCity)
-        if (selectedCity != cityValue) {
-            setSelectedDistrict('')
-        }
+    const handleCityChange = (event: any) => {
+        setSelectedCity(event.target.value);
+        setSelectedDistrict('')
+    };
+
+    const handleDistrictChange = (event: any) => {
+        setSelectedDistrict(event.target.value)
+    }
+
+    useEffect(()=>{
+        updateCity(selectedCity)
     }, [selectedCity])
 
-    const cityObject = () => {
-        return cities.find((city: any) => city.id == selectedCity) || null
-    }
-
-    const districtObject = () => {
-        return cityObject() ? cityObject()?.districts.find((district: any) => district.id == selectedDistrict) : null
-    }
-
-    useEffect(() => {
+    useEffect(()=>{
         updateDistrict && updateDistrict(selectedDistrict)
     }, [selectedDistrict])
 
-    useEffect(() => {
-        cityObject()
-        districtObject()
-        if (showMap) {
-            getGeopoint()
-        }
-    }, [selectedCity, selectedDistrict])
-
-    const getGeopoint = () => {
-        let longitude: any = null
-        let latitude: any = null
-
-        if (selectedCity) {
-            longitude = cityObject()?.longitude
-            latitude = cityObject()?.latitude
-            if (selectedDistrict) {
-                longitude = districtObject()?.longitude
-                latitude = districtObject()?.latitude
-            }
-        } else {
-            longitude = null;
-            latitude = null
-        }
-        return (longitude && latitude) ? { lng: longitude, lat: latitude } : null
-    }
-
     return (
-        <Stack spacing={1} sx={{ width: '100%' }}>
+        <Stack spacing={2} sx={{ width: '100%' }}>
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Villes</InputLabel>
-                <Select label="Villes"
-                    value={selectedCity.toString() || ''} onChange={(event: any) => setSelectedCity(event.target.value)}>
-                    <MenuItem value={""}>Toutes les villes</MenuItem>
-                    {cities.map((city: any) => {
-                        return <MenuItem key={city.id} value={city.id}>{city.label}</MenuItem>
-                    })}
+                <Select
+                    label="Villes"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                >
+                    <MenuItem value="">Toutes les villes</MenuItem>
+                    {cities.map((city: any) => (
+                        <MenuItem key={city.id} value={city.id}>
+                            {city.label}
+                        </MenuItem>
+                    ))}
                 </Select>
             </FormControl>
             {
-                selectedCity && <FormControl fullWidth>
+                districts && districts.length > 0 ? <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Districts</InputLabel>
                     <Select
-                        label="Districts" value={selectedDistrict.toString() || ''} onChange={(event: any) => setSelectedDistrict(event.target.value)}>
-                        <MenuItem value={""}>Tous les districts</MenuItem>
-                        {districtsList.map((district: any) => {
-                            return <MenuItem key={district.id} value={district.id}>{district.label}</MenuItem>
-                        })}
+                        label="Districts" value={selectedDistrict} onChange={handleDistrictChange}>
+                        <MenuItem value="">Tous les districts</MenuItem>
+                        {
+                            districts.map((district: any) => {
+                                return <MenuItem key={district.id} value={district.id}>{district.label}</MenuItem>;
+                            })
+                        }
                     </Select>
-                </FormControl>
-
+                </FormControl> : <></>
             }
 
             {
-                (showMap && getGeopoint()) ? <Box sx={{ width: '100%', height: 300 }} ><MapSimpleMarker withCircle={withCircle} lat={getGeopoint()?.lat} lng={getGeopoint()?.lng} /></Box> : <></>
+                (showMap && geopoint) ? <Box sx={{ width: '100%', height: 300 }} ><MapSimpleMarker withCircle={withCircle} lat={geopoint?.latitude} lng={geopoint?.longitude} /></Box> : <></>
             }
         </Stack>
     );

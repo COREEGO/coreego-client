@@ -177,11 +177,11 @@ const Informations: React.FC<PropsInterface> = ({ profil, mutate }) => {
                         renderBody={() => (
                             <Stack as="form" onSubmit={handleSubmit(onSubmit)} alignItems={"flex-end"}>
                                 <Text color="gray">La selection d'un district est requis afin de valider la localisation sinon il sera compté comme vide</Text>
-                                <CityDistrictSelectInput
+                                {/* <CityDistrictSelectInput
                                     showMap={true}
                                     cityValue={profil.localisation?.city?.id}
                                     updateDistrict={(e: any) => setValue('localisation', e)}
-                                    districtValue={profil.localisation?.id} />
+                                    districtValue={profil.localisation?.id} /> */}
                                 <Button colorScheme="blackAlpha" bg="black" isLoading={isSubmitting} type="submit">Valider</Button>
                             </Stack>
                         )}

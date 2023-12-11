@@ -224,7 +224,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                             </FormControl>
                             <FormControl variant='filled' isInvalid={errors.district ? true : false}>
                                 <FormLabel>Localisation</FormLabel>
-                                <Controller
+                                {/* <Controller
                                     control={control}
                                     name="district"
                                     rules={{
@@ -239,7 +239,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                                             districtValue={getValues().district.toString()}
                                         />
                                     )}
-                                />
+                                /> */}
                                 <FormErrorMessage> {errors.district ? errors.district.message : ''} </FormErrorMessage>
                                 <FormControl isInvalid={errors.description ? true : false}>
                                     <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Description du lieu</FormLabel>

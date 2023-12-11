@@ -32,7 +32,7 @@ export const emailValidator = {
   },
 };
 
-export const noEmptyLocalisationValidator = (city:string, district: string) => {
+export const noEmptyLocalisationValidator = (city:string | number, district: string | number) => {
   if(city === '' || district === ''){
     return "La ville et le district ne doivent pas être vide"
   }

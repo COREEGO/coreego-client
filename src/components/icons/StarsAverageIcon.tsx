@@ -1,5 +1,6 @@
-import { HStack, Text } from "@chakra-ui/react"
-import { BsFillStarFill } from "react-icons/bs"
+import { Stack } from "@chakra-ui/react"
+import { Typography } from "@mui/material"
+import { STAR_ICON } from "../../utils/icon"
 
 interface PropsInterface {
     datas: Array<any>
@@ -15,11 +16,11 @@ const StarsAverageIcon: React.FC<PropsInterface> = ({ datas }) => {
 
 
     return (
-        <HStack>
-            <BsFillStarFill color="orange" />
-            {average && <Text>{average + '/5'}  </Text>}
-            <Text fontSize="sm"> {reviewLabel} </Text>
-        </HStack>
+        <Stack direction={"row"} alignItems={"center"}>
+            <STAR_ICON sx={{color: 'orange'}} />
+            {average && <Typography>{average + '/5'}  </Typography>}
+            <Typography fontSize="sm"> {reviewLabel} </Typography>
+        </Stack>
     )
 }
 

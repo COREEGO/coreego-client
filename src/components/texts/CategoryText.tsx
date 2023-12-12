@@ -1,6 +1,4 @@
-import { Flex, Stack, Text } from "@chakra-ui/react"
 import { Badge, Box } from "@mui/material"
-import { MdLens } from "react-icons/md"
 
 
 interface CategoryInterface {

@@ -18,12 +18,13 @@ import { FILTER_ICON, EDIT_ICON } from "../../utils/icon";
 import TitleText from "../../components/texts/TitleText";
 import { NavLink, useLocation } from "react-router-dom";
 import useSWR from "swr";
-import { Box, Container, Fab, FormControl, FormLabel, Pagination } from "@mui/material";
+import { Box, Container, Fab, FormControl, FormLabel, Pagination, Stack } from "@mui/material";
 import LoadingPage from "../../components/LoadingPage";
 
 const MarketPlacePage = () => {
     const { updateFilter, searchParams } = useFilterContext();
     const location = useLocation();
+
     const { data, isLoading, error } = useSWR(`/products${location.search}`);
 
     if (error) console.error('API ERROR:', error);
@@ -44,8 +45,22 @@ const MarketPlacePage = () => {
                 }}>
             </Box>
             <AsideFeedSection
-                title={"Forum"}
-                renderBody={() => null}
+                title={"Market place"}
+                renderBody={() =>
+                (
+                    <Stack sx={{ width: 500, maxWidth: '100%' }}>
+                        <FormControl fullWidth>
+                            <FormLabel sx={{mb: 2}}>Localisation</FormLabel>
+                            <CityDistrictSelectInput
+                                cityValue={searchParams.get('city') || ''}
+                                districtValue={searchParams.get('district') || ''}
+                                updateCity={(e: any) => updateFilter('city', e.toString())}
+                                updateDistrict={(e: any) => updateFilter('district', e.toString())}
+                            />
+                        </FormControl>
+                    </Stack>
+                )
+                }
             />
             <Container maxWidth="lg">
                 {

@@ -1,9 +1,9 @@
 import { Circle, CustomOverlayMap, Map, MapMarker, MapTypeControl, Roadview, RoadviewMarker } from "react-kakao-maps-sdk"
 import useKakaoLoader from "./useKakaoLoader"
 import { useRef, useState } from "react"
-import { ButtonGroup, IconButton } from "@chakra-ui/react"
 import { BiMapAlt, BiSolidLandscape, BiStreetView } from "react-icons/bi"
 import { BsMapFill } from "react-icons/bs"
+import { Button, ButtonGroup, IconButton } from "@mui/material"
 
 
 
@@ -14,8 +14,8 @@ const MapSimpleMarker: React.FC<{
     withCircle?: boolean;
     displayMapMode?: boolean;
     displayMapType?: boolean;
-    updateMarker?: (event: {lat:number,lng:number}) => void;
-}> = ({ lat, lng, zoom = 8,updateMarker, withCircle = false, displayMapMode = false, displayMapType = false }) => {
+    updateMarker?: (event: { lat: number, lng: number }) => void;
+}> = ({ lat, lng, zoom = 8, updateMarker, withCircle = false, displayMapMode = false, displayMapType = false }) => {
 
     const [mapMode, setMapMode] = useState<'map' | 'roadview'>("map")
     const [mapType, setMapType] = useState<"ROADMAP" | "HYBRID">("ROADMAP")
@@ -37,10 +37,10 @@ const MapSimpleMarker: React.FC<{
                 mapTypeId={mapType}
                 level={zoom} // 지도의 확대 레벨
                 onClick={(_t, mouseEvent) => updateMarker ? updateMarker(
-                    {lat: mouseEvent.latLng.getLat(), lng: mouseEvent.latLng.getLng()}
-                ): {}}
+                    { lat: mouseEvent.latLng.getLat(), lng: mouseEvent.latLng.getLng() }
+                ) : {}}
             >
-                {position && <MapMarker position={{ ...position }} /> }
+                {position && <MapMarker position={{ ...position }} />}
                 {
                     withCircle && <Circle
                         center={{ ...position }}
@@ -56,24 +56,23 @@ const MapSimpleMarker: React.FC<{
                 {
                     displayMapMode && <>
                         {mapMode === "map" && (
-                            <IconButton colorScheme="blue"
-                                position={"absolute"}
-                                top={3}
-                                left={3}
-                                zIndex={10}
-                                onClick={() => setMapMode("roadview")} aria-label='' icon={<BiStreetView />} />
+                            <IconButton
+                                size="large"
+                                color="primary"
+                                sx={{ position: 'absolute', top: 3, left: 3, zIndex: 100 }}
+                                onClick={() => setMapMode("roadview")} aria-label=''>
+                                <BiStreetView />
+                            </IconButton>
                         )}
                     </>
                 }
                 {
                     (displayMapType && mapMode === 'map') && <ButtonGroup
-                        colorScheme="blue"
-                        position={"absolute"}
-                        top={3}
-                        right={3}
-                        zIndex={10} isAttached>
-                        <IconButton isDisabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends' icon={<BiMapAlt />} />
-                        <IconButton isDisabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends' icon={<BiSolidLandscape />} />
+                        variant="contained"
+                        size="large"
+                        sx={{ position: 'absolute', top: 3, right: 3, zIndex: 10 }} >
+                        <Button disabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends'><BiMapAlt /></Button>
+                        <Button disabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends'><BiSolidLandscape /></Button>
                     </ButtonGroup>
                 }
 
@@ -88,12 +87,13 @@ const MapSimpleMarker: React.FC<{
             >
                 <RoadviewMarker position={{ ...position }} />
                 {mapMode === "roadview" && (
-                    <IconButton colorScheme="blue"
-                        position={"absolute"}
-                        top={3}
-                        left={3}
-                        zIndex={10}
-                        onClick={() => setMapMode("map")} aria-label='' icon={<BsMapFill />} />
+                    <IconButton
+                        color="primary"
+                        size="large"
+                        sx={{ position: 'absolute', top: 3, left: 3, zIndex: 10 }}
+                        onClick={() => setMapMode("map")} aria-label=''>
+                        <BsMapFill />
+                    </IconButton>
                 )}
             </Roadview>
         </>

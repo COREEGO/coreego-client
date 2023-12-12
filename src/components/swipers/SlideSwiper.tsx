@@ -1,5 +1,4 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Box, Image } from '@chakra-ui/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -28,13 +27,15 @@ const SlideSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
             {
                 images.map((image: any) => {
                     return <SwiperSlide key={image.id}>
-                        <Image objectFit="cover"
-                            objectPosition="center"
-                            pointerEvents="none"
-                            borderRadius={"md"}
-                            h="100%"
-                            w="100%"
-                            src={BASE_URL + image.filePath} />
+                        <img
+                            style={{
+                                objectFit: 'cover',
+                                objectPosition: 'center',
+                                borderRadius: 10,
+                                height: '100%',
+                                width: '100%'
+                            }}
+                            src={BASE_URL + '/storage/images/' + image.path} />
                     </SwiperSlide>
                 })
             }

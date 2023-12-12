@@ -1,4 +1,3 @@
-import {Button, Stack, useDisclosure, useToast, FormControl, FormErrorMessage, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Textarea, FocusLock, Popover, PopoverArrow, PopoverCloseButton, PopoverContent, PopoverTrigger } from "@chakra-ui/react"
 import { useAuthContext } from "../../../contexts/AuthProvider"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { minNumber, noEmptyValidator } from "../../../utils/formValidation"
@@ -8,6 +7,7 @@ import { findMatchingUser } from "../../../utils"
 import StarsAverageIcon from "../../../components/icons/StarsAverageIcon"
 import ReviewScoreCheckbox from "../../../components/inputs/ReviewScoreCheckbox"
 import { useEffect } from "react"
+import { Button } from "@mui/material"
 
 interface ReviewModuleInterface {
     placeId: number,
@@ -22,11 +22,6 @@ type Inputs = {
 
 const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, reviews }) => {
 
-    const toast = useToast()
-
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
-    const { isOpen: isOpenNew, onOpen: onOpenNew, onClose: onCloseNew } = useDisclosure()
 
     const { user } : any = useAuthContext()
 
@@ -59,42 +54,31 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                     stars: data.stars,
                     content: data.content
                 })
-                toast({
-                    description: "Avis ajouté",
-                    status: 'success',
-                })
+
             } else {
                 await apiFetch('/reviews/' + currentValue.id, 'PATCH', {
                     content: data.content,
                     stars: data.stars
                 })
-                toast({
-                    description: "Commentaire modifié",
-                    status: 'success',
-                })
+
             }
 
 
             reset()
             mutate()
-            onCloseNew()
 
         } catch (error: any) {
-            toast({
-                description: JSON.parse(error.message),
-                status: 'error',
-            })
+
         }
     }
 
     const handleClose = () => {
         reset()
-        onClose()
+
     }
 
     const handleCloseNew = () => {
-        onCloseNew()
-        if (!currentValue) reset()
+          if (!currentValue) reset()
     }
 
     const onDelete = async (id: number) => {
@@ -103,25 +87,19 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
             if (!result) return
 
             await apiFetch('/reviews/' + id, 'DELETE')
-            toast({
-                description: "Commentaire supprimé",
-                status: 'success',
-            })
+
             mutate()
             reset()
         } catch (error: any) {
-            toast({
-                description: error.message,
-                status: 'error',
-            })
+
         }
     }
 
 
     return (
         <>
-            <Button variant="outline" onClick={onOpen}> <StarsAverageIcon datas={reviews} /> </Button>
-            <Modal isOpen={isOpen} onClose={handleClose} size="full" scrollBehavior={"inside"}>
+            <Button variant="outlined" > <StarsAverageIcon datas={reviews} /> </Button>
+            {/* <Modal isOpen={isOpen} onClose={handleClose} size="full" scrollBehavior={"inside"}>
                 <ModalContent>
                     <ModalHeader>Avis</ModalHeader>
                     <ModalCloseButton />
@@ -182,7 +160,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                         </Popover>
                     </ModalFooter>
                 </ModalContent>
-            </Modal>
+            </Modal> */}
         </>
     )
 

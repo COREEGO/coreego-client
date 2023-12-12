@@ -15,6 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import PlaceIcon from '@mui/icons-material/Place';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
+import StarIcon from '@mui/icons-material/Star';
 
 export const FORUM_ICON = MdOutlineComment
 export const TRAVEL_ICON = MdOutlineTravelExplore
@@ -46,6 +47,8 @@ export const CAMERA_ICON = CameraAltIcon
 export const TRASH_ICON = DeleteIcon
 
 export const CIRCLE_ICON = FaCircle
+
+export const STAR_ICON = StarIcon
 
 export const FILTER_ICON = TuneIcon
 export const EDIT_ICON = EditIcon

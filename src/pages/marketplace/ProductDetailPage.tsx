@@ -38,12 +38,12 @@ const Detail = () => {
                         container
                         spacing={2}
                     >
-                        <Grid sx={{width: '100%'}} item sm={12} lg={6}>
+                        <Grid sx={{width: '100%'}} item sm={12} lg={7}>
                             <Box sx={{ height: { xs: 300, lg: 500 } }}>
                                 <ThumbSwiper images={data.images} />
                             </Box>
                         </Grid>
-                        <Grid sx={{width: '100%'}} item sm={12} lg={6}>
+                        <Grid sx={{width: '100%'}} item sm={12} lg={5}>
                             <Stack spacing={3}>
                                 {
                                     belongsToAuth(data.user.id, user?.id) ?
@@ -66,10 +66,10 @@ const Detail = () => {
                                     />
                                     <Divider />
                                 </Stack>
-                                <Stack spacing={3}>
-                                    <Typography sx={{fontWeight: 'bold'}}>Localisation :</Typography>
+                                <Stack spacing={2}>
+                                    <Typography component="span" variant="h6" sx={{fontWeight: 'bold'}}>Localisation :</Typography>
                                     <LocalisationText city={data.city} district={data.district} />
-                                    <Box sx={{height: 200, w: '100%', maxWidth: '100%'}}>
+                                    <Box sx={{height: 200, width: '100%', maxWidth: '100%'}}>
                                         <KakaoMap
                                             lat={data.district.latitude}
                                             lng={data.district.longitude}

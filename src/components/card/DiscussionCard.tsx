@@ -35,30 +35,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, size }) => 
                         </Stack>
                     </Stack>
                 </CardContent>
-            </Card>
-            // <Card _hover={{backgroundColor: 'var(--light)'}} borderRadius={0} borderLeft={"5px solid " + discussion?.category.color}>
-            //     <CardBody>
-            //         <Stack direction="row" alignItems="flex-start">
-            //             <Stack>
-            //                 <UserSniped
-            //                     avatar={'/images/' +discussion.user.avatarPath}
-            //                     pseudo={discussion.user.pseudo}
-            //                     publishDate={discussion.createdAt}
-            //                 />
-            //                 <Stack spacing={0}>
-            //                     <CategoryText category={discussion?.category} />
-            //                     <Text as="b" noOfLines={2}> {discussion.title} </Text>
-            //                     <Text as="span" noOfLines={1}> {discussion.content} </Text>
-            //                 </Stack>
-            //                 <Stack direction="row">
-            //                     <CommentCountIcon length={discussion.comments.length} />
-            //                     <LikeCountIcon length={discussion.likes.length} />
-            //                     <ImageCountIcon length={discussion.images.length} />
-            //                 </Stack>
-            //             </Stack>
-            //         </Stack>
-            //     </CardBody>
-            // </Card>
+            </Card>     
         )
     }
 

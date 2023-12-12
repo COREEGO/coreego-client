@@ -10,11 +10,11 @@ interface UserSnipedInterface {
     styles?: any
 }
 
-const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate, size = "sm", styles }) => {
+const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate, size = "xs", styles }) => {
 
     return (
         <Stack spacing={1} direction={"row"} alignItems={"center"}>
-            <Avatar {...styles} size={size} src={BASE_URL + avatar} />
+            <Avatar {...styles}  src={BASE_URL + avatar} />
             {
                 (pseudo || publishDate) && <Stack spacing={0}>
                     {pseudo && <Typography component="span" noWrap={true}>{pseudo}</Typography>}

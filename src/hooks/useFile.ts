@@ -71,7 +71,8 @@ const useFile = (mutate?: Function | null): UseFileHook => {
     try {
         const confirm = window.confirm("Supprimer l'image ?")
         if(!confirm) return;
-        await apiFetch(`/image/delete/${fileId}`, 'DELETE')
+
+        await apiFetch(`/image/delete/${fileId}`, 'DELETE', {}, true)
         if(mutate){
           mutate()
         }

@@ -72,7 +72,7 @@ const Detail: React.FC<any> = () => {
                     <Box sx={{ position: 'sticky', backgroundColor: 'white' }} bottom={0} py={2} zIndex={100}>
                         <Container maxWidth="lg">
                             <Stack direction="row" spacing={1}>
-                                <LikeButton size="sm" discussionId={data.id} likes={data.likes} mutate={mutate} />
+                                <LikeButton discussionId={data.id} likes={data.likes} mutate={mutate} />
                                 <ShareButton />
                             </Stack>
                         </Container>

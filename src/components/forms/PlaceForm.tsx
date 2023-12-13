@@ -47,9 +47,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
 
     const [isLocalisationBusy, setIsLocalisationBusy] = useState<boolean>(false)
     const [addressData, setAddressData] = useState<any>(null)
-    useEffect(()=>{
-        console.log(addressData)
-    }, [addressData])
+
     const { files,
         addFile,
         removeFile,
@@ -98,7 +96,8 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                 city_id: data.city,
                 district_id: data.district,
                 user_id: user.id
-            })
+            }, true)
+
             if (response && files && Array.isArray(files) && files.length) {
                 for (const file of data.files) {
                     const formData = new FormData();

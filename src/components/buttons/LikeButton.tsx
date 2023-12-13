@@ -1,66 +1,54 @@
-import { useEffect, useState } from "react"
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md"
+import { useMemo, useState } from "react"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import { apiFetch } from "../../http-common/apiFetch"
-import { findMatchingUser } from "../../utils"
-import { BsHeart, BsHeartFill } from "react-icons/bs"
-import { Button, IconButton, Stack } from "@mui/material"
+import { Button } from "@mui/material"
 import { DISLIKE_ICON, LIKE_ICON } from "../../utils/icon"
+import { toast } from "react-toastify"
+import { apiFetch } from "../../http-common/apiFetch"
+import LoadingButton from "@mui/lab/LoadingButton"
 
 interface LikeButtonInterface {
     discussionId?: any,
     placeId?: any,
     likes: Array<any>,
-    size?: any,
     mutate: Function,
 }
 
 
-const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null, size }) => {
+const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null }) => {
 
-    const { user }: any = useAuthContext();
-
-    const [userLike, setUserLike] = useState<any>(null);
-    const [likeLength, setLikeLength] = useState<number>(likes?.length || 0);
 
     const [isBusy, setIsBusy] = useState<boolean>(false)
+    const { user }: any = useAuthContext();
 
-    useEffect(() => {
-        const alreadyTaken = findMatchingUser(likes, user)
-        setUserLike(alreadyTaken || null);
-    }, [likes, user.id]);
+    const existLike = useMemo(() => {
+        return likes.find((like: any) => like?.user?.id === user.id) ? true : false;
+    }, [likes])
 
 
     const handleLike = async () => {
-
         try {
             setIsBusy(true)
-            if (userLike) {
-                await apiFetch('/like/' + userLike.id, 'DELETE')
+            const response: any = await apiFetch('/like', 'POST', {
+                discussion_id: discussionId,
+                place_id: placeId,
+            }, true)
+            toast.success(response.message)
 
-                setUserLike(null)
-                setLikeLength(likeLength - 1)
-            } else {
-                await apiFetch('/likes', 'POST', {
-                    discussion: discussionId ? '/api/discussion/' + discussionId : null,
-                    place: placeId ? '/api/place/' + placeId : null,
-                })
-
-                setUserLike(user)
-                setLikeLength(likeLength + 1)
-            }
             mutate()
-        } catch (error) {
-            //
+
+        } catch (error: any) {
+            toast.error(JSON.parse(error).message)
         } finally {
             setIsBusy(false)
         }
     }
 
     return (
-        <Button color="error" sx={{widht:"fit-content"}} variant="outlined" onClick={handleLike} startIcon={userLike ? <LIKE_ICON /> : <DISLIKE_ICON />}>
-            {likeLength}
-        </Button>
+        <LoadingButton
+            loading={isBusy}
+            color="error" sx={{ widht: "fit-content" }} variant="outlined" onClick={handleLike} startIcon={existLike ? <LIKE_ICON /> : <DISLIKE_ICON />}>
+            {likes.length}
+        </LoadingButton>
     )
 
 }

@@ -78,14 +78,15 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
                 city_id: data.city,
                 district_id: data.district,
                 user_id: user.id
-            })
+            }, true)
+
             if ('data' in response && response.data && files && Array.isArray(files) && files.length) {
                 for (const file of data.files) {
                     const formData = new FormData();
                     formData.append('path', file);
                     formData.append('product_id', response.data.id);
                     formData.append('user_id', user.id)
-                    await apiFetch('/image/new', 'post', formData);
+                    await apiFetch('/image/new', 'post', formData, true);
                 }
             }
             toast.success(response.message);

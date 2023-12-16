@@ -10,6 +10,7 @@ import { SWRConfig } from 'swr';
 import { swrConfig } from './http-common/swrConfig';
 import { AuthProvider } from './contexts/AuthProvider';
 import { ToastContainer } from 'react-toastify';
+import { ConfirmProvider } from "material-ui-confirm";
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -56,13 +57,22 @@ function App() {
           pauseOnHover
           theme="light"
         />
-        <FilterProvider>
-          <Provider store={store}>
-            <Layout>
-              <RouterOutleft />
-            </Layout>
-          </Provider>
-        </FilterProvider>
+        <ConfirmProvider
+          defaultOptions={{
+            title: 'Confirmation',
+            cancellationText: 'Non',
+            confirmationText: 'Oui',
+            confirmationButtonProps: { autoFocus: true },
+          }}
+        >
+          <FilterProvider>
+            <Provider store={store}>
+              <Layout>
+                <RouterOutleft />
+              </Layout>
+            </Provider>
+          </FilterProvider>
+        </ConfirmProvider>
       </SWRConfig>
     </AuthProvider>
 

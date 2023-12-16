@@ -23,7 +23,8 @@ const Detail: React.FC<any> = () => {
 
     const params = useParams()
     const { user }: any = useAuthContext()
-    const { data, mutate } = useSWR('/discussion/' + params.id, { suspense: true })
+    const { data, mutate, error } = useSWR('/discussion/' + params.id, { suspense: true })
+
 
     useEffect(() => {
         mutate()

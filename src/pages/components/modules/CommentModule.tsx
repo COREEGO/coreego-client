@@ -1,5 +1,5 @@
 import CommentCard from "../../../components/card/CommentCard"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { MdClose, MdOutlineAdd } from "react-icons/md"
 import { apiFetch } from "../../../http-common/apiFetch"
 import { CONTAINER_SIZE, VERTICAL_SPACING } from "../../../utils/variables"
@@ -9,6 +9,8 @@ import { noEmptyValidator } from "../../../utils/formValidation"
 import ContainerSection from "../ContainerSection"
 import { Box, FormControl, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, Typography, InputLabel, FormHelperText } from "@mui/material"
 import React from "react"
+import LoadingButton from "@mui/lab/LoadingButton"
+import { toast } from "react-toastify"
 
 
 interface CommentModuleInterface {
@@ -27,9 +29,13 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
     const [open, setOpen] = React.useState(false);
 
 
-    comments = comments.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
+    const commentList: Array<any> = useMemo(() => {
+        return comments.sort((a: { created_at: Date }, b: { created_at: Date }) => {
+            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        })
+    }, [comments])
+
+    console.log(commentList)
 
     const {
         register,
@@ -42,49 +48,40 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            await apiFetch('/comments', 'POST', {
-                discussion: discussionId && 'api/discussion/' + discussionId,
-                place: placeId && 'api/places/' + placeId,
+            const response: any = await apiFetch('/comment/new', 'POST', {
+                discussion_id: discussionId,
+                place_id: placeId,
                 content: data.content
-            })
+            }, true)
+
+            toast.success(response.message)
 
             reset()
             mutate()
+            setOpen(false)
 
         } catch (error: any) {
-
+            toast.success(error.message)
         }
     }
 
-    const onDelete = async (commentId: number) => {
-        try {
-            const result = window.confirm('Supprimer ce commentaire ?')
-            if (!result) return
 
-            await apiFetch('/comment/' + commentId, 'DELETE')
-
-            mutate()
-        } catch (error: any) {
-
-        }
-    }
 
     return (
         <Box py={3} boxShadow={"0 -2px 1px lightblue"}>
             <Container maxWidth="lg">
-                <Stack spacing={VERTICAL_SPACING}>
+                <Stack spacing={3} >
                     <Stack direction="row" alignItems="center" spacing={1}>
                         <Typography fontWeight="bold">Commentaires</Typography>
                         <Button variant="outlined" size="small" onClick={() => setOpen(true)}>Ajouter</Button>
                     </Stack>
                     {
-                        comments.length ? <Stack>
+                        commentList.length ? <Stack spacing={1}>
                             {
-                                comments.map((comment: any) => {
+                                commentList.map((comment: any) => {
                                     return (
-                                        <p>{comment.title}</p>
-                                        // <CommentCard mutate={mutate} onDelete={(id: number) => onDelete(id)}
-                                        //     key={comment.id} comment={comment} />
+                                        <CommentCard mutate={mutate}
+                                            key={comment.id} comment={comment} />
                                     )
                                 })
                             }
@@ -101,48 +98,27 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
             >
                 <DialogTitle id="alert-dialog-title">Ajouter un commentaire</DialogTitle>
                 <DialogContent>
-                    <FormControl variant="standard" fullWidth sx={{width: 500, maxWidth: '100%'}}>
-                        <TextField
-                            error={errors.content ? true : false}
-                            autoFocus
-                            placeholder="Ecrivez votre commentaire..."
-                            required
-                            multiline
-                            rows={10}
-                            {...register('content', { ...noEmptyValidator })} />
-                        {errors.content && <FormHelperText id="component-error-text">{errors.content.message}</FormHelperText>}
-                    </FormControl>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Envoyer</Button>
-                    <Button onClick={() => setOpen(false)}>
-                        Annuler
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            {/* <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Ajouter un commentaire</ModalHeader>
-                    <ModalCloseButton />
-                    <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
-                        <ModalBody>
-                            <FormControl isInvalid={errors.content ? true : false}>
-                                <Textarea
-                                    required
-                                    {...register('content', { ...noEmptyValidator })}
-                                    placeholder="Ecrivez votre commentaire" rows={10} />
-                                {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                            </FormControl>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button isLoading={isSubmitting} w="100%" colorScheme='blue' type="submit">
-                                Ajouter
+                    <Stack component="form" onSubmit={handleSubmit(onSubmit)}>
+                        <FormControl variant="standard" fullWidth sx={{ width: 500, maxWidth: '100%' }}>
+                            <TextField
+                                error={errors.content ? true : false}
+                                autoFocus
+                                placeholder="Ecrivez votre commentaire..."
+                                required
+                                multiline
+                                rows={10}
+                                {...register('content', { ...noEmptyValidator })} />
+                            {errors.content && <FormHelperText id="component-error-text">{errors.content.message}</FormHelperText>}
+                        </FormControl>
+                        <Stack direction="row" sx={{ mt: 3 }}>
+                            <LoadingButton loading={isSubmitting} type="submit">Envoyer</LoadingButton>
+                            <Button onClick={() => setOpen(false)}>
+                                Annuler
                             </Button>
-                        </ModalFooter>
+                        </Stack>
                     </Stack>
-                </ModalContent>
-            </Modal> */}
+                </DialogContent>
+            </Dialog>
         </Box>
     )
 

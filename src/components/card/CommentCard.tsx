@@ -1,15 +1,20 @@
-import { Box, Button, Card, CardBody, CardHeader, Flex, FormControl, FormErrorMessage, IconButton, Input, Menu, MenuButton, MenuItem, MenuList, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Stack, Text, Textarea, useDisclosure, useEditableControls, useToast } from "@chakra-ui/react"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { MdBorderColor, MdDelete, MdMoreVert } from "react-icons/md"
 import { apiFetch } from "../../http-common/apiFetch"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { noEmptyValidator } from "../../utils/formValidation"
 import UserSniped from "../react-ux/UserSniped"
+import { Card, CardContent, Menu, Stack, Box, IconButton, MenuList, MenuItem, Popover, Typography, DialogTitle, DialogContent, FormControl, TextField, FormHelperText, Button, Dialog } from "@mui/material"
+import { MORE_OPTIONS } from "../../utils/icon"
+import React, { useMemo, useState } from "react"
+import PopupState, { bindTrigger, bindMenu, bindPopover } from 'material-ui-popup-state';
+import { useConfirm } from "material-ui-confirm";
+import { toast } from "react-toastify"
+import LoadingButton from "@mui/lab/LoadingButton"
 
 
 interface CommentCardInterface {
     comment: any,
-    onDelete: (id: any) => any,
     mutate: Function
 }
 
@@ -17,93 +22,134 @@ type Inputs = {
     content: string
 }
 
-const CommentCard: React.FC<CommentCardInterface> = ({ comment, onDelete, mutate }) => {
+const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const confirm = useConfirm()
+
+    const [open, setOpen] = useState<boolean>(false);
 
     const { register, handleSubmit, reset, formState: { errors, isSubmitting }
-    } = useForm<Inputs>({ mode: 'onTouched' })
+    } = useForm<Inputs>({
+        mode: 'onTouched',
+        defaultValues:{
+            content: comment?.content
+        }
+    })
 
     const { user }: any = useAuthContext()
 
-    const toast = useToast()
+    const isCommentUser = useMemo(() => {
+        return comment.user.id === user.id
+    }, [comment])
 
-    const isCommentUser = comment.user.id === user.id
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            await apiFetch('/comments/' + comment.id, 'PATCH', {
+            await apiFetch('/comment/edit/' + comment.id, 'put', {
                 content: data.content
-            })
-            toast({
-                description: "Commentaire modifié",
-                status: 'success',
-            })
-
-            onClose()
+            }, true)
+            toast.success("Commentaire modifié")
+            setOpen(false)
             mutate()
-
         } catch (error: any) {
-            toast({
-                description: JSON.parse(error.message).detail,
-                status: 'error',
-            })
+            toast.error(JSON.parse(error.message))
         }
+    }
+
+    const onDelete = async () => {
+        confirm({
+            description: "Supprimer le commentaire ?"
+        }).then(async () => {
+            await apiFetch('/comment/delete/' + comment.id, 'delete', null, true)
+            toast.success("Commentaire supprimé")
+            mutate()
+        }).catch((error: any) => {
+            toast.error(JSON.parse(error.message))
+        })
     }
 
     return (
         <>
-            <Card w="100%">
-                <CardHeader>
-                    <Flex alignItems={"flex-start"}>
-                        <UserSniped
-                            avatar={comment.user.avatar}
-                            pseudo={comment.user.pseudo}
-                            publishDate={comment.createdAt}
-                        />
-                        <Spacer />
-                        {
-                            isCommentUser &&
-                            <Menu>
-                                <MenuButton>
-                                    <MdMoreVert />
-                                </MenuButton>
-                                <MenuList>
-                                    <MenuItem onClick={onOpen} icon={<MdBorderColor />}>Modifier</MenuItem>
-                                    <MenuItem onClick={() => onDelete(comment.id)} icon={<MdDelete />}>Supprimer</MenuItem>
-                                </MenuList>
-                            </Menu>
-                        }
-                    </Flex>
-                </CardHeader>
-                <CardBody pt={0}>
-                    <Text whiteSpace="pre-line"> {comment.content}   </Text>
-                </CardBody>
-            </Card>
-            <Modal isOpen={isOpen} onClose={onClose} isCentered={true}>
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalHeader>Modifier votre commentaire</ModalHeader>
-                    <ModalCloseButton />
-                    <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
-                        <ModalBody>
-                            <FormControl isInvalid={errors.content ? true : false}>
-                                <Textarea
-                                    defaultValue={comment.content}
-                                    required
-                                    {...register('content', { ...noEmptyValidator })}
-                                    placeholder="Modifier votre commentaire" rows={10} />
-                                {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                            </FormControl>
-                        </ModalBody>
-                        <ModalFooter>
-                            <Button isLoading={isSubmitting} w="100%" colorScheme='blue' type="submit">
-                                Ajouter
-                            </Button>
-                        </ModalFooter>
+            <Card sx={{ width: '100%' }}>
+                <CardContent>
+                    <Stack spacing={3}>
+                        <Stack alignItems={"flex-start"} direction="row" justifyContent="space-between">
+                            <UserSniped
+                                avatar={comment.user.avatar}
+                                pseudo={comment.user.pseudo}
+                                publishDate={comment.created_at}
+                            />
+                            <PopupState variant="popover" popupId="demo-popup-menu">
+                                {(popupState) => (
+                                    <React.Fragment>
+                                        <IconButton
+                                            {...bindTrigger(popupState)}
+                                            size="small"
+                                            aria-label="account of current user"
+                                            aria-controls="menu-options"
+                                            aria-haspopup="true"
+                                            color="inherit"
+                                        >
+                                            <MORE_OPTIONS />
+                                        </IconButton>
+                                        <Menu {...bindMenu(popupState)}>
+                                            {isCommentUser
+                                                ? [
+                                                    <MenuItem key="modifier" onClick={() => setOpen(true)}>
+                                                        Modifier
+                                                    </MenuItem>,
+                                                    <MenuItem key="supprimer" onClick={onDelete}>
+                                                        Supprimer
+                                                    </MenuItem>
+                                                ]
+                                                : [
+                                                    <MenuItem key="signaler" onClick={popupState.close}>
+                                                        Signaler
+                                                    </MenuItem>
+                                                ]
+                                            }
+                                        </Menu>
+                                    </React.Fragment>
+                                )}
+                            </PopupState>
+                        </Stack>
+                        <Typography sx={{ whiteSpace: 'pre-line' }}> {comment.content} </Typography>
                     </Stack>
-                </ModalContent>
-            </Modal>
+                </CardContent>
+            </Card>
+            {
+                isCommentUser && <Dialog
+                    open={open}
+                    maxWidth="md"
+                    onClose={() => setOpen(false)}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">Ajouter un commentaire</DialogTitle>
+                    <DialogContent>
+                        <Stack component="form" onSubmit={handleSubmit(onSubmit)}>
+                            <FormControl variant="standard" fullWidth sx={{ width: 500, maxWidth: '100%' }}>
+                                <TextField
+                                    error={errors.content ? true : false}
+                                    autoFocus
+                                    placeholder="Ecrivez votre commentaire..."
+                                    required
+                                    multiline
+                                    rows={10}
+                                    {...register('content', { ...noEmptyValidator })} />
+                                {errors.content && <FormHelperText id="component-error-text">{errors.content.message}</FormHelperText>}
+                            </FormControl>
+                            <Stack direction="row" sx={{ mt: 3 }}>
+                                <LoadingButton loading={isSubmitting} type="submit">Modifier</LoadingButton>
+                                <Button onClick={() => setOpen(false)}>
+                                    Annuler
+                                </Button>
+                            </Stack>
+                        </Stack>
+                    </DialogContent>
+                </Dialog>
+            }
+
         </>
     )
 }

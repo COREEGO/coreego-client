@@ -1,8 +1,7 @@
-import { Card, CardContent, CardHeader, CardMedia, Typography } from "@mui/material";
+import { Card, CardContent, Stack, CardMedia, Typography } from "@mui/material";
 import { getFirstImage } from "../../utils";
 import LocalisationText from "../texts/LocalisationText";
 import PriceText from "../texts/PriceText";
-import { Stack } from "@chakra-ui/react";
 
 interface ProductCardInterface {
     product: any
@@ -21,7 +20,7 @@ const ProductCard: React.FC<ProductCardInterface> = ({ product, size }) => {
                     alt="Paella dish"
                 />
                 <CardContent>
-                    <Stack spacing={5}>
+                    <Stack spacing={1}>
                         <PriceText price={product.price} />
                         <Stack spacing={0}>
                             <Typography fontWeight={"bold"} noWrap={true}>{product.title}</Typography>

@@ -6,13 +6,17 @@ import ReviewCard from "../../../components/card/ReviewCard"
 import { findMatchingUser } from "../../../utils"
 import StarsAverageIcon from "../../../components/icons/StarsAverageIcon"
 import ReviewScoreCheckbox from "../../../components/inputs/ReviewScoreCheckbox"
-import { useEffect } from "react"
-import { Button } from "@mui/material"
+import { useEffect, useMemo, useState } from "react"
+import { AppBar, Box, Button, Container, Dialog, DialogContent, Drawer, FormControl, FormHelperText, IconButton, Rating, Stack, TextField, Toolbar, Typography } from "@mui/material"
+import { CLOSE_ICON } from "../../../utils/icon"
+import LoadingButton from "@mui/lab/LoadingButton"
+import { toast } from "react-toastify"
+import { useConfirm } from "material-ui-confirm";
 
 interface ReviewModuleInterface {
     placeId: number,
     mutate: Function,
-    reviews: Array<any>
+    reviews: Array<any>,
 }
 
 type Inputs = {
@@ -21,15 +25,19 @@ type Inputs = {
 }
 
 const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, reviews }) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
+    const { user }: any = useAuthContext();
 
+    const reviewList: Array<any> = useMemo(() => {
+        return reviews.sort((a: { created_at: Date }, b: { created_at: Date }) => {
+            return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+        });
+    }, [reviews]);
 
-    const { user } : any = useAuthContext()
-
-    reviews = reviews.sort((a: { createdAt: Date }, b: { createdAt: Date }) => {
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    });
-
-    const currentValue = findMatchingUser(reviews, user)
+    const currentUserReview = useMemo(() => {
+        return reviews.find((review: any) => review?.user?.id === user?.id);
+    }, [reviews, isOpenForm, isOpen]);
 
     const {
         control,
@@ -38,129 +46,117 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
         reset,
         formState: { errors, isSubmitting },
     } = useForm<Inputs>({
-        mode: 'onTouched',
-        defaultValues: {
-            stars: currentValue ? currentValue.stars : 0,
-            content: currentValue ? currentValue.content : ''
-        }
-    })
+        mode: 'onTouched'
+    });
 
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            if (!currentValue) {
-                await apiFetch('/reviews', 'post', {
-                    place: '/api/places/' + placeId,
-                    stars: data.stars,
-                    content: data.content
-                })
+            const response: any = await apiFetch('/review/new', 'post', {
+                place_id: placeId,
+                stars: data.stars,
+                content: data.content,
+            }, true);
 
-            } else {
-                await apiFetch('/reviews/' + currentValue.id, 'PATCH', {
-                    content: data.content,
-                    stars: data.stars
-                })
-
-            }
-
-
-            reset()
-            mutate()
-
+            toast.success(response.message);
+            setIsOpenForm(false);
+            reset();
+            mutate();
         } catch (error: any) {
+            toast.error(error.message);
+        }
+    };
 
+    const handleScrollToReview = () => {
+        const reviewElement = document.getElementById(`review-${currentUserReview.id}`);
+        if (reviewElement) {
+            reviewElement.scrollIntoView({ behavior: 'auto' });
         }
     }
-
-    const handleClose = () => {
-        reset()
-
-    }
-
-    const handleCloseNew = () => {
-          if (!currentValue) reset()
-    }
-
-    const onDelete = async (id: number) => {
-        try {
-            const result = window.confirm('Supprimer ce commentaire ?')
-            if (!result) return
-
-            await apiFetch('/reviews/' + id, 'DELETE')
-
-            mutate()
-            reset()
-        } catch (error: any) {
-
-        }
-    }
-
 
     return (
         <>
-            <Button variant="outlined" > <StarsAverageIcon datas={reviews} /> </Button>
-            {/* <Modal isOpen={isOpen} onClose={handleClose} size="full" scrollBehavior={"inside"}>
-                <ModalContent>
-                    <ModalHeader>Avis</ModalHeader>
-                    <ModalCloseButton />
-                    <ModalBody>
-                        {
-                            reviews.length ? <Stack>
+            <Button variant="outlined" onClick={() => setIsOpen(true)} > <StarsAverageIcon datas={reviews} /> </Button>
+            <Drawer
+                anchor="left"
+                open={isOpen}
+                onClose={() => setIsOpen(false)}
+            >
+                <Box sx={{ width: 500, maxWidth: '100%' }}>
+                    <AppBar position="sticky" sx={{ top: 0, backgroundColor: 'white' }}>
+                        <Toolbar>
+                            <Stack spacing={1} direction="row" sx={{ flexGrow: 1 }}>
+                                <Typography color="black" variant="h6" component="div" >Rewiews</Typography>
                                 {
-                                    reviews.map((review: any) => {
+                                    !currentUserReview ? <Button variant="contained" size="small" onClick={() => setIsOpenForm(true)}>Ajouter</Button> :
+                                        <Button component="a" onClick={handleScrollToReview} variant="contained" size="small">Ma review</Button>
+                                }
+
+                            </Stack>
+                            <IconButton
+                                edge="end"
+                                onClick={() => setIsOpen(false)}
+                                aria-label="close"
+                            >
+                                <CLOSE_ICON />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                    <Container maxWidth="lg" sx={{ my: 2 }}>
+                        {
+                            reviewList.length ? <Stack>
+                                {
+                                    reviewList.map((review: any) => {
                                         return (
                                             <ReviewCard
-                                                onDelete={(id:number) => onDelete(id)}
+                                                mutate={mutate}
                                                 key={review.id} review={review}
-                                            />)
+                                            />
+                                        )
                                     })
                                 }
                             </Stack> : 'Aucun avis'
                         }
-                    </ModalBody>
-                    <ModalFooter>
-                        <Popover
-                            isOpen={isOpenNew}
-                            onOpen={onOpenNew}
-                            onClose={handleCloseNew}
-                            placement='top'
-                            closeOnBlur={false}
-                        >
-                            <PopoverTrigger>
-                                <Button colorScheme="blue" w="100%">{currentValue ? 'Modifier mon avis' : 'Ajouter un avis'}</Button>
-                            </PopoverTrigger>
-                            <PopoverContent p={5}>
-                                <FocusLock persistentFocus={false}>
-                                    <PopoverArrow />
-                                    <PopoverCloseButton />
-                                    <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
-                                        <FormControl isInvalid={errors.stars ? true : false}>
-                                            <Controller
-                                                control={control}
-                                                name="stars"
-                                                rules={{ ...minNumber(1), ...noEmptyValidator }}
-                                                render={({ field: { onChange, value } }) => (
-                                                    <ReviewScoreCheckbox onChange={onChange} value={value} />
-                                                )}
-                                            />
-                                            {errors.stars && <FormErrorMessage>{errors.stars.message}</FormErrorMessage>}
-                                        </FormControl>
-                                        <FormControl isInvalid={errors.content ? true : false}>
-                                            <Textarea
-                                                defaultValue={currentValue?.content}
-                                                required
-                                                {...register('content', { ...noEmptyValidator })}
-                                                placeholder="Ecrivez votre commentaire" rows={10} />
-                                            {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-                                        </FormControl>
-                                        <Button isLoading={isSubmitting} type="submit" colorScheme={"blue"}>{currentValue ? 'Modifier' : 'Ajouter'}</Button>
-                                    </Stack>
-                                </FocusLock>
-                            </PopoverContent>
-                        </Popover>
-                    </ModalFooter>
-                </ModalContent>
-            </Modal> */}
+                    </Container>
+                </Box>
+            </Drawer>
+            <Dialog
+                open={isOpenForm}
+            >
+                <DialogContent>
+                    <Stack sx={{ width: 500, maxWidth: '100%' }} component="form" onSubmit={handleSubmit(onSubmit)}>
+                        <FormControl sx={{ mb: 1 }}>
+                            <Controller
+                                control={control}
+                                name="stars"
+                                rules={{ ...minNumber(1), ...noEmptyValidator }}
+                                render={({ field: { onChange, value } }) => (
+                                    <Rating onChange={onChange} value={Number(value)} sx={{ width: 'fit-content' }} name="size-large" size="large" />
+                                )}
+                            />
+                            {errors.stars && <FormHelperText>{errors.stars.message}</FormHelperText>}
+                        </FormControl>
+                        <FormControl fullWidth variant="standard">
+                            <TextField
+                                {...register('content', { ...noEmptyValidator })}
+                                error={errors.content ? true : false}
+                                autoFocus
+                                placeholder="Ecrivez votre commentaire..."
+                                required
+                                multiline
+                                rows={10}
+                            />
+                            {errors.content && <FormHelperText id="component-error-text">{errors.content.message}</FormHelperText>}
+                        </FormControl>
+                        <Stack direction="row" sx={{ mt: 3 }}>
+                            <LoadingButton loading={isSubmitting} type="submit">Envoyer</LoadingButton>
+                            <Button onClick={() => setIsOpenForm(false)}>
+                                Annuler
+                            </Button>
+                        </Stack>
+                    </Stack>
+                </DialogContent>
+            </Dialog>
         </>
     )
 

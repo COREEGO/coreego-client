@@ -101,13 +101,6 @@ const Navigation: React.FC<NavigationInterface> = () => {
         setAnchorElNav(event.currentTarget);
     };
 
-
-
-    const pages = ['Products', 'Pricing', 'Blog'];
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-    const mode = null
-
     return (
         <AppBar position="sticky" sx={{top: 0, backgroundColor: 'white'}} color="transparent"  >
             <Container maxWidth="lg">
@@ -184,7 +177,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                         <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
-                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                            <UserSniped styles={{width: 40, height: 40 }} avatar={user?.avatarPath} />
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -203,31 +196,14 @@ const Navigation: React.FC<NavigationInterface> = () => {
                         open={Boolean(anchorElUser)}
                         onClose={() => setAnchorElUser(null)}
                     >
+                        <Box onClick={() => setAnchorElUser(null)}>
                         <NavigationUserMenu />
+                        </Box>
                     </Menu>
                 </Box>
             </Toolbar>
         </Container>
         </AppBar >
-
-        // <Box bg="white" borderBottomWidth={2} position="sticky" top={0} zIndex={900}>
-        //     <ContainerSection withPadding={true}>
-        //         <Box py={5} >
-        //             <Stack direction="row" alignItems="center">
-        //                 <Stack flex={1} role="navigation left" direction="row" alignItems="center">
-        //                     <Image mr={3} position="relative" src={logo} width={100} height="auto" />
-        //                     {user && <Hide below="md"> <NavigationLink /></Hide>}
-        //                 </Stack>
-        //                 <Stack direction="row" alignItems="center">
-        //                     <NavigationUserMenu />
-        //                     <Hide above="md">
-        //                         <DrawerNavigation />
-        //                     </Hide>
-        //                 </Stack>
-        //             </Stack>
-        //         </Box>
-        //     </ContainerSection>
-        // </Box>
     )
 
 }

@@ -33,7 +33,7 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
             {renderButton(() => setOpen(true))}
             {
                 open && <Dialog
-                    maxWidth="sm"
+                    maxWidth="md"
                     open={open}
                     keepMounted
                     onClose={() => setOpen(false)}

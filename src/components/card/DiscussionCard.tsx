@@ -8,10 +8,10 @@ import LikeCountIcon from "../icons/LikeCountIcon";
 
 interface DiscussionCardProps {
     discussion: any,
-    size: 'xl' | 'sm'
+    size?: 'xl' | 'sm'
 }
 
-const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, size }) => {
+const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, size = 'xl' }) => {
 
     const XlCard = () => {
         return (
@@ -35,7 +35,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion, size }) => 
                         </Stack>
                     </Stack>
                 </CardContent>
-            </Card>     
+            </Card>
         )
     }
 

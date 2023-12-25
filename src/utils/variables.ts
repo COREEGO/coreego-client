@@ -1,6 +1,6 @@
 export const BASE_URL = process.env.REACT_APP_BASE_URL
 
-export const ICON_SIZE_HEADER = 20
+export const SOCIAL_ICON_SIZE = 30
 export const CONTAINER_SIZE = '1200px'
 export const VERTICAL_SPACING = 10
 

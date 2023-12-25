@@ -11,7 +11,7 @@ import ImageCountIcon from "../icons/ImageCountIcon";
 
 interface PlaceCardInterface {
     place: any,
-    size: 'xl' | 'sm'
+    size?: 'xl' | 'sm'
 }
 
 const PlaceCard: React.FC<PlaceCardInterface> = ({ place, size = 'xl' }) => {

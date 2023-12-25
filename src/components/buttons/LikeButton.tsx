@@ -22,8 +22,9 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
 
     const existLike = useMemo(() => {
         return likes.find((like: any) => like?.user?.id === user.id) ? true : false;
-    }, [likes])
+    }, [likes, discussionId, placeId])
 
+    console.log(existLike)
 
     const handleLike = async () => {
         try {
@@ -32,9 +33,11 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
                 discussion_id: discussionId,
                 place_id: placeId,
             }, true)
-            toast.success(response.message)
 
-            mutate()
+            if(response){
+                toast.success(response.message)
+                mutate()
+            }
 
         } catch (error: any) {
             toast.error(JSON.parse(error).message)

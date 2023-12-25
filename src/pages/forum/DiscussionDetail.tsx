@@ -25,11 +25,6 @@ const Detail: React.FC<any> = () => {
     const { user }: any = useAuthContext()
     const { data, mutate, error } = useSWR('/discussion/' + params.id, { suspense: true })
 
-
-    useEffect(() => {
-        mutate()
-    }, [])
-
     return (
         <>
             <Box my={5}>

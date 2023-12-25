@@ -35,8 +35,6 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
         })
     }, [comments])
 
-    console.log(commentList)
-
     const {
         register,
         handleSubmit,

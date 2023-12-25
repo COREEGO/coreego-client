@@ -37,7 +37,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
 
     const currentUserReview = useMemo(() => {
         return reviews.find((review: any) => review?.user?.id === user?.id);
-    }, [reviews, isOpenForm, isOpen]);
+    }, [reviews]);
 
     const {
         control,

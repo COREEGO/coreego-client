@@ -1,28 +1,7 @@
-import React, { Suspense, useEffect, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useState } from "react";
 import { useLocation, useParams } from "react-router";
 import { useSearchParams, NavLink } from "react-router-dom";
 import useSWR from "swr";
-import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Divider,
-  Flex,
-  Grid,
-  GridItem,
-  HStack,
-  Icon,
-  IconButton,
-  List,
-  ListIcon,
-  ListItem,
-  Stack,
-  Text,
-  Tooltip,
-  VStack,
-  Wrap,
-} from "@chakra-ui/react";
 import {
   FORUM_ICON,
   DISLIKE_ICON,
@@ -36,301 +15,243 @@ import {
   FACEBOOK_ICON,
   TIKTOK_ICON,
   YOUTUBE_ICON,
+  LIKE_ICON,
 } from "../../utils/icon";
 import LoadingPage from "../../components/LoadingPage";
-import ContainerSection from "../components/ContainerSection";
 import UserSniped from "../../components/react-ux/UserSniped";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import ModalWrapper from "../../components/Modals/ModalWraper";
 import DiscussionCard from "../../components/card/DiscussionCard";
 import PlaceCard from "../../components/card/PlaceCard";
-import ProductCard from "../../components/card/ProductCard";
 import ProfilEditPage from "./ProfilEditPage";
-import { templateColumns } from "../../utils";
-import { VERTICAL_SPACING } from "../../utils/variables";
+import { Avatar, Box, Button, Card, CardContent, Container, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, Stack, Tooltip, Typography } from "@mui/material";
+import { SOCIAL_ICON_SIZE } from "../../utils/variables";
+import { toast } from "react-toastify";
+import { apiFetch } from "../../http-common/apiFetch";
 
-const ButtonOpenModal: React.FC<{ onClick: () => void; label: string; icon: any }> = ({ onClick, label, icon }) => {
-  return (
-    <Button w="100%" onClick={onClick} py="30px" variant={"outline"} leftIcon={icon}>{label}</Button>
-  )
-}
-
-const PublicationLiked = () => {
-
-  const { data: likes, error } = useSWR(`/likes`, { suspense: true });
-
-  if (error) console.error(error);
-
-  const places = likes.map((like: any) => ('place' in like ? like.place : null)).filter(Boolean);
-  const discussions = likes.map((like: any) => ('discussion' in like ? like.discussion : null)).filter(Boolean);
-
-  return (
-    <ModalWrapper
-      id="like"
-      title={<>{<DISLIKE_ICON />} J'aimes</>}
-      renderButton={(onOpen) => <ButtonOpenModal onClick={onOpen} label={"J'aimes"} icon={<DISLIKE_ICON />} />}
-      params={{ size: 'full' }}
-      renderBody={() => (
-        <Stack spacing={VERTICAL_SPACING}>
-          {places.length && (
-            <Stack>
-              <Text fontWeight={500} fontSize={"xl"}>
-                Lieux
-              </Text>
-              <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
-                {places.map((place: any) => (
-                  <GridItem key={'p-' + place.id}>
-                    <NavLink to={'/voyage/place/detail/' + place.id}>
-                      <PlaceCard size="sm" place={place} />
-                    </NavLink>
-                  </GridItem>
-                ))}
-              </Grid>
-            </Stack>
-          )}
-          {discussions.length && (
-            <Stack>
-              <Text fontWeight={500} fontSize={"xl"}>
-                Discussions
-              </Text>
-              <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2, lg: 3 })}>
-                {discussions.map((discussion: any) => (
-                  <GridItem key={'d-' + discussion.id}>
-                    <NavLink to={'/forum/discussion/detail/' + discussion.id}>
-                      <DiscussionCard size="sm" discussion={discussion} />
-                    </NavLink>
-                  </GridItem>
-                ))}
-              </Grid>
-            </Stack>
-          )}
-        </Stack>
-      )}
-    >
-    </ModalWrapper>
-  );
-};
 
 const Publications = () => {
+
   const params = useParams();
-  const { user: currentUser }: any = useAuthContext();
 
   return (
     <Stack>
-      <Text as="h2" fontWeight={"bold"} fontSize={"2xl"}>
-        Publications
-      </Text>
-      <Grid gap={5} templateColumns={templateColumns({ base: 1, sm: 1, md: 2 })}>
-        <GridItem>
+      <Typography mb={2} variant="h5" fontWeight="bold">Publications</Typography>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
           <NavLink to={`/voyage?user=${params.id}`}>
-            <Button w="100%" py="30px" variant={"outline"} leftIcon={<TRAVEL_ICON />}>Lieux</Button>
+            <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<TRAVEL_ICON />}>Lieux</Button>
           </NavLink>
-        </GridItem>
-        <GridItem>
+        </Grid>
+        <Grid item xs={12} md={6}>
           <NavLink to={`/forum?user=${params.id}`}>
-            <Button w="100%" py="30px" variant={"outline"} leftIcon={<FORUM_ICON />}>Discussions</Button>
+            <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<FORUM_ICON />}>Discussions</Button>
           </NavLink>
-        </GridItem>
-        <GridItem>
+        </Grid>
+        <Grid item xs={12} md={6}>
           <NavLink to={`/market-place?user=${params.id}`}>
-            <Button w="100%" py="30px" variant={"outline"} leftIcon={<FORUM_ICON />}>Produits en vente</Button>
+            <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<MARKET_PLACE_ICON />}>Produits en vente</Button>
           </NavLink>
-        </GridItem>
-        {currentUser && currentUser.id == params.id ? <GridItem> <PublicationLiked /> </GridItem> : <></>}
+        </Grid>
       </Grid>
     </Stack>
   );
 };
 
-const Resume: React.FC<{ profil: any }> = ({ profil }) => {
+const Resume: React.FC<{ user: any }> = ({ user }) => {
   return (
-    <Stack spacing={VERTICAL_SPACING}>
-      <Stack>
-        {
-          profil.introduction && <>
-            <Text fontWeight={500} fontSize={"xl"}>Introduction</Text>
-            <Text>{profil.introduction} </Text>
-          </>
-        }
+    <Stack spacing={2}>
+      <Stack spacing={1}>
+        <Typography variant="h5" fontWeight="bold">A propos de {user.pseudo}</Typography>
+        {user.profil.introduction ? <Typography>{user.profil.introduction}</Typography> : <></>}
       </Stack>
-      <List spacing={5}>
+      <List>
         {
-          profil.occupation && <>
-            <Divider />
-            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-              <ListIcon as={OCCUPATION_ICON} fontSize={25} />
-              <Text><Text as="span" fontWeight={500}>Profession :</Text> {profil.occupation}</Text>
-            </ListItem>
-          </>
+          user.profil.occupation ?
+            <ListItem disableGutters>
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: 'var(--coreego-blue)' }}>
+                  <OCCUPATION_ICON />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Profession"
+                secondary={user.profil.occupation}
+              />
+            </ListItem> : <></>
         }
         {
-          profil.hobby && <>
-            <Divider />
-            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-              <ListIcon as={DISLIKE_ICON} fontSize={25} />
-              <Text><Text as="span" fontWeight={500}>Ce que j'aime :</Text> {profil.hobby}</Text>
-            </ListItem>
-          </>
+          user.profil.hobby ?
+            <ListItem disableGutters>
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: 'var(--coreego-blue)' }}>
+                  <LIKE_ICON />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Ce que j'aime"
+                secondary={user.profil.hobby}
+              />
+            </ListItem> : <></>
         }
         {
-          profil.localisation && <>
-            <Divider />
-            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-              <ListIcon as={LOCALISATION_ICON} fontSize={25} />
-              <Text><Text as="span" fontWeight={500}>Où j'habite :</Text> {profil.localisation?.city?.label + ' , ' + profil.localisation.label} </Text>
-            </ListItem>
-          </>
+          (user.profil.city && user.profil.district) ?
+            <ListItem disableGutters>
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: 'var(--coreego-blue)' }}>
+                  <LOCALISATION_ICON />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Localisation"
+                secondary={`${user.profil.city.label}, ${user.profil.district.label}`}
+              />
+            </ListItem> : <></>
         }
         {
-          profil.languages.length && <>
-            <Divider />
-            <ListItem display="flex" w="100%" flexDirection={"row"} alignItems={"center"}>
-              <ListIcon as={LANGUAGE_ICON} fontSize={25} />
-              <Text><Text as="span" fontWeight={500}>Langues parlées :</Text> {profil.languages.join(' , ')} </Text>
-            </ListItem>
-          </>
+          user.profil.languages.length ?
+            <ListItem disableGutters>
+              <ListItemAvatar>
+                <Avatar sx={{ backgroundColor: 'var(--coreego-blue)' }}>
+                  <LANGUAGE_ICON />
+                </Avatar>
+              </ListItemAvatar>
+              <ListItemText
+                primary="Langues parlées"
+                secondary={user.profil.languages.join(' , ')}
+              />
+            </ListItem> : <></>
         }
       </List>
-      <Wrap>
-        {
-          profil.youtubelink && <><NavLink to={`https://www.youtube.com/@${profil.youtubelink.replace(' ', '')}`} target="_blank">
-            <IconButton variant={"outline"} isRound size="lg" icon={<YOUTUBE_ICON fontSize={25} />} aria-label={profil.youtubelink} />
-          </NavLink>
-          </>
+      <Stack spacing={1} sx={{ flexWrap: 'wrap' }} direction="row" alignItems="center">
+        {user.profil.youtube ?
+          <Tooltip title={'Youtube : ' + user.profil.youtube}>
+            <IconButton aria-label={user.profil.youtube} component="a" target="__blank" href={`https://www.youtube.com/@${user.profil.youtube.replace(' ', '')}`}>
+              <YOUTUBE_ICON sx={{ fontSize: SOCIAL_ICON_SIZE, color: '#FF0000' }} />
+            </IconButton>
+          </Tooltip>
+          : <></>
         }
-        {
-          profil.instagramlink && <><NavLink to={`https://www.instagram.com/${profil.instagramlink.replace(' ', '_')}`} target="_blank">
-            <IconButton
-              variant={"outline"}
-              isRound
-              size="lg"
-              icon={<INSTAGRAM_ICON fontSize={25} />}
-              aria-label={profil.instagramlink} />
-          </NavLink>
-          </>
+        {user.profil.instagram ?
+          <Tooltip title={'Instagram : ' + user.profil.instagram}>
+            <IconButton aria-label={user.profil.instagram} component="a" target="__blank" href={`https://www.instagram.com/${user.profil.instagram.replace(' ', '_')}`}>
+              <INSTAGRAM_ICON sx={{ fontSize: SOCIAL_ICON_SIZE, color: '#F46F30' }} />
+            </IconButton>
+          </Tooltip>
+          : <></>
         }
-        {
-          profil.kakaolink && <>
-            <Tooltip hasArrow label={profil.kakaolink} >
-              <IconButton
-                variant={"outline"}
-                isRound
-                size="lg"
-                icon={<KAKAO_ICON fontSize={25} />}
-                aria-label={profil.kakaolink} />
-            </Tooltip>
-          </>
+        {user.profil.facebook ?
+          <Tooltip title={"Facebook : " + user.profil.facebook}>
+            <IconButton aria-label={user.profil.facebook} component="a" target="__blank" href={`https://www.tiktok.com/@${user.profil.facebook.replace(' ', '')}`}>
+              <FACEBOOK_ICON sx={{ fontSize: SOCIAL_ICON_SIZE, color: '#0866FF' }} />
+            </IconButton>
+          </Tooltip>
+
+          : <></>
         }
-        {
-          profil.tiktoklink && <><NavLink to={`https://www.tiktok.com/@${profil.tiktoklink.replace(' ', '')}`} target="_blank">
-            <IconButton
-              variant={"outline"}
-              isRound
-              size="lg"
-              icon={<TIKTOK_ICON fontSize={25} />}
-              aria-label={profil.instagramlink} />
-          </NavLink>
-          </>
+        {user.profil.kakao ?
+          <Tooltip title={'Kakao id : ' + user.profil.kakao}>
+            <IconButton aria-label={user.profil.kakao}>
+              <KAKAO_ICON style={{ fontSize: SOCIAL_ICON_SIZE, backgroundColor: '#FFE90A', padding: 2, borderRadius: 90, color: 'black' }} />
+            </IconButton>
+          </Tooltip>
+          :
+          <></>
         }
-        {
-          profil.facebooklink && <><NavLink to={`https://www.tiktok.com/@${profil.facebooklink.replace(' ', '')}`} target="_blank">
-            <IconButton
-              variant={"outline"}
-              isRound
-              size="lg"
-              icon={<FACEBOOK_ICON fontSize={25} />}
-              aria-label={profil.facebooklink} />
-          </NavLink>
-          </>
+        {user.profil.tiktok ?
+          <Tooltip title={'TikTok : ' + user.profil.tiktok}>
+            <IconButton aria-label={user.profil.tiktok} component="a" target="__blank" href={`https://www.tiktok.com/@${user.profil.tiktok.replace(' ', '')}`}>
+              <TIKTOK_ICON style={{ fontSize: SOCIAL_ICON_SIZE, color: 'black', }} />
+            </IconButton>
+          </Tooltip>
+          :
+          <></>
         }
-      </Wrap>
+      </Stack>
     </Stack>
   )
 }
-const UserDetail = () => {
-  const params = useParams();
-  const { user: currentUser }: any = useAuthContext();
-  const { data: user, error, mutate } = useSWR(`/user/${params.id}`, { suspense: true });
-  const [openEditMode, setOpenEditMode] = useState<boolean>(false);
-  const currentUserProfil = currentUser ? currentUser.id == params.id : false;
 
-  if (error) {
-    console.error({ error });
-  }
+const UserDetail: React.FC<{ user: any }> = ({ user }) => {
+  const params = useParams();
+
+  const { user: currentUser }: any = useAuthContext();
+
+
+  const currentUserProfil = currentUser ? currentUser.id == params.id : false;
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    setOpenEditMode(searchParams.get('editMode') ? currentUser.id === user.id : false);
-  }, [searchParams, currentUser.id, user.id]);
-
   return (
-    <>
-      {openEditMode ? (
-        <ProfilEditPage profil={user.profil} mutate={mutate} />
-      ) : (
-        <Box my={VERTICAL_SPACING}>
-          <ContainerSection withPadding={true}>
-            <Box w={{ base: 500, lg: '100%' }} m="auto" maxW={"100%"}>
-              <Grid
-                gap={10}
-                templateColumns={{
-                  base: "repeat(1, 1fr)",
-                  lg: "repeat(10, 1fr)",
-                }}
-              >
-                <GridItem colSpan={{
-                  base: 1,
-                  lg: 3,
-                }}>
-                  <Card>
-                    <CardBody>
-                      <Stack direction={"row"} justifyContent={"center"}>
-                        <VStack>
-                          <UserSniped size="2xl" avatar={user.profil.avatarPath} />
-                          <Text as="h1" fontSize={"lg"} fontWeight={"bold"}>
-                            {user.pseudo}
-                          </Text>
-                          {currentUserProfil && (
-                            <Button onClick={() => setSearchParams('editMode=true')} variant="outline">
-                              Modifier mon profil
-                            </Button>
-                          )}
-                        </VStack>
-                      </Stack>
-                    </CardBody>
-                  </Card>
-                </GridItem>
-                <GridItem colSpan={{
-                  base: 1,
-                  lg: 7,
-                }}>
-                  <Stack spacing={VERTICAL_SPACING}>
-                    <Stack spacing={VERTICAL_SPACING} w="100%">
-                      <Stack alignItems={"flex-start"}>
-                        <Text as="h2" fontWeight={"bold"} fontSize={"2xl"}>
-                          A propos de {user.pseudo}
-                        </Text>
-                        <Resume profil={user.profil} />
-                      </Stack>
-                      <Publications />
-                    </Stack>
+
+    <Box my={3}>
+      <Container maxWidth="lg">
+        <Box sx={{ width: { xs: 600, md: '100%' }, m: 'auto' }} maxWidth="100%" >
+          <Grid
+            spacing={5}
+            container
+          >
+            <Grid item xs={12}
+              md={4}
+            >
+              <Card>
+                <CardContent sx={{ display: 'flex', justifyContent: 'center' }}>
+                  <Stack direction="column" alignItems="center" spacing={1}>
+                    <UserSniped styles={{ width: 150, height: 150 }} avatar={user.avatarPath} />
+                    <Typography variant="h6" fontWeight="bold" component="h1"> {user.pseudo} </Typography>
+                    {currentUserProfil && (
+                      <NavLink to={"/user/profil/edit"}>
+                        <Button variant="outlined">
+                          Modifier mon profil
+                        </Button>
+                      </NavLink>
+                    )}
                   </Stack>
-                </GridItem>
-              </Grid>
-            </Box>
-          </ContainerSection>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={8}>
+              <Stack spacing={2}>
+                <Resume user={user} />
+                <Divider />
+                <Publications />
+              </Stack>
+            </Grid>
+          </Grid>
         </Box>
-      )}
-    </>
+      </Container>
+    </Box>
   );
 };
 
 const ProfilPage = () => {
+  const params = useParams();
 
-  return <Suspense fallback={<LoadingPage type="page" />}>
-    <UserDetail />
-  </Suspense>
+  const [isBusy, setIsBusy] = useState<boolean>(true)
+  const { user: currentUser }: any = useAuthContext();
+
+  const [user, setUser] = useState<Record<string, any> | null>(null)
+
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const userProfil: any = await apiFetch(`/user/profil/${params.id}`, 'GET')
+        if (userProfil) {
+          setUser(userProfil)
+        }
+      } catch (error: any) {
+        console.log(error)
+        toast.error(error.message)
+      } finally {
+        setIsBusy(false)
+      }
+    }
+    load()
+  }, [])
+
+  return isBusy ? <LoadingPage type="page" /> : <UserDetail user={user} />
+
 }
 
 export default ProfilPage

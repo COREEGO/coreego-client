@@ -17,19 +17,28 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import StarIcon from '@mui/icons-material/Star';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import WorkIcon from '@mui/icons-material/Work';
+import HomeIcon from '@mui/icons-material/Home';
+import TranslateIcon from '@mui/icons-material/Translate';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import InstagramIcon from '@mui/icons-material/Instagram';
+import FacebookIcon from '@mui/icons-material/Facebook';
+import ForumIcon from '@mui/icons-material/Forum';
+import TravelExploreIcon from '@mui/icons-material/TravelExplore';
+import StorefrontIcon from '@mui/icons-material/Storefront';
 
-export const FORUM_ICON = MdOutlineComment
-export const TRAVEL_ICON = MdOutlineTravelExplore
-export const MARKET_PLACE_ICON = MdOutlineShoppingBag
+export const FORUM_ICON = ForumIcon
+export const TRAVEL_ICON = TravelExploreIcon
+export const MARKET_PLACE_ICON = StorefrontIcon
 
 export const COMMENT_ICON = ChatBubbleOutlineIcon
 export const DISLIKE_ICON = FavoriteBorderIcon
 export const LIKE_ICON = FavoriteIcon
 export const IMAGE_ICON = ImageIcon
 
-export const LOCALISATION_ICON = BsHouseDoor
-export const OCCUPATION_ICON = BsPersonWorkspace
-export const LANGUAGE_ICON = HiLanguage
+export const LOCALISATION_ICON = HomeIcon
+export const OCCUPATION_ICON = WorkIcon
+export const LANGUAGE_ICON = TranslateIcon
 export const SHARE_ICON = ShareIcon
 export const PROFIL_ICON = AiOutlineUser
 
@@ -37,11 +46,11 @@ export const CLOSE_ICON = MdClose
 export const MARKER_ICON = PlaceIcon
 
 //Social network
-export const INSTAGRAM_ICON = RiInstagramLine
+export const INSTAGRAM_ICON = InstagramIcon
 export const KAKAO_ICON = RiKakaoTalkFill
-export const FACEBOOK_ICON = RiFacebookBoxFill
+export const FACEBOOK_ICON = FacebookIcon
 export const TIKTOK_ICON = RiTiktokLine
-export const YOUTUBE_ICON = RiYoutubeFill
+export const YOUTUBE_ICON = YouTubeIcon
 
 export const CAMERA_ICON = CameraAltIcon
 

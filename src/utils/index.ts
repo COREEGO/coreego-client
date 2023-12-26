@@ -93,3 +93,19 @@ export const belongsToAuth = (userId: number, authId: number) => {
 export const mutationUrl = async (url: string) => {
   return await apiFetch(url, "GET");
 };
+
+export const youtubeLink = (pseudo:string) => {
+  return `https://www.youtube.com/@${pseudo}`
+}
+
+export const instagramLink = (pseudo:string) => {
+  return `https://www.instagram.com/${pseudo}`
+}
+
+export const tiktokLink = (pseudo:string) => {
+  return `https://www.tiktok.com/@${pseudo}`
+}
+
+export const facebookLink = (pseudo:string) => {
+  return `https://www.facebook.com/${pseudo}`
+}

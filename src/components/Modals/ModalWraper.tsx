@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
-import { Divider, Text, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useDisclosure, ModalOverlay, Portal, Button } from "@chakra-ui/react";
+import { Divider, Text, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useDisclosure, ModalOverlay, Portal, Button, Box } from "@chakra-ui/react";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Stack } from "@mui/material";
 import { Transition } from "framer-motion";
 
@@ -44,7 +44,9 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
                     }
                     {
                         renderBody ? <DialogContent>
-                            {renderBody()}
+                            <Box sx={{ width: 500, maxWidth: '100%', margin: 'auto' }}>
+                                {renderBody()}
+                            </Box>
                         </DialogContent> : <></>
                     }
 

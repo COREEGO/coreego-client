@@ -28,6 +28,7 @@ import { Avatar, Box, Button, Card, CardContent, Container, Divider, Grid, IconB
 import { SOCIAL_ICON_SIZE } from "../../utils/variables";
 import { toast } from "react-toastify";
 import { apiFetch } from "../../http-common/apiFetch";
+import ProfilForm from "../../components/forms/ProfilForm";
 
 
 const Publications = () => {
@@ -250,7 +251,7 @@ const ProfilPage = () => {
     load()
   }, [])
 
-  return isBusy ? <LoadingPage type="page" /> : <UserDetail user={user} />
+  return isBusy ? <LoadingPage type="page" /> : <ProfilForm />
 
 }
 

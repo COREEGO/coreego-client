@@ -26,6 +26,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import ForumIcon from '@mui/icons-material/Forum';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import StorefrontIcon from '@mui/icons-material/Storefront';
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
 
 export const FORUM_ICON = ForumIcon
 export const TRAVEL_ICON = TravelExploreIcon
@@ -41,6 +42,8 @@ export const OCCUPATION_ICON = WorkIcon
 export const LANGUAGE_ICON = TranslateIcon
 export const SHARE_ICON = ShareIcon
 export const PROFIL_ICON = AiOutlineUser
+
+export const LINK_ICON = InsertLinkIcon
 
 export const CLOSE_ICON = MdClose
 export const MARKER_ICON = PlaceIcon

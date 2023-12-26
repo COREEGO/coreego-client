@@ -27,6 +27,12 @@ import ForumIcon from '@mui/icons-material/Forum';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+
+export const SAVED_PLACE = BookmarkIcon
+export const UNSAVED_PLACE = BookmarkBorderIcon
+
 
 export const FORUM_ICON = ForumIcon
 export const TRAVEL_ICON = TravelExploreIcon

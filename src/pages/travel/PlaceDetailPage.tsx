@@ -93,11 +93,11 @@ const Detail = () => {
                 <Container maxWidth="lg">
                     <Stack direction={"row"} spacing={1}>
                         <LikeButton likes={place.likes} mutate={mutate} placeId={place.id} />
-                        {/* <SavePlaceButton
+                        <SavePlaceButton
                                 placeId={place.id}
                                 savedPlaces={place.savedPlaces}
                                 mutate={mutate}
-                            /> */}
+                            />
                         <ShareButton />
                     </Stack>
                 </Container>

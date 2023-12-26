@@ -24,7 +24,6 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
         return likes.find((like: any) => like?.user?.id === user.id) ? true : false;
     }, [likes, discussionId, placeId])
 
-    console.log(existLike)
 
     const handleLike = async () => {
         try {
@@ -40,7 +39,7 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
             }
 
         } catch (error: any) {
-            toast.error(JSON.parse(error).message)
+            toast.error(error.message.message)
         } finally {
             setIsBusy(false)
         }

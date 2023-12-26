@@ -104,7 +104,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                     formData.append('path', file);
                     formData.append('place_id', response.data.id);
                     formData.append('user_id', user.id);
-                    await apiFetch('/image/new', 'post', formData)
+                    await apiFetch('/image/new', 'post', formData, true)
                 }
             }
             toast.success(response.message);

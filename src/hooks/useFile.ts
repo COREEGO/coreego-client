@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import * as imageConversion from "image-conversion";
 import { apiFetch } from "../http-common/apiFetch";
 import { toast } from "react-toastify";
+import { useConfirm } from "material-ui-confirm";
 
 interface CompressedImage {
   file: File;
@@ -25,6 +26,8 @@ const useFile = (mutate?: Function | null): UseFileHook => {
   const allowedExtensions = ["image/jpg", "image/jpeg", "image/png", "capture=camera"];
 
   const [files, setFiles] = useState<FileItem[]>([]);
+
+  const confirm = useConfirm()
 
   const compressFile = async (file: File): Promise<CompressedImage | null> => {
     if (!allowedExtensions.includes(file.type)) {
@@ -69,10 +72,11 @@ const useFile = (mutate?: Function | null): UseFileHook => {
 
   const deleteFile = async (fileId: number) => {
     try {
-        const confirm = window.confirm("Supprimer l'image ?")
+        confirm({description: "Supprimer l'image ?"})
+
         if(!confirm) return;
 
-        await apiFetch(`/image/delete/${fileId}`, 'DELETE', {}, true)
+        await apiFetch(`/image/delete/${fileId}`, 'DELETE', null, true)
         if(mutate){
           mutate()
         }

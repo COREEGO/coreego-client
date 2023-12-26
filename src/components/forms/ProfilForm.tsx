@@ -111,7 +111,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                 facebook: data.facebook,
                 instagram: data.instagram,
                 kakao: data.kakao,
-                tikto: data.tiktok,
+                tiktok: data.tiktok,
                 languages: data.languages,
                 occupation: data.occupation
             }, true)

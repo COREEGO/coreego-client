@@ -20,7 +20,6 @@ const FeedList: React.FC<FeedListInterface> = ({
     noLengthLabel,
     cardName,
     fetchData,
-
     breackpoints = {}
 }) => {
 

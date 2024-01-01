@@ -1,9 +1,9 @@
 import { CustomOverlayMap, Map, MapMarker } from "react-kakao-maps-sdk"
 import useKakaoLoader from "./useKakaoLoader"
 import { useState } from "react"
-import { Box, ButtonGroup, IconButton } from "@chakra-ui/react"
 import { BiMapAlt, BiSolidLandscape } from "react-icons/bi"
 import PlaceMapCard from "../card/PlaceMapCard"
+import { Box, Button, ButtonGroup } from "@mui/material"
 
 
 const MapMultiMarker: React.FC<{
@@ -33,11 +33,11 @@ const MapMultiMarker: React.FC<{
         >
             {
                 places.map((place: any) => {
-                    return <Box id={place.id}>
+                    return <Box key={place.id} id={place.id}>
                         <MapMarker onClick={() => withDetailCard ? setTarget(place) : {}} position={{ lat: place.latitude, lng: place.longitude }} />
                         {(withDetailCard && target) ?
                             <CustomOverlayMap position={{ lat: target.latitude, lng: target.longitude }}>
-                                <Box w={100}>
+                                <Box sx={{ width: 300, height: '100%', maxWidth: '100%' }}>
                                     <PlaceMapCard onClose={() => setTarget(null)} place={target} />
                                 </Box>
                             </CustomOverlayMap>
@@ -46,13 +46,11 @@ const MapMultiMarker: React.FC<{
                 })
             }
             <ButtonGroup
-                colorScheme="blue"
-                position={"absolute"}
-                top={3}
-                right={20}
-                zIndex={10} isAttached>
-                <IconButton isDisabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends' icon={<BiMapAlt />} />
-                <IconButton isDisabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends' icon={<BiSolidLandscape />} />
+                variant="contained"
+                size="large"
+                sx={{ position: 'absolute', top: 3, right: 3, zIndex: 10 }} >
+                <Button disabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends'><BiMapAlt /></Button>
+                <Button disabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends'><BiSolidLandscape /></Button>
             </ButtonGroup>
 
         </Map>

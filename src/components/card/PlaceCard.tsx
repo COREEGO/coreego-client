@@ -47,25 +47,6 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place, size = 'xl' }) => {
                         </Stack>
                     </Stack>
                 </CardContent>
-                {/* <CardBody>
-                    <VStack alignItems={"flex-start"} position="relative">
-                        <UserSniped
-                            avatar={place.user.avatarUrl}
-                            pseudo={place.user.pseudo}
-                            publishDate={place.createdAt}
-                        />
-                        <LocalisationText city={place.city} district={place.district} />
-                        <CategoryText category={place.category} />
-                        <Text noOfLines={1} fontWeight={500}>{place.title} </Text>
-                        <Text noOfLines={2}>{place.description} </Text>
-                        {
-                            (place.likes || place.reviews) && <HStack>
-                                {place.likes && <LikeCountIcon length={place.likes.length} />}
-                                {place.reviews && <StarsAverageIcon datas={place.reviews} />}
-                            </HStack>
-                        }
-                    </VStack>
-                </CardBody> */}
             </Card>
         )
     }

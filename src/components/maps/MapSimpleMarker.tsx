@@ -4,6 +4,7 @@ import { useRef, useState } from "react"
 import { BiMapAlt, BiSolidLandscape, BiStreetView } from "react-icons/bi"
 import { BsMapFill } from "react-icons/bs"
 import { Button, ButtonGroup, IconButton } from "@mui/material"
+import { MAP_ICON, LANDSCAPE_ICON, STREET_VIEW_ICON } from "../../utils/icon"
 
 
 
@@ -57,23 +58,23 @@ const MapSimpleMarker: React.FC<{
                     displayMapMode && <>
                         {mapMode === "map" && (
                             <IconButton
-                                size="large"
+                                size="small"
                                 color="primary"
                                 sx={{ position: 'absolute', top: 3, left: 3, zIndex: 100 }}
                                 onClick={() => setMapMode("roadview")} aria-label=''>
-                                <BiStreetView />
+                                <MAP_ICON />
                             </IconButton>
                         )}
                     </>
                 }
                 {
-                    (displayMapType && mapMode === 'map') && <ButtonGroup
-                        variant="contained"
-                        size="large"
-                        sx={{ position: 'absolute', top: 3, right: 3, zIndex: 10 }} >
-                        <Button disabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends'><BiMapAlt /></Button>
-                        <Button disabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends'><BiSolidLandscape /></Button>
-                    </ButtonGroup>
+                    (displayMapType && mapMode === 'map') &&  <ButtonGroup
+                    variant="contained"
+                    size="small"
+                    sx={{ position: 'absolute', top: 3, right: 3, zIndex: 10 }} >
+                    <Button disabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends'><MAP_ICON /></Button>
+                    <Button disabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends'><LANDSCAPE_ICON /></Button>
+                </ButtonGroup>
                 }
 
             </Map>
@@ -89,10 +90,10 @@ const MapSimpleMarker: React.FC<{
                 {mapMode === "roadview" && (
                     <IconButton
                         color="primary"
-                        size="large"
+                        size="small"
                         sx={{ position: 'absolute', top: 3, left: 3, zIndex: 10 }}
                         onClick={() => setMapMode("map")} aria-label=''>
-                        <BsMapFill />
+                        <STREET_VIEW_ICON />
                     </IconButton>
                 )}
             </Roadview>

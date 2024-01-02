@@ -4,6 +4,7 @@ import { useState } from "react"
 import { BiMapAlt, BiSolidLandscape } from "react-icons/bi"
 import PlaceMapCard from "../card/PlaceMapCard"
 import { Box, Button, ButtonGroup } from "@mui/material"
+import { LANDSCAPE_ICON, MAP_ICON } from "../../utils/icon"
 
 
 const MapMultiMarker: React.FC<{
@@ -47,10 +48,10 @@ const MapMultiMarker: React.FC<{
             }
             <ButtonGroup
                 variant="contained"
-                size="large"
+                size="small"
                 sx={{ position: 'absolute', top: 3, right: 3, zIndex: 10 }} >
-                <Button disabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends'><BiMapAlt /></Button>
-                <Button disabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends'><BiSolidLandscape /></Button>
+                <Button disabled={mapType === 'ROADMAP'} onClick={() => setMapType('ROADMAP')} aria-label='Add to friends'><MAP_ICON /></Button>
+                <Button disabled={mapType === 'HYBRID'} onClick={() => setMapType('HYBRID')} aria-label='Add to friends'><LANDSCAPE_ICON /></Button>
             </ButtonGroup>
 
         </Map>

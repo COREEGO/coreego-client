@@ -40,11 +40,11 @@ const CityDistrictSelectInput: React.FC<CityDistrictSelectInputInterface> = ({
         setSelectedDistrict(event.target.value)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         updateCity(selectedCity)
     }, [selectedCity])
 
-    useEffect(()=>{
+    useEffect(() => {
         updateDistrict && updateDistrict(selectedDistrict)
     }, [selectedDistrict])
 

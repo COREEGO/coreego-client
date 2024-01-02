@@ -7,11 +7,12 @@ import PlaceCard from "../../components/card/PlaceCard";
 import { Suspense } from "react";
 import { NavLink } from "react-router-dom";
 import { Grid, Skeleton, Stack } from "@mui/material";
+import PlaceMapCard from "../../components/card/PlaceMapCard";
 
 interface FeedListInterface {
     noLengthLabel: string;
     fetchData?: any,
-    cardName: "discussion" | "product" | "place";
+    cardName: "discussion" | "product" | "place" | "saved-places";
     breackpoints?: any,
 }
 
@@ -48,6 +49,9 @@ const FeedList: React.FC<FeedListInterface> = ({
                                 <NavLink to={'/voyage/place/detail/' + data.id}>
                                     <PlaceCard size="xl" place={data} />
                                 </NavLink>
+                            }
+                            {cardName === "saved-places" &&
+                                    <PlaceMapCard place={data} />
                             }
                         </Grid>
                     )

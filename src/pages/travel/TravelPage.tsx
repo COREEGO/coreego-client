@@ -57,7 +57,7 @@ const TravelPage = () => {
                             />
                         </FormControl>
                         <FormControl>
-                            <FormLabel id="demo-radio-buttons-group-label">Catégory</FormLabel>
+                            <FormLabel id="demo-radio-buttons-group-label">Catégories</FormLabel>
                             <RadioGroup
                                 row
                                 aria-labelledby="demo-radio-buttons-group-label"

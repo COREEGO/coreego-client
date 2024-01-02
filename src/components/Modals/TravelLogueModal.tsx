@@ -2,7 +2,7 @@ import { BiMapAlt } from "react-icons/bi"
 import MapMultiMarker from "../maps/MapMultiMarker"
 import { useEffect, useState } from "react"
 import { Box, Dialog, Fab, IconButton } from "@mui/material"
-import { CLOSE_ICON } from "../../utils/icon"
+import { CLOSE_ICON, MAP_ICON } from "../../utils/icon"
 
 interface PropsInterface {
     places: Array<any>
@@ -15,7 +15,7 @@ const TravelLogueModal: React.FC<PropsInterface> = ({ places }) => {
     return (
         <>
             <Fab onClick={() => setIsOpen(true)} sx={{ position: 'fixed', bottom: 10, right: 10 }} color="success" aria-label="add">
-                <BiMapAlt />
+                <MAP_ICON />
             </Fab>
             <Dialog
                 fullScreen

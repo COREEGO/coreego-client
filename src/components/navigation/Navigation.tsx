@@ -25,6 +25,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import PersonIcon from '@mui/icons-material/Person';
 import { CardMedia, Divider, ImageListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { LOGOUT_ICON, PROFIL_ICON, SAVED_PLACE_ICON } from "../../utils/icon";
 
 
 const links = [
@@ -55,15 +56,21 @@ const NavigationUserMenu = () => {
             <>
                 <NavLink to={`/user/profil/${user.id}`}>
                     <MenuItem sx={{ color: 'black' }}>
-                        <ListItemIcon><PersonIcon /></ListItemIcon>
+                        <ListItemIcon><PROFIL_ICON /></ListItemIcon>
                         <ListItemText>Profil</ListItemText>
                     </MenuItem>
                 </NavLink>
                 <NavLink to={`/user/carnet-de-voyage`}>
-                    <MenuItem sx={{ color: 'black' }}>Mon carnet de voyage</MenuItem>
+                    <MenuItem sx={{ color: 'black' }}>
+                        <ListItemIcon><SAVED_PLACE_ICON /></ListItemIcon>
+                        <ListItemText>Mon carnet de voyage</ListItemText>
+                    </MenuItem>
                 </NavLink>
                 <Divider />
-                <MenuItem sx={{ color: 'black' }} onClick={logout} >Se deconnecter</MenuItem>
+                <MenuItem sx={{ color: 'black' }} onClick={logout} >
+                    <ListItemIcon><LOGOUT_ICON /></ListItemIcon>
+                    <ListItemText>Se déconnecter</ListItemText>
+                </MenuItem>
             </>
         )
     }
@@ -102,7 +109,7 @@ const Navigation: React.FC<NavigationInterface> = () => {
     };
 
     return (
-        <AppBar position="sticky" sx={{top: 0, backgroundColor: 'white'}} color="transparent"  >
+        <AppBar position="sticky" sx={{ top: 0, backgroundColor: 'white' }} color="transparent"  >
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
@@ -122,87 +129,87 @@ const Navigation: React.FC<NavigationInterface> = () => {
                             onClick={(event: React.MouseEvent<HTMLElement>) =>
                                 setAnchorElNav(event.currentTarget)
                             }
-                        color="inherit"
+                            color="inherit"
                         >
-                        <MenuIcon />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={() => setAnchorElNav(null)}
-                        sx={{
-                            display: { xs: 'block', md: 'none' },
-                        }}
-                    >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={() => setAnchorElNav(null)}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
 
+                            {links.map((link: any) => (
+                                <NavLink to={link.path} key={link.path}>
+                                    <MenuItem sx={{ color: 'black' }} onClick={() => setAnchorElNav(null)}>
+                                        <Typography textAlign="center" >{link.label} </Typography>
+                                    </MenuItem>
+                                </NavLink>
+                            ))}
+                        </Menu>
+                    </Box>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, mr: 1 }}>
+                        <img
+                            width={120}
+                            height="auto"
+                            src={logo}
+                            title="coreego"
+                        />
+                    </Box>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {links.map((link: any) => (
                             <NavLink to={link.path} key={link.path}>
-                                <MenuItem sx={{ color: 'black' }} onClick={() => setAnchorElNav(null)}>
-                                    <Typography textAlign="center" >{link.label} </Typography>
-                                </MenuItem>
+                                <Button
+                                    sx={{ my: 2, color: 'black', fontWeight: 'bold', display: 'block' }}
+                                >
+                                    {link.label}
+                                </Button>
                             </NavLink>
                         ))}
-                    </Menu>
-                </Box>
-                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, mr: 1 }}>
-                    <img
-                        width={120}
-                        height="auto"
-                        src={logo}
-                        title="coreego"
-                    />
-                </Box>
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                    {links.map((link: any) => (
-                        <NavLink to={link.path} key={link.path}>
-                            <Button
-                                sx={{ my: 2, color: 'black', fontWeight: 'bold', display: 'block' }}
-                            >
-                                {link.label}
-                            </Button>
-                        </NavLink>
-                    ))}
-                </Box>
+                    </Box>
 
-                <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open settings">
-                        <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
-                            <UserSniped styles={{width: 40, height: 40 }} avatar={user?.avatarPath} />
-                        </IconButton>
-                    </Tooltip>
-                    <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={() => setAnchorElUser(null)}
-                    >
-                        <Box onClick={() => setAnchorElUser(null)}>
-                        <NavigationUserMenu />
-                        </Box>
-                    </Menu>
-                </Box>
-            </Toolbar>
-        </Container>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open settings">
+                            <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
+                                <UserSniped styles={{ width: 40, height: 40 }} avatar={user?.avatarPath} />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={() => setAnchorElUser(null)}
+                        >
+                            <Box onClick={() => setAnchorElUser(null)}>
+                                <NavigationUserMenu />
+                            </Box>
+                        </Menu>
+                    </Box>
+                </Toolbar>
+            </Container>
         </AppBar >
     )
 

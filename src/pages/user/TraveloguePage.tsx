@@ -1,106 +1,142 @@
 import { useEffect, useState } from "react"; // Import React from 'react'
 import LoadingPage from "../../components/LoadingPage";
-import { NavLink } from "react-router-dom"; // Import from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"; // Import from "react-router-dom"
 import PlaceCard from "../../components/card/PlaceCard";
 import { apiFetch } from "../../http-common/apiFetch";
 import TravelLogueModal from "../../components/Modals/TravelLogueModal";
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Container, Grid, Stack, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Container, FormControl, FormLabel, Grid, InputLabel, MenuItem, Select, Stack, Tab, Tabs, Typography } from "@mui/material";
 import TitleText from "../../components/texts/TitleText";
 import { LOCALISATION_ICON, MARKER_ICON, MARKET_PLACE_ICON } from "../../utils/icon";
+import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
+import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
+import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
+import { useFilterContext } from "../../contexts/FilterProvider";
+import FeedList from "../components/FeedList";
+import PlaceMapCard from "../../components/card/PlaceMapCard";
 
 const TraveloguePage = () => {
 
     const [isBusy, setIsBusy] = useState<boolean>(true)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [cities, setCities] = useState<any[]>([]);
     const [places, setPlaces] = useState<any[]>([]);
 
-    const [tabValue, setTabValue] = useState<string>('1');
+    const { updateFilter, searchParams } = useFilterContext();
+    const location = useLocation();
+
+    async function reloadData() {
+        try {
+            setIsLoading(true)
+            const response: any = await apiFetch(`/saved-places${location.search}`, 'get', null, true);
+            if (response) {
+                setPlaces(() => {
+                    const datas = response.map((place: any) => {
+                        return { ...place.place }
+                    });
+                    return datas
+                })
+            }
+        } catch (error: any) {
+            console.error(error.message.message)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    useEffect(()=>{
+        reloadData()
+    }, [location.search])
 
     useEffect(() => {
-        const fetchData = async () => {
+        async function load() {
             try {
                 const response: any = await apiFetch('/saved-places', 'get', null, true);
                 if (response) {
+                    setPlaces(() => {
+                        const datas = response.map((place: any) => {
+                            return { ...place.place }
+                        });
+                        console.log(datas)
+                        return datas
+                    })
                     setCities(() => {
                         const datas = response.reduce((acc: any[], curr: any) => {
-                            const cityExists = acc.some((city) => city?.id === curr.place[0]?.city?.id);
+                            const cityExists = acc.some((city) => city?.id === curr.place?.city?.id);
                             if (!cityExists) {
-                                acc.push(curr.place[0].city);
+                                acc.push(curr.place.city);
                             }
                             return acc;
                         }, []);
                         return datas
                     });
-                    setPlaces(() => {
-                        return response.reduce((acc: any[], curr: any) => {
-                            acc.push(curr.place[0]);
-                            return acc;
-                        }, []);
-                    });
                 }
             } catch (error: any) {
-                console.error(error.message); // Utilisez console.error pour les erreurs
+                console.error(error.message)
             } finally {
-                setIsBusy(false);
+                setIsBusy(false)
             }
-        };
-        fetchData();
-    }, []);
+        }
+        load()
+    }, [])
 
-    const getPlaceByCityid = (cityId: number) => {
-        return (
-            places.map((place: any) => {
-                return (
-                    cityId === place.city.id &&
-                    <Grid item key={place.id} xs={12} sm={6} md={4} >
-                        <NavLink to={`/voyage/place/detail/${place.id}`}>
-                            <PlaceCard place={place} />
-                        </NavLink>
-                    </Grid>
-                )
-            })
-        );
-    }
 
-    return isBusy ? <LoadingPage type={"page"} /> :
-        <Box my={3}>
-            <Container maxWidth="lg">
-                <Stack spacing={2}>
-                    <TitleText text={"Carnet de voyage"}  />
-                    {
-                        places.length ? (
-                            <Box sx={{ width: '100%', typography: 'body1' }}>
-                                <TabContext value={tabValue}>
-                                    <Box sx={{ borderBottom: 1, zIndex: 10, backgroundColor: 'white', position: 'sticky', top: 57, borderColor: 'divider' }}>
-                                        <TabList
-                                        onChange={(_, newValue: string) => setTabValue(newValue)} aria-label="lab API tabs example">
-                                            {
-                                                cities.map((city: any, index: number) => {
-                                                    return <Tab sx={{flexDirection: 'row'}} icon={<MARKER_ICON />} key={city.id} label={city.label} value={(index + 1).toString()} />
-                                                })
-                                            }
-                                        </TabList>
-                                    </Box>
-                                    {
-                                        cities.map((city: any, index:number) => {
-                                            return <TabPanel sx={{pl: 0, pr:0}} key={city.id} value={(index + 1).toString()}>
-                                                <Grid container gap={5}>
-                                                    {getPlaceByCityid(city.id)}
-                                                </Grid>
-                                            </TabPanel>
-                                        })
-                                    }
-                                </TabContext >
-                            </Box>
-                        )
-                            : <Typography> Aucun lieux enregistrés</Typography>
-                    }
-                </Stack>
-            </Container>
-            {places.length ? <TravelLogueModal places={places} /> : <></>}
+    return isBusy ? <LoadingPage type={"page"} /> : <>
+        <Box
+            sx={{
+                backgroundImage: `url(${HEADER_IMG})`,
+                height: { xs: 150, md: 300 }, backgroundPosition: 'bottom', position: 'relative', backgroundSize: 'cover'
+            }}>
         </Box>
+        <AsideFeedSection
+            title="Carnet de voyage"
+            renderBody={() => (
+                <Stack spacing={2} sx={{ width: 500, maxWidth: '100%' }}>
+                    <FormLabel sx={{ mb: 2 }}>Localisation</FormLabel>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Villes</InputLabel>
+                        <Select
+                            label="Villes"
+                            value={searchParams.get('city') || ''}
+                            onChange={(event:any) => updateFilter('city', event.target.value.toString())}
+                        >
+                            <MenuItem value="" placeholder="Toutes les villes">Toutes les villes</MenuItem>
+                            {cities.map((city: any) => (
+                                <MenuItem key={city.id} value={city.id}>
+                                    {city.label}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </Stack >
+            )}
+        />
+        <Stack my={5}>
+
+            <Container maxWidth="lg">
+                <>
+                {
+                    !places.length && <Typography>Aucun lieu</Typography>
+                }
+                {
+                    !isLoading ? <Grid container spacing={3}>
+                        {
+                            places.map((place: any) => {
+                                return <Grid key={place.id} item xs={12} sm={6} md={4}>
+                                    <PlaceMapCard place={place} />
+                                </Grid>
+                            })
+                        }
+
+                    </Grid> : <Box my={5}><LoadingPage type="data" /></Box>
+                }
+                </>
+            </Container>
+        </Stack>
+        {places.length ? <TravelLogueModal places={places} /> : <></>}
+    </>
+
 }
 
 

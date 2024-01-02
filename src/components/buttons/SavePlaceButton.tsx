@@ -7,7 +7,7 @@ import { apiFetch } from "../../http-common/apiFetch";
 import { IconButton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
-import { SAVED_PLACE, UNSAVED_PLACE } from "../../utils/icon";
+import { SAVED_PLACE_ICON, UNSAVED_PLACE_ICON } from "../../utils/icon";
 
 interface SavePlaceButtonInterfcae {
     placeId: any,
@@ -53,7 +53,7 @@ const SavePlaceButton: React.FC<SavePlaceButtonInterfcae> = ({ showLabel = false
             sx={{ widht: "fit-content" }}
             onClick={handleClick}
         >
-            {existPlace ? <SAVED_PLACE /> : <UNSAVED_PLACE />}
+            {existPlace ? <SAVED_PLACE_ICON /> : <UNSAVED_PLACE_ICON />}
         </LoadingButton>
     )
 }

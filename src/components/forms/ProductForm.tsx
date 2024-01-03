@@ -15,6 +15,7 @@ import { CAMERA_ICON } from "../../utils/icon"
 import LoadingButton from "@mui/lab/LoadingButton"
 import { toast } from "react-toastify"
 import { useSelector } from "react-redux"
+import useMalware from "../../hooks/useMalware"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -39,6 +40,11 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
     const { cities } = useSelector((state: any) => state.app);
 
     const { user }: any = useAuthContext()
+    const { owner }: any = useMalware()
+
+    useEffect(() => {
+        if (isEditMode) owner(data.user.id)
+    }, [])
 
     const { files,
         addFile,

@@ -60,7 +60,7 @@ const Detail = () => {
                                 <Stack spacing={2}>
                                     <Divider />
                                     <UserSniped
-                                        avatar={data.user.avatar}
+                                        avatar={data.user.avatarPath}
                                         pseudo={data.user.pseudo}
                                         publishDate={data.created_at}
                                     />

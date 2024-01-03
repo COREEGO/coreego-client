@@ -68,7 +68,7 @@ const Detail = () => {
                             <Divider />
                             <Box py={3}>
                                 <UserSniped
-                                    avatar={place.user.avatar}
+                                    avatar={place.user.avatarPath}
                                     pseudo={place.user.pseudo}
                                     publishDate={place.created_at}
                                 />

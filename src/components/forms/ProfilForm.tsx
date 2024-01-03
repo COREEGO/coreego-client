@@ -17,6 +17,7 @@ import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import { useSelector } from "react-redux";
 import { facebookLink, instagramLink, tiktokLink, youtubeLink } from "../../utils";
 import { Icon } from "leaflet";
+import useMalware from "../../hooks/useMalware";
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -56,6 +57,13 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
     const currentUserProfil = auth ? auth.id == params?.id : false;
 
     const [profil, setProfil] = React.useState<any>()
+
+    const { owner }: any = useMalware()
+
+    useEffect(() => {
+        if (isEditMode && profil) owner(profil.id)
+    }, [profil])
+
 
     React.useEffect(() => {
         loadProfil()
@@ -562,26 +570,26 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                             </Stack>
                             {
                                 !isEditMode &&
-                                    <Stack mt={2}>
-                                        <Typography mb={2} variant="h6" fontWeight={500}>Publications</Typography>
-                                        <Grid container spacing={3}>
-                                            <Grid item xs={12} md={6}>
-                                                <NavLink to={`/voyage?user=${params.id}`}>
-                                                    <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<TRAVEL_ICON />}>Lieux</Button>
-                                                </NavLink>
-                                            </Grid>
-                                            <Grid item xs={12} md={6}>
-                                                <NavLink to={`/forum?user=${params.id}`}>
-                                                    <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<FORUM_ICON />}>Discussions</Button>
-                                                </NavLink>
-                                            </Grid>
-                                            <Grid item xs={12} md={6}>
-                                                <NavLink to={`/market-place?user=${params.id}`}>
-                                                    <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<MARKET_PLACE_ICON />}>Produits en vente</Button>
-                                                </NavLink>
-                                            </Grid>
+                                <Stack mt={2}>
+                                    <Typography mb={2} variant="h6" fontWeight={500}>Publications</Typography>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} md={6}>
+                                            <NavLink to={`/voyage?user=${params.id}`}>
+                                                <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<TRAVEL_ICON />}>Lieux</Button>
+                                            </NavLink>
                                         </Grid>
-                                    </Stack>
+                                        <Grid item xs={12} md={6}>
+                                            <NavLink to={`/forum?user=${params.id}`}>
+                                                <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<FORUM_ICON />}>Discussions</Button>
+                                            </NavLink>
+                                        </Grid>
+                                        <Grid item xs={12} md={6}>
+                                            <NavLink to={`/market-place?user=${params.id}`}>
+                                                <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<MARKET_PLACE_ICON />}>Produits en vente</Button>
+                                            </NavLink>
+                                        </Grid>
+                                    </Grid>
+                                </Stack>
                             }
                         </Grid>
                     </Grid>

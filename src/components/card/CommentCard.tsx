@@ -75,7 +75,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
                     <Stack spacing={3}>
                         <Stack alignItems={"flex-start"} direction="row" justifyContent="space-between">
                             <UserSniped
-                                avatar={comment.user.avatar}
+                                avatar={comment.user.avatarPath}
                                 pseudo={comment.user.pseudo}
                                 publishDate={comment.created_at}
                             />

@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 
 import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material"
 import { useAuthContext } from "../../contexts/AuthProvider"
+import useMalware from "../../hooks/useMalware"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -35,6 +36,11 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
     const navigate = useNavigate()
     const params = useParams()
     const { user }: any = useAuthContext()
+    const { owner }: any = useMalware()
+
+    useEffect(() => {
+        if (isEditMode) owner(data.user.id)
+    }, [])
 
     const { files,
         addFile,
@@ -90,7 +96,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
             clearFiles()
             navigate(`/forum/discussion/detail/${response.data.id}`)
         } catch (error: any) {
-            toast.error(JSON.parse(error.message), { autoClose: false });
+            toast.error(error.message.message);
         }
     }
 

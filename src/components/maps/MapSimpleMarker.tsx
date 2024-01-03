@@ -62,7 +62,7 @@ const MapSimpleMarker: React.FC<{
                                 color="primary"
                                 sx={{ position: 'absolute', top: 3, left: 3, zIndex: 100 }}
                                 onClick={() => setMapMode("roadview")} aria-label=''>
-                                <MAP_ICON />
+                                <STREET_VIEW_ICON />
                             </IconButton>
                         )}
                     </>
@@ -93,7 +93,7 @@ const MapSimpleMarker: React.FC<{
                         size="small"
                         sx={{ position: 'absolute', top: 3, left: 3, zIndex: 10 }}
                         onClick={() => setMapMode("map")} aria-label=''>
-                        <STREET_VIEW_ICON />
+                        <MAP_ICON />
                     </IconButton>
                 )}
             </Roadview>

@@ -46,14 +46,6 @@ export default function LoginPage() {
             await authentification()
             navigate('/')
         } catch (e: any) {
-            let errorMessage;
-            if (JSON.parse(e.message).status == 401){
-                errorMessage = "Email ou Mot de passe incorrect"
-            }
-            console.log(e)
-            // setError('root', {
-            //     message: errorMessage
-            // })
         }
 
     }

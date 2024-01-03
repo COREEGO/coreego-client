@@ -19,6 +19,7 @@ import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabe
 import LoadingButton from "@mui/lab/LoadingButton"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { toast } from "react-toastify"
+import useMalware from "../../hooks/useMalware"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -44,6 +45,11 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
     const params = useParams()
 
     const { user }: any = useAuthContext()
+    const { owner }: any = useMalware()
+
+    useEffect(() => {
+        if (isEditMode) owner(data.user.id)
+    }, [])
 
     const [isLocalisationBusy, setIsLocalisationBusy] = useState<boolean>(false)
     const [addressData, setAddressData] = useState<any>(null)
@@ -84,8 +90,8 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
     const onSubmitForm: SubmitHandler<Inputs> = async (data: any) => {
         const url = isEditMode ? `/place/edit/${params.id}` : '/place/new';
         const method = isEditMode ? 'patch' : 'post';
-        try {
 
+        try {
             const response: any = await apiFetch(url, method, {
                 title: data.title,
                 category_id: data.category,
@@ -107,12 +113,14 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                     await apiFetch('/image/new', 'post', formData, true)
                 }
             }
+
             toast.success(response.message);
 
             clearFiles()
             navigate(`/voyage/place/detail/${response.data.id}`)
         } catch (error: any) {
-            toast.error(JSON.parse(error.message))
+            toast.error(error.message)
+            console.error(error)
         }
     }
 

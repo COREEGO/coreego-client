@@ -87,7 +87,7 @@ const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
                     <Stack spacing={2}>
                         <Stack alignItems={"flex-start"} direction="row" justifyContent="space-between">
                             <UserSniped
-                                avatar={review.user.avatar}
+                                avatar={review.user.avatarPath}
                                 pseudo={review.user.pseudo}
                                 publishDate={review.created_at}
                             />

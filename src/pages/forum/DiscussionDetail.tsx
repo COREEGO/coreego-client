@@ -40,7 +40,7 @@ const Detail: React.FC<any> = () => {
                                     <></>
                             }
                             <UserSniped
-                                avatar={data.user.avatar}
+                                avatar={data.user.avatarPath}
                                 pseudo={data.user.pseudo}
                                 publishDate={data.created_at}
                             />

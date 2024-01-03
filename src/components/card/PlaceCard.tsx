@@ -29,7 +29,7 @@ const PlaceCard: React.FC<PlaceCardInterface> = ({ place, size = 'xl' }) => {
                 <CardContent>
                     <Stack spacing={2}>
                         <UserSniped
-                            avatar={place.user.avatarUrl}
+                            avatar={place.user.avatarPath}
                             pseudo={place.user.pseudo}
                             publishDate={place.created_at}
                         />

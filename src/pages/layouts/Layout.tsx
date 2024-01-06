@@ -18,31 +18,44 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
     const [isLoaded, setIsLoaded] = useState<boolean>(false)
     const dispath = useDispatch()
-    const {authentification} : any = useAuthContext()
+    const { authentification }: any = useAuthContext()
+
     useEffect(() => {
         onLoadedApplication()
     }, [])
 
-    useEffect(()=>{
-        if(localStorage.getItem('token')){
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
             authentification()
         }
-    }, [localStorage.getItem('token') ])
+    }, [localStorage.getItem('token')])
 
     const onLoadedApplication = async () => {
         try {
-            const discussionCategories : any = await apiFetch('/discussion-categories', 'GET')
+            const discussionCategories: any = await apiFetch('/discussion-categories', 'GET')
             const placeCategories = await apiFetch('/place-categories', 'GET')
             const cities = await apiFetch('/cities', 'GET')
             const languages = await apiFetch('/languages', 'GET')
 
-
-            if (discussionCategories){
+            if (discussionCategories) {
+                localStorage.setItem('discussionCategories', JSON.stringify(discussionCategories))
                 dispath(initDiscussionCategories(discussionCategories))
             }
-            if (placeCategories) dispath(initPlaceCategories(placeCategories))
-            if (cities) dispath(initCities(cities))
-            if(languages) dispath(initLanguages(languages))
+
+
+
+            if (placeCategories) {
+                localStorage.setItem('placeCategories', JSON.stringify(placeCategories))
+                dispath(initPlaceCategories(placeCategories))
+            }
+            if (cities) {
+                localStorage.setItem('cities', JSON.stringify(cities))
+                dispath(initCities(cities))
+            }
+            if (languages) {
+                localStorage.setItem('languages', JSON.stringify(languages))
+                dispath(initLanguages(languages))
+            }
 
         } catch (error: any) {
             console.error(JSON.parse(error.message))

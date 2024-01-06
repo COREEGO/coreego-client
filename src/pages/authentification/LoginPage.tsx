@@ -1,14 +1,13 @@
 import * as React from 'react'
 import useSignIn from 'react-auth-kit';
-import { Text, Card, Stack, CardBody, Box, FormControl, FormLabel, Input, Button, CardHeader, FormErrorMessage } from "@chakra-ui/react"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import { useEffect, useState } from "react"
-import ErrorAlert from "../../components/alerts/ErrorAlert"
 import { NavLink, useNavigate } from "react-router-dom"
-import CenterLayout from "../layouts/CenterLayout"
 import { useForm } from "react-hook-form"
-import { emailValidator, noEmptyValidator } from "../../utils/formValidation"
+import { emailValidator, minLengthValidatior, noEmptyValidator } from "../../utils/formValidation"
 import { apiFetch } from '../../http-common/apiFetch';
+import { Card, CardActions, CardContent, CardHeader, Container, FormControl, FormHelperText, Stack, TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 type Inputs = {
     email: string,
@@ -34,13 +33,13 @@ export default function LoginPage() {
         mode: 'onTouched'
     })
 
-    const onsubmit = async (data: Inputs) => {
+    const onSubmit = async (data: Inputs) => {
         try {
-            const response : any = await apiFetch('/login', 'post', {
+            const response: any = await apiFetch('/login', 'post', {
                 email: data.email.trim(),
                 password: data.password.trim()
             })
-            if(response){
+            if (response) {
                 localStorage.setItem('token', response.token)
             }
             await authentification()
@@ -51,50 +50,47 @@ export default function LoginPage() {
     }
 
     return (
-        <CenterLayout>
-            <Card>
-                <CardHeader>
-                    <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                        <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="500">Je me connecte</Text>
-                        <Text textAlign="center" color="gray">Remplissez le formulaire pour vous connecter</Text>
+        <Container>
+            <Card sx={{ my: 5, mx: 'auto', width: 600, maxWidth: '100%' }}>
+                <CardHeader
+                    sx={{ textAlign: 'center' }}
+                    title="Je me connecte"
+                    subheader="Remplissez le formulaire pour vous connecter"
+                />
+                <CardContent>
+                    <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={3}>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Adresse email"
+                                error={errors.email ? true : false}
+                                autoFocus
+                                required
+                                {...register('email', { ...noEmptyValidator, ...emailValidator })}
+                                placeholder="email@email.fr" type='email'
+                            />
+                            {errors.email && <FormHelperText id="component-error-text">{errors.email.message}</FormHelperText>}
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Mot de passe"
+                                error={errors.password ? true : false}
+                                autoFocus
+                                required
+                                {...register('password', { ...noEmptyValidator })}
+                                placeholder="Votre mot de passe"
+                                type='password'
+                            />
+                            {errors.password && <FormHelperText id="component-error-text">{errors.password.message}</FormHelperText>}
+                        </FormControl>
+                        <LoadingButton variant="contained" loading={isSubmitting} type="submit">Je m'inscris</LoadingButton>
                     </Stack>
-                </CardHeader>
-                <CardBody>
-                    <Stack>
-                        <ErrorAlert message={errors?.root?.message} />
-                        <Stack as="form" onSubmit={handleSubmit(onsubmit)} action="/login" spacing={5}>
-                            <FormControl isInvalid={errors.email ? true : false}>
-                                <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Votre email</FormLabel>
-                                <Input
-                                    {...register('email', { ...noEmptyValidator, ...emailValidator })}
-                                    placeholder="email@email.fr" size="lg" type='email' />
-                                {errors.email && <FormErrorMessage> {errors.email.message} </FormErrorMessage>}
-                            </FormControl>
-                            <FormControl isInvalid={errors.password ? true : false}>
-                                <Stack direction="row" alignItems="flex-start" justifyContent="space-between">
-                                    <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
-                                    <NavLink style={{ fontSize: '14px', color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/reset-password/email">Mot de passe oublié ?</NavLink>
-                                </Stack>
-                                <Input
-                                    {...register('password', {
-                                        required: 'Cette valeur ne doit pas être vide',
-                                        minLength: { value: 6, message: '6+ caratères requis' }
-                                    })}
-                                    placeholder="6+ caractères requis" size="lg" type='password' />
-                                {errors.password && <FormErrorMessage> {errors.password.message} </FormErrorMessage>}
-                            </FormControl>
-                            <Button isLoading={isSubmitting} type="submit" colorScheme="blue">Se connecter</Button>
-                        </Stack>
-                        <Stack direction="row" justifyContent="center" flexWrap="wrap">
-                            <Text>Vous n'avez pas encore de compte ?</Text>
-                            <NavLink style={{ color: 'var(--coreego-blue)', fontWeight: 'bold' }} to="/register">
-                                Inscrivez-vous ici
-                            </NavLink>
-                        </Stack>
-                    </Stack>
-                </CardBody>
+                </CardContent>
+                <CardActions sx={{justifyContent: 'center'}}>
+                    <NavLink style={{ color: 'var(--coreego-blue)' }} to="/register">
+                        Inscrivez-vous ici
+                    </NavLink>
+                </CardActions>
             </Card>
-        </CenterLayout>
+        </Container>
     )
-
 }

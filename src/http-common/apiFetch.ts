@@ -43,7 +43,7 @@ export async function apiFetch<T>(
     }
   } catch (error: any) {
       toast.error(error.response.data.message)
-      throw new Error(error);
+      throw new Error(JSON.stringify(error.response.data));
   }
 
   return null; // Return a default value if the response is not as expected

@@ -78,12 +78,12 @@ const NavigationUserMenu = () => {
     const UserUnloggedMenu = () => {
         return (
             <>
-                <NavLink style={{ display: "block" }} to="/login">
+                <NavLink style={{ display: "block", color: 'black' }} to="/login">
                     <MenuItem>
                         Se connecter
                     </MenuItem>
                 </NavLink>
-                <NavLink style={{ display: "block" }} to="/register">
+                <NavLink style={{ display: "block", color: 'black' }} to="/register">
                     <MenuItem>S'inscrire</MenuItem>
                 </NavLink>
             </>

@@ -28,7 +28,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const logout = useCallback(async () => {
         try {
-            await axios.post('/logout')
+            localStorage.removeItem('token')
+            setUser(null)
             navigate('/login')
         } catch (error: any) {
             console.error(error.message)

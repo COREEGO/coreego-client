@@ -1,4 +1,3 @@
-import { Box, Button, Card, CardBody, CardHeader, Center, Checkbox, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, InputGroup, InputRightElement, Stack, Text, Tooltip } from "@chakra-ui/react"
 import { useState } from "react"
 import { apiFetch } from "../../http-common/apiFetch"
 import SuccessAlert from "../../components/alerts/SuccessAlert"
@@ -9,7 +8,11 @@ import { REGISTER_MESSAGE } from "../../utils/messages"
 import { getViolationField } from "../../utils"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { emailValidator, maxLengthValidator, minLengthValidatior, noEmptyValidator, passwordMatchValidator } from "../../utils/formValidation"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
+import { Box, Card, CardHeader, Container, FormControl, Stack, TextField, Typography, CardContent, FormHelperText, CardActions } from "@mui/material"
+import LoadingButton from "@mui/lab/LoadingButton"
+import { toast } from "react-toastify"
+
 
 type Inputs = {
     pseudo: string
@@ -20,6 +23,8 @@ type Inputs = {
 }
 
 const RegisterPage: React.FC<any> = () => {
+
+    const navigate = useNavigate()
 
     const {
         control,
@@ -35,46 +40,107 @@ const RegisterPage: React.FC<any> = () => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            await apiFetch('/register', 'post', {
+            const response: any = await apiFetch('/register', 'post', {
                 pseudo: data.pseudo,
                 email: data.email,
-                plainPassword: data.password,
+                password: data.password,
+                password_confirmation: data.confirmPassword
             })
             reset()
+            toast.success(response.message)
+            navigate('/login')
         } catch (error: any) {
-            if ('violations' in JSON.parse(error.message)) {
-                for (const violation of JSON.parse(error.message).violations) {
-                    setError(violation.propertyPath, {
-                        type: 'manual',
-                        message: violation.message
-                    })
+            if ('errors' in JSON.parse(error.message)) {
+                const errors = JSON.parse(error.message).errors;
+                for (const field in errors) {
+                    if (errors.hasOwnProperty(field)) {
+                        const messages = errors[field];
+                        for (const message of messages) {
+                            setError(field as any, {
+                                type: 'manual',
+                                message: message
+                            })
+                        }
+                    }
                 }
             }
         }
     }
 
     return (
-        <CenterLayout>
-            <Card>
-                <CardHeader>
-                    <Stack spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                        <Text as="h1" fontSize={{ base: '2xl', md: '3xl' }} fontWeight={500}>Je crée mon compte</Text>
-                        <Text textAlign="center" color="gray">Remplissez le formulaire pour créer votre compte</Text>
+        <Container>
+            <Card sx={{ my: 5, mx: 'auto', width: 600, maxWidth: '100%' }}>
+                <CardHeader
+                    sx={{ textAlign: 'center' }}
+                    title="Je crée mon compte"
+                    subheader="Remplissez le formulaire pour créer votre compte"
+                />
+                <CardContent>
+                    <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={3}>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Pseudo"
+                                placeholder="Votre pseudo"
+                                error={errors.pseudo ? true : false}
+                                autoFocus
+                                required
+                                {...register('pseudo',
+                                    { ...noEmptyValidator, ...minLengthValidatior(3), ...maxLengthValidator(20) }
+                                )}
+                            />
+                            {errors.pseudo && <FormHelperText id="component-error-text">{errors.pseudo.message}</FormHelperText>}
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Adresse email"
+                                error={errors.email ? true : false}
+                                autoFocus
+                                required
+                                {...register('email', { ...noEmptyValidator, ...emailValidator })}
+                                placeholder="email@email.fr" type='email'
+                            />
+                            {errors.email && <FormHelperText id="component-error-text">{errors.email.message}</FormHelperText>}
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Mot de passe"
+                                error={errors.password ? true : false}
+                                autoFocus
+                                required
+                                {...register('password', { ...noEmptyValidator, ...minLengthValidatior(6) })}
+                                placeholder="6+ caractères requis"
+                                type='password'
+                            />
+                            {errors.password && <FormHelperText id="component-error-text">{errors.password.message}</FormHelperText>}
+                        </FormControl>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Confirmez votre mot de passe"
+                                error={errors.password ? true : false}
+                                autoFocus
+                                required
+                                {...register('confirmPassword', {
+                                    ...noEmptyValidator,
+                                    validate: () => passwordMatchValidator(getValues().password, getValues().confirmPassword)
+                                }
+                                )}
+                                placeholder="6+ caractères requis"
+                                type='password'
+                            />
+                            {errors.confirmPassword && <FormHelperText id="component-error-text">{errors.confirmPassword.message}</FormHelperText>}
+                        </FormControl>
+                        <LoadingButton variant="contained" loading={isSubmitting} type="submit">Je m'inscris</LoadingButton>
                     </Stack>
-                </CardHeader>
-                <CardBody>
-                    <Stack>
+                </CardContent>
+                <CardActions sx={{justifyContent: 'center'}}>
+                    <NavLink style={{ color: 'var(--coreego-blue)'}} to="/login">
+                        Connectez-vous ici
+                    </NavLink>
+                </CardActions>
+                {/* <CardBody> */}
+                {/* <Stack>
                         {(isSubmitted && isSubmitSuccessful) && <SuccessAlert message={REGISTER_MESSAGE} />}
                         <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing={5}>
-                            <FormControl isInvalid={errors.pseudo ? true : false}>
-                                <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Nom d'utilisateur</FormLabel>
-                                <Input
-                                    {...register('pseudo',
-                                        { ...noEmptyValidator, ...minLengthValidatior(3), ...maxLengthValidator(20) }
-                                    )}
-                                    type='text' size="lg" minLength={3} maxLength={20} />
-                                {errors.pseudo && <FormErrorMessage> {errors.pseudo.message} </FormErrorMessage>}
-                            </FormControl>
                             <FormControl isInvalid={errors.email ? true : false}>
                                 <FormLabel fontSize={{ base: 'sm', md: 'md' }} >Votre email</FormLabel>
                                 <Input
@@ -117,9 +183,9 @@ const RegisterPage: React.FC<any> = () => {
                             </NavLink>
                         </Stack>
                     </Stack>
-                </CardBody>
+                </CardBody> */}
             </Card>
-        </CenterLayout>
+        </Container>
     )
 }
 

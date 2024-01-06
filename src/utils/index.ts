@@ -109,3 +109,10 @@ export const tiktokLink = (pseudo:string) => {
 export const facebookLink = (pseudo:string) => {
   return `https://www.facebook.com/${pseudo}`
 }
+
+export const allowedExtensions = [
+  "image/jpg",
+  "image/jpeg",
+  "image/png",
+  "capture=camera",
+];

@@ -4,8 +4,7 @@ import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Container,
 import useSWR from "swr";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
-import { VERTICAL_SPACING } from "../../utils/variables";
-import { FILTER_ICON, EDIT_ICON } from "../../utils/icon";
+import { EDIT_ICON } from "../../utils/icon";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection";

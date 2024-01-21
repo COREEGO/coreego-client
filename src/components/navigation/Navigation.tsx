@@ -1,10 +1,6 @@
-// import { Box, Divider, Stack, Image, ListItem, ListIcon, List, useDisclosure, Drawer, DrawerContent, DrawerBody, Button, DrawerHeader, IconButton, Avatar, Menu, MenuButton, MenuList, MenuItem, Hide, Container, MenuIcon, Tooltip } from "@chakra-ui/react";
-import { MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore, MdOutlineMenu, MdClose } from "react-icons/md";
 import logo from '../../images/svgs/coreego-logo.svg'
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
-import ContainerSection from "../../pages/components/ContainerSection";
-// import { CLOSE_ICON, FORUM_ICON, MARKET_PLACE_ICON, PROFIL_ICON, TRAVEL_ICON } from "../../utils/icon";
 import { BsPerson } from "react-icons/bs";
 import { AiOutlineUser } from "react-icons/ai";
 import UserSniped from "../react-ux/UserSniped";

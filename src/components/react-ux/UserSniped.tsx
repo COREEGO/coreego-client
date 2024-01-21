@@ -1,4 +1,4 @@
-import { BASE_URL } from "../../utils/variables"
+import { AVATAR_PATH, BASE_URL } from "../../utils/variables"
 import { dateParse } from "../../utils"
 import { Avatar, Stack, Typography } from "@mui/material"
 
@@ -13,7 +13,7 @@ const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate
 
     return (
         <Stack spacing={1} direction={"row"} alignItems={"center"}>
-            <Avatar sx={styles}  src={BASE_URL + '/storage/avatar/' +  avatar} />
+            <Avatar sx={styles}  src={AVATAR_PATH +  avatar} />
             {
                 (pseudo || publishDate) && <Stack spacing={0}>
                     {pseudo && <Typography component="span" noWrap={true}>{pseudo}</Typography>}

@@ -25,10 +25,10 @@ import DiscussionCard from "../../components/card/DiscussionCard";
 import PlaceCard from "../../components/card/PlaceCard";
 import ProfilEditPage from "./ProfilEditPage";
 import { Avatar, Box, Button, Card, CardContent, Container, Divider, Grid, IconButton, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, Stack, Tooltip, Typography } from "@mui/material";
-import { SOCIAL_ICON_SIZE } from "../../utils/variables";
 import { toast } from "react-toastify";
 import { apiFetch } from "../../http-common/apiFetch";
 import ProfilForm from "../../components/forms/ProfilForm";
+import { SOCIAL_ICON_SIZE } from "../../utils/variables";
 
 
 const Publications = () => {

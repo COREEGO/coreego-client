@@ -1,9 +1,8 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router"
-import ContainerSection from "../../pages/components/ContainerSection"
 import TitleText from "../texts/TitleText"
-import { BASE_URL, VERTICAL_SPACING } from "../../utils/variables"
+import { BASE_URL, IMAGE_PATH } from "../../utils/variables"
 import { noEmptyLocalisationValidator, noEmptyValidator, noEmtyFileValidator } from "../../utils/formValidation"
 import UpladButton from "../buttons/UplaodButton"
 import useFile from "../../hooks/useFile"
@@ -107,7 +106,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
             if (response && files && Array.isArray(files) && files.length) {
                 for (const file of data.files) {
                     const formData = new FormData();
-                    formData.append('path', file);
+                    formData.append('name', file);
                     formData.append('place_id', response.data.id);
                     formData.append('user_id', user.id);
                     await apiFetch('/image/new', 'post', formData, true)
@@ -259,7 +258,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                                                 <Box key={index} mr={1} mb={1}>
                                                     <FormImage
                                                         key={index}
-                                                        imageUrl={BASE_URL + '/storage/images/' + image.path}
+                                                        imageUrl={IMAGE_PATH + image.name}
                                                         onRemove={() => deleteFile(image.id)}
                                                     />
                                                 </Box>
@@ -316,164 +315,6 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                 </Stack>
             </Container>
         </Box>
-
-
-
-        // <Box py={VERTICAL_SPACING}>
-        //     <Stack spacing={VERTICAL_SPACING} as="form" onSubmit={handleSubmit(onSubmitForm)}>
-        //         <ContainerSection withPadding={true}>
-        //             <Stack>
-        //                 <TitleText text={isEditMode ? "Modifier ce lieu" : "Nouveau lieu"} />
-        //                 <Stack>
-        //                     <FormControl isInvalid={errors.title ? true : false}>
-        //                         <FormLabel>Titre</FormLabel>
-        //                         <Input variant='filled' size="lg" {...register('title', noEmptyValidator)} type="text"
-        //                             placeholder="Donnez un titre à votre lieu ?"
-        //                         />
-        //                         {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
-        //                     </FormControl>
-        //                     <FormControl isInvalid={errors.category ? true : false}>
-        //                         <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Catégorie</FormLabel>
-        //                         <Select variant={"filled"} size="lg" {...register('category', noEmptyValidator)}>
-        //                             <option value="">--selectionner une catégorie</option>
-        //                             {placeCategories.map((category: any) => {
-        //                                 return (
-        //                                     <option key={category.id} value={category.id}>{category.label}</option>
-        //                                 )
-        //                             })
-        //                             }
-        //                         </Select>
-        //                         {errors.category && <FormErrorMessage> {errors.category.message} </FormErrorMessage>}
-        //                     </FormControl>
-        //                     <FormControl isInvalid={errors.address ? true : false}>
-        //                         <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Adresse du lieu</FormLabel>
-        //                         <Stack>
-        //                             <Controller
-        //                                 control={control}
-        //                                 name="address"
-        //                                 rules={noEmptyValidator}
-        //                                 render={({ field: { onChange, value } }) => (
-        //                                     <>
-        //                                         <Input
-        //                                             value={value}
-        //                                             onChange={onChange}
-        //                                             type="text"
-        //                                             onBlur={handleSearchLocalisation}
-        //                                             variant={"filled"} size="lg"
-        //                                             placeholder="Veuillez insérer une adresse"
-        //                                         />
-        //                                         {addressData || getValues()?.latitude ?
-        //                                             <Box h={{ base: 300, lg: 400 }} w="100%" position="relative">
-        //                                                 <MapSimpleMarker
-        //                                                     updateMarker={(event: { lat: number, lng: number }) => (
-        //                                                         setValue('address', `${event.lat},${event.lng}`),
-        //                                                         handleSearchLocalisation()
-        //                                                     )}
-        //                                                     displayMapMode={true}
-        //                                                     displayMapType={true}
-        //                                                     lat={addressData?.lat || getValues()?.latitude} lng={addressData?.lon || getValues()?.longitude} />
-        //                                             </Box>
-        //                                             : <></>}
-        //                                     </>
-        //                                 )}
-        //                             />
-        //                         </Stack>
-        //                         {errors.address && <FormErrorMessage> {errors.address.message} </FormErrorMessage>}
-        //                     </FormControl>
-        //                     <FormControl variant='filled' isInvalid={errors.district ? true : false}>
-        //                         <FormLabel>Localisation</FormLabel>
-        //                         {/* <Controller
-        //                             control={control}
-        //                             name="district"
-        //                             rules={{
-        //                                 validate: () => noEmptyLocalisationValidator(getValues().city.toString(), getValues().district.toString())
-        //                             }}
-        //                             render={({ field: { onChange } }) => (
-        //                                 <CityDistrictSelectInput
-        //                                     variant="filled"
-        //                                     updateCity={(e: any) => setValue('city', e)}
-        //                                     cityValue={getValues().city.toString()}
-        //                                     updateDistrict={(e: any) => setValue('district', e)}
-        //                                     districtValue={getValues().district.toString()}
-        //                                 />
-        //                             )}
-        //                         /> */}
-        //                         <FormErrorMessage> {errors.district ? errors.district.message : ''} </FormErrorMessage>
-        //                         <FormControl isInvalid={errors.description ? true : false}>
-        //                             <FormLabel fontSize={{ base: 'sm', md: 'md' }}>Description du lieu</FormLabel>
-        //                             <Textarea
-        //                                 variant='filled'
-        //                                 {...register('description', noEmptyValidator)}
-        //                                 size="lg"
-        //                                 rows={10} placeholder="Description de votre produit" />
-        //                             {errors.description && <FormErrorMessage>{errors.description.message}</FormErrorMessage>}
-        //                         </FormControl>
-        //                     </FormControl>
-        //                     {
-        //                         (isEditMode && data?.images.length) ? <FormControl>
-        //                             <FormLabel>Images</FormLabel>
-        //                             <Wrap mb={2}>
-        //                                 {
-        //                                     data.images.map((image: any, index: number) => {
-        //                                         return (
-        //                                             <FormImage
-        //                                                 key={index}
-        //                                                 imageUrl={BASE_URL + image.filePath}
-        //                                                 onRemove={() => deleteFile(image.id)}
-        //                                             />
-        //                                         )
-        //                                     })
-        //                                 }
-        //                             </Wrap>
-        //                             <Divider />
-        //                         </FormControl> : <></>
-        //                     }
-
-        //                     {
-        //                         files.length ? <Wrap>
-        //                             {
-        //                                 files.map((image: any, index: number) => {
-        //                                     return (
-        //                                         <FormImage
-        //                                             key={index}
-        //                                             imageUrl={image.url}
-        //                                             onRemove={() => removeFile(index)}
-        //                                         />
-        //                                     )
-        //                                 })
-        //                             }
-        //                         </Wrap> : <></>
-        //                     }
-        //                     <FormControl isInvalid={errors.files ? true : false}>
-        //                         <Controller
-        //                             control={control}
-        //                             name="files"
-        //                             rules={{
-        //                                 validate: () => noEmtyFileValidator(files.concat(data?.images || []))
-        //                             }}
-        //                             render={() => (
-        //                                 <UpladButton onChange={(e: any) => addFile(e.target.files)}>
-        //                                     <Button variant="outline" leftIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
-        //                                 </UpladButton>
-        //                             )}
-        //                         />
-        //                         {errors.files ? <FormErrorMessage> {errors.files.message} </FormErrorMessage> : <></>}
-        //                     </FormControl>
-        //                 </Stack>
-        //             </Stack>
-        //         </ContainerSection>
-        //         <Box py={3} bg="white" zIndex={10} position="sticky" bottom={0}>
-        //             <ContainerSection withPadding={true}>
-        //                 <Flex>
-        //                     <Spacer />
-        //                     <Button isLoading={isSubmitting} type="submit" colorScheme="green">
-        //                         {isEditMode ? "Modifier ce lieu" : " Créer ce lieu"}
-        //                     </Button>
-        //                 </Flex>
-        //             </ContainerSection>
-        //         </Box>
-        //     </Stack>
-        // </Box>
     )
 }
 

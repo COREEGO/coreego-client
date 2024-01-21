@@ -1,16 +1,13 @@
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
 import LoadingPage from "../../components/LoadingPage";
 import LikeButton from "../../components/buttons/LikeButton";
 import CommentModule from "../components/modules/CommentModule";
-import { BASE_URL, VERTICAL_SPACING } from "../../utils/variables";
-import ContainerPage from "../components/ContainerSection";
-import TitleText from "../../components/texts/TitleText";
+import { IMAGE_PATH } from "../../utils/variables";
 import { NavLink } from "react-router-dom";
 import UserSniped from "../../components/react-ux/UserSniped";
 import CategoryText from "../../components/texts/CategoryText";
-import ContainerSection from "../components/ContainerSection";
 import ShareButton from "../../components/buttons/ShareButton";
 import { belongsToAuth } from "../../utils";
 import { useAuthContext } from "../../contexts/AuthProvider";
@@ -55,8 +52,8 @@ const Detail: React.FC<any> = () => {
                                         <ImageListItem key={image.id} rows={6}>
                                             <img
                                                 width="100%"
-                                                src={BASE_URL + "/storage/images/" + image.path}
-                                                alt={image.path}
+                                                src={IMAGE_PATH + image.name}
+                                                alt={image.name}
                                                 loading="lazy"
                                             />
                                         </ImageListItem>

@@ -1,23 +1,28 @@
+import ErrorAlert from "../../components/alerts/ErrorAlert"
+import { useEffect, useState } from "react"
+import SuccessAlert from "../../components/alerts/SuccessAlert"
 import { apiFetch } from "../../http-common/apiFetch"
+import { useLocation, useNavigate, useNavigation, useParams } from "react-router"
+import { InfoIcon } from "@chakra-ui/icons"
+import LoadingPage from "../../components/LoadingPage"
+import { getViolationField } from "../../utils"
+import Title from "../../components/texts/TitleText"
 import { SubmitHandler, useForm } from "react-hook-form"
-import { emailValidator, maxLengthValidator, minLengthValidatior, noEmptyValidator, passwordMatchValidator } from "../../utils/formValidation"
-import { NavLink, useNavigate } from "react-router-dom"
-import { Card, CardHeader, Container, FormControl, Stack, TextField, Typography, CardContent, FormHelperText, CardActions } from "@mui/material"
-import LoadingButton from "@mui/lab/LoadingButton"
+import { Card, CardContent, CardHeader, Container, Stack, TextField, FormControl, FormHelperText } from "@mui/material"
+import { emailValidator, minLengthValidatior, noEmptyValidator, passwordMatchValidator } from "../../utils/formValidation"
+import { LoadingButton } from "@mui/lab"
 import { toast } from "react-toastify"
-
+import { useSearchParams } from "react-router-dom"
 
 type Inputs = {
-    pseudo: string
-    email: string
+    email: string,
     password: string,
-    confirmPassword: string,
-    hasConfirmTerm: boolean
+    confirmPassword: string
 }
 
-const RegisterPage: React.FC<any> = () => {
-
+const ChangePassword = () => {
     const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams();
 
     const {
         control,
@@ -33,31 +38,17 @@ const RegisterPage: React.FC<any> = () => {
 
     const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            const response: any = await apiFetch('/register', 'post', {
-                pseudo: data.pseudo,
-                email: data.email,
+            const response: any = await apiFetch('/reset-password', 'post', {
                 password: data.password,
+                email: data.email,
+                token: searchParams.get('token'),
                 password_confirmation: data.confirmPassword
             })
             reset()
             toast.success(response.message)
             navigate('/login')
         } catch (error: any) {
-            console.log(error.message)
-            if ('errors' in JSON.parse(error.message)) {
-                const errors = JSON.parse(error.message).errors;
-                for (const field in errors) {
-                    if (errors.hasOwnProperty(field)) {
-                        const messages = errors[field];
-                        for (const message of messages) {
-                            setError(field as any, {
-                                type: 'manual',
-                                message: message
-                            })
-                        }
-                    }
-                }
-            }
+           toast.error(JSON.parse(error.message).message)
         }
     }
 
@@ -66,25 +57,12 @@ const RegisterPage: React.FC<any> = () => {
             <Card sx={{ my: 5, mx: 'auto', width: 600, maxWidth: '100%' }}>
                 <CardHeader
                     sx={{ textAlign: 'center' }}
-                    title="Je crée mon compte"
-                    subheader="Remplissez le formulaire pour créer votre compte"
+                    title="Réinitialisation du mot de passe"
+                    subheader="Choisisez un nouveau mot de passe"
                 />
                 <CardContent>
                     <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={3}>
-                        <FormControl fullWidth>
-                            <TextField
-                                label="Pseudo"
-                                placeholder="Votre pseudo"
-                                error={errors.pseudo ? true : false}
-                                autoFocus
-                                required
-                                {...register('pseudo',
-                                    { ...noEmptyValidator, ...minLengthValidatior(3), ...maxLengthValidator(20) }
-                                )}
-                            />
-                            {errors.pseudo && <FormHelperText id="component-error-text">{errors.pseudo.message}</FormHelperText>}
-                        </FormControl>
-                        <FormControl fullWidth>
+                    <FormControl fullWidth>
                             <TextField
                                 label="Adresse email"
                                 error={errors.email ? true : false}
@@ -126,14 +104,72 @@ const RegisterPage: React.FC<any> = () => {
                         <LoadingButton variant="contained" loading={isSubmitting} type="submit">Je m'inscris</LoadingButton>
                     </Stack>
                 </CardContent>
-                <CardActions sx={{justifyContent: 'center'}}>
-                    <NavLink style={{ color: 'var(--coreego-blue)'}} to="/login">
-                        Connectez-vous ici
-                    </NavLink>
-                </CardActions>
             </Card>
         </Container>
     )
 }
 
-export default RegisterPage
+const SendMail = () => {
+
+
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors, isSubmitting, isSubmitted, isSubmitSuccessful },
+        reset
+    } = useForm<Inputs>({
+        mode: 'onTouched'
+    })
+
+    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+        try {
+            const response : any = await apiFetch(`/forgot-password`, 'post', {
+                email: data.email
+            })
+            toast.success(response.message)
+            reset()
+        } catch (error: any) {
+            toast.error(JSON.parse(error.message).message)
+        }
+    }
+
+    return (
+        <Container>
+            <Card sx={{ my: 5, mx: 'auto', width: 600, maxWidth: '100%' }}>
+                <CardHeader
+                    sx={{ textAlign: 'center' }}
+                    title="Mot de passe oublié"
+                    subheader="Ecrit ton email pour recevoir le lien de réinitialisation"
+                />
+                <CardContent>
+                    <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={3}>
+                        <FormControl fullWidth>
+                            <TextField
+                                label="Adresse email"
+                                error={errors.email ? true : false}
+                                autoFocus
+                                required
+                                {...register('email', { ...noEmptyValidator, ...emailValidator })}
+                                placeholder="email@email.fr" type='email'
+                            />
+                            {errors.email && <FormHelperText id="component-error-text">{errors.email.message}</FormHelperText>}
+                        </FormControl>
+                        <LoadingButton variant="contained" loading={isSubmitting} type="submit">Valider</LoadingButton>
+                    </Stack>
+                </CardContent>
+            </Card>
+        </Container>
+    )
+}
+
+const PasswordForgotPage = () => {
+
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const showPasswordChangeForm = searchParams.get('token') ? true : false
+
+    return showPasswordChangeForm ? <ChangePassword /> : <SendMail />
+}
+
+export default PasswordForgotPage

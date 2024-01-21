@@ -10,7 +10,7 @@ import { useAuthContext } from "../../contexts/AuthProvider"
 import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material"
 import UpladButton from "../buttons/UplaodButton"
 import FormImage from "../images/FormImage"
-import { BASE_URL } from "../../utils/variables"
+import { BASE_URL, IMAGE_PATH } from "../../utils/variables"
 import { CAMERA_ICON } from "../../utils/icon"
 import LoadingButton from "@mui/lab/LoadingButton"
 import { toast } from "react-toastify"
@@ -89,7 +89,7 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
             if ('data' in response && response.data && files && Array.isArray(files) && files.length) {
                 for (const file of data.files) {
                     const formData = new FormData();
-                    formData.append('path', file);
+                    formData.append('name', file);
                     formData.append('product_id', response.data.id);
                     formData.append('user_id', user.id)
                     await apiFetch('/image/new', 'post', formData, true);
@@ -174,7 +174,7 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
                                             <Box key={index} mr={1} mb={1}>
                                                 <FormImage
                                                     key={index}
-                                                    imageUrl={BASE_URL + '/storage/images/' + image.path}
+                                                    imageUrl={IMAGE_PATH + image.name}
                                                     onRemove={() => deleteFile(image.id)}
                                                 />
                                             </Box>

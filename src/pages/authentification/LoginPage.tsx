@@ -8,6 +8,7 @@ import { emailValidator, minLengthValidatior, noEmptyValidator } from "../../uti
 import { apiFetch } from '../../http-common/apiFetch';
 import { Card, CardActions, CardContent, CardHeader, Container, FormControl, FormHelperText, Stack, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
+import { toast } from 'react-toastify';
 
 type Inputs = {
     email: string,
@@ -45,6 +46,8 @@ export default function LoginPage() {
             await authentification()
             navigate('/')
         } catch (e: any) {
+            toast.error(JSON.parse(e.message).message)
+            console.log(e.message)
         }
 
     }
@@ -88,6 +91,9 @@ export default function LoginPage() {
                 <CardActions sx={{justifyContent: 'center'}}>
                     <NavLink style={{ color: 'var(--coreego-blue)' }} to="/register">
                         Inscrivez-vous ici
+                    </NavLink>
+                    <NavLink to="/password/forgot" style={{ color: 'var(--coreego-blue)' }}>
+                        Mot de passe oublié
                     </NavLink>
                 </CardActions>
             </Card>

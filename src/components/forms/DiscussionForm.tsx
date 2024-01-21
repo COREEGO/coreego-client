@@ -2,7 +2,7 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router"
 import TitleText from "../texts/TitleText"
-import { BASE_URL } from "../../utils/variables"
+import { BASE_URL, IMAGE_PATH } from "../../utils/variables"
 import { noEmptyValidator } from "../../utils/formValidation"
 import UpladButton from "../buttons/UplaodButton"
 import useFile from "../../hooks/useFile"
@@ -85,9 +85,8 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
             if ('data' in response && response.data && files && Array.isArray(files) && files.length) {
                 for (const file of data.files) {
                     const formData = new FormData();
-                    formData.append('path', file);
+                    formData.append('name', file);
                     formData.append('discussion_id', response.data.id);
-                    formData.append('user_id', user.id)
                     await apiFetch('/image/new', 'post', formData, true);
                 }
             }
@@ -160,7 +159,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                                                 <Box key={index} mr={1} mb={1}>
                                                     <FormImage
                                                         key={index}
-                                                        imageUrl={BASE_URL + '/storage/images/' + image.path}
+                                                        imageUrl={IMAGE_PATH + image.name}
                                                         onRemove={() => deleteFile(image.id)}
                                                     />
                                                 </Box>

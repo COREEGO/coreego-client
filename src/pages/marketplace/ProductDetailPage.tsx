@@ -1,4 +1,3 @@
-import { VERTICAL_SPACING } from "../../utils/variables"
 import { useParams } from "react-router"
 import useSWR from "swr"
 import { Suspense, useEffect } from "react"
@@ -11,8 +10,6 @@ import KakaoMap from "../../components/maps/KakaoMap"
 import UserSniped from "../../components/react-ux/UserSniped"
 import LocalisationText from "../../components/texts/LocalisationText"
 import PriceText from "../../components/texts/PriceText"
-import ContainerSection from "../components/ContainerSection"
-import SlideSwiper from "../../components/swipers/SlideSwiper"
 import { belongsToAuth } from "../../utils"
 import { EDIT_ICON } from "../../utils/icon"
 import { useAuthContext } from "../../contexts/AuthProvider"
@@ -31,7 +28,7 @@ const Detail = () => {
     if (error) console.error(error)
 
     return (
-        <Box my={VERTICAL_SPACING}>
+        <Box my={5}>
             <Container maxWidth="lg">
                 <Box sx={{ width: { sm: 500, lg: '100%' }, m: 'auto', maxWidth: '100%' }}>
                     <Grid

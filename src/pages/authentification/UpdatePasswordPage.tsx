@@ -6,7 +6,6 @@ import SuccessAlert from "../../components/alerts/SuccessAlert"
 import { noEmptyValidator, minLengthValidatior, passwordMatchValidator } from "../../utils/formValidation"
 import { PASSWORD_UPDATED_SUCCESS_MESSAGE } from "../../utils/variables"
 import { SubmitHandler, useForm } from "react-hook-form"
-import CenterLayout from "../layouts/CenterLayout"
 import Title from "../../components/texts/TitleText"
 
 
@@ -71,40 +70,41 @@ const UpdatePasswordPage = () => {
     }
 
     return (
-        <CenterLayout>
-            <Card>
-                <CardHeader>
-                    <Stack textAlign="center" spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
-                        <Title text="Réinitilisez du mot de passe" />
-                        <Text color="gray">Nouveau nouveau mot de passe</Text>
-                    </Stack>
-                </CardHeader>
-                <CardBody>
-                    <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
-                        {(isSubmitted && isSubmitSuccessful) && <SuccessAlert message={PASSWORD_UPDATED_SUCCESS_MESSAGE} />}
-                        <FormControl isInvalid={errors.password ? true : false}>
-                            <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
-                            <Input
-                                {...register('password', { ...noEmptyValidator, ...minLengthValidatior(6) })}
-                                placeholder="6+ caractères requis" size="lg" type='password' />
-                            {errors.password && <FormErrorMessage> {errors.password.message} </FormErrorMessage>}
-                        </FormControl>
-                        <FormControl isInvalid={errors.confirmPassword ? true : false}>
-                            <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Confirmez le mot de passe</FormLabel>
-                            <Input
-                                {...register('confirmPassword', {
-                                    ...noEmptyValidator,
-                                    validate: () => passwordMatchValidator(getValues().password, getValues().confirmPassword)
-                                }
-                                )}
-                                placeholder="Confirmer le mot de passe" size="lg" type='password' />
-                            {errors.confirmPassword && <FormErrorMessage> {errors.confirmPassword.message} </FormErrorMessage>}
-                        </FormControl>
-                    <Button isLoading={isSubmitting} colorScheme="blue" type="submit">Réinitilisé le mot de passe</Button>
-                    </Stack>
-                </CardBody>
-            </Card>
-        </CenterLayout>
+        <>de</>
+        // <CenterLayout>
+        //     <Card>
+        //         <CardHeader>
+        //             <Stack textAlign="center" spacing={0} justifyContent="center" flexDirection="column" alignItems="center">
+        //                 <Title text="Réinitilisez du mot de passe" />
+        //                 <Text color="gray">Nouveau nouveau mot de passe</Text>
+        //             </Stack>
+        //         </CardHeader>
+        //         <CardBody>
+        //             <Stack as="form" onSubmit={handleSubmit(onSubmit)}>
+        //                 {(isSubmitted && isSubmitSuccessful) && <SuccessAlert message={PASSWORD_UPDATED_SUCCESS_MESSAGE} />}
+        //                 <FormControl isInvalid={errors.password ? true : false}>
+        //                     <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Mot de passe</FormLabel>
+        //                     <Input
+        //                         {...register('password', { ...noEmptyValidator, ...minLengthValidatior(6) })}
+        //                         placeholder="6+ caractères requis" size="lg" type='password' />
+        //                     {errors.password && <FormErrorMessage> {errors.password.message} </FormErrorMessage>}
+        //                 </FormControl>
+        //                 <FormControl isInvalid={errors.confirmPassword ? true : false}>
+        //                     <FormLabel fontSize={{ base: 'sm', md: 'md' }} textTransform="uppercase">Confirmez le mot de passe</FormLabel>
+        //                     <Input
+        //                         {...register('confirmPassword', {
+        //                             ...noEmptyValidator,
+        //                             validate: () => passwordMatchValidator(getValues().password, getValues().confirmPassword)
+        //                         }
+        //                         )}
+        //                         placeholder="Confirmer le mot de passe" size="lg" type='password' />
+        //                     {errors.confirmPassword && <FormErrorMessage> {errors.confirmPassword.message} </FormErrorMessage>}
+        //                 </FormControl>
+        //             <Button isLoading={isSubmitting} colorScheme="blue" type="submit">Réinitilisé le mot de passe</Button>
+        //             </Stack>
+        //         </CardBody>
+        //     </Card>
+        // </CenterLayout>
     )
 }
 

@@ -2,8 +2,6 @@ import FeedList from "../components/FeedList"
 import { useSelector } from "react-redux"
 import ImageHeader from "../../components/headers/ImageHeader"
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
-import { VERTICAL_SPACING } from "../../utils/variables"
-import ContainerSection from "../components/ContainerSection"
 import AsideFeedSection from "../../components/dom-section/AsideFeedSection"
 import { BsFillPlusCircleFill } from "react-icons/bs"
 import FilterModal from "../../components/Modals/FilterModal"

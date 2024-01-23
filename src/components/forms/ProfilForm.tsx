@@ -179,20 +179,13 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                                 {!isEditMode ?
                                     <>
                                         <Typography variant="h6" fontWeight="bold" component="h1"> {profil.pseudo} </Typography>
-                                        {currentUserProfil ? <Stack display="flex">
+                                        {currentUserProfil ?
                                             <NavLink to={"/user/profil/edit"} >
                                                 <Button variant="outlined">
                                                     Modifier mon profil
                                                 </Button>
                                             </NavLink>
-                                            <Button
-                                                onClick={logout}
-                                                variant="outlined"
-                                                sx={{ mt: 2, color: "black", borderColor: "black", display: { xs: 'flex', md: 'none' } }}
-                                                startIcon={<LOGOUT_ICON />}>
-                                                Se déconnecter
-                                            </Button>
-                                        </Stack> : <></>
+                                            : <></>
                                         }
                                     </>
                                     :
@@ -593,13 +586,6 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                                                 <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<MARKET_PLACE_ICON />}>Produits en vente</Button>
                                             </NavLink>
                                         </Grid>
-                                        {
-                                            currentUserProfil ? <Grid sx={{display: {xs: 'block', md: 'none' } }} item xs={12} md={6}>
-                                                <NavLink to={`/user/carnet-de-voyage`}>
-                                                    <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<UNSAVED_PLACE_ICON />}>Mon carnet de voyage</Button>
-                                                </NavLink>
-                                            </Grid> : <></>
-                                        }
                                     </Grid>
                                 </Stack>
                             }

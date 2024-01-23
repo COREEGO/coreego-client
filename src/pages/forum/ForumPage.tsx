@@ -25,11 +25,11 @@ const ForumPage: React.FC = () => {
 
     return (
         <>
-            {/* <NavLink to="/forum/discussion/create">
-                <Fab sx={{ position: 'static', bottom: 10, right: 10 }} color="success" aria-label="add">
+            <NavLink to="/forum/discussion/create">
+                <Fab sx={{ position: 'fixed', bottom: 10, right: 10 }} color="success" aria-label="add">
                     <EDIT_ICON />
                 </Fab>
-            </NavLink> */}
+            </NavLink>
             <Box
                 sx={{
                     backgroundImage: `url(${HEADER_IMG})`,

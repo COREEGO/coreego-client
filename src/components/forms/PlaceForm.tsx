@@ -100,7 +100,6 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                 address: addressData?.display_name || data.address,
                 city_id: data.city,
                 district_id: data.district,
-                user_id: user.id
             }, true)
 
             if (response && files && Array.isArray(files) && files.length) {

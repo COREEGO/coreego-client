@@ -83,7 +83,6 @@ const ProductForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutat
                 price: parseInt(data.price),
                 city_id: data.city,
                 district_id: data.district,
-                user_id: user.id
             }, true)
 
             if ('data' in response && response.data && files && Array.isArray(files) && files.length) {

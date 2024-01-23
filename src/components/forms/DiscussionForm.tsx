@@ -79,7 +79,6 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                 title: data.title,
                 category_id: data.category,
                 content: data.content,
-                user_id: user.id
             }, true)
 
             if ('data' in response && response.data && files && Array.isArray(files) && files.length) {

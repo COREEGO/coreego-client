@@ -1,5 +1,5 @@
 import moment from "moment";
-import { BASE_URL } from "./variables";
+import { BASE_URL, IMAGE_PATH } from "./variables";
 import { apiFetch } from "../http-common/apiFetch";
 
 export const dateParse = (date: Date) => {
@@ -27,7 +27,7 @@ export const getViolationField = (
 };
 
 export const getFirstImage = (images: Array<any>) => {
-  const url = images.length ? BASE_URL + '/storage/images/' + images[0].path : null;
+  const url = images.length ? IMAGE_PATH + images[0].name : null;
   if (url) return url;
   return;
 };

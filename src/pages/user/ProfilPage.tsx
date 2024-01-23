@@ -16,6 +16,7 @@ import {
   TIKTOK_ICON,
   YOUTUBE_ICON,
   LIKE_ICON,
+  LOGOUT_ICON,
 } from "../../utils/icon";
 import LoadingPage from "../../components/LoadingPage";
 import UserSniped from "../../components/react-ux/UserSniped";
@@ -147,7 +148,6 @@ const Resume: React.FC<{ user: any }> = ({ user }) => {
               <FACEBOOK_ICON sx={{ fontSize: SOCIAL_ICON_SIZE, color: '#0866FF' }} />
             </IconButton>
           </Tooltip>
-
           : <></>
         }
         {user.profil.kakao ?
@@ -178,10 +178,7 @@ const UserDetail: React.FC<{ user: any }> = ({ user }) => {
 
   const { user: currentUser }: any = useAuthContext();
 
-
   const currentUserProfil = currentUser ? currentUser.id == params.id : false;
-
-  const [searchParams, setSearchParams] = useSearchParams();
 
   return (
 
@@ -200,13 +197,18 @@ const UserDetail: React.FC<{ user: any }> = ({ user }) => {
                   <Stack direction="column" alignItems="center" spacing={1}>
                     <UserSniped styles={{ width: 150, height: 150 }} avatar={user.avatarPath} />
                     <Typography variant="h6" fontWeight="bold" component="h1"> {user.pseudo} </Typography>
-                    {currentUserProfil && (
-                      <NavLink to={"/user/profil/edit"}>
-                        <Button variant="outlined">
-                          Modifier mon profil
+                    {currentUserProfil ?
+                      <>
+                        <NavLink to={"/user/profil/edit"}>
+                          <Button variant="outlined">
+                            Modifier mon profil
+                          </Button>
+                        </NavLink>
+                        <Button variant="outlined" startIcon={<LOGOUT_ICON />}>
+                          Se déconnecter
                         </Button>
-                      </NavLink>
-                    )}
+                      </> : <></>
+                    }
                   </Stack>
                 </CardContent>
               </Card>

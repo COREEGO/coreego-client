@@ -3,7 +3,7 @@ import { useMemo } from "react"
 import { apiFetch } from "../../../http-common/apiFetch"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { noEmptyValidator } from "../../../utils/formValidation"
-import { Box, FormControl, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, Typography, InputLabel, FormHelperText } from "@mui/material"
+import { Box, FormControl, Button, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Stack, TextField, Typography, InputLabel, FormHelperText, InputBase } from "@mui/material"
 import React from "react"
 import LoadingButton from "@mui/lab/LoadingButton"
 import { toast } from "react-toastify"
@@ -65,10 +65,9 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
         <Box py={3} boxShadow={"0 -2px 1px lightblue"}>
             <Container maxWidth="lg">
                 <Stack spacing={3} >
-                    <Stack direction="row" alignItems="center" spacing={1}>
-                        <Typography fontWeight="bold">Commentaires</Typography>
-                        <Button variant="outlined" size="small" onClick={() => setOpen(true)}>Ajouter</Button>
-                    </Stack>
+                    <Box onClick={() => setOpen(true)}>
+                        <Typography color="gray" sx={{cursor: "pointer" , py: 1, px: 2, borderRadius: 100, border: '2px solid black' }}>Ecrire un commentaire...</Typography>
+                    </Box>
                     {
                         commentList.length ? <Stack spacing={1}>
                             {

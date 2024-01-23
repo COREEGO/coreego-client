@@ -35,13 +35,15 @@ import MapIcon from '@mui/icons-material/Map';
 import LandscapeIcon from '@mui/icons-material/Landscape';
 import StreetviewIcon from '@mui/icons-material/Streetview';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 
 export const SAVED_PLACE_ICON = BookmarkIcon
 export const UNSAVED_PLACE_ICON = BookmarkBorderIcon
 
 export const LOGOUT_ICON = LogoutIcon
 
-export const FORUM_ICON = ForumIcon
+export const FORUM_ICON = ForumOutlinedIcon
 export const TRAVEL_ICON = TravelExploreIcon
 export const MARKET_PLACE_ICON = StorefrontIcon
 
@@ -54,7 +56,7 @@ export const LOCALISATION_ICON = HomeIcon
 export const OCCUPATION_ICON = WorkIcon
 export const LANGUAGE_ICON = TranslateIcon
 export const SHARE_ICON = ShareIcon
-export const PROFIL_ICON = PersonIcon
+export const PROFIL_ICON = PersonOutlineOutlinedIcon
 
 export const LINK_ICON = InsertLinkIcon
 

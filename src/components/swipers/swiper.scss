@@ -56,7 +56,8 @@
     max-height: 100px;
     margin: 10px 0;
     .swiper-slide-thumb-active img{
-        border: 2px solid var(--coreego-blue);
+        border: 3px solid var(--coreego-blue);
+        border-bottom: 3px solid blueviolet;
     }
 
     .swiper-slide:not(.swiper-slide-thumb-active){

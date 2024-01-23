@@ -19,7 +19,7 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
     return (
         <Box width="100%" height="100%">
             <Stack
-                height="100%" p={2}>
+                height="100%" my={2}>
                 <Swiper
                     spaceBetween={0}
                     navigation={true}
@@ -34,7 +34,7 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                                     style={{ objectFit: 'contain', objectPosition: 'center' }}
                                     width="100%"
                                     height="100%"
-                                    src={IMAGE_PATH + image.path}
+                                    src={IMAGE_PATH + image.name}
                                 />
                             </SwiperSlide>
                         })
@@ -56,7 +56,7 @@ const ThumbSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                                     style={{ objectFit: 'cover', objectPosition: 'center' }}
                                     width="100%"
                                     height="100%"
-                                    src={BASE_URL + '/storage/images/' + image.path}
+                                    src={IMAGE_PATH + image.name}
                                 />
                             </SwiperSlide>
                         })

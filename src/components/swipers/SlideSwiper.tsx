@@ -6,11 +6,10 @@ import 'swiper/css/pagination';
 import './swiper.scss'
 
 import { Navigation, Pagination } from 'swiper/modules';
+import { IMAGE_PATH } from '../../utils/variables';
 
 const SlideSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
-
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
-
+    console.log(images)
     return (
         <Swiper style={{ width: '100%', height: "100%" }} navigation={true} modules={[Navigation, Pagination]} className="default-swiper"
             spaceBetween={20}
@@ -35,7 +34,7 @@ const SlideSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                                 height: '100%',
                                 width: '100%'
                             }}
-                            src={BASE_URL + '/storage/images/' + image.path} />
+                            src={IMAGE_PATH + image.name} />
                     </SwiperSlide>
                 })
             }

@@ -199,7 +199,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                                 )}
                             />
                         </FormControl>
-                        <Box sx={{ py: 2, position: 'sticky', bottom: 0, bgcolor: 'white' }}>
+                        <Box sx={{ py: 2, zIndex: 100, position: 'sticky', bottom: 0, bgcolor: 'white' }}>
                             <LoadingButton
                                 type="submit"
                                 loading={isSubmitting}
@@ -212,64 +212,6 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                 </Stack>
             </Container>
         </Box>
-        // <Box my={VERTICAL_SPACING}>
-        //     <Stack spacing={VERTICAL_SPACING} as="form" onSubmit={handleSubmit(onSubmitForm)}>
-        //         <ContainerSection withPadding={true}>
-        //             <Stack>
-        //                 <TitleText text={isEditMode ? "Modifier ce sujet" : "Nouveau sujet"} />
-        //                 <Stack>
-        //                     <FormControl isInvalid={errors.title ? true : false}>
-        //                         <FormLabel>Titre</FormLabel>
-        //                         <Input variant='filled' size="lg" {...register('title', noEmptyValidator)} type="text"
-        //                             placeholder="Donnez un titre à votre sujet ?"
-        //                         />
-        //                         {errors.title && <FormErrorMessage> {errors.title.message} </FormErrorMessage>}
-        //                     </FormControl>
-
-        //                     <FormControl isInvalid={errors.category ? true : false}>
-        //                         <FormLabel>Catégorie</FormLabel>
-        //                         <Select variant='filled' size="lg"  {...register('category', noEmptyValidator)}>
-        //                             <option value="">--Selectionnez une catégorie--</option>
-
-        //                         </Select>
-        //                         {errors.category && <FormErrorMessage>{errors.category.message}</FormErrorMessage>}
-        //                     </FormControl>
-
-        //                     <FormControl isInvalid={errors.content ? true : false}>
-        //                         <FormLabel>Contenu</FormLabel>
-        //                         <Textarea
-        //                             variant='filled'
-        //                             {...register('content', noEmptyValidator)}
-        //                             rows={10} placeholder="Partagez votre contenu..." />
-        //                         {errors.content && <FormErrorMessage>{errors.content.message}</FormErrorMessage>}
-        //                     </FormControl>
-
-        //                     <FormControl>
-        //                         <Controller
-        //                             control={control}
-        //                             name="files"
-        //                             render={() => (
-        //                                 <UpladButton onChange={(e: any) => addFile(e.target.files)}>
-        //                                     <Button variant="outline" leftIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
-        //                                 </UpladButton>
-        //                             )}
-        //                         />
-        //                     </FormControl>
-        //                 </Stack>
-        //             </Stack>
-        //         </ContainerSection>
-        //         <Box py={3} bg="white" position="sticky" bottom={0}>
-        //             <ContainerSection withPadding={true}>
-        //                 <Flex>
-        //                     <Spacer />
-        //                     <Button isLoading={isSubmitting} type="submit" colorScheme="green">
-        //                         {isEditMode ? "Modifier ce sujet" : " Créer ce sujet"}
-        //                     </Button>
-        //                 </Flex>
-        //             </ContainerSection>
-        //         </Box>
-        //     </Stack>
-        // </Box >
     )
 }
 

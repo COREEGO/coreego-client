@@ -11,7 +11,7 @@ import useFile from "../../hooks/useFile";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import UpladButton from "../buttons/UplaodButton";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { CAMERA_ICON, EDIT_ICON, FACEBOOK_ICON, FORUM_ICON, INSTAGRAM_ICON, KAKAO_ICON, LANGUAGE_ICON, LIKE_ICON, LINK_ICON, LOCALISATION_ICON, MARKET_PLACE_ICON, OCCUPATION_ICON, TIKTOK_ICON, TRAVEL_ICON, YOUTUBE_ICON } from "../../utils/icon";
+import { CAMERA_ICON, EDIT_ICON, FACEBOOK_ICON, FORUM_ICON, INSTAGRAM_ICON, KAKAO_ICON, LANGUAGE_ICON, LIKE_ICON, LINK_ICON, LOCALISATION_ICON, LOGOUT_ICON, MARKET_PLACE_ICON, OCCUPATION_ICON, TIKTOK_ICON, TRAVEL_ICON, UNSAVED_PLACE_ICON, YOUTUBE_ICON } from "../../utils/icon";
 import ModalWrapper from "../Modals/ModalWraper";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import { useSelector } from "react-redux";
@@ -51,7 +51,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
     const { languages } = useSelector((state: any) => state.app)
 
     const params = useParams();
-    const { user: auth, authentification }: any = useAuthContext();
+    const { user: auth, authentification, logout }: any = useAuthContext();
     const { files, addFile, clearFiles } = useFile()
 
     const currentUserProfil = auth ? auth.id == params?.id : false;
@@ -134,9 +134,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
 
 
     React.useEffect(() => {
-        if (isEditMode && files.length > 0) {
-            handleFileUpload();
-        }
+        if (isEditMode && files.length > 0) handleFileUpload();
     }, [files])
 
     const onChangeFile = async (e: any) => {
@@ -181,19 +179,26 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                                 {!isEditMode ?
                                     <>
                                         <Typography variant="h6" fontWeight="bold" component="h1"> {profil.pseudo} </Typography>
-                                        {currentUserProfil && (
-                                            <NavLink to={"/user/profil/edit"}>
+                                        {currentUserProfil ? <Stack display="flex">
+                                            <NavLink to={"/user/profil/edit"} >
                                                 <Button variant="outlined">
                                                     Modifier mon profil
                                                 </Button>
                                             </NavLink>
-                                        )}
+                                            <Button
+                                                onClick={logout}
+                                                variant="outlined"
+                                                sx={{ mt: 2, color: "black", borderColor: "black", display: { xs: 'flex', md: 'none' } }}
+                                                startIcon={<LOGOUT_ICON />}>
+                                                Se déconnecter
+                                            </Button>
+                                        </Stack> : <></>
+                                        }
                                     </>
                                     :
                                     <UpladButton multiple={false} onChange={(e: any) => onChangeFile(e)}>
                                         <LoadingButton loading={isUploadBusy} variant={"outlined"} sx={{ backgroundColor: 'white' }} startIcon={<CAMERA_ICON />}>Modifier</LoadingButton>
                                     </UpladButton>
-
                                 }
                             </Stack>
                         </Grid>
@@ -588,6 +593,13 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                                                 <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<MARKET_PLACE_ICON />}>Produits en vente</Button>
                                             </NavLink>
                                         </Grid>
+                                        {
+                                            currentUserProfil ? <Grid sx={{display: {xs: 'block', md: 'none' } }} item xs={12} md={6}>
+                                                <NavLink to={`/user/carnet-de-voyage`}>
+                                                    <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<UNSAVED_PLACE_ICON />}>Mon carnet de voyage</Button>
+                                                </NavLink>
+                                            </Grid> : <></>
+                                        }
                                     </Grid>
                                 </Stack>
                             }

@@ -302,7 +302,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
                             />
                             {errors.files ? <FormHelperText> {errors.files.message} </FormHelperText> : <></>}
                         </FormControl>
-                        <Box sx={{ zIndex: 10, py: 2, position: 'sticky', bottom: 0, bgcolor: 'white' }}>
+                        <Box sx={{ zIndex: 100, py: 2, position: 'sticky', bottom: 0, bgcolor: 'white' }}>
                             <LoadingButton
                                 type="submit"
                                 loading={isSubmitting}

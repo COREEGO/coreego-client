@@ -25,7 +25,6 @@ const SavePlaceButton: React.FC<SavePlaceButtonInterfcae> = ({ showLabel = false
         return savedPlaces.find((place: any) => place?.user?.id === user.id) ? true : false
     }, [savedPlaces, placeId])
 
-
     const handleClick = async () => {
         try {
             setIsBusy(true)

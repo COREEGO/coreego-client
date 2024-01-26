@@ -29,14 +29,13 @@ export default function RouterOutlet() {
 
         <Routes>
             <Route element={<PrivateRoute />} >
+                <Route path="/" element={<HomePage />} />
 
                 <Route path="/forum/discussion/edit/:id" element={<DiscussionEditPage />} />
                 <Route path="/market-place/product/edit/:id" element={<ProductEditPage />} />
                 <Route path="/voyage/place/edit/:id" element={<PlaceEditPage />} />
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
 
-
-                <Route path="/" element={<HomePage />} />
                 <Route path="/forum" element={<ForumPage />} />
                 <Route path="/forum/discussion/detail/:id" element={<DiscussionDetail />} />
                 <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
@@ -45,9 +44,9 @@ export default function RouterOutlet() {
                 <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />
                 <Route path="/market-place/product/create" element={<ProductCreatePage />} />
 
+                <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
                 <Route path="/voyage" element={<TravelPage />} />
                 <Route path="/voyage/place/detail/:id" element={<PlaceDetail />} />
-                <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
 
                 <Route path="/user/profil/:id" element={<ProfilPage />} />
                 <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />

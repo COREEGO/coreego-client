@@ -37,6 +37,7 @@ import StreetviewIcon from '@mui/icons-material/Streetview';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import AddIcon from '@mui/icons-material/Add';
 
 export const SAVED_PLACE_ICON = BookmarkIcon
 export const UNSAVED_PLACE_ICON = BookmarkBorderIcon
@@ -81,6 +82,8 @@ export const CAMERA_ICON = CameraAltIcon
 export const TRASH_ICON = DeleteIcon
 
 export const CIRCLE_ICON = FaCircle
+
+export const ADD_ICON = AddIcon
 
 export const STAR_ICON = StarIcon
 

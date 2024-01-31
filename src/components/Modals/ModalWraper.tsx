@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect } from "react";
-import { Divider, Text, HStack, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, useDisclosure, ModalOverlay, Portal, Button, Box } from "@chakra-ui/react";
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Stack } from "@mui/material";
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Stack, IconButton, Box } from "@mui/material";
 import { Transition } from "framer-motion";
+import { CLOSE_ICON } from "../../utils/icon";
 
 interface ModalWrapperProps {
     id: string;
@@ -40,10 +40,21 @@ const ModalWrapper: React.FC<ModalWrapperProps> = ({
                     aria-describedby="alert-dialog-slide-description"
                 >
                     {
-                        title ? <DialogTitle><Stack direction={"row"} alignItems={"center"}> {title} </Stack></DialogTitle> : <></>
+                        title ? <DialogTitle color="var(--coreego-blue)"><Stack direction={"row"} alignItems={"center"}> {title} </Stack></DialogTitle> : <></>
                     }
+                    <IconButton
+                        aria-label="close"
+                        onClick={() => setOpen(false)}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                        }}
+                    >
+                        <CLOSE_ICON />
+                    </IconButton>
                     {
-                        renderBody ? <DialogContent>
+                        renderBody ? <DialogContent dividers>
                             <Box sx={{ width: 500, maxWidth: '100%', margin: 'auto' }}>
                                 {renderBody()}
                             </Box>

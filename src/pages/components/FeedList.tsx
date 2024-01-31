@@ -37,7 +37,7 @@ const FeedList: React.FC<FeedListInterface> = ({
                         <Grid item {...breackpoints} key={data.id}>
                             {cardName === "discussion" &&
                                 <NavLink to={'/forum/discussion/detail/' + data.id}>
-                                    <DiscussionCard size="xl" discussion={data} />
+                                    <DiscussionCard discussion={data} />
                                 </NavLink>
                             }
                             {cardName === "product" &&

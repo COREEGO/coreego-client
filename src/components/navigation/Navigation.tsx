@@ -171,7 +171,7 @@ const Navigation = () => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
-                            <UserSniped styles={{ width: 40, height: 40 }} avatar={user?.avatarPath} />
+                            <Avatar src={user?.avatarPath}  variant="rounded" />
                         </IconButton>
                         <Menu
                             sx={{ mt: '45px' }}

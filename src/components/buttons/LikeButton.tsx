@@ -1,10 +1,9 @@
-import { useMemo, useState } from "react"
+import { PropsWithChildren, useMemo, useState } from "react"
 import { useAuthContext } from "../../contexts/AuthProvider"
-import { Button } from "@mui/material"
 import { DISLIKE_ICON, LIKE_ICON } from "../../utils/icon"
 import { toast } from "react-toastify"
 import { apiFetch } from "../../http-common/apiFetch"
-import LoadingButton from "@mui/lab/LoadingButton"
+import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton"
 
 interface LikeButtonInterface {
     discussionId?: any,
@@ -14,8 +13,8 @@ interface LikeButtonInterface {
 }
 
 
-const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId = null, placeId = null }) => {
-
+const LikeButton = (props: PropsWithChildren<LoadingButtonProps & LikeButtonInterface>) => {
+    const { likes, mutate, discussionId, placeId } = props;
 
     const [isBusy, setIsBusy] = useState<boolean>(false)
     const { user }: any = useAuthContext();
@@ -33,7 +32,7 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
                 place_id: placeId,
             }, true)
 
-            if(response){
+            if (response) {
                 toast.success(response.message)
                 mutate()
             }
@@ -47,8 +46,19 @@ const LikeButton: React.FC<LikeButtonInterface> = ({ likes, mutate, discussionId
 
     return (
         <LoadingButton
+            {...props}
             loading={isBusy}
-            color="error" sx={{ widht: "fit-content" }} variant="outlined" onClick={handleLike} startIcon={existLike ? <LIKE_ICON /> : <DISLIKE_ICON />}>
+            color="error"
+            sx={{
+                backgroundColor: 'white',
+                borderColor: 'var(--mui-light)',
+                '&:hover': {
+                    borderColor: 'var(--mui-light)',
+                    boxShadow: 'var(--box-shadow)',
+                    backgroundColor: 'white'
+                }
+            }}
+            variant="outlined" onClick={handleLike} startIcon={existLike ? <LIKE_ICON /> : <DISLIKE_ICON />}>
             {likes.length}
         </LoadingButton>
     )

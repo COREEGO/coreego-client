@@ -1,63 +1,12 @@
-
-body{
-  margin: 0;
-  font-family: "Roboto","Helvetica","Arial",sans-serif;;
-
-  a{
-    text-decoration: none;
-  }
-
-}
-
 :root {
   --coreego-blue: #005998;
   --coreego-red: #CE293B;
-  --coreego-blue-light: #006ab5b5;
+  --coreego-blue-light: #7495ED;
   --coreego-red-dark: #cc041b;
   --coreego-blue-dark: #014d83;
   --light: #f1f3f477;
-  --light-dark: rgb(214, 214, 214);
-  --main: #f7fafb;
+  --grey-bold: #4a4646;
+  --main: #f4f3f3;
+  --box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.533);
+  --mui-light: rgb(192, 192, 192);
 }
-
-
-// .chakra-button{
-//   &.btn_blue{
-//     background-color: var(--coreego-blue);
-//     color: white;
-//     &:hover{
-//       background-color: var(--coreego-blue-dark);
-//     }
-//   }
-//   &.blue_outlined{
-//     border: 3px solid var(--coreego-blue);
-//     color: black;
-//     background-color: white;
-//     &:hover{
-//       border-color: var(--coreego-blue-dark);
-//       background-color: white;
-//     }
-//   }
-//   &.btn_red{
-//     background-color: var(--coreego-red);
-//     color: white;
-//     &:hover{
-//       background-color: var(--coreego-red-dark);
-//     }
-//   }
-// }
-
-// a.active{
-//   color: var(--coreego-blue);
-// }
-
-
-// div.chakra-alert{
-//   border-radius: 3px;
-// }
-
-// .scrollbar::-webkit-scrollbar { height: 5px !important }
-// .scrollbar::-webkit-scrollbar-thumb{
-//   background: var(--coreego-blue);
-//   border-radius: 90px;
-// }

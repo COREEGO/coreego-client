@@ -13,10 +13,10 @@ const UserSniped: React.FC<UserSnipedInterface> = ({ avatar, pseudo, publishDate
 
     return (
         <Stack spacing={1} direction={"row"} alignItems={"center"}>
-            <Avatar sx={styles}  src={AVATAR_PATH +  avatar} />
+            <Avatar variant="rounded" sx={styles}  src={AVATAR_PATH +  avatar} />
             {
                 (pseudo || publishDate) && <Stack spacing={0}>
-                    {pseudo && <Typography component="span" noWrap={true}>{pseudo}</Typography>}
+                    {pseudo && <Typography fontWeight="bold" component="span" noWrap={true}>{pseudo}</Typography>}
                     {publishDate && <Typography component="span" color="gray">{dateParse(publishDate)}</Typography>}
                 </Stack>
             }

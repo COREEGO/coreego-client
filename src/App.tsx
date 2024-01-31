@@ -11,70 +11,87 @@ import { swrConfig } from './http-common/swrConfig';
 import { AuthProvider } from './contexts/AuthProvider';
 import { ToastContainer } from 'react-toastify';
 import { ConfirmProvider } from "material-ui-confirm";
-
 import 'react-toastify/dist/ReactToastify.css';
 
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
-const theme = extendTheme({
-  fonts: {
-    heading: `'Roboto', sans-serif`,
-    body: `'Roboto', sans-serif`,
+
+const theme = createTheme({
+  typography: {
+    fontFamily: 'Roboto, sans-serif',
   },
-  styles: {
-    global: {
-      // Modifier la couleur du texte du corps ici
-      body: {
-        '&::-webkit-scrollbar-thumb': {
-          background: 'gray',
-          borderRradius: '90px',
-          borderRadius: 'md'
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: () => ({
+        body: {
+          backgroundColor: 'var(--main)',
         },
-        '&::-webkit-scrollbar': {
-          width: '7px !important',
-          padding: '10px',
-          height: '5px !important'
-        }
-      },
+        a: {
+          textDecoration: 'none'
+        },
+      }),
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderColor: 'var(--mui-light)',
+          '&:hover':{
+             boxShadow: 'var( --box-shadow)',
+             borderColor: 'var(--mui-light)'
+          }
+        },
+      }
+    },
+    MuiOutlinedInput:{
+      styleOverrides: {
+        root: {
+          '&:hover':{
+             boxShadow: 'var( --box-shadow)',
+          },
+        },
+      }
     }
-  },
-},
-)
+  }
+});
+
 
 function App() {
   return (
-
-    <AuthProvider>
-      <SWRConfig value={swrConfig}>
-        <ToastContainer
-          position="top-right"
-          autoClose={1000}
-          hideProgressBar={true}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
-        <ConfirmProvider
-          defaultOptions={{
-            title: 'Confirmation',
-            cancellationText: 'Non',
-            confirmationText: 'Oui',
-            confirmationButtonProps: { autoFocus: true },
-          }}
-        >
-          <FilterProvider>
-            <Provider store={store}>
-              <Layout>
-                <RouterOutleft />
-              </Layout>
-            </Provider>
-          </FilterProvider>
-        </ConfirmProvider>
-      </SWRConfig>
-    </AuthProvider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AuthProvider>
+        <SWRConfig value={swrConfig}>
+          <ToastContainer
+            position="top-right"
+            autoClose={1000}
+            hideProgressBar={true}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light"
+          />
+          <ConfirmProvider
+            defaultOptions={{
+              title: 'Confirmation',
+              cancellationText: 'Non',
+              confirmationText: 'Oui',
+              confirmationButtonProps: { autoFocus: true },
+            }}
+          >
+            <FilterProvider>
+              <Provider store={store}>
+                <Layout>
+                  <RouterOutleft />
+                </Layout>
+              </Provider>
+            </FilterProvider>
+          </ConfirmProvider>
+        </SWRConfig>
+      </AuthProvider>
+    </ThemeProvider>
 
   );
 }

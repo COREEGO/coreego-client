@@ -1,4 +1,4 @@
-import { Badge, Box, Typography } from "@mui/material"
+import { Badge, Box, Card, CardContent, Paper, Typography } from "@mui/material"
 
 
 interface CategoryInterface {
@@ -8,7 +8,19 @@ interface CategoryInterface {
 const CategoryText: React.FC<CategoryInterface> = ({ category }) => {
 
     return (
-        <Typography width={"fit-content"} component="span" fontSize={12} fontWeight="bold" p={0.5} borderRadius={1} sx={{ backgroundColor: category.color, color: 'white' }}> {category.label} </Typography>
+        <Paper
+        elevation={0}
+        sx={{
+            height: 'auto',
+            width: 'fit-content',
+            backgroundColor: category.color,
+            display: 'flex',
+            alignItems: 'center',
+            px: 1.5,
+            color: 'white'
+            }}>
+            {category.label}
+        </Paper>
     )
 
 }

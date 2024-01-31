@@ -12,7 +12,7 @@ interface PropsInterface{
 const CommentCountIcon : React.FC<PropsInterface> = ({length}) => {
 
     return (
-        <Stack direction={"row"} spacing={0}>
+        <Stack direction="row">
             <COMMENT_ICON />
             <Typography component="span">{length || 0}</Typography>
         </Stack>

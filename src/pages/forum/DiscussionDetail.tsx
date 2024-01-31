@@ -1,4 +1,4 @@
-import { Suspense } from "react";
+import React, { Suspense } from "react";
 import { useParams } from "react-router";
 import useSWR from "swr";
 import LoadingPage from "../../components/LoadingPage";
@@ -13,19 +13,73 @@ import { belongsToAuth } from "../../utils";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { EDIT_ICON } from "../../utils/icon";
 import { Box, Button, Container, ImageList, ImageListItem, Stack, Typography } from "@mui/material";
+import { apiFetch } from "../../http-common/apiFetch";
+import moment from "moment";
 
 
 
-const Detail: React.FC<any> = () => {
+const DiscussionDetail: React.FC<any> = () => {
 
     const params = useParams()
     const { user }: any = useAuthContext()
-    const { data, mutate, error } = useSWR('/discussion/' + params.id, { suspense: true })
 
-    return (
+    const [isBusy, setIsBusy] = React.useState(true)
+    const [discussion, setDiscussion] = React.useState<any>({})
+
+    React.useEffect(() => {
+        fetchDiscussion()
+    }, [])
+
+    const fetchDiscussion = async () => {
+        try {
+            const response: any = await apiFetch(`/discussion/${params.id}`, 'GET')
+
+            setDiscussion(response)
+
+        } catch (error: any) {
+            console.log(error.message)
+        } finally {
+            setIsBusy(false)
+        }
+    }
+
+    return isBusy ? <LoadingPage type="page" /> : (
         <>
             <Box my={5}>
-                <Stack>
+                <Container>
+                    <Stack spacing={3} justifyContent="center" alignItems="center">
+                        <Stack direction="row" spacing={1}>
+                            <CategoryText category={discussion.category} />
+                            <Typography sx={{
+                                color: 'var(--grey-bold)',
+                                '&:before': {
+                                    content: '"| "',  // Correction ici
+                                },
+                            }}>
+                                {moment(discussion.created_at).format('D MMMM YYYY')}
+                            </Typography>
+                        </Stack>
+                        <Typography variant="h3" fontWeight="bold" component="h1" > {discussion.title} </Typography>
+                        <Stack direction="row" spacing={1}>
+                            <LikeButton discussionId={discussion.id} likes={discussion.likes} mutate={fetchDiscussion} />
+                            <ShareButton />
+                        </Stack>
+                    </Stack>
+                </Container>
+            </Box>
+            <Box bgcolor="white" py={5}>
+                <Container>
+                    <Stack spacing={5}>
+                        <UserSniped
+                            avatar={discussion.user.avatar}
+                            pseudo={discussion.user.pseudo}
+                        />
+                        <Typography sx={{whiteSpace: 'pre-line'}}> {discussion.content} </Typography>
+                    </Stack>
+                </Container>
+            </Box>
+
+            {/* <Stack>
                     <Container maxWidth="lg">
                         <Stack spacing={3}>
                             {
@@ -70,21 +124,11 @@ const Detail: React.FC<any> = () => {
                             </Stack>
                         </Container>
                     </Box>
-                </Stack>
-            </Box>
-            <CommentModule mutate={mutate} discussionId={params.id} comments={data.comments} />
+                </Stack> */}
+
+            {/* <CommentModule mutate={mutate} discussionId={params.id} comments={data.comments} /> */}
         </>
     )
-}
-
-const DiscussionDetail = () => {
-
-    return (
-        <Suspense fallback={<LoadingPage type="page" />}>
-            <Detail />
-        </Suspense>
-    )
-
 }
 
 export default DiscussionDetail

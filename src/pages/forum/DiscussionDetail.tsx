@@ -32,7 +32,7 @@ const DiscussionDetail: React.FC<any> = () => {
 
     const fetchDiscussion = async () => {
         try {
-            const response: any = await apiFetch(`/discussion/${params.id}`, 'GET')
+            const response: any = await apiFetch(`/discussions/${params.slug}`, 'GET')
 
             setDiscussion(response)
 
@@ -59,7 +59,7 @@ const DiscussionDetail: React.FC<any> = () => {
                                 {moment(discussion.created_at).format('D MMMM YYYY')}
                             </Typography>
                         </Stack>
-                        <Typography variant="h3" fontWeight="bold" component="h1" > {discussion.title} </Typography>
+                        <Typography textAlign="center" sx={{wordBreak: 'break-all'}} variant="h3" fontWeight="bold" component="h1" > {discussion.title} </Typography>
                         <Stack direction="row" spacing={1}>
                             <LikeButton discussionId={discussion.id} likes={discussion.likes} mutate={fetchDiscussion} />
                             <ShareButton />
@@ -74,7 +74,7 @@ const DiscussionDetail: React.FC<any> = () => {
                             avatar={discussion.user.avatar}
                             pseudo={discussion.user.pseudo}
                         />
-                        <Typography sx={{whiteSpace: 'pre-line'}}> {discussion.content} </Typography>
+                        <Box className="reactquill_content" dangerouslySetInnerHTML={{ __html: discussion.content }}  color="var(--grey-bold)"/>
                     </Stack>
                 </Container>
             </Box>

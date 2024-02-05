@@ -37,7 +37,7 @@ export default function RouterOutlet() {
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
 
                 <Route path="/forum" element={<ForumPage />} />
-                <Route path="/forum/discussion/detail/:id" element={<DiscussionDetail />} />
+                <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
                 <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
 
                 <Route path="/market-place" element={<MarketPlacePage />} />

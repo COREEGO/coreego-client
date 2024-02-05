@@ -1,3 +1,5 @@
+import { cleanHtmlText } from ".";
+
 export const noEmptyValidator = {
   required: "Cette valeur ne doit pas être vide",
   minLength: { value: 1, message: "Minimum 1 caratère" },
@@ -12,6 +14,14 @@ export const minLengthValidatior = (lenth: number) => {
     minLength: { value: lenth, message: `Minimum ${lenth} caratères` },
   };
 };
+
+export const notEmptyQuillEditor = (htmlString: string) => {
+
+  if(!htmlString || cleanHtmlText(htmlString).length == 0){
+    return "Cette valeur ne doit pas être vide"
+  }
+  return
+}
 
 export const minNumber = (value: number) => {
   return {

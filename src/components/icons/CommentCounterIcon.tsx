@@ -14,7 +14,7 @@ const CommentCountIcon : React.FC<PropsInterface> = ({length}) => {
     return (
         <Stack direction="row">
             <COMMENT_ICON />
-            <Typography component="span">{length || 0}</Typography>
+            <Typography>{length || 0}</Typography>
         </Stack>
     )
 

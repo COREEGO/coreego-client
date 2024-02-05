@@ -2,8 +2,8 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router"
 import TitleText from "../texts/TitleText"
-import { BASE_URL, IMAGE_PATH } from "../../utils/variables"
-import { noEmptyValidator } from "../../utils/formValidation"
+import { IMAGE_PATH } from "../../utils/variables"
+import { noEmptyValidator, notEmptyQuillEditor } from "../../utils/formValidation"
 import UpladButton from "../buttons/UplaodButton"
 import useFile from "../../hooks/useFile"
 import { CAMERA_ICON, TRASH_ICON } from "../../utils/icon"
@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { Box, Button, Container, Divider, FormControl, FormHelperText, InputLabel, MenuItem, Select, Stack, TextField, Typography } from "@mui/material"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import useMalware from "../../hooks/useMalware"
+import ReactQuillInput from "../inputs/ReactQuillInput"
 
 interface PropsInterface {
     isEditMode?: boolean
@@ -72,7 +73,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
 
     const onSubmitForm: SubmitHandler<Inputs> = async (data: any) => {
         try {
-            const url = isEditMode ? `/discussion/edit/${params.id}` : '/discussion/new';
+            const url = isEditMode ? `/discussion/edit/${params.id}` : '/discussions';
             const method = isEditMode ? 'patch' : 'post';
 
             const response: any = await apiFetch(url, method, {
@@ -91,7 +92,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
             }
             toast.success(response.message);
             clearFiles()
-            navigate(`/forum/discussion/detail/${response.data.id}`)
+            navigate(`/forum/discussion/detail/${response.data.slug}`)
         } catch (error: any) {
             toast.error(error.message.message);
         }
@@ -136,15 +137,19 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                             {errors.category && <FormHelperText id="component-error-text">{errors.category.message}</FormHelperText>}
                         </FormControl>
 
-                        <FormControl fullWidth>
-                            <TextField
-                                label="Contenu"
-                                error={errors.content ? true : false}
-                                autoFocus
-                                required
-                                multiline
-                                rows={10}
-                                {...register('content', { ...noEmptyValidator })} />
+                        <FormControl>
+                            <Controller
+                                control={control}
+                                name="content"
+                                rules={{
+                                    validate: () => notEmptyQuillEditor(getValues('content'))
+                                 }}
+                                render={({ field: { value, onChange } }) => (
+                                    <ReactQuillInput
+                                        value={value} onChange={onChange}
+                                    />
+                                )}
+                            />
                             {errors.content && <FormHelperText id="component-error-text">{errors.content.message}</FormHelperText>}
                         </FormControl>
 
@@ -169,36 +174,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                                 <Divider />
                             </Box> : <></>
                         }
-
-                        {
-                            files.length ? <Stack direction="row" flexWrap={"wrap"} mb={2}>
-                                {
-                                    files.map((image: any, index: number) => {
-                                        return (
-                                            <Box mr={1} mb={1} key={index}>
-                                                <FormImage
-                                                    key={index}
-                                                    imageUrl={image.url}
-                                                    onRemove={() => removeFile(index)}
-                                                />
-                                            </Box>
-                                        )
-                                    })
-                                }
-                            </Stack> : <></>
-                        }
-                        <FormControl>
-                            <Controller
-                                control={control}
-                                name="files"
-                                render={() => (
-                                    <UpladButton onChange={(e: any) => addFile(e.target.files)}>
-                                        <Button variant="outlined" startIcon={<CAMERA_ICON />}>Ajouter des photos</Button>
-                                    </UpladButton>
-                                )}
-                            />
-                        </FormControl>
-                        <Box sx={{ py: 2, zIndex: 100, position: 'sticky', bottom: 0, bgcolor: 'white' }}>
+                        <Box>
                             <LoadingButton
                                 type="submit"
                                 loading={isSubmitting}

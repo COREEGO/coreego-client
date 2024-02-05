@@ -21,8 +21,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
             const response: any = await apiFetch('/me', 'get', null, true);
             setUser(response)
-        } catch (error) {
-            console.error(error);
+        } catch (error:any) {
+            console.error(JSON.parse(error.message));
         }
     };
 

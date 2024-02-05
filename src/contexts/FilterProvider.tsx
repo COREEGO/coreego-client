@@ -21,7 +21,7 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
 
   const updateFilter = (name: string, value: string) => {
 
-    if (!value || !value.length) {
+    if (!value || !value.length || value == '0') {
      searchParams.delete(name)
     } else {
       if(searchParams.get(name)){

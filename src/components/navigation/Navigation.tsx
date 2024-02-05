@@ -94,16 +94,18 @@ const Navigation = () => {
         <AppBar position="sticky" sx={{ top: 0, backgroundColor: 'white' }} color="transparent"  >
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
+
                     <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-                        <NavLink to="/">
+                        <NavLink className="nav_logo" to="/">
                             <img
-                                width={120}
+                                width={150}
                                 height="auto"
                                 src={logo}
                                 title="coreego"
                             />
                         </NavLink>
                     </Box>
+
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
@@ -146,32 +148,30 @@ const Navigation = () => {
                             ))}
                         </Menu>
                     </Box>
+
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, mr: 1 }}>
-                        <NavLink to="/">
+                        <NavLink className="nav_logo" to="/">
                             <img
-                                width={120}
+                                width={150}
                                 height="auto"
                                 src={logo}
                                 title="coreego"
                             />
                         </NavLink>
                     </Box>
-                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+                    <Box className="navlink" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
                         {links.map((link: any) => (
-                            <NavLink to={link.path} key={link.path}>
-                                <Button
-                                    startIcon={<link.icon />}
-                                    sx={{ my: 2, color: 'black', fontWeight: 'bold', }}
-                                >
-                                    {link.label}
-                                </Button>
+                            <NavLink style={{display: 'flex', alignItems: 'center', margin: '0 20px' }} to={link.path} key={link.path}>
+                                <link.icon sx={{mr: 1}} />
+                                {link.label}
                             </NavLink>
                         ))}
                     </Box>
 
                     <Box sx={{ flexGrow: 0 }}>
                         <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
-                            <Avatar src={user?.avatarPath}  variant="rounded" />
+                            <Avatar src={user?.avatarPath}  />
                         </IconButton>
                         <Menu
                             sx={{ mt: '45px' }}

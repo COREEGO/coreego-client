@@ -1,12 +1,57 @@
 :root {
-  --coreego-blue: #005998;
-  --coreego-red: #CE293B;
-  --coreego-blue-light: #7495ED;
-  --coreego-red-dark: #cc041b;
-  --coreego-blue-dark: #014d83;
-  --light: #f1f3f477;
-  --grey-bold: #4a4646;
-  --main: #f4f3f3;
-  --box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.533);
-  --mui-light: rgb(192, 192, 192);
+	--coreego-blue: #005998;
+	--coreego-red: #ce293b;
+	--coreego-red-light: #d1606d;
+	--coreego-blue-light: #005998;
+	--coreego-red-dark: #cc041b;
+	--coreego-blue-dark: #014d83;
+	--light: #f6f6f6;
+	--grey-bold: #707070;
+	--main: #f4f3f3;
+	--box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.533);
+}
+
+.navlink {
+	a {
+		color: black;
+		&.active {
+			color: var(--coreego-blue);
+		}
+	}
+}
+
+.nav_logo {
+	height: 21px;
+}
+
+.hero_banner {
+	background-color: var(--light);
+	padding: 20px 0;
+	&:after {
+		content: url('./images/svgs/wave.svg');
+		object-fit: cover;
+		position: absolute;
+		z-index: -1;
+		right: 0;
+		left: 0;
+		width: 100%;
+	}
+}
+
+.quill {
+	.ql-container {
+		min-height: 200px;
+	}
+	.ql-editor {
+    height: 100%;
+		img {
+			max-height: 150px;
+		}
+	}
+}
+
+.reactquill_content{
+	*{
+		max-width: 100%;
+	}
 }

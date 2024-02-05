@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useAuthContext } from "../../contexts/AuthProvider"
 import LoadingPage from "../../components/LoadingPage"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { initCities, initDiscussionCategories, initPlaceCategories, initLanguages } from "../../store/reducers/app.reducer"
 import Navigation from "../../components/navigation/Navigation"
-import { Box, Container, Fade, Stack } from "@chakra-ui/react"
 import { apiFetch } from "../../http-common/apiFetch"
-import useSWR from "swr"
-import useRefreshToken from "../../hooks/useRefreshToken"
-import { useLocation, useNavigate, useParams } from "react-router"
+
 interface LayoutProps {
     children: React.ReactNode
 }
@@ -36,25 +33,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             const cities = await apiFetch('/cities', 'GET')
             const languages = await apiFetch('/languages', 'GET')
 
-            if (discussionCategories) {
-                localStorage.setItem('discussionCategories', JSON.stringify(discussionCategories))
-                dispath(initDiscussionCategories(discussionCategories))
-            }
 
+            dispath(initDiscussionCategories(discussionCategories))
+            dispath(initPlaceCategories(placeCategories))
+            dispath(initCities(cities))
+            dispath(initLanguages(languages))
 
-
-            if (placeCategories) {
-                localStorage.setItem('placeCategories', JSON.stringify(placeCategories))
-                dispath(initPlaceCategories(placeCategories))
-            }
-            if (cities) {
-                localStorage.setItem('cities', JSON.stringify(cities))
-                dispath(initCities(cities))
-            }
-            if (languages) {
-                localStorage.setItem('languages', JSON.stringify(languages))
-                dispath(initLanguages(languages))
-            }
 
         } catch (error: any) {
             console.error(JSON.parse(error.message))

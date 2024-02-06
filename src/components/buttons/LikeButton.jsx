@@ -5,29 +5,22 @@ import { toast } from "react-toastify"
 import { apiFetch } from "../../http-common/apiFetch"
 import LoadingButton, { LoadingButtonProps } from "@mui/lab/LoadingButton"
 
-interface LikeButtonInterface {
-    discussionId?: any,
-    placeId?: any,
-    likes: Array<any>,
-    mutate: Function,
-}
 
 
-const LikeButton = (props: PropsWithChildren<LoadingButtonProps & LikeButtonInterface>) => {
-    const { likes, mutate, discussionId, placeId } = props;
+const LikeButton = ({ likes, mutate, discussionId = null, placeId = null, ...props }) => {
 
-    const [isBusy, setIsBusy] = useState<boolean>(false)
-    const { user }: any = useAuthContext();
+    const [isBusy, setIsBusy] = useState(false)
+    const { user } = useAuthContext();
 
     const existLike = useMemo(() => {
-        return likes.find((like: any) => like?.user?.id === user.id) ? true : false;
+        return likes.find((like) => like?.user?.id === user.id) ? true : false;
     }, [likes, discussionId, placeId])
 
 
     const handleLike = async () => {
         try {
             setIsBusy(true)
-            const response: any = await apiFetch('/like', 'POST', {
+            const response = await apiFetch('/like', 'POST', {
                 discussion_id: discussionId,
                 place_id: placeId,
             }, true)
@@ -37,7 +30,7 @@ const LikeButton = (props: PropsWithChildren<LoadingButtonProps & LikeButtonInte
                 mutate()
             }
 
-        } catch (error: any) {
+        } catch (error) {
             toast.error(error.message.message)
         } finally {
             setIsBusy(false)
@@ -49,15 +42,6 @@ const LikeButton = (props: PropsWithChildren<LoadingButtonProps & LikeButtonInte
             {...props}
             loading={isBusy}
             color="error"
-            sx={{
-                backgroundColor: 'white',
-                borderColor: 'var(--mui-light)',
-                '&:hover': {
-                    borderColor: 'var(--mui-light)',
-                    boxShadow: 'var(--box-shadow)',
-                    backgroundColor: 'white'
-                }
-            }}
             variant="outlined" onClick={handleLike} startIcon={existLike ? <LIKE_ICON /> : <DISLIKE_ICON />}>
             {likes.length}
         </LoadingButton>

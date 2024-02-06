@@ -1,8 +1,8 @@
 :root {
 	--coreego-blue: #005998;
 	--coreego-red: #ce293b;
-	--coreego-red-light: #d1606d;
-	--coreego-blue-light: #005998;
+	--coreego-red-light: rgba(213, 181, 185, 0.086);
+	--coreego-blue-light: #f6f9fc;
 	--coreego-red-dark: #cc041b;
 	--coreego-blue-dark: #014d83;
 	--light: #f6f6f6;
@@ -26,7 +26,7 @@
 
 .hero_banner {
 	background-color: var(--light);
-	padding: 20px 0;
+	padding: 50px 0;
 	&:after {
 		content: url('./images/svgs/wave.svg');
 		object-fit: cover;

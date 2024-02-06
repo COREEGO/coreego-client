@@ -6,12 +6,14 @@ export const BlueButton = (props) => {
 			{...props}
 			sx={{
 				"&:hover": {
-					backgroundColor: "var(--coreego-blue-light)"
+					backgroundColor: `var(--coreego-blue-${props.variant == 'contained' ? 'dark' : 'light'})` ,
+					borderColor: "var(--coreego-blue)",
+					color: props.variant == 'contained' ? "white" : "var(--coreego-blue)"
 				},
-				bgcolor: "var(--coreego-blue)",
-				color: "white"
+				bgcolor: props.variant == 'contained' ?   "var(--coreego-blue)" : "transparent" ,
+				borderColor: "var(--coreego-blue)",
+				color: props.variant == 'contained' ? "white" : "var(--coreego-blue)",
 			}}
-			variant="contained"
 		>
 			{props.children}
 		</Button>

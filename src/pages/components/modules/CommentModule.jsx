@@ -9,24 +9,14 @@ import LoadingButton from "@mui/lab/LoadingButton"
 import { toast } from "react-toastify"
 
 
-interface CommentModuleInterface {
-    comments: Array<any>,
-    discussionId?: any,
-    placeId?: any,
-    mutate: () => void
-}
 
-type Inputs = {
-    content: string
-}
-
-const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionId, placeId, mutate }) => {
+const CommentModule = ({ comments, discussionId = null, placeId = null, mutate }) => {
 
     const [open, setOpen] = React.useState(false);
 
 
-    const commentList: Array<any> = useMemo(() => {
-        return comments.sort((a: { created_at: Date }, b: { created_at: Date }) => {
+    const commentList = useMemo(() => {
+        return comments.sort((a, b) => {
             return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
         })
     }, [comments])
@@ -36,13 +26,13 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
-    } = useForm<Inputs>({
+    } = useForm({
         mode: 'onTouched'
     })
 
-    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    const onSubmit = async (data) => {
         try {
-            const response: any = await apiFetch('/comment/new', 'POST', {
+            const response = await apiFetch('/comment/new', 'POST', {
                 discussion_id: discussionId,
                 place_id: placeId,
                 content: data.content
@@ -54,7 +44,7 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
             mutate()
             setOpen(false)
 
-        } catch (error: any) {
+        } catch (error) {
             toast.success(error.message)
         }
     }
@@ -62,16 +52,19 @@ const CommentModule: React.FC<CommentModuleInterface> = ({ comments, discussionI
 
 
     return (
-        <Box py={3} boxShadow={"0 -2px 1px lightblue"}>
-            <Container maxWidth="lg">
-                <Stack spacing={3} >
+        <Box py={5}>
+            <Container>
+                <Stack spacing={2} >
+                <Typography variant="h6" component="p" fontWeight="bold">
+                    Ecrire un <Typography variant="h6" fontWeight="bold" color="var(--coreego-blue)" component="span">commentaire</Typography>
+                </Typography>
                     <Box onClick={() => setOpen(true)}>
-                        <Typography color="gray" sx={{cursor: "pointer" , py: 1, px: 2, borderRadius: 100, border: '2px solid black' }}>Ecrire un commentaire...</Typography>
+                        <TextField autoComplete={false} sx={{zIndex: -1}} fullWidth placeholder="Ce que je veux dire..." />
                     </Box>
                     {
                         commentList.length ? <Stack spacing={1}>
                             {
-                                commentList.map((comment: any) => {
+                                commentList.map(comment => {
                                     return (
                                         <CommentCard mutate={mutate}
                                             key={comment.id} comment={comment} />

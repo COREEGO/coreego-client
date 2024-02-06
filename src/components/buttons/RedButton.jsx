@@ -9,9 +9,9 @@ const RedButton = (props) => {
 			{...props}
 			sx={{
 				"&:hover": {
-					backgroundColor: "var(--coreego-red-light)",
+					backgroundColor: `var(--coreego-red-${props.variant == 'contained' ? 'dark' : 'light'})`,
 					borderColor: "var(--coreego-red)",
-					color: "white"
+					color:  props.variant == 'contained' ? "white" : "var(--coreego-red)"
 				},
 				bgcolor: props.variant == 'contained' ?   "var(--coreego-red)" : "transparent" ,
 				borderColor: "var(--coreego-red)",

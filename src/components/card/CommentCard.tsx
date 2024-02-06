@@ -11,6 +11,7 @@ import PopupState, { bindTrigger, bindMenu, bindPopover } from 'material-ui-popu
 import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify"
 import LoadingButton from "@mui/lab/LoadingButton"
+import { dateParse } from "../../utils"
 
 
 interface CommentCardInterface {
@@ -31,7 +32,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting }
     } = useForm<Inputs>({
         mode: 'onTouched',
-        defaultValues:{
+        defaultValues: {
             content: comment?.content
         }
     })
@@ -72,48 +73,50 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
         <>
             <Card sx={{ width: '100%' }}>
                 <CardContent>
-                    <Stack spacing={3}>
+                    <Stack spacing={1}>
                         <Stack alignItems={"flex-start"} direction="row" justifyContent="space-between">
                             <UserSniped
+                                avatarSize={30}
                                 avatar={comment.user.avatarPath}
                                 pseudo={comment.user.pseudo}
-                                publishDate={comment.created_at}
                             />
-                            <PopupState variant="popover" popupId="demo-popup-menu">
-                                {(popupState) => (
-                                    <React.Fragment>
-                                        <IconButton
-                                            {...bindTrigger(popupState)}
-                                            size="small"
-                                            aria-label="account of current user"
-                                            aria-controls="menu-options"
-                                            aria-haspopup="true"
-                                            color="inherit"
-                                        >
-                                            <MORE_OPTIONS />
-                                        </IconButton>
-                                        <Menu {...bindMenu(popupState)}>
-                                            {isCommentUser
-                                                ? [
-                                                    <MenuItem key="modifier" onClick={() => setOpen(true)}>
-                                                        Modifier
-                                                    </MenuItem>,
-                                                    <MenuItem key="supprimer" onClick={onDelete}>
-                                                        Supprimer
-                                                    </MenuItem>
-                                                ]
-                                                : [
-                                                    <MenuItem key="signaler" onClick={popupState.close}>
-                                                        Signaler
-                                                    </MenuItem>
-                                                ]
-                                            }
-                                        </Menu>
-                                    </React.Fragment>
-                                )}
-                            </PopupState>
-                        </Stack>
-                        <Typography sx={{ whiteSpace: 'pre-line' }}> {comment.content} </Typography>
+
+                                <PopupState variant="popover" popupId="demo-popup-menu">
+                                    {(popupState) => (
+                                        <React.Fragment>
+                                            <IconButton
+                                                {...bindTrigger(popupState)}
+                                                size="small"
+                                                aria-label="account of current user"
+                                                aria-controls="menu-options"
+                                                aria-haspopup="true"
+                                                color="inherit"
+                                            >
+                                                <MORE_OPTIONS />
+                                            </IconButton>
+                                            <Menu {...bindMenu(popupState)}>
+                                                {isCommentUser
+                                                    ? [
+                                                        <MenuItem key="modifier" onClick={() => setOpen(true)}>
+                                                            Modifier
+                                                        </MenuItem>,
+                                                        <MenuItem key="supprimer" onClick={onDelete}>
+                                                            Supprimer
+                                                        </MenuItem>
+                                                    ]
+                                                    : [
+                                                        <MenuItem key="signaler" onClick={popupState.close}>
+                                                            Signaler
+                                                        </MenuItem>
+                                                    ]
+                                                }
+                                            </Menu>
+                                        </React.Fragment>
+                                    )}
+                                </PopupState>
+                            </Stack>
+                        <Typography sx={{ whiteSpace: 'pre-line' }} color="var(--grey-bold)"> {comment.content} </Typography>
+                        <Typography variant="body2" textAlign="right"> {dateParse(comment.created_at)} </Typography>
                     </Stack>
                 </CardContent>
             </Card>

@@ -6,7 +6,7 @@ export async function apiFetch<T>(
   url: any,
   method: string,
   payload?: any,
-  isPrivateRoute?: boolean
+  isPrivateRoute?: boolean,
 ): Promise<T | { data: any } | { error: any } | null> {
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
@@ -21,12 +21,12 @@ export async function apiFetch<T>(
   }
 
   if (payload instanceof FormData) {
-    headers['Content-type'] = "multipart/form-data"
+    headers['Content-type'] = "text/html; charset=utf-8; multipart/form-data"
     body = payload;
   } else if (method.toLocaleLowerCase() === "patch" || method.toLocaleLowerCase() === "put") {
-    headers["Content-Type"] = "application/merge-patch+json";
+    headers["Content-Type"] = "text/html; charset=utf-8; application/merge-patch+json";
   } else {
-    headers["Content-Type"] = "application/json";
+    headers["Content-Type"] = "text/html; charset=utf-8; application/json";
   }
 
   try {

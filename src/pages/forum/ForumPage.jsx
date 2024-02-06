@@ -32,6 +32,7 @@ import wave from "../../images/svgs/wave.svg";
 import RedButton from "../../components/buttons/RedButton";
 import SearchInput from "../../components/inputs/SearchInput";
 import DiscussionCard from "../../components/card/DiscussionCard";
+import { BlueButton } from "../../components/buttons/BlueButton";
 
 const SwrData = ({ discussions }) => {
 	return (
@@ -154,7 +155,7 @@ const ForumPage = () => {
 									maxWidth: "100%",
 									backgroundColor: "white"
 								}}
-								value={searchParams.get("q")}
+								defaultValue={searchParams.get("q")}
 								onChange={value => updateFilter("q", value)}
 							/>
 							<Select
@@ -183,7 +184,7 @@ const ForumPage = () => {
 					</Hidden>
 					<Hidden smUp>
 						<Box>
-							<Button
+							<BlueButton
 								fullWidth
 								onClick={() => setIsOpenFilterModal(true)}
 								size="large"
@@ -191,7 +192,7 @@ const ForumPage = () => {
 								startIcon={<FILTER_ICON />}
 							>
 								Filtres
-							</Button>
+							</BlueButton>
 							<Dialog
 								onClose={() => setIsOpenFilterModal(false)}
 								open={isOpenFilterModal}
@@ -215,7 +216,7 @@ const ForumPage = () => {
 										<SearchInput
 											fullWidth
 											placeholder="Rechercher une discussion..."
-											value={searchParams.get("q")}
+											defaultValue={searchParams.get("q")}
 											onChange={value => updateFilter("q", value)}
 										/>
 										<Select

@@ -5,14 +5,15 @@ const SearchInput = (props) => {
   function handleSubmit(e) {
     e.preventDefault();
     const element = e.target.elements;
-    console.log(element.q.value);
     props.onChange(element.q.value);
   }
 
   return (
     <Box width={props.fullWidth ? '100%' : 'auto' } component="form" onSubmit={handleSubmit}>
       <TextField
-        {...props}
+        sx={{backgroundColor: 'white'}}
+        defaultValue={props.defaultValue}
+        placeholder={props.placeholder}
         id="q"
         name="q"
         InputProps={{

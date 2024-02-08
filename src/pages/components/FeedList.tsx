@@ -42,12 +42,12 @@ const FeedList: React.FC<FeedListInterface> = ({
                             }
                             {cardName === "product" &&
                                 <NavLink to={'/market-place/product/detail/' + data.id}>
-                                    <ProductCard size="xl" product={data} />
+                                    <ProductCard  product={data} />
                                 </NavLink>
                             }
                             {cardName === "place" &&
                                 <NavLink to={'/voyage/place/detail/' + data.id}>
-                                    <PlaceCard size="xl" place={data} />
+                                    <PlaceCard place={data} />
                                 </NavLink>
                             }
                             {cardName === "saved-places" &&

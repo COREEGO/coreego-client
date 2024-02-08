@@ -6,6 +6,7 @@ import ImageCountIcon from "../icons/ImageCountIcon";
 import LikeCountIcon from "../icons/LikeCountIcon";
 import { cleanHtmlText, dateParse } from "../../utils";
 import moment from "moment";
+import { AVATAR_PATH } from "../../utils/variables";
 
 
 interface DiscussionCardProps {
@@ -27,11 +28,9 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
             <CardContent>
                 <Stack spacing={1}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
-                        <Stack direction="row" spacing={1}>
-                            <UserSniped
-                            avatarSize={30}
-                            pseudo={discussion.user.pseudo}
-                            avatar={discussion.user.avatarPath} />
+                        <Stack direction="row" spacing={1} alignItems="center">
+                            <Avatar src={AVATAR_PATH + discussion.user.avatarPath} sx={{width: 30, height: 30}} />
+                            <Typography variant="body2" fontWeight="bold"> {discussion.user.pseudo} </Typography>
                         </Stack>
                         <Typography variant="body2"> {moment(discussion.created_at).format('D MMMM YYYY')} </Typography>
                     </Stack>

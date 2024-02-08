@@ -1,7 +1,7 @@
 import { Search as SearchIcon } from "@mui/icons-material";
 import { TextField, Box } from "@mui/material";
 
-const SearchInput = (props) => {
+const SearchInput = ({...props}) => {
   function handleSubmit(e) {
     e.preventDefault();
     const element = e.target.elements;
@@ -11,6 +11,7 @@ const SearchInput = (props) => {
   return (
     <Box width={props.fullWidth ? '100%' : 'auto' } component="form" onSubmit={handleSubmit}>
       <TextField
+      {...props}
         sx={{backgroundColor: 'white'}}
         defaultValue={props.defaultValue}
         placeholder={props.placeholder}

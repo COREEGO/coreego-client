@@ -87,23 +87,23 @@ const ForumPage = () => {
 						<Grid item xs={12} md={6}>
 							<Stack width={500} maxWidth="100%" spacing={3} alignItems="flex-start">
 								<Stack spacing={1}>
-									<Typography
-										sx={{ wordBreak: "break-all" }}
-										variant="h3"
-										color="var(--coreego-blue)"
-										fontWeight="bold"
-										component="h1"
-									>
-										Forum <Typography
-											sx={{ wordBreak: "break-all" }}
-											variant="h4"
+									<Stack direction="row" alignItems={"baseline"} gab={1} flexWrap="wrap">
+										<Typography
+											variant="h3"
+											color="var(--coreego-blue)"
 											fontWeight="bold"
-											component="span"
-											color="var(--coreego-red)"
-										>
-											포럼
+											component="h1"
+										>Forum
 										</Typography>
-									</Typography>
+										<Typography
+												variant="h4"
+												fontWeight="bold"
+												component="span"
+												color="var(--coreego-red)"
+												>
+												포럼
+										</Typography>
+									</Stack>
 									<Typography color="var(--grey-bold)">
 										MACC Essentials has an important role in making
 										supplies and services available to customers and
@@ -144,7 +144,7 @@ const ForumPage = () => {
 			</Box>
 
 			{/* Filtres */}
-			<Box my={5}>
+			<Box mb={5}>
 				<Container>
 					<Hidden smDown>
 						<Stack direction="row" gap={1} flexWrap="wrap">

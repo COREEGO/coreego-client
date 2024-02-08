@@ -52,7 +52,7 @@ const CommentModule = ({ comments, discussionId = null, placeId = null, mutate }
 
 
     return (
-        <Box py={5}>
+        <Box py={2}>
             <Container>
                 <Stack spacing={2} >
                 <Typography variant="h6" component="p" fontWeight="bold">

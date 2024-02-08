@@ -68,7 +68,7 @@ const DiscussionDetail: React.FC<any> = () => {
                                 {moment(discussion.created_at).format('D MMMM YYYY')}
                             </Typography>
                         </Stack>
-                        <Typography color="var(--coreego-blue)" textAlign="center" sx={{ wordBreak: 'break-all' }} variant="h4" fontWeight="bold" component="h1" > {discussion.title} </Typography>
+                        <Typography color="var(--coreego-blue)" textAlign="center" sx={{ wordBreak: 'break-all' }} variant="h4" component="h1" > {discussion.title} </Typography>
                         <Divider sx={{ width: '100%' }}>
                             <UserSniped className="" avatar={discussion.user.avatarPath} pseudo={discussion.user.pseudo} />
                         </Divider>

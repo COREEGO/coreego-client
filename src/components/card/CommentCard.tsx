@@ -4,7 +4,7 @@ import { apiFetch } from "../../http-common/apiFetch"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { noEmptyValidator } from "../../utils/formValidation"
 import UserSniped from "../react-ux/UserSniped"
-import { Card, CardContent, Menu, Stack, Box, IconButton, MenuList, MenuItem, Popover, Typography, DialogTitle, DialogContent, FormControl, TextField, FormHelperText, Button, Dialog } from "@mui/material"
+import { Card, CardContent, Menu, Stack, Box, IconButton, MenuList, MenuItem, Popover,Avatar, Typography, DialogTitle, DialogContent, FormControl, TextField, FormHelperText, Button, Dialog } from "@mui/material"
 import { MORE_OPTIONS } from "../../utils/icon"
 import React, { useMemo, useState } from "react"
 import PopupState, { bindTrigger, bindMenu, bindPopover } from 'material-ui-popup-state';
@@ -12,6 +12,7 @@ import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify"
 import LoadingButton from "@mui/lab/LoadingButton"
 import { dateParse } from "../../utils"
+import { AVATAR_PATH } from "../../utils/variables"
 
 
 interface CommentCardInterface {
@@ -71,50 +72,48 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
 
     return (
         <>
-            <Card sx={{ width: '100%' }}>
+            <Card variant="outlined" sx={{ width: '100%'}}>
                 <CardContent>
                     <Stack spacing={1}>
                         <Stack alignItems={"flex-start"} direction="row" justifyContent="space-between">
-                            <UserSniped
-                                avatarSize={30}
-                                avatar={comment.user.avatarPath}
-                                pseudo={comment.user.pseudo}
-                            />
-
-                                <PopupState variant="popover" popupId="demo-popup-menu">
-                                    {(popupState) => (
-                                        <React.Fragment>
-                                            <IconButton
-                                                {...bindTrigger(popupState)}
-                                                size="small"
-                                                aria-label="account of current user"
-                                                aria-controls="menu-options"
-                                                aria-haspopup="true"
-                                                color="inherit"
-                                            >
-                                                <MORE_OPTIONS />
-                                            </IconButton>
-                                            <Menu {...bindMenu(popupState)}>
-                                                {isCommentUser
-                                                    ? [
-                                                        <MenuItem key="modifier" onClick={() => setOpen(true)}>
-                                                            Modifier
-                                                        </MenuItem>,
-                                                        <MenuItem key="supprimer" onClick={onDelete}>
-                                                            Supprimer
-                                                        </MenuItem>
-                                                    ]
-                                                    : [
-                                                        <MenuItem key="signaler" onClick={popupState.close}>
-                                                            Signaler
-                                                        </MenuItem>
-                                                    ]
-                                                }
-                                            </Menu>
-                                        </React.Fragment>
-                                    )}
-                                </PopupState>
+                            <Stack direction="row" alignItems="center" spacing={1}>
+                                <Avatar src={AVATAR_PATH + comment.user.avatarPath} sx={{ width: 30, height: 30 }} />
+                                <Typography variant="body2" fontWeight="bold"> {comment.user.pseudo} </Typography>
                             </Stack>
+                            <PopupState variant="popover" popupId="demo-popup-menu">
+                                {(popupState) => (
+                                    <React.Fragment>
+                                        <IconButton
+                                            {...bindTrigger(popupState)}
+                                            size="small"
+                                            aria-label="account of current user"
+                                            aria-controls="menu-options"
+                                            aria-haspopup="true"
+                                            color="inherit"
+                                        >
+                                            <MORE_OPTIONS />
+                                        </IconButton>
+                                        <Menu {...bindMenu(popupState)}>
+                                            {isCommentUser
+                                                ? [
+                                                    <MenuItem key="modifier" onClick={() => setOpen(true)}>
+                                                        Modifier
+                                                    </MenuItem>,
+                                                    <MenuItem key="supprimer" onClick={onDelete}>
+                                                        Supprimer
+                                                    </MenuItem>
+                                                ]
+                                                : [
+                                                    <MenuItem key="signaler" onClick={popupState.close}>
+                                                        Signaler
+                                                    </MenuItem>
+                                                ]
+                                            }
+                                        </Menu>
+                                    </React.Fragment>
+                                )}
+                            </PopupState>
+                        </Stack>
                         <Typography sx={{ whiteSpace: 'pre-line' }} color="var(--grey-bold)"> {comment.content} </Typography>
                         <Typography variant="body2" textAlign="right"> {dateParse(comment.created_at)} </Typography>
                     </Stack>

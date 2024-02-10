@@ -12,7 +12,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import ImageIcon from '@mui/icons-material/Image';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
-import PlaceIcon from '@mui/icons-material/Place';
+import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import StarIcon from '@mui/icons-material/Star';
@@ -38,6 +38,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ForumOutlinedIcon from '@mui/icons-material/ForumOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import AddIcon from '@mui/icons-material/Add';
+import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 
 export const SAVED_PLACE_ICON = BookmarkIcon
 export const UNSAVED_PLACE_ICON = BookmarkBorderIcon
@@ -65,8 +67,8 @@ export const MAP_ICON = MapIcon
 export const LANDSCAPE_ICON = LandscapeIcon
 
 export const CLOSE_ICON = MdClose
-export const MARKER_ICON = PlaceIcon
-
+export const MARKER_ICON = RoomOutlinedIcon
+export const PRICE_ICON = MonetizationOnOutlinedIcon
 export const GPS_ICON = NearMeIcon
 export const EYE_ICON = RemoveRedEyeIcon
 
@@ -78,7 +80,7 @@ export const TIKTOK_ICON = RiTiktokLine
 export const YOUTUBE_ICON = YouTubeIcon
 export const STREET_VIEW_ICON = StreetviewIcon
 export const CAMERA_ICON = CameraAltIcon
-
+export const MAIL_ICON = MailOutlinedIcon
 export const TRASH_ICON = DeleteIcon
 
 export const CIRCLE_ICON = FaCircle

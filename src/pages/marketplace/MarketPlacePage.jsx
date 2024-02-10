@@ -40,7 +40,8 @@ import {
 	DialogTitle,
 	Dialog,
 	IconButton,
-	PaginationItem
+	PaginationItem,
+	Button
 } from "@mui/material";
 import LoadingPage from "../../components/LoadingPage";
 import React, { useEffect } from "react";
@@ -54,11 +55,11 @@ const SwrData = ({ products }) => {
 	return (
 		<>
 			{products.length ? (
-				<Grid container spacing={3}>
+				<Grid container spacing={2}>
 					{products.map((product) => {
 						return (
 							<Grid key={product.id} item xs={12} sm={6} md={4}>
-								<NavLink to="/">
+								<NavLink to={`/market-place/product/detail/${product.slug}`}>
 								<ProductCard product={product} />
 								</NavLink>
 							</Grid>
@@ -156,13 +157,12 @@ const MarketPlacePage = () => {
 										to aid you. As much we can.
 									</Typography>
 								</Stack>
-								<BlueButton
-									size="large"
+								<Button
 									variant="contained"
 									startIcon={<ADD_ICON />}
 								>
 									Vendre un produit
-								</BlueButton>
+								</Button>
 							</Stack>
 						</Grid>
 					</Grid>
@@ -170,7 +170,7 @@ const MarketPlacePage = () => {
 			</Box>
 			<Box mb={5}>
 				<Container>
-					<Grid container spacing={3}>
+					<Grid container spacing={2}>
 						<Grid item xs={12} md={3}>
 						<Hidden smDown>
 							<Card>
@@ -234,14 +234,13 @@ const MarketPlacePage = () => {
 							</Hidden>
 							<Hidden smUp>
 							<Box>
-							<BlueButton
+							<Button
 								fullWidth
 								onClick={() => setIsOpenFilterModal(true)}
-								size="large"
 								variant="outlined"
 								startIcon={<FILTER_ICON />}
 							>Filtres
-							</BlueButton>
+							</Button>
 							<Dialog
 								onClose={() => setIsOpenFilterModal(false)}
 								open={isOpenFilterModal}

@@ -18,7 +18,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
 
     return (
         <Card elevation={3}
-            raised={true}
+
             sx={{
                 transition: "0.3s ease",
                 ":hover": {

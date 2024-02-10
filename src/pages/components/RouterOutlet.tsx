@@ -41,7 +41,7 @@ export default function RouterOutlet() {
                 <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
 
                 <Route path="/market-place" element={<MarketPlacePage />} />
-                <Route path="/market-place/product/detail/:id" element={<ProductDetail />} />
+                <Route path="/market-place/product/detail/:slug" element={<ProductDetail />} />
                 <Route path="/market-place/product/create" element={<ProductCreatePage />} />
 
                 <Route path="/voyage/place/create" element={<PlaceCreatePage />} />

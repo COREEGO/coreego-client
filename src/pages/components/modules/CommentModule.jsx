@@ -52,14 +52,14 @@ const CommentModule = ({ comments, discussionId = null, placeId = null, mutate }
 
 
     return (
-        <Box py={2}>
+        <Box py={5}>
             <Container>
                 <Stack spacing={2} >
                 <Typography variant="h6" component="p" fontWeight="bold">
                     Ecrire un <Typography variant="h6" fontWeight="bold" color="var(--coreego-blue)" component="span">commentaire</Typography>
                 </Typography>
                     <Box onClick={() => setOpen(true)}>
-                        <TextField autoComplete={false} sx={{zIndex: -1}} fullWidth placeholder="Ce que je veux dire..." />
+                        <TextField sx={{zIndex: -1}} fullWidth placeholder="Ce que je veux dire..." />
                     </Box>
                     {
                         commentList.length ? <Stack spacing={1}>

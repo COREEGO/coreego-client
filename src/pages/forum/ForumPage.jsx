@@ -39,7 +39,7 @@ const SwrData = ({ discussions }) => {
 		<Box>
 			<Container>
 				{discussions.length
-					? <Grid container spacing={3}>
+					? <Grid container spacing={2}>
 							{discussions.map(discussion => {
 								return (
 									<Grid key={discussion.id} item xs={12} md={6}>
@@ -112,9 +112,9 @@ const ForumPage = () => {
 										to aid you. As much we can.
 									</Typography>
 								</Stack>
-								<RedButton size="large" variant="contained" startIcon={<ADD_ICON />}>
+								<Button color="error" variant="contained" startIcon={<ADD_ICON />}>
 									Créer une discussion
-								</RedButton>
+								</Button>
 							</Stack>
 						</Grid>
 						<Grid
@@ -184,15 +184,14 @@ const ForumPage = () => {
 					</Hidden>
 					<Hidden smUp>
 						<Box>
-							<BlueButton
+							<Button
 								fullWidth
 								onClick={() => setIsOpenFilterModal(true)}
-								size="large"
 								variant="outlined"
 								startIcon={<FILTER_ICON />}
 							>
 								Filtres
-							</BlueButton>
+							</Button>
 							<Dialog
 								onClose={() => setIsOpenFilterModal(false)}
 								open={isOpenFilterModal}

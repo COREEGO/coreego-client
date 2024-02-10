@@ -8,29 +8,23 @@ import './swiper.scss'
 import { Navigation, Pagination } from 'swiper/modules';
 import { IMAGE_PATH } from '../../utils/variables';
 
-const SlideSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
-    console.log(images)
+const SimpleSlider = ({ images }) => {
+
     return (
-        <Swiper style={{ width: '100%', height: "100%" }} navigation={true} modules={[Navigation, Pagination]} className="default-swiper"
-            spaceBetween={20}
-            breakpoints={{
-                640: {
-                    slidesPerView: 2,
-                },
-                1024: {
-                    slidesPerView: 3,
-                }
-            }
-            }
+        <Swiper style={{ width: '100%', height: "100%" }}
+            navigation={true}
+            modules={[Navigation, Pagination]}
+            className="simple-swiper"
+            slidesPerView={1}
         >
             {
-                images.map((image: any) => {
+                images.map((image) => {
                     return <SwiperSlide key={image.id}>
                         <img
                             style={{
                                 objectFit: 'cover',
                                 objectPosition: 'center',
-                                borderRadius: 10,
+                                borderRadius: 5,
                                 height: '100%',
                                 width: '100%'
                             }}
@@ -38,9 +32,9 @@ const SlideSwiper: React.FC<{ images: Array<any> }> = ({ images }) => {
                     </SwiperSlide>
                 })
             }
-        </Swiper >
+        </Swiper>
     )
 
 }
 
-export default SlideSwiper
+export default SimpleSlider

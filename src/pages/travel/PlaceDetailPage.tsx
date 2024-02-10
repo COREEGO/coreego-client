@@ -8,7 +8,7 @@ import UserSniped from "../../components/react-ux/UserSniped"
 import SavePlaceButton from "../../components/buttons/SavePlaceButton"
 import ShareButton from "../../components/buttons/ShareButton"
 import LikeButton from "../../components/buttons/LikeButton"
-import SlideSwiper from "../../components/swipers/SlideSwiper"
+import SlideSwiper from "../../components/swipers/SimpleSlider"
 import CommentModule from "../components/modules/CommentModule"
 import ReviewModule from "../components/modules/ReviewModule"
 
@@ -53,7 +53,7 @@ const Detail = () => {
                             </NavLink>
                             <ReviewModule placeId={place.id} mutate={mutate} reviews={place.reviews} />
                             <Box sx={{ height: { xs: 300, md: 350 }, width: '100%' }}>
-                                <SlideSwiper images={place.images} />
+                                {/* <SlideSwiper images={place.images} /> */}
                             </Box>
                             <Stack spacing={2}>
                                 <Typography component="span" variant="h6" sx={{ fontWeight: 'bold' }}>Description :</Typography>

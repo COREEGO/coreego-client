@@ -12,10 +12,9 @@ import ShareButton from "../../components/buttons/ShareButton";
 import { belongsToAuth } from "../../utils";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { EDIT_ICON } from "../../utils/icon";
-import { Box, Button, Chip, Container, Divider, ImageList, ImageListItem, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Container, Divider, Avatar, ImageListItem, Stack, Typography } from "@mui/material";
 import { apiFetch } from "../../http-common/apiFetch";
 import moment from "moment";
-import { Avatar } from "@chakra-ui/react";
 
 
 
@@ -49,7 +48,7 @@ const DiscussionDetail: React.FC<any> = () => {
             <Box py={5}>
                 <Container>
                     <Stack gap={5} justifyContent="center" alignItems="center">
-                    {
+                        {
                             belongsToAuth(discussion.user.id, user?.id) ?
                                 <NavLink style={{ width: 'fit-content' }} to={`/forum/discussion/edit/${params.id}`}>
                                     <Button variant="outlined" startIcon={<EDIT_ICON />}>Modifier</Button>
@@ -69,11 +68,14 @@ const DiscussionDetail: React.FC<any> = () => {
                             </Typography>
                         </Stack>
                         <Typography color="var(--coreego-blue)" textAlign="center" sx={{ wordBreak: 'break-all' }} variant="h4" component="h1" > {discussion.title} </Typography>
-                        <Divider sx={{ width: '100%' }}>
-                            <UserSniped className="" avatar={discussion.user.avatarPath} pseudo={discussion.user.pseudo} />
-                        </Divider>
                     </Stack>
                 </Container>
+                <Divider sx={{ width: '100%', mt: 5, '&:after, &:before': { backgroundColor: 'black' } }}>
+                    <Stack direction="row" alignItems="center" spacing={1}>
+                        <Avatar sx={{width: 40, height: 40}} src={AVATAR_PATH + discussion.user.avatarPath} />
+                        <Typography fontWeight="bold">{discussion.user.pseudo}</Typography>
+                    </Stack>
+                </Divider>
             </Box>
             <Box bgcolor="var(--light)" py={5}>
                 <Container>

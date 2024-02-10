@@ -39,15 +39,33 @@ const theme = createTheme({
 		fontFamily: "Monsterrat, sans-serif"
 	},
 	components: {
-    MuiCardContent: {
-      styleOverrides: {
-        root: {
-          '&:last-child':{
-            paddingBottom: '16px',
-          }
-        }
-      }
-    },
+		MuiButton: {
+			styleOverrides: {
+				containedPrimary: {
+					backgroundColor: "var(--coreego-blue)"
+				},
+				outlinedPrimary:{
+					borderColor: "var(--coreego-blue)",
+					color: "var(--coreego-blue)",
+				},
+				containedError: {
+					backgroundColor: "var(--coreego-red)"
+				},
+				outlinedError:{
+					borderColor: "var(--coreego-red)",
+					color: "var(--coreego-red)",
+				},
+			}
+		},
+		MuiCardContent: {
+			styleOverrides: {
+				root: {
+					"&:last-child": {
+						paddingBottom: "16px"
+					}
+				}
+			}
+		},
 		MuiCssBaseline: {
 			styleOverrides: () => ({
 				a: {

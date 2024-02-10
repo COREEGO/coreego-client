@@ -3,12 +3,18 @@ import {
 	CardContent,
 	Stack,
 	CardMedia,
-	Typography
+	Typography,
+	Avatar
 } from "@mui/material";
 import { getFirstImage } from "../../utils";
 import LocalisationText from "../texts/LocalisationText";
 import PriceText from "../texts/PriceText";
-import { LOCALISATION_ICON, MARKER_ICON } from "../../utils/icon";
+import {
+	LOCALISATION_ICON,
+	MARKER_ICON,
+	PRICE_ICON
+} from "../../utils/icon";
+import { AVATAR_PATH } from "../../utils/variables";
 
 const ProductCard = ({ product }) => {
 	return (
@@ -36,6 +42,15 @@ const ProductCard = ({ product }) => {
 			/>
 			<CardContent>
 				<Stack spacing={1}>
+					<Stack direction="row" spacing={1} alignItems="center">
+						<Avatar
+							src={AVATAR_PATH + product.user.avatarPath}
+							sx={{ width: 30, height: 30 }}
+						/>
+						<Typography variant="body2" fontWeight="bold">
+							{" "}{product.user.pseudo}{" "}
+						</Typography>
+					</Stack>
 					<Typography
 						color="var(--coreego-blue)"
 						component="span"
@@ -44,12 +59,17 @@ const ProductCard = ({ product }) => {
 					>
 						{product.title}
 					</Typography>
-					<Typography fontWeight="bold" noWrap={true}>
-						{" "}{product.price} KRW{" "}
+					<Typography
+						fontWeight="bold"
+						noWrap={true}
+					>
+						₩ {product.price}
 					</Typography>
-					<Typography>
-						{" "}<MARKER_ICON /> {product.city.label},{" "}
-						{product.district.label}{" "}
+					<Typography noWrap display="flex"
+						alignItems="center">
+						<MARKER_ICON sx={{mr: 1}} />
+						{product.city.label},
+						{product.district.label}
 					</Typography>
 				</Stack>
 			</CardContent>

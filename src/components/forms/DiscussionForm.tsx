@@ -115,7 +115,7 @@ const DiscussionForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mu
                                 required
                                 error={errors.title ? true : false}
                                 {...register('title', noEmptyValidator)} fullWidth placeholder="titre" label="De quoi parlera votre discussion ?" id="title" />
-                            {errors.title && <FormHelperText id="component-error-text">{errors.title.message}</FormHelperText>}
+                            {errors.title && <FormHelperText>{errors.title.message}</FormHelperText>}
                         </FormControl>
 
                         <FormControl required fullWidth error={errors.category ? true : false}>

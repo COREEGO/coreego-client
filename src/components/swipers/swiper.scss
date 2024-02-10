@@ -3,10 +3,9 @@
     height: 100%;
 }
 
-.default-swiper{
+.simple-swiper{
     position: relative;
     height: 100%;
-
     overflow-y: visible;
 
 
@@ -17,30 +16,32 @@
 
     .swiper-button-prev{
         position: absolute;
-        top: -20px;
+        background-color: white;
+        top: 0px;
         right: 50px;
         left: auto;
-        height: 35px;
-        width: 35px;
-        border: 1px solid black;
+        height: 40px;
+        width: 40px;
+        border: 1px solid var(--coreego-blue);
         border-radius: 90%;
         &::after{
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bolder;
-            color: black;
+            color: var(--coreego-blue);
         }
     }
     .swiper-button-next{
+        background-color: white;
         position: absolute;
-        top: -20px;
+        top: 0px;
         right: 0;
-        height: 35px;
-        width: 35px;
-        border: 1px solid black;
+        height: 40px;
+        width: 40px;
+        border: 1px solid var(--coreego-blue);
         border-radius: 90%;
         &::after{
-            font-size: 18px;
-            color: black;
+            font-size: 20px;
+            color: var(--coreego-blue);
         }
     }
 

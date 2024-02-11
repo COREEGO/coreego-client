@@ -77,9 +77,10 @@ const DiscussionDetail: React.FC<any> = () => {
                     </Stack>
                 </Divider>
             </Box>
+
             <Box bgcolor="var(--light)" py={5}>
                 <Container>
-                    <Stack gap={5}>
+                    <Stack gap={2}>
                         <Box className="reactquill_content" dangerouslySetInnerHTML={{ __html: discussion.content }} color="var(--grey-bold)" />
                         <Stack direction="row" spacing={1}>
                             <LikeButton discussionId={discussion.id} likes={discussion.likes} mutate={fetchDiscussion} />
@@ -88,6 +89,7 @@ const DiscussionDetail: React.FC<any> = () => {
                     </Stack>
                 </Container>
             </Box>
+
             <CommentModule mutate={fetchDiscussion} discussionId={discussion.id} comments={discussion.comments} />
         </>
     )

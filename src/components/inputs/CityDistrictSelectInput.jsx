@@ -45,6 +45,7 @@ const CityDistrictSelectInput = ({
             <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Villes</InputLabel>
                 <Select
+                    sx={{backgroundColor: 'white'}}
                     label="Villes"
                     value={selectedCity}
                     onChange={handleCityChange}
@@ -61,6 +62,7 @@ const CityDistrictSelectInput = ({
                 districts && districts.length > 0 ? <FormControl fullWidth>
                     <InputLabel id="demo-simple-select-label">Districts</InputLabel>
                     <Select
+                        sx={{backgroundColor: 'white'}}
                         label="Districts" value={selectedDistrict} onChange={handleDistrictChange}>
                         <MenuItem value="0">Tous les districts</MenuItem>
                         {

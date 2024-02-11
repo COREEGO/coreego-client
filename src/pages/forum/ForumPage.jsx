@@ -36,7 +36,7 @@ import { BlueButton } from "../../components/buttons/BlueButton";
 
 const SwrData = ({ discussions }) => {
 	return (
-		<Box>
+		<Box my={5}>
 			<Container>
 				{discussions.length
 					? <Grid container spacing={2}>
@@ -85,9 +85,9 @@ const ForumPage = () => {
 				<Container>
 					<Grid container alignItems="center">
 						<Grid item xs={12} md={6}>
-							<Stack width={500} maxWidth="100%" spacing={3} alignItems="flex-start">
-								<Stack spacing={1}>
-									<Stack direction="row" alignItems={"baseline"} gab={1} flexWrap="wrap">
+							<Stack maxWidth="100%" spacing={2} alignItems="flex-start">
+								<Stack spacing={2}>
+									<Stack direction="row" alignItems={"baseline"} gap={2} flexWrap="wrap">
 										<Typography
 											variant="h3"
 											color="var(--coreego-blue)"
@@ -144,10 +144,10 @@ const ForumPage = () => {
 			</Box>
 
 			{/* Filtres */}
-			<Box mb={5}>
+			<Box>
 				<Container>
 					<Hidden smDown>
-						<Stack direction="row" gap={1} flexWrap="wrap">
+						<Stack direction="row" gap={2} flexWrap="wrap">
 							<SearchInput
 								placeholder="Rechercher une discussion..."
 								sx={{
@@ -249,10 +249,11 @@ const ForumPage = () => {
 					</Hidden>
 				</Container>
 			</Box>
+
 			{isLoading
 				? <LoadingPage type="data" />
 				: <SwrData discussions={discussions.data} />}
-			<Box sx={{ display: "flex", justifyContent: "center", my: 5 }}>
+			<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
                 <Pagination
                     page={Number(searchParams.get("page")) || 1}
                     onChange={(_event, value) =>

@@ -1,11 +1,11 @@
-import { Slider } from "@mui/material";
 import React, { useEffect } from "react";
+import { Slider } from "@mui/material";
+
 
 
 const DoubleSliderInput = ({onChange, defaultValue, rangeValue}) => {
 
     const [value, setValue] = React.useState([Number(defaultValue[0]), Number(defaultValue[1])]);
-
 
     const [pendingUpdate, setPendingUpdate] = React.useState(false);
 
@@ -38,6 +38,8 @@ const DoubleSliderInput = ({onChange, defaultValue, rangeValue}) => {
 
     return (
         <Slider
+        sx={{color: 'var(--coreego-red)'
+      }}
         getAriaLabel={() => 'Minimum distance shift'}
         value={value}
         min={Number(rangeValue[0])}
@@ -53,7 +55,6 @@ const DoubleSliderInput = ({onChange, defaultValue, rangeValue}) => {
             label: 'max'
           },
         ]}
-        step={500}
         valueLabelDisplay="auto"
         disableSwap
       />

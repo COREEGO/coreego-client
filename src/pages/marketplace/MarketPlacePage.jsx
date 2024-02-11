@@ -53,7 +53,7 @@ import ProductCard from "../../components/card/ProductCard";
 
 const SwrData = ({ products }) => {
 	return (
-		<>
+		<React.Fragment>
 			{products.length ? (
 				<Grid container spacing={2}>
 					{products.map((product) => {
@@ -73,7 +73,7 @@ const SwrData = ({ products }) => {
 					Aucun produit trouvé
 				</Typography>
 			)}
-		</>
+		</React.Fragment>
 	);
 };
 
@@ -120,16 +120,16 @@ const MarketPlacePage = () => {
 						</Grid>
 						<Grid item xs={12} md={6}>
 							<Stack
-								width={500}
+
 								maxWidth="100%"
-								spacing={3}
+								spacing={2}
 								alignItems="flex-start"
 							>
-								<Stack spacing={1}>
+								<Stack spacing={2}>
 									<Stack
 										direction="row"
 										alignItems={"baseline"}
-										gap={1}
+										gap={2}
 										flexWrap="wrap"
 									>
 										<Typography
@@ -168,9 +168,9 @@ const MarketPlacePage = () => {
 					</Grid>
 				</Container>
 			</Box>
-			<Box mb={5}>
+			<Box>
 				<Container>
-					<Grid container spacing={2}>
+					<Grid container spacing={5}>
 						<Grid item xs={12} md={3}>
 						<Hidden smDown>
 							<Card>
@@ -231,8 +231,8 @@ const MarketPlacePage = () => {
 									</Stack>
 								</CardContent>
 							</Card>
-							</Hidden>
-							<Hidden smUp>
+						</Hidden>
+						<Hidden smUp>
 							<Box>
 							<Button
 								fullWidth
@@ -241,68 +241,68 @@ const MarketPlacePage = () => {
 								startIcon={<FILTER_ICON />}
 							>Filtres
 							</Button>
-							<Dialog
-								onClose={() => setIsOpenFilterModal(false)}
-								open={isOpenFilterModal}
-							>
-								<DialogTitle display="flex" alignItems="center">
-									<FILTER_ICON sx={{ mr: 2 }} /> Filtres{" "}
-								</DialogTitle>
-								<IconButton
-									aria-label="close"
-									onClick={() => setIsOpenFilterModal(false)}
-									sx={{
-										position: "absolute",
-										right: 8,
-										top: 8
-									}}
+								<Dialog
+									onClose={() => setIsOpenFilterModal(false)}
+									open={isOpenFilterModal}
 								>
-									<CLOSE_ICON />
-								</IconButton>
-								<DialogContent dividers>
-								<Stack gap={3}>
-											<SearchInput
-												fullWidth
-												placeholder="Rechercher un produit..."
-												defaultValue={searchParams.get("q")}
-												onChange={value => updateFilter("q", value)}
-											/>
+									<DialogTitle display="flex" alignItems="center">
+										<FILTER_ICON sx={{ mr: 2 }} /> Filtres{" "}
+									</DialogTitle>
+									<IconButton
+										aria-label="close"
+										onClick={() => setIsOpenFilterModal(false)}
+										sx={{
+											position: "absolute",
+											right: 8,
+											top: 8
+										}}
+									>
+										<CLOSE_ICON />
+									</IconButton>
+									<DialogContent dividers>
+									<Stack gap={2}>
+												<SearchInput
+													fullWidth
+													placeholder="Rechercher un produit..."
+													defaultValue={searchParams.get("q")}
+													onChange={value => updateFilter("q", value)}
+												/>
 
-											<CityDistrictSelectInput
-												cityValue={searchParams.get("city") || "0"}
-												districtValue={
-													searchParams.get("district") || "0"
-												}
-												updateCity={e =>
-													updateFilter("city", e.toString())}
-												updateDistrict={e =>
-													updateFilter("district", e.toString())}
-											/>
-											<FormGroup>
-												<FormLabel>Prix</FormLabel>
+												<CityDistrictSelectInput
+													cityValue={searchParams.get("city") || "0"}
+													districtValue={
+														searchParams.get("district") || "0"
+													}
+													updateCity={e =>
+														updateFilter("city", e.toString())}
+													updateDistrict={e =>
+														updateFilter("district", e.toString())}
+												/>
+												<FormGroup>
+													<FormLabel>Prix</FormLabel>
 
-												<DoubleSliderInput
-														rangeValue={[
-																products?.data.filter.min_price || '0',
-																products?.data.filter.max_price || '10',
-															]}
-															defaultValue={[
-																searchParams.get("min_price") || 0,
-																searchParams.get("max_price") || 0
-															]}
-														onChange={values => {
-															if(values && Array.isArray(values)){
-																updateFilter('min_price', values[0].toString())
-																updateFilter('max_price', values[1].toString())
-															}
-														} }
-														/>
-											</FormGroup>
-										</Stack>
-								</DialogContent>
-							</Dialog>
+													<DoubleSliderInput
+															rangeValue={[
+																	products?.data.filter.min_price || '0',
+																	products?.data.filter.max_price || '10',
+																]}
+																defaultValue={[
+																	searchParams.get("min_price") || 0,
+																	searchParams.get("max_price") || 0
+																]}
+															onChange={values => {
+																if(values && Array.isArray(values)){
+																	updateFilter('min_price', values[0].toString())
+																	updateFilter('max_price', values[1].toString())
+																}
+															} }
+															/>
+												</FormGroup>
+											</Stack>
+									</DialogContent>
+								</Dialog>
 							</Box>
-							</Hidden>
+						</Hidden>
 						</Grid>
 						<Grid item xs={12} md={9}>
 							{isLoading
@@ -323,55 +323,6 @@ const MarketPlacePage = () => {
 					</Grid>
 				</Container>
 			</Box>
-
-			{/* <NavLink to="/market-place/product/create">
-                <Fab sx={{ position: 'fixed', bottom: 10, right: 10 }} color="success" aria-label="add">
-                    <EDIT_ICON />
-                </Fab>
-            </NavLink>
-            <Box
-                sx={{
-                    backgroundImage: `url(${HEADER_IMG})`,
-                    height: { xs: 150, md: 300 }, backgroundPosition: 'bottom', position: 'relative', backgroundSize: 'cover'
-                }}>
-            </Box>
-            <AsideFeedSection
-                title={"Market place"}
-                renderBody={() =>
-                (
-                    <Stack sx={{ width: 500, maxWidth: '100%' }}>
-                        <FormControl fullWidth>
-                            <FormLabel sx={{mb: 2}}>Localisation</FormLabel>
-                            <CityDistrictSelectInput
-                                cityValue={searchParams.get('city') || ''}
-                                districtValue={searchParams.get('district') || ''}
-                                updateCity={(e: any) => updateFilter('city', e.toString())}
-                                updateDistrict={(e: any) => updateFilter('district', e.toString())}
-                            />
-                        </FormControl>
-                    </Stack>
-                )
-                }
-            />
-            <Container maxWidth="lg">
-                {
-                    !isLoading ? <FeedList
-                        fetchData={data}
-                        noLengthLabel="Aucun produit"
-                        cardName="product"
-                        breackpoints={{ xs: 12, sm: 6, md: 3 }}
-                    /> : <Box my={5}><LoadingPage type="data" /></Box>
-                }
-            </Container>
-            <Container maxWidth="lg" sx={{ my: 5, display: 'flex', justifyContent: 'center' }}>
-                <Pagination
-                    page={Number(searchParams.get('page')) || 1}
-                    onChange={(event: React.ChangeEvent<unknown>, value: number) => updateFilter('page', value.toString())}
-                    count={data?.meta.last_page || 0}
-                    variant="outlined"
-                    shape="rounded"
-                />
-            </Container> */}
 		</React.Fragment>
 	);
 };

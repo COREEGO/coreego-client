@@ -5,6 +5,7 @@ import { apiFetch } from '../http-common/apiFetch';
 import { redirect, useLocation, useNavigate } from "react-router"
 import useSWR from 'swr';
 import axios from '../http-common/axiosInstance';
+import { TOKEN } from '../utils/variables';
 
 const AuthContext = createContext({});
 
@@ -19,10 +20,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const authentification = async () => {
         try {
-            const response: any = await apiFetch('/me', 'get', null, true);
+            const response: any = await axios.get('/me', {
+                headers: { 'Authorization': `Bearer ${TOKEN}` }
+            })
             setUser(response)
-        } catch (error:any) {
-            console.error(JSON.parse(error.message));
+        } catch (error: any) {
+            console.error(error.message);
         }
     };
 

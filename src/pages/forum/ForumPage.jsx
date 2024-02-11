@@ -21,18 +21,17 @@ import useSWR from "swr";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
 import {
-	ADD_ICON,
+
 	CLOSE_ICON,
 	FILTER_ICON,
 } from "../../utils/icon";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoadingPage from "../../components/LoadingPage";
-import wave from "../../images/svgs/wave.svg";
-import RedButton from "../../components/buttons/RedButton";
 import SearchInput from "../../components/inputs/SearchInput";
 import DiscussionCard from "../../components/card/DiscussionCard";
-import { BlueButton } from "../../components/buttons/BlueButton";
+import HeroBannerFeed from "../components/templates/HeroBannerFeed";
+import PaginationData from "../../components/PaginationData";
 
 const SwrData = ({ discussions }) => {
 	return (
@@ -61,6 +60,7 @@ const SwrData = ({ discussions }) => {
 };
 
 const ForumPage = () => {
+
 	const { updateFilter, searchParams } = useFilterContext();
 
 	const [isOpenFilterModal, setIsOpenFilterModal] = React.useState(
@@ -69,9 +69,7 @@ const ForumPage = () => {
 
 	const location = useLocation();
 
-	const { data: discussions, isLoading, error } = useSWR(
-		`/discussions${location.search}`
-	);
+	const { data: discussions, isLoading, error } = useSWR(`/discussions${location.search}`);
 
 	if (error) console.error("API ERROR:", error);
 
@@ -79,71 +77,23 @@ const ForumPage = () => {
 
 	return (
 		<React.Fragment>
-			<Box
-                className="hero_banner"
-			>
-				<Container>
-					<Grid container alignItems="center">
-						<Grid item xs={12} md={6}>
-							<Stack maxWidth="100%" spacing={2} alignItems="flex-start">
-								<Stack spacing={2}>
-									<Stack direction="row" alignItems={"baseline"} gap={2} flexWrap="wrap">
-										<Typography
-											variant="h3"
-											color="var(--coreego-blue)"
-											fontWeight="bold"
-											component="h1"
-										>Forum
-										</Typography>
-										<Typography
-												variant="h4"
-												fontWeight="bold"
-												component="span"
-												color="var(--coreego-red)"
-												>
-												포럼
-										</Typography>
-									</Stack>
-									<Typography color="var(--grey-bold)">
-										MACC Essentials has an important role in making
-										supplies and services available to customers and
-										their patients during this critical time. This
-										includes services from various domains. Our aim is
-										to aid you. As much we can.
-									</Typography>
-								</Stack>
-								<Button color="error" variant="contained" startIcon={<ADD_ICON />}>
-									Créer une discussion
-								</Button>
-							</Stack>
-						</Grid>
-						<Grid
-							item
-							xs={12}
-							md={6}
-							justifyContent="flex-end"
-							sx={{ display: { xs: "none", md: "flex" } }}
-						>
-							<img
-								height={350}
-								width={350}
-								style={{
-									boxShadow: "20px 20px 4px var(--coreego-red)",
-									marginRight: 20,
-									marginBottom: 20,
-									borderRadius: 5,
-									objectFit: "cover",
-									objectPosition: "center"
-								}}
-								src={HEADER_IMG}
-								alt=""
-							/>
-						</Grid>
-					</Grid>
-				</Container>
-			</Box>
+			<HeroBannerFeed
+				theme="red"
+				titleFr="Forum"
+				titleKr="포럼"
+				description="
+				MACC Essentials has an important role in making
+				supplies and services available to customers and
+				their patients during this critical time. This
+				includes services from various domains. Our aim is
+				to aid you. As much we can.
+				"
+				imageLink={HEADER_IMG}
+				buttonLabel="créer une discussion"
+				buttonLink="/"
+				imageDirection="end"
+			/>
 
-			{/* Filtres */}
 			<Box>
 				<Container>
 					<Hidden smDown>
@@ -254,14 +204,7 @@ const ForumPage = () => {
 				? <LoadingPage type="data" />
 				: <SwrData discussions={discussions.data} />}
 			<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-                <Pagination
-                    page={Number(searchParams.get("page")) || 1}
-                    onChange={(_event, value) =>
-                        updateFilter("page", value.toString())}
-                        count={discussions?.meta.last_page || 0}
-                                variant="contained"
-                        renderItem={item => <PaginationItem {...item} />}
-                />
+                <PaginationData lastPage={discussions?.meta.last_page} />
 			</Box>
 		</React.Fragment>
 	);

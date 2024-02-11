@@ -2,7 +2,6 @@ import { Button, FormControl, Text, FormErrorMessage, FormLabel, Input, Stack, u
 import { useEffect, useState } from "react"
 import { Navigate, useNavigate, useParams } from "react-router"
 import { apiFetch } from "../../http-common/apiFetch"
-import SuccessAlert from "../../components/alerts/SuccessAlert"
 import { noEmptyValidator, minLengthValidatior, passwordMatchValidator } from "../../utils/formValidation"
 import { PASSWORD_UPDATED_SUCCESS_MESSAGE } from "../../utils/variables"
 import { SubmitHandler, useForm } from "react-hook-form"

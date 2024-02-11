@@ -31,7 +31,6 @@ import {
 import { apiFetch } from "../../http-common/apiFetch";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
 import { AVATAR_PATH } from "../../utils/variables";
-import { BlueButton } from "../../components/buttons/BlueButton";
 
 const ProductDetail = () => {
 	const params = useParams();

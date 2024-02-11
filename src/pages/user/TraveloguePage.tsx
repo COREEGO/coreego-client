@@ -1,19 +1,12 @@
 import { useEffect, useState } from "react"; // Import React from 'react'
 import LoadingPage from "../../components/LoadingPage";
-import { NavLink, useLocation } from "react-router-dom"; // Import from "react-router-dom"
-import PlaceCard from "../../components/card/PlaceCard";
-import { apiFetch } from "../../http-common/apiFetch";
+import { useLocation } from "react-router-dom"; // Import from "react-router-dom"
 import TravelLogueModal from "../../components/Modals/TravelLogueModal";
-import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Box, Container, FormControl, FormLabel, Grid, InputLabel, MenuItem, Select, Stack, Tab, Tabs, Typography } from "@mui/material";
-import TitleText from "../../components/texts/TitleText";
-import { LOCALISATION_ICON, MARKER_ICON, MARKET_PLACE_ICON } from "../../utils/icon";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import HEADER_IMG from '../../images/headers/espace-discussion.jpg'
-import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
-import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
-import { useFilterContext } from "../../contexts/FilterProvider";
-import FeedList from "../components/FeedList";
 import PlaceMapCard from "../../components/card/PlaceMapCard";
+import { useFilterContext } from "../../contexts/FilterProvider";
+import { apiFetch } from "../../http-common/apiFetch";
 
 const TraveloguePage = () => {
 
@@ -89,29 +82,7 @@ const TraveloguePage = () => {
                 height: { xs: 150, md: 300 }, backgroundPosition: 'bottom', position: 'relative', backgroundSize: 'cover'
             }}>
         </Box>
-        <AsideFeedSection
-            title="Carnet de voyage"
-            renderBody={() => (
-                <Stack spacing={2} sx={{ width: 500, maxWidth: '100%' }}>
-                    <FormLabel sx={{ mb: 2 }}>Localisation</FormLabel>
-                    <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Villes</InputLabel>
-                        <Select
-                            label="Villes"
-                            value={searchParams.get('city') || ''}
-                            onChange={(event:any) => updateFilter('city', event.target.value.toString())}
-                        >
-                            <MenuItem value="" placeholder="Toutes les villes">Toutes les villes</MenuItem>
-                            {cities.map((city: any) => (
-                                <MenuItem key={city.id} value={city.id}>
-                                    {city.label}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </Stack >
-            )}
-        />
+
         <Stack my={5}>
 
             <Container maxWidth="lg">

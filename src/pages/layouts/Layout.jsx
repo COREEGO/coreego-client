@@ -5,20 +5,13 @@ import { useDispatch } from "react-redux"
 import { initCities, initDiscussionCategories, initPlaceCategories, initLanguages } from "../../store/reducers/app.reducer"
 import Navigation from "../../components/navigation/Navigation"
 import { apiFetch } from "../../http-common/apiFetch"
+import axios from "axios"
 
-interface LayoutProps {
-    children: React.ReactNode
-}
+const Layout = ({ children }) => {
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
-
-    const [isLoaded, setIsLoaded] = useState<boolean>(false)
+    const [isLoaded, setIsLoaded] = useState(false)
     const dispath = useDispatch()
-    const { authentification }: any = useAuthContext()
-
-    useEffect(() => {
-        onLoadedApplication()
-    }, [])
+    const { authentification } = useAuthContext()
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
@@ -26,22 +19,28 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         }
     }, [localStorage.getItem('token')])
 
+    useEffect(() => {
+        onLoadedApplication()
+    }, [])
+
+
+
     const onLoadedApplication = async () => {
         try {
-            const discussionCategories: any = await apiFetch('/discussion-categories', 'GET')
-            const placeCategories = await apiFetch('/place-categories', 'GET')
-            const cities = await apiFetch('/cities', 'GET')
-            const languages = await apiFetch('/languages', 'GET')
+            const discussionCategories = await axios.get('/discussion-categories')
+            const placeCategories = await axios.get('/place-categories')
+            const cities = await axios.get('/cities')
+            const languages = await axios.get('/languages')
 
 
-            dispath(initDiscussionCategories(discussionCategories))
-            dispath(initPlaceCategories(placeCategories))
-            dispath(initCities(cities))
-            dispath(initLanguages(languages))
+            dispath(initDiscussionCategories(discussionCategories.data))
+            dispath(initPlaceCategories(placeCategories.data))
+            dispath(initCities(cities.data))
+            dispath(initLanguages(languages.data))
 
 
-        } catch (error: any) {
-            console.error(JSON.parse(error.message))
+        } catch (error) {
+            console.error(error.message)
         } finally {
             setIsLoaded(true)
         }

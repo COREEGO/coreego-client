@@ -1,6 +1,4 @@
-import ErrorAlert from "../../components/alerts/ErrorAlert"
 import { useEffect, useState } from "react"
-import SuccessAlert from "../../components/alerts/SuccessAlert"
 import { apiFetch } from "../../http-common/apiFetch"
 import { useLocation, useNavigate, useNavigation, useParams } from "react-router"
 import { InfoIcon } from "@chakra-ui/icons"

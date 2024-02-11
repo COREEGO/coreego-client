@@ -1,24 +1,10 @@
-import { useSelector } from "react-redux";
-import FeedList from "../components/FeedList";
-import SearchFilter from "../components/filters/SearchFilter";
-import ImageHeader from "../../components/headers/ImageHeader";
 import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
-import AsideFeedSection from "../../components/dom-section/AsideFeedSection";
-import { BsFillPlusCircleFill, BsFilter } from "react-icons/bs";
-import FilterModal from "../../components/Modals/FilterModal";
-import SectionModal from "../../components/Modals/_SectionModal";
 import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
-import SelectInput from "../../components/inputs/SelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
-import ModalWrapper from "../../components/Modals/ModalWraper";
-import RadioGroupInput from "../../components/inputs/RadioGroupInput";
 import {
 	FILTER_ICON,
-	EDIT_ICON,
-	ADD_ICON,
 	CLOSE_ICON
 } from "../../utils/icon";
-import TitleText from "../../components/texts/TitleText";
 import { NavLink, useLocation } from "react-router-dom";
 import useSWR from "swr";
 import {
@@ -29,12 +15,9 @@ import {
 	Pagination,
 	Stack,
 	DialogContent,
-	MenuItem,
-	Select,
 	Hidden,
 	Card,
 	CardContent,
-	Slider,
 	FormGroup,
 	FormLabel,
 	DialogTitle,
@@ -44,12 +27,12 @@ import {
 	Button
 } from "@mui/material";
 import LoadingPage from "../../components/LoadingPage";
-import React, { useEffect } from "react";
-import RedButton from "../../components/buttons/RedButton";
-import { BlueButton } from "../../components/buttons/BlueButton";
+import React from "react";
 import SearchInput from "../../components/inputs/SearchInput";
 import DoubleSliderInput from "../../components/inputs/DoubleSliderInput";
 import ProductCard from "../../components/card/ProductCard";
+import HeroBannerFeed from "../components/templates/HeroBannerFeed";
+import PaginationData from "../../components/PaginationData";
 
 const SwrData = ({ products }) => {
 	return (
@@ -93,81 +76,22 @@ const MarketPlacePage = () => {
 
 	return (
 		<React.Fragment>
-			<Box className="hero_banner">
-				<Container>
-					<Grid container alignItems="center">
-						<Grid
-							item
-							xs={12}
-							md={6}
-							justifyContent="flex-start"
-							sx={{ display: { xs: "none", md: "flex" } }}
-						>
-							<img
-								height={350}
-								width={350}
-								style={{
-									boxShadow: "-20px 20px 4px var(--coreego-blue)",
-									marginLeft: 20,
-									marginBottom: 20,
-									borderRadius: 5,
-									objectFit: "cover",
-									objectPosition: "center"
-								}}
-								src={HEADER_IMG}
-								alt=""
-							/>
-						</Grid>
-						<Grid item xs={12} md={6}>
-							<Stack
-
-								maxWidth="100%"
-								spacing={2}
-								alignItems="flex-start"
-							>
-								<Stack spacing={2}>
-									<Stack
-										direction="row"
-										alignItems={"baseline"}
-										gap={2}
-										flexWrap="wrap"
-									>
-										<Typography
-											variant="h3"
-											color="var(--coreego-blue)"
-											fontWeight="bold"
-											component="h1"
-										>
-											Marketplace
-										</Typography>
-										<Typography
-											variant="h4"
-											fontWeight="bold"
-											component="span"
-											color="var(--coreego-red)"
-										>
-											마켓 플레이스
-										</Typography>
-									</Stack>
-									<Typography color="var(--grey-bold)">
-										MACC Essentials has an important role in making
-										supplies and services available to customers and
-										their patients during this critical time. This
-										includes services from various domains. Our aim is
-										to aid you. As much we can.
-									</Typography>
-								</Stack>
-								<Button
-									variant="contained"
-									startIcon={<ADD_ICON />}
-								>
-									Vendre un produit
-								</Button>
-							</Stack>
-						</Grid>
-					</Grid>
-				</Container>
-			</Box>
+			<HeroBannerFeed
+				theme="blue"
+				titleFr="Marketplace"
+				titleKr="마켓 플레이스"
+				description="
+				MACC Essentials has an important role in making
+				supplies and services available to customers and
+				their patients during this critical time. This
+				includes services from various domains. Our aim is
+				to aid you. As much we can.
+				"
+				imageLink={HEADER_IMG}
+				buttonLabel="Vendre un produit"
+				buttonLink="/"
+				imageDirection="start"
+			/>
 			<Box>
 				<Container>
 					<Grid container spacing={5}>
@@ -310,15 +234,8 @@ const MarketPlacePage = () => {
 								: <SwrData products={products.data.data} />
 								}
 								<Box sx={{ display: "flex", justifyContent: "center", my: 5 }}>
-                <Pagination
-                    page={Number(searchParams.get("page")) || 1}
-                    onChange={(_event, value) =>
-                        updateFilter("page", value.toString())}
-                        count={products?.meta.last_page || 0}
-                                variant="contained"
-                        renderItem={item => <PaginationItem {...item} />}
-                />
-			</Box>
+									<PaginationData lastPage={products?.meta.last_page} />
+								</Box>
 						</Grid>
 					</Grid>
 				</Container>

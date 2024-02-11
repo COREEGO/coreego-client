@@ -1,9 +1,6 @@
-import UserSniped from "../react-ux/UserSniped";
 import LikeCountIcon from "../icons/LikeCountIcon";
 import StarsAverageIcon from "../icons/StarsAverageIcon";
-import LocalisationText from "../texts/LocalisationText";
 import CategoryText from "../texts/CategoryText";
-import GaleryImages from "../images/GaleryImages";
 import { getFirstImage } from "../../utils";
 import { Avatar, Box, Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import CommentCountIcon from "../icons/CommentCounterIcon";
@@ -15,7 +12,13 @@ import { MARKER_ICON } from "../../utils/icon";
 const PlaceCard = ({ place }) => {
 
         return (
-            <Card sx={{ width: '100%' }}>
+            <Card elevation={3}
+			sx={{
+				transition: "0.3s ease",
+				":hover": {
+					boxShadow: "0 0 8px" // Change this value to the desired elevation on hover
+				}
+			}}>
                 <CardMedia
                     component="img"
                     height="194"

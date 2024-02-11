@@ -8,11 +8,15 @@ import moment from 'moment';
 import 'moment/locale/fr';
 import axios from 'axios';
 
+moment.locale('fr')
+
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL
+axios.defaults.withCredentials = true
+
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
-
-moment.locale('fr')
 
 root.render(
     <BrowserRouter>

@@ -9,6 +9,20 @@ export const noEmptyValidator = {
   },
 };
 
+export const requiredValidator = {
+  required:{
+    value: true,
+    message: 'Cette valeur ne doit pas être vide'
+  }
+}
+
+export const emailValidator = {
+  pattern: {
+    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+    message: "Adresse email invalide",
+  },
+};
+
 export const minLengthValidatior = (lenth: number) => {
   return {
     minLength: { value: lenth, message: `Minimum ${lenth} caratères` },
@@ -35,12 +49,7 @@ export const maxLengthValidator = (lenth: number) => {
   };
 };
 
-export const emailValidator = {
-  pattern: {
-    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-    message: "Adresse email invalide",
-  },
-};
+
 
 export const noEmptyLocalisationValidator = (city:string | number, district: string | number) => {
   if(city === '' || district === ''){

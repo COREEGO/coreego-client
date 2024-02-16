@@ -46,7 +46,7 @@ export default function RouterOutlet() {
 
                 <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
                 <Route path="/voyage" element={<TravelPage />} />
-                <Route path="/voyage/place/detail/:id" element={<PlaceDetail />} />
+                <Route path="/voyage/place/:slug" element={<PlaceDetail />} />
 
                 <Route path="/user/profil/:id" element={<ProfilPage />} />
                 <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />

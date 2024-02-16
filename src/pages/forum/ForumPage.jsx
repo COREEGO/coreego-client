@@ -200,12 +200,18 @@ const ForumPage = () => {
 				</Container>
 			</Box>
 
-			{isLoading
+			{
+			isLoading
 				? <LoadingPage type="data" />
-				: <SwrData discussions={discussions.data} />}
-			<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-                <PaginationData lastPage={discussions?.meta.last_page} />
-			</Box>
+				: <>
+				<SwrData discussions={discussions.data} />
+				<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
+               	 	<PaginationData lastPage={discussions?.meta.last_page} />
+				</Box>
+				</>
+
+			}
+
 		</React.Fragment>
 	);
 };

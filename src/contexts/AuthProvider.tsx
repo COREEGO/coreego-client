@@ -23,11 +23,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const response: any = await axios.get('/me', {
                 headers: { 'Authorization': `Bearer ${TOKEN}` }
             })
-            setUser(response)
+            setUser(response.data)
         } catch (error: any) {
             console.error(error.message);
         }
     };
+
+
 
     const logout = useCallback(async () => {
         try {

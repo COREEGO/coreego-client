@@ -6,6 +6,7 @@ import { initCities, initDiscussionCategories, initPlaceCategories, initLanguage
 import Navigation from "../../components/navigation/Navigation"
 import { apiFetch } from "../../http-common/apiFetch"
 import axios from "axios"
+import { TOKEN } from "../../utils/variables"
 
 const Layout = ({ children }) => {
 
@@ -13,11 +14,7 @@ const Layout = ({ children }) => {
     const dispath = useDispatch()
     const { authentification } = useAuthContext()
 
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            authentification()
-        }
-    }, [localStorage.getItem('token')])
+
 
     useEffect(() => {
         onLoadedApplication()
@@ -38,6 +35,9 @@ const Layout = ({ children }) => {
             dispath(initCities(cities.data))
             dispath(initLanguages(languages.data))
 
+            if(TOKEN){
+                await authentification()
+            }
 
         } catch (error) {
             console.error(error.message)

@@ -76,7 +76,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
 
     return (
         <>
-            <Button variant="outlined" onClick={() => setIsOpen(true)} > <StarsAverageIcon datas={reviews} /> </Button>
+            <Button sx={{width: 'fit-content'}} variant="outlined" onClick={() => setIsOpen(true)} > <StarsAverageIcon datas={reviews} /> </Button>
             <Drawer
                 anchor="left"
                 open={isOpen}

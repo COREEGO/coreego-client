@@ -301,7 +301,7 @@ const TravelPage = () => {
 				? <LoadingPage type="data" />
 				: <SwrData places={places.data} />}
 			<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-                <PaginationData lastPage={places?.meta.last_page}  />
+                <PaginationData lastPage={places?.meta?.last_page}  />
 			</Box>
 		</React.Fragment>
 	);

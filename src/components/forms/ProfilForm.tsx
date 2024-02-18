@@ -91,7 +91,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
         handleSubmit,
         setValue,
         getValues,
-        formState: { errors, isSubmitting, isSubmitted },
+        formState: { errors, isSubmitting },
     } = useForm<Inputs>({
         mode: 'onTouched',
         defaultValues: {

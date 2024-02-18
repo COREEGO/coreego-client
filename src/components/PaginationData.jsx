@@ -18,7 +18,7 @@ const PaginationData = ({ lastPage }) => {
 };
 
 PaginationData.propTypes = {
-	lastPage: PropTypes.number.isRequired
+	lastPage: PropTypes.number
 };
 
 export default PaginationData;

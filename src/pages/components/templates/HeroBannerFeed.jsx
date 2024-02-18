@@ -39,9 +39,7 @@ const HeroBannerFeed = (props) => {
                     color='var(--coreego-blue)'
                     fontWeight='bold'
                     component='h1'
-										>
-                    {' '}
-                    {props.titleFr}
+										>{props.titleFr}
                   </Typography>
                     <Typography
                     variant='h4'

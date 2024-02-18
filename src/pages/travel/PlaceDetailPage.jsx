@@ -34,6 +34,7 @@ import moment from "moment";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
 import KakaoMap from "../../components/maps/KakaoMap";
 import { AVATAR_PATH } from "../../utils/variables";
+import TitleSectionText from "../../components/texts/TitleSectionText";
 
 const PlaceDetail = () => {
 	const params = useParams();
@@ -62,7 +63,7 @@ const PlaceDetail = () => {
 			<Box className="hero_banner">
 				<Box py={5}>
 					<Container>
-						<Stack gap={5}>
+						<Stack>
 							<Stack
 								maxWidth="100%"
 								justifyContent="center"
@@ -79,62 +80,71 @@ const PlaceDetail = () => {
 									<SimpleSlider images={place.images} />
 								</Box>
 							</Stack>
-							{belongsToAuth(place.user.id, user?.id) ? (
-								<NavLink to={`/voyage/place/edit/${params.id}`}>
-									<Button
-										variant="outlined"
-										startIcon={<EDIT_ICON />}
-									>
-										Modifier
-									</Button>
-								</NavLink>
-							) : (
-								<></>
-							)}
-							<Stack alignItems="center" direction="row" spacing={1}>
-								<CategoryText category={place.category} />
-								<Typography
-									sx={{
-										color: "var(--grey-bold)",
-										"&:before": {
-											content: '"| "' // Correction ici
-										}
-									}}
-								>
-									{moment(place.created_at).format("D MMMM YYYY")}
-								</Typography>
-							</Stack>
-                            <ReviewModule placeId={place.id} mutate={loadPlace} reviews={place.reviews} />
-							<Typography
-								color="var(--coreego-blue)"
-								sx={{ wordBreak: "break-all" }}
-								variant="h4"
-								component="h1"
-							>
-								{place.title}
-							</Typography>
-							<Typography
-								color="var(--grey-bold)"
-								whiteSpace="pre-line"
-							>
-								{place.description}
-							</Typography>
-							<Stack direction={"row"} spacing={1}>
-								<LikeButton
-									likes={place.likes}
-									mutate={loadPlace}
-									placeId={place.id}
-								/>
-								<SavePlaceButton
-									placeId={place.id}
-									savedPlaces={place.savedPlaces}
-									mutate={loadPlace}
-								/>
-								<ShareButton />
-							</Stack>
 						</Stack>
 					</Container>
 				</Box>
+			</Box>
+			<Box mb={5}>
+				<Container>
+					<Stack gap={5}>
+						{belongsToAuth(place.user.id, user?.id) ? (
+							<NavLink to={`/voyage/place/edit/${params.id}`}>
+								<Button variant="outlined" startIcon={<EDIT_ICON />}>
+									Modifier
+								</Button>
+							</NavLink>
+						) : (
+							<></>
+						)}
+						<Stack alignItems="center" direction="row" spacing={1}>
+							<CategoryText category={place.category} />
+							<Typography
+								sx={{
+									color: "var(--grey-bold)",
+									"&:before": {
+										content: '"| "' // Correction ici
+									}
+								}}
+							>
+								{moment(place.created_at).format("D MMMM YYYY")}
+							</Typography>
+						</Stack>
+						<ReviewModule
+							placeId={place.id}
+							mutate={loadPlace}
+							reviews={place.reviews}
+						/>
+						<Stack spacing={1}>
+						<Typography
+							color="var(--coreego-blue)"
+							sx={{ wordBreak: "break-all" }}
+							variant="h4"
+							component="h1"
+							>
+							{place.title}
+						</Typography>
+						<Typography
+							color="var(--grey-bold)"
+							whiteSpace="pre-line"
+							>
+							{place.description}
+						</Typography>
+							</Stack>
+						<Stack direction={"row"} spacing={1}>
+							<LikeButton
+								likes={place.likes}
+								mutate={loadPlace}
+								placeId={place.id}
+							/>
+							<SavePlaceButton
+								placeId={place.id}
+								savedPlaces={place.savedPlaces}
+								mutate={loadPlace}
+							/>
+							<ShareButton />
+						</Stack>
+					</Stack>
+				</Container>
 			</Box>
 
 			<Box>
@@ -163,17 +173,10 @@ const PlaceDetail = () => {
 			<Box mt={5}>
 				<Container>
 					<Stack spacing={3}>
-						<Typography variant="h6" component="p" fontWeight="bold">
-							Localisation{" "}
-							<Typography
-								variant="h6"
-								fontWeight="bold"
-								color="var(--coreego-blue)"
-								component="span"
-							>
-								du lieu
-							</Typography>
-						</Typography>
+						<TitleSectionText
+							startText="localisation"
+							endText="du lieu"
+						/>
 						<Typography display="flex" alignItems="center">
 							<MARKER_ICON sx={{ mr: 1 }} />
 							{place.city.label},{place.district.label}

@@ -48,7 +48,7 @@ const NavigationUserMenu = () => {
     return (
         <>
             {user ? <>
-                <NavLink to={`/user/profil/${user.id}`}>
+                <NavLink to={`/user/profil/${user.slug}`}>
                     <MenuItem sx={{ color: 'black' }}>
                         <ListItemIcon sx={{ color: "black" }}><PROFIL_ICON /></ListItemIcon>
                         <ListItemText>Profil</ListItemText>

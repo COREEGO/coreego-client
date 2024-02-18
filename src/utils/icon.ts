@@ -2,7 +2,9 @@ import { BsHeart, BsHouseDoor, BsPersonWorkspace, BsCameraFill } from "react-ico
 import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore } from "react-icons/md";
 import PersonIcon from '@mui/icons-material/Person';
 import { HiLanguage } from "react-icons/hi2";
-import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiTiktokLine, RiYoutubeFill } from "react-icons/ri";
+import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiYoutubeFill } from "react-icons/ri";
+import { SiTiktok } from "react-icons/si";
+
 import { FaCircle } from "react-icons/fa";
 import { LiaEdit } from "react-icons/lia";
 import TuneIcon from '@mui/icons-material/Tune';
@@ -41,6 +43,12 @@ import AddIcon from '@mui/icons-material/Add';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+
+export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
+export const CHECKED_ICON = CheckBoxIcon
+
 export const SAVED_PLACE_ICON = BookmarkIcon
 export const UNSAVED_PLACE_ICON = BookmarkBorderIcon
 
@@ -76,7 +84,7 @@ export const EYE_ICON = RemoveRedEyeIcon
 export const INSTAGRAM_ICON = InstagramIcon
 export const KAKAO_ICON = RiKakaoTalkFill
 export const FACEBOOK_ICON = FacebookIcon
-export const TIKTOK_ICON = RiTiktokLine
+export const TIKTOK_ICON = SiTiktok
 export const YOUTUBE_ICON = YouTubeIcon
 export const STREET_VIEW_ICON = StreetviewIcon
 export const CAMERA_ICON = CameraAltIcon

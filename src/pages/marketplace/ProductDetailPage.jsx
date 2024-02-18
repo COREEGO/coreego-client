@@ -31,6 +31,7 @@ import {
 import { apiFetch } from '../../http-common/apiFetch'
 import SimpleSlider from '../../components/swipers/SimpleSlider'
 import { AVATAR_PATH } from '../../utils/variables'
+import TitleSectionText from '../../components/texts/TitleSectionText'
 
 const ProductDetail = () => {
   const params = useParams()
@@ -137,17 +138,10 @@ const ProductDetail = () => {
       <Box mb={5}>
         <Container>
           <Stack spacing={3}>
-            <Typography variant='h6' component='p' fontWeight='bold'>
-							Localisation{' '}
-              <Typography
-                variant='h6'
-                fontWeight='bold'
-                color='var(--coreego-blue)'
-                component='span'
-							>
-								de la vente
-							</Typography>
-            </Typography>
+            <TitleSectionText
+              startText='Localisation'
+              endText='de la vente'
+						/>
             <Typography display='flex' alignItems='center'>
               <MARKER_ICON sx={{ mr: 1 }} />
               {product.city.label},{product.district.label}

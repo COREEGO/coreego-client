@@ -107,7 +107,7 @@ const ProfilPage = () => {
 									{user.pseudo}
 								</Typography>
 								<Typography variant="body2">
-									Inscrit depuis le{" "}
+									Membre depuis le{" "}
 									{moment(user.created_at).format("D MMMM YYYY")}{" "}
 								</Typography>
 							</Stack>

@@ -10,7 +10,6 @@ import {
 	Select,
 	Stack
 } from "@mui/material";
-import { LIKE_ICON } from "../../utils/icon";
 
 const CityDistrictSelectInput = ({
 	updateCity,
@@ -20,7 +19,8 @@ const CityDistrictSelectInput = ({
 	showMap = false,
 	withCircle = false,
     labelCity = 'Villes',
-    labelDistrict = 'Districts'
+    labelDistrict = 'Districts',
+	emptyOption = "Toutes les villes"
 }) => {
 	const { cities } = useSelector((state) => state.app);
 
@@ -77,7 +77,7 @@ const CityDistrictSelectInput = ({
 					value={selectedCity}
 					onChange={handleCityChange}
 				>
-					<MenuItem value="0">Toutes les villes</MenuItem>
+					<MenuItem value="0">{emptyOption}</MenuItem>
 					{cities.map((city) => (
 						<MenuItem key={city.id} value={city.id}>
 							{city.label}

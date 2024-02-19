@@ -31,7 +31,7 @@ export default function LoginPage() {
                 password: data.password.trim()
             })
             localStorage.setItem('token', response.data.token)
-            setUser(response.data.data)
+            await authentification()
             navigate('/')
 
         } catch (error) {

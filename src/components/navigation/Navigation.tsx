@@ -22,6 +22,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import PersonIcon from '@mui/icons-material/Person';
 import { CardMedia, Divider, Hidden, ImageListItem, ListItemIcon, ListItemText } from "@mui/material";
 import { FORUM_ICON, LOGOUT_ICON, MARKET_PLACE_ICON, PROFIL_ICON, SAVED_PLACE_ICON, TRAVEL_ICON, UNSAVED_PLACE_ICON } from "../../utils/icon";
+import { AVATAR_PATH } from '../../utils/variables';
 
 
 const links = [
@@ -171,7 +172,7 @@ const Navigation = () => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
-                            <Avatar src={user?.avatarPath}  />
+                            <Avatar src={AVATAR_PATH + user?.avatarPath}  />
                         </IconButton>
                         <Menu
                             sx={{ mt: '45px' }}

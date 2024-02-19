@@ -75,7 +75,7 @@ const CommentModule = ({
 	};
 
 	return (
-		<Box py={5}>
+		<Box>
 			<Container>
 				<Stack spacing={2}>
 					<TitleSectionText

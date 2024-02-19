@@ -8,18 +8,10 @@ import { MAP_ICON, LANDSCAPE_ICON, STREET_VIEW_ICON } from "../../utils/icon"
 
 
 
-const MapSimpleMarker: React.FC<{
-    lat: number;
-    lng: number;
-    zoom?: number;
-    withCircle?: boolean;
-    displayMapMode?: boolean;
-    displayMapType?: boolean;
-    updateMarker?: (event: { lat: number, lng: number }) => void;
-}> = ({ lat, lng, zoom = 8, updateMarker, withCircle = false, displayMapMode = false, displayMapType = false }) => {
+const MapSimpleMarker = ({ style = {}, lat, lng, zoom = 8, updateMarker, withCircle = false, displayMapMode = false, displayMapType = false }) => {
 
-    const [mapMode, setMapMode] = useState<'map' | 'roadview'>("map")
-    const [mapType, setMapType] = useState<"ROADMAP" | "HYBRID">("ROADMAP")
+    const [mapMode, setMapMode] = useState("map")
+    const [mapType, setMapType] = useState("ROADMAP")
 
     useKakaoLoader()
 
@@ -34,6 +26,8 @@ const MapSimpleMarker: React.FC<{
                     display: mapMode === "map" ? "block" : "none",
                     width: "100%",
                     height: "100%",
+                    borderRadius: '5px',
+                    ...style
                 }}
                 mapTypeId={mapType}
                 level={zoom} // 지도의 확대 레벨

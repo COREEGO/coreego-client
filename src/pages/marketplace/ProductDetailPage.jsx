@@ -77,10 +77,11 @@ const ProductDetail = () => {
 							>
                 <Box
                   sx={{
-                    boxShadow: '-20px 20px 4px var(--coreego-blue)',
+                    boxShadow: '-15px 15px 4px var(--coreego-blue)',
+                    borderRadius: '5px',
                     height: 350,
                     width: 350,
-                    maxWidth: '100%'
+                    maxWidth: '100%',
                   }}
 								>
                   <SimpleSlider images={product.images} />
@@ -150,7 +151,9 @@ const ProductDetail = () => {
               sx={{
                 height: { xs: 250, sm: 300, md: 400 },
                 width: '100%',
-                maxWidth: '100%'
+                maxWidth: '100%',
+                boxShadow: '-15px 15px 4px var(--coreego-red)',
+                borderRadius: '5px',
               }}
 						>
               <KakaoMap

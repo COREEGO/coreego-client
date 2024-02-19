@@ -36,7 +36,7 @@ import PaginationData from "../../components/PaginationData";
 
 const SwrData = ({ products }) => {
 	return (
-		<React.Fragment>
+		<Box>
 			{products.length ? (
 				<Grid container spacing={2}>
 					{products.map((product) => {
@@ -56,7 +56,7 @@ const SwrData = ({ products }) => {
 					Aucun produit trouvé
 				</Typography>
 			)}
-		</React.Fragment>
+		</Box>
 	);
 };
 
@@ -231,7 +231,27 @@ const MarketPlacePage = () => {
 						<Grid item xs={12} md={9}>
 							{isLoading
 								? <LoadingPage type="data" />
-								: <SwrData products={products.data.data} />
+								: <Box>
+								{products.data.data.length ? (
+									<Grid container spacing={2}>
+										{products.data.data.map((product) => {
+											return (
+												<Grid key={product.id} item xs={12} sm={6} md={4}>
+													<NavLink to={`/market-place/product/detail/${product.slug}`}>
+													<ProductCard product={product} />
+													</NavLink>
+												</Grid>
+											);
+										}
+
+										)}
+									</Grid>
+								) : (
+									<Typography align="center">
+										Aucun produit trouvé
+									</Typography>
+								)}
+							</Box>
 								}
 								<Box sx={{ display: "flex", justifyContent: "center", my: 5 }}>
 									<PaginationData lastPage={products?.meta.last_page} />

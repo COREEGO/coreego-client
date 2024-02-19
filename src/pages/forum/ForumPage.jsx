@@ -20,11 +20,7 @@ import {
 import useSWR from "swr";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
-import {
-
-	CLOSE_ICON,
-	FILTER_ICON,
-} from "../../utils/icon";
+import { CLOSE_ICON, FILTER_ICON } from "../../utils/icon";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import LoadingPage from "../../components/LoadingPage";
@@ -33,47 +29,24 @@ import DiscussionCard from "../../components/card/DiscussionCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 
-const SwrData = ({ discussions }) => {
-	return (
-		<Box my={5}>
-			<Container>
-				{discussions.length
-					? <Grid container spacing={2}>
-							{discussions.map(discussion => {
-								return (
-									<Grid key={discussion.id} item xs={12} md={6}>
-										<NavLink
-											to={`/forum/discussion/${discussion.slug}`}
-										>
-											<DiscussionCard discussion={discussion} />
-										</NavLink>
-									</Grid>
-								);
-							})}
-						</Grid>
-					: <Typography textAlign="center">
-							Aucune discussion trouvé
-						</Typography>}
-			</Container>
-		</Box>
-	);
-};
 
 const ForumPage = () => {
-
 	const { updateFilter, searchParams } = useFilterContext();
 
-	const [isOpenFilterModal, setIsOpenFilterModal] = React.useState(
-		false
-	);
+	const [isOpenFilterModal, setIsOpenFilterModal] =
+		React.useState(false);
 
 	const location = useLocation();
 
-	const { data: discussions, isLoading, error } = useSWR(`/discussions${location.search}`);
+	const {
+		data: discussions,
+		isLoading,
+		error
+	} = useSWR(`/discussions${location.search}`);
 
 	if (error) console.error("API ERROR:", error);
 
-	const { discussionCategories } = useSelector(state => state.app);
+	const { discussionCategories } = useSelector((state) => state.app);
 
 	return (
 		<React.Fragment>
@@ -106,7 +79,7 @@ const ForumPage = () => {
 									backgroundColor: "white"
 								}}
 								defaultValue={searchParams.get("q")}
-								onChange={value => updateFilter("q", value)}
+								onChange={(value) => updateFilter("q", value)}
 							/>
 							<Select
 								sx={{
@@ -115,17 +88,19 @@ const ForumPage = () => {
 								}}
 								placeholder="Catégorie"
 								value={searchParams.get("category") || "0"}
-								onChange={category =>
+								onChange={(category) =>
 									updateFilter(
 										"category",
 										category.target.value.toString()
-									)}
+									)
+								}
 							>
 								<MenuItem value="0"> Toutes les catégories </MenuItem>
-								{discussionCategories.map(category => {
+								{discussionCategories.map((category) => {
 									return (
 										<MenuItem key={category.id} value={category.id}>
-											{" "}{category.label}{" "}
+											{" "}
+											{category.label}{" "}
 										</MenuItem>
 									);
 								})}
@@ -166,28 +141,31 @@ const ForumPage = () => {
 											fullWidth
 											placeholder="Rechercher une discussion..."
 											defaultValue={searchParams.get("q")}
-											onChange={value => updateFilter("q", value)}
+											onChange={(value) => updateFilter("q", value)}
 										/>
 										<Select
 											fullWidth
 											placeholder="Catégorie"
 											value={searchParams.get("category") || "0"}
-											onChange={category =>
+											onChange={(category) =>
 												updateFilter(
 													"category",
 													category.target.value.toString()
-												)}
+												)
+											}
 										>
 											<MenuItem value="0">
-												{" "}Toutes les catégories{" "}
+												{" "}
+												Toutes les catégories{" "}
 											</MenuItem>
-											{discussionCategories.map(category => {
+											{discussionCategories.map((category) => {
 												return (
 													<MenuItem
 														key={category.id}
 														value={category.id}
 													>
-														{" "}{category.label}{" "}
+														{" "}
+														{category.label}{" "}
 													</MenuItem>
 												);
 											})}
@@ -200,18 +178,40 @@ const ForumPage = () => {
 				</Container>
 			</Box>
 
-			{
-			isLoading
-				? <LoadingPage type="data" />
-				: <>
-				<SwrData discussions={discussions.data} />
-				<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
-               	 	<PaginationData lastPage={discussions?.meta.last_page} />
-				</Box>
+			{isLoading ? (
+				<LoadingPage type="data" />
+			) : (
+				<>
+					<Box my={5}>
+						<Container>
+							{discussions.data.length ? (
+								<Grid container spacing={2}>
+									{discussions.data.map((discussion) => {
+										return (
+											<Grid key={discussion.id} item xs={12} md={6}>
+												<NavLink
+													to={`/forum/discussion/${discussion.slug}`}
+												>
+													<DiscussionCard discussion={discussion} />
+												</NavLink>
+											</Grid>
+										);
+									})}
+								</Grid>
+							) : (
+								<Typography textAlign="center">
+									Aucune discussion trouvé
+								</Typography>
+							)}
+						</Container>
+					</Box>
+					<Box
+						sx={{ display: "flex", justifyContent: "center", mb: 5 }}
+					>
+						<PaginationData lastPage={discussions?.meta.last_page} />
+					</Box>
 				</>
-
-			}
-
+			)}
 		</React.Fragment>
 	);
 };

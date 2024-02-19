@@ -1,13 +1,8 @@
 import { Box } from "@mui/material"
 import { allowedExtensions } from "../../utils"
 
-interface PropsInterface{
-    children: React.ReactNode,
-    onChange: (e:any) => void,
-    multiple?: boolean
-}
 
-const UpladButton: React.FC<PropsInterface> = ({children, onChange, multiple = true}) => {
+const UpladButton = ({children, onChange, multiple = true}) => {
 
     return (
         <Box  sx={{width: 'fit-content', position: 'relative'}} component="span">

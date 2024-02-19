@@ -92,10 +92,10 @@ const ProfilPage = () => {
 						<Stack
 							direction={{ md: "row" }}
 							alignItems="center"
-							spacing={1}
+							gap={3}
 						>
 							<Avatar
-								sx={{ width: 80, height: 80 }}
+								sx={{boxShadow: '-5px 5px 4px var(--coreego-red)', width: 150, height: 150 }}
 								src={AVATAR_PATH + user?.avatarPath}
 							/>
 							<Stack alignItems={{ xs: "center", md: "flex-start" }}>
@@ -167,7 +167,7 @@ const ProfilPage = () => {
 			<Divider />
 
 			<Container>
-				<Stack mt={5} spacing={3}>
+				<Stack mt={5}>
 					<Box>
 						<TitleSectionText
 							gutterBottom
@@ -181,10 +181,10 @@ const ProfilPage = () => {
 							{user?.introduction || "Aucune description"}
 						</Typography>
 					</Box>
-					<Stack gap={1}>
+					<Stack>
 						<ListItem
 							disableGutters
-							sx={{ display: !user.occupation && "none", mb: 2 }}
+							sx={{ display: !user.occupation && "none" }}
 						>
 							<ListItemAvatar>
 								<Avatar
@@ -204,7 +204,7 @@ const ProfilPage = () => {
 
 						<ListItem
 							disableGutters
-							sx={{ display: !user.hobby && "none", mb: 2 }}
+							sx={{ display: !user.hobby && "none" }}
 						>
 							<ListItemAvatar>
 								<Avatar
@@ -220,7 +220,7 @@ const ProfilPage = () => {
 						</ListItem>
 						<ListItem
 							disableGutters
-							sx={{ display: !user?.city && "none", mb: 2 }}
+							sx={{ display: !user?.city && "none" }}
 						>
 							<ListItemAvatar>
 								<Avatar
@@ -246,8 +246,7 @@ const ProfilPage = () => {
 						<ListItem
 							disableGutters
 							sx={{
-								display: !JSON.parse(user.languages).length && "none",
-								mb: 2
+								display: !JSON.parse(user.languages).length && "none"
 							}}
 						>
 							<ListItemAvatar>
@@ -267,7 +266,7 @@ const ProfilPage = () => {
 					</Stack>
 				</Stack>
 
-				<Stack gap={2} mb={5}>
+				<Stack gap={2} my={5}>
 					<TitleSectionText
 						startText="Publications de"
 						endText={user.pseudo}

@@ -78,15 +78,20 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
         <>
             <Button sx={{width: 'fit-content'}} variant="outlined" onClick={() => setIsOpen(true)} > <StarsAverageIcon datas={reviews} /> </Button>
             <Drawer
+                sx={{
+                    '.MuiDrawer-paper':{
+                        width: 500,
+                        maxWidth: '100%'
+                    }
+                }}
                 anchor="left"
                 open={isOpen}
                 onClose={() => setIsOpen(false)}
             >
-                <Box sx={{ width: 500, maxWidth: '100%' }}>
                     <AppBar position="sticky" sx={{ top: 0, backgroundColor: 'white' }}>
                         <Toolbar>
                             <Stack spacing={1} direction="row" sx={{ flexGrow: 1 }}>
-                                <Typography color="black" variant="h6" component="div" >Rewiews</Typography>
+                                <Typography color="black" variant="h6" component="div" >Reviews</Typography>
                                 {
                                     !currentUserReview ? <Button variant="contained" size="small" onClick={() => setIsOpenForm(true)}>Ajouter</Button> :
                                         <Button component="a" onClick={handleScrollToReview} variant="contained" size="small">Ma review</Button>
@@ -102,7 +107,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                             </IconButton>
                         </Toolbar>
                     </AppBar>
-                    <Container maxWidth="lg" sx={{ my: 2 }}>
+                    <Container sx={{ my: 2 }}>
                         {
                             reviewList.length ? <Stack>
                                 {
@@ -118,7 +123,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                             </Stack> : 'Aucun avis'
                         }
                     </Container>
-                </Box>
+
             </Drawer>
             <Dialog
                 open={isOpenForm}

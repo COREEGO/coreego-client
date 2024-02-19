@@ -17,6 +17,7 @@ const KakaoMap: React.FC<{ lat: number, lng: number, withCircle: boolean }> = ({
                 // 지도의 크기
                 width: "100%",
                 height: "100%",
+                borderRadius: '5px'
             }}
             level={8} // 지도의 확대 레벨
         >

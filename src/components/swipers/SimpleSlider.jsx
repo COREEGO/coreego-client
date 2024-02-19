@@ -19,7 +19,7 @@ const SimpleSlider = ({ images }) => {
         >
             {
                 images.map((image) => {
-                    return <SwiperSlide key={image.id}>
+                    return <SwiperSlide  key={image.id}>
                         <img
                             style={{
                                 objectFit: 'cover',

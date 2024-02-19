@@ -13,7 +13,7 @@ import { NavLink } from 'react-router-dom'
 const HeroBannerFeed = (props) => {
   return (
     <Box className='hero_banner'>
-      <Box py={5}>
+      <Box my={5}>
         <Container>
           <Grid
             flexDirection={`
@@ -77,13 +77,13 @@ const HeroBannerFeed = (props) => {
                 width={350}
                 style={{
                   boxShadow: `${
-										props.imageDirection == 'start' ? '-20px' : '20px'
-									} 20px 4px var(--coreego-${props.theme})`,
+										props.imageDirection == 'start' ? '-15px' : '15px'
+									} 15px 4px var(--coreego-${props.theme})`,
                   marginRight: `${
-										props.imageDirection == 'end' && '20px'
+										props.imageDirection == 'end' && '15px'
 									}`,
                   marginLeft: `${
-										props.imageDirection == 'start' && '20px'
+										props.imageDirection == 'start' && '15px'
 									}`,
                   marginBottom: 20,
                   borderRadius: 5,

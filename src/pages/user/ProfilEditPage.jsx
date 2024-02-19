@@ -20,10 +20,15 @@ import {
 import {
 	CAMERA_ICON,
 	CHECKED_ICON,
+	FACEBOOK_ICON,
+	INSTAGRAM_ICON,
+	KAKAO_ICON,
 	LANGUAGE_ICON,
 	LIKE_ICON,
 	NO_CHECKED_ICON,
-	OCCUPATION_ICON
+	OCCUPATION_ICON,
+	TIKTOK_ICON,
+	YOUTUBE_ICON
 } from "../../utils/icon";
 import { LoadingButton } from "@mui/lab";
 import useFile from "../../hooks/useFile";
@@ -35,6 +40,7 @@ import { useSelector } from "react-redux";
 import { requiredValidator } from "../../utils/formValidation";
 import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
 import TitleSectionText from "../../components/texts/TitleSectionText";
+import { useNavigate } from "react-router";
 
 const ProfilEditPage = () => {
 	const { user: auth, authentification } = useAuthContext();
@@ -44,8 +50,9 @@ const ProfilEditPage = () => {
 	const [isBusy, setIsBusy] = React.useState(false);
 
 	const [languagesSelected, setLanguagesSelected] = useState(JSON.parse(auth.languages))
-
 	const { languages } = useSelector((state) => state.app);
+
+	const navigate = useNavigate()
 
 	const languageParse = React.useMemo(()=>{
 		return languages.map(language=>{
@@ -93,7 +100,11 @@ const ProfilEditPage = () => {
 	const onSubmit = async (data) => {
 		try {
 
+
 			data.languages = languagesSelected
+			if(data.city_id == 0) data.city_id = null
+			if(data.district_id == 0) data.district_id = null
+
 
 			const response = await axios.post(
 				`/user/edit`,
@@ -102,8 +113,9 @@ const ProfilEditPage = () => {
 			);
 			await authentification();
 			toast.success(response.data.message);
+			navigate(`/user/profil/${auth.slug}`)
 		} catch (error) {
-			// toast.error(error.data.message);
+			toast.error(error.message);
 			console.log(error);
 		}
 	};
@@ -118,9 +130,9 @@ const ProfilEditPage = () => {
 				<Box py={5}>
 					<Container>
 						<Stack spacing={5}>
-							<Stack width={150} alignItems="center">
+							<Stack justifyContent="center" alignItems="center">
 								<Avatar
-									sx={{ width: 150, height: 150, mb: -2 }}
+									sx={{boxShadow: '-5px 5px 4px var(--coreego-red)' ,  width: 150, height: 150, mb: -2 }}
 									src={AVATAR_PATH + auth.avatarPath}
 								/>
 								<UpladButton
@@ -161,6 +173,7 @@ const ProfilEditPage = () => {
 									<TextField
 										fullWidth
 										label="Ce que j'aime"
+										placeholder="ce que j'aime"
 										defaultValue={auth.hobby}
 										{...register("hobby")}
 										InputProps={{
@@ -174,6 +187,7 @@ const ProfilEditPage = () => {
 									<TextField
 										fullWidth
 										label="Ma profession"
+										placeholder="ma profession"
 										defaultValue={auth.occupation}
 										{...register("occupation")}
 										InputProps={{
@@ -188,9 +202,11 @@ const ProfilEditPage = () => {
 										control={control}
 										name="district_id"
 										render={() => (
+
 											<CityDistrictSelectInput
 												labelCity="Ville de résidance"
 												labelDistrict="District de résidance"
+												emptyOption="-------"
 												cityValue={auth?.city?.id || ""}
 												districtValue={auth?.district?.id || ""}
 												updateCity={(e) => setValue("city_id", e)}
@@ -198,7 +214,7 @@ const ProfilEditPage = () => {
 													setValue("district_id", e)
 												}
 												showMap={true}
-											/>
+												/>
 										)}
 									/>
 									<Stack direction="row" alignItems="center">
@@ -240,6 +256,76 @@ const ProfilEditPage = () => {
 									<TitleSectionText
 										startText="Mes réseaux"
 										endText="sociaux"
+									/>
+									<TextField
+										fullWidth
+										label="Pseudo facebook"
+										placeholder="mon pseudo facebook"
+										defaultValue={auth.facebook}
+										{...register("facebook")}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<FACEBOOK_ICON />
+												</InputAdornment>
+											)
+										}}
+									/>
+									<TextField
+										fullWidth
+										label="Pseudo youtube"
+										placeholder="mon pseudo youtube"
+										defaultValue={auth.youtube}
+										{...register("youtube")}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<YOUTUBE_ICON />
+												</InputAdornment>
+											)
+										}}
+									/>
+									<TextField
+										fullWidth
+										label="Pseudo instagram"
+										placeholder="mon pseudo instagram"
+										defaultValue={auth.instagram}
+										{...register("instagram")}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<INSTAGRAM_ICON />
+												</InputAdornment>
+											)
+										}}
+									/>
+									<TextField
+										fullWidth
+										label="Pseudo tiktok"
+										placeholder="mon pseudo tiktok"
+										defaultValue={auth.instagram}
+										{...register("tiktok")}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<TIKTOK_ICON />
+												</InputAdornment>
+											)
+										}}
+									/>
+									<TextField
+										fullWidth
+										label="Pseudo kakaotalk"
+										placeholder="mon pseudo kakaoTalk"
+										defaultValue={auth.kakao}
+										{...register("kakao")}
+										InputProps={{
+											startAdornment: (
+												<InputAdornment position="start">
+													<KAKAO_ICON />
+												</InputAdornment>
+											)
+										}}
 									/>
 								</Stack>
 								<LoadingButton

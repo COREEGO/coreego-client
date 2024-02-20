@@ -24,7 +24,7 @@ const PlaceMapCard: React.FC<{ place: any, onClose?: () => void }> = ({ place, o
                <CardMedia
                     component="img"
                     height="194"
-                    image={getFirstImage(place.images) || "https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png"}
+                    image={getFirstImage(place.images)}
                     alt="Paella dish"
                 />
             }
@@ -39,7 +39,7 @@ const PlaceMapCard: React.FC<{ place: any, onClose?: () => void }> = ({ place, o
                     </Stack>
                 </Stack>
                 <Stack direction="row" spacing={2} mt={3} >
-                    <NavLink to={`/voyage/place/detail/${place.id}`}>
+                    <NavLink to={`/voyage/place/${place.slug}`}>
                         <Button startIcon={<EYE_ICON />} size="small" variant="outlined">Détail</Button>
                     </NavLink>
                     <NavLink target="_blank" to={`https://map.kakao.com/link/to/${place.title},${place.latitude},${place.longitude}`}>

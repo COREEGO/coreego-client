@@ -27,7 +27,7 @@ export const getViolationField = (
 };
 
 export const getFirstImage = (images: Array<any>) => {
-  const url = images.length ? IMAGE_PATH + images[0].name : null;
+  const url = images.length ? IMAGE_PATH + images[0].name : "https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png";
   if (url) return url;
   return;
 };

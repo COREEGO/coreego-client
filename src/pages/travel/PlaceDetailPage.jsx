@@ -107,7 +107,7 @@ const PlaceDetail = () => {
 						<Box
 							sx={{
 								boxShadow: "-20px 20px 4px var(--coreego-red)",
-								height: 350,
+								height: {xs: 250, sm: 350 } ,
 								width: 700,
 								maxWidth: "100%"
 							}}

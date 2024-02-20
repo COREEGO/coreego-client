@@ -30,7 +30,7 @@ import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 
 const TravelPage = () => {
-	const { placeCategories, cities } = useSelector(
+	const { placeCategories } = useSelector(
 		(state) => state.app
 	);
 
@@ -217,7 +217,7 @@ const TravelPage = () => {
 							<Grid container spacing={2}>
 								{places.data.map((place) => {
 									return (
-										<Grid key={place.id} item xs={12} md={4}>
+										<Grid key={place.id} item xs={12} sm={6} md={4}>
 											<NavLink to={`/voyage/place/${place.slug}`}>
 												<PlaceCard place={place} />
 											</NavLink>

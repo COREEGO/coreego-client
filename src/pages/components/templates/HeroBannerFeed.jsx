@@ -10,93 +10,100 @@ import PropTypes from 'prop-types'
 import { ADD_ICON } from '../../../utils/icon'
 import { NavLink } from 'react-router-dom'
 
-const HeroBannerFeed = (props) => {
+const HeroBannerFeed = ({
+	imageDirection,
+	titleFr,
+	titleKr,
+	description,
+	buttonLink = '',
+	buttonLabel = '',
+	theme,
+  imageLink
+}) => {
   return (
-    <Box className='hero_banner'>
-      <Box my={5}>
-        <Container>
-          <Grid
-            flexDirection={`
-				row${props.imageDirection === 'start' && '-reverse'}
+    <Box my={5}>
+      <Container>
+        <Grid
+          flexDirection={`
+				row${imageDirection === 'start' && '-reverse'}
 			`}
-            container
-            alignItems='center'>
-            <Grid item xs={12} md={6}>
-              <Stack
-                maxWidth='100%'
-                spacing={2}
-                alignItems='flex-start'
-							>
-                <Stack spacing={2}>
-                  <Stack
-                    direction='row'
-                    alignItems={'baseline'}
-                    gap={2}
-                    flexWrap='wrap'
-									>
-                    <Typography
+          container
+          alignItems='center'
+				>
+          <Grid item xs={12} md={6}>
+            <Stack
+              maxWidth='100%'
+              spacing={2}
+              alignItems='flex-start'
+						>
+              <Stack spacing={2}>
+                <Stack
+                  direction='row'
+                  alignItems={'baseline'}
+                  gap={2}
+                  flexWrap='wrap'
+								>
+                  <Typography
                     variant='h3'
                     color='var(--coreego-blue)'
                     fontWeight='bold'
                     component='h1'
-										>{props.titleFr}
+									>
+                    {titleFr}
                   </Typography>
-                    <Typography
+                  <Typography
                     variant='h4'
                     fontWeight='bold'
                     component='span'
                     color='var(--coreego-red)'
-										>
-                    {props.titleKr}
-                  </Typography>
-                  </Stack>
-                  <Typography color='var(--grey-bold)'>
-                    {props.description}
+									>
+                    {titleKr}
                   </Typography>
                 </Stack>
-                <NavLink to={props.buttonLink}>
-                  <Button
-                    color={props.theme == 'red' ? 'error' : 'primary'}
-                    variant='contained'
-                    startIcon={<ADD_ICON />}
-									>
-                    {props.buttonLabel}
-                  </Button>
-                </NavLink>
+                <Typography color='var(--grey-bold)'>
+                  {description}
+                </Typography>
               </Stack>
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              md={6}
-              justifyContent={`flex-${props.imageDirection}`}
-              sx={{ display: { xs: 'none', md: 'flex' } }}
-						>
-              <img
-                height={350}
-                width={350}
-                style={{
-                  boxShadow: `${
-										props.imageDirection == 'start' ? '-15px' : '15px'
-									} 15px 4px var(--coreego-${props.theme})`,
-                  marginRight: `${
-										props.imageDirection == 'end' && '15px'
-									}`,
-                  marginLeft: `${
-										props.imageDirection == 'start' && '15px'
-									}`,
-                  marginBottom: 20,
-                  borderRadius: 5,
-                  objectFit: 'cover',
-                  objectPosition: 'center'
-                }}
-                src={props.imageLink}
-                alt={`coreego ${props.titleFr} `}
-							/>
-            </Grid>
+              {buttonLink && (
+              <NavLink to={buttonLink}>
+                <Button
+                  color={theme == 'red' ? 'error' : 'primary'}
+                  variant='contained'
+                  startIcon={<ADD_ICON />}
+									>
+                  {buttonLabel}
+                </Button>
+              </NavLink>
+							)}
+            </Stack>
           </Grid>
-        </Container>
-      </Box>
+          <Grid
+            item
+            xs={12}
+            md={6}
+            justifyContent={`flex-${imageDirection}`}
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+					>
+            <img
+              height={350}
+              width={350}
+              style={{
+                boxShadow: `${
+									imageDirection == 'start' ? '-15px' : '15px'
+								} 15px 4px var(--coreego-${theme})`,
+                marginRight: `${imageDirection == 'end' && '15px'}`,
+                marginLeft: `${imageDirection == 'start' && '15px'}`,
+                marginBottom: 20,
+                borderRadius: 5,
+                objectFit: 'cover',
+                objectPosition: 'center'
+              }}
+              src={imageLink}
+              alt={`coreego ${titleFr} `}
+						/>
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   )
 }
@@ -108,12 +115,12 @@ HeroBannerFeed.propTypes = {
   description: PropTypes.string.isRequired,
   imageLink: PropTypes.string.isRequired,
   imageDirection: PropTypes.oneOf(['start', 'end']),
-  buttonLabel: PropTypes.string.isRequired,
-  buttonLink: PropTypes.string.isRequired
+  buttonLabel: PropTypes.string,
+  buttonLink: PropTypes.string
 }
 
 HeroBannerFeed.defaultProps = {
-  imageDirection: 'end'
+  imageDirection: 'end',
 }
 
 export default HeroBannerFeed

@@ -23,6 +23,7 @@ import {
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
+import { getViolationField } from "../../utils";
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -56,21 +57,8 @@ const RegisterPage = () => {
 			toast.success(response.message);
 			navigate("/login");
 		} catch (error) {
-			console.log(error.message);
-			if ("errors" in JSON.parse(error.message)) {
-				const errors = JSON.parse(error.message).errors;
-				for (const field in errors) {
-					if (errors.hasOwnProperty(field)) {
-						const messages = errors[field];
-						for (const message of messages) {
-							setError(field, {
-								type: "manual",
-								message: message
-							});
-						}
-					}
-				}
-			}
+			console.log(error)
+			getViolationField(error, setError)
 		}
 	};
 

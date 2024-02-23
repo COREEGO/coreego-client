@@ -58,7 +58,7 @@ const PlaceForm: React.FC<PropsInterface> = ({ isEditMode = false, data, mutate 
         removeFile,
         deleteFile,
         clearFiles
-    } = useFile(mutate)
+    } = useFile()
 
     const { placeCategories } = useSelector((state: any) => state.app);
 

@@ -63,7 +63,7 @@ const ForumPage = () => {
 				"
 				imageLink={HEADER_IMG}
 				buttonLabel="créer une discussion"
-				buttonLink="/"
+				buttonLink="/forum/discussion/create"
 				imageDirection="end"
 			/>
 

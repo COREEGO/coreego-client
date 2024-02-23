@@ -1,23 +1,23 @@
-import { useParams } from 'react-router'
-import useSWR from 'swr'
-import React, { Suspense, useEffect, useState } from 'react'
-import LoadingPage from '../../components/LoadingPage'
-import { BsMessenger, BsXLg } from 'react-icons/bs'
-import ThumbSwiper from '../../components/swipers/ThumbSwiper'
-import { NavLink } from 'react-router-dom'
-import TitleText from '../../components/texts/TitleText'
-import KakaoMap from '../../components/maps/KakaoMap'
-import UserSniped from '../../components/react-ux/UserSniped'
-import LocalisationText from '../../components/texts/LocalisationText'
-import PriceText from '../../components/texts/PriceText'
-import { belongsToAuth } from '../../utils'
+import { useParams } from "react-router";
+import useSWR from "swr";
+import React, { Suspense, useEffect, useState } from "react";
+import LoadingPage from "../../components/LoadingPage";
+import { BsMessenger, BsXLg } from "react-icons/bs";
+import ThumbSwiper from "../../components/swipers/ThumbSwiper";
+import { NavLink } from "react-router-dom";
+import TitleText from "../../components/texts/TitleText";
+import KakaoMap from "../../components/maps/KakaoMap";
+import UserSniped from "../../components/react-ux/UserSniped";
+import LocalisationText from "../../components/texts/LocalisationText";
+import PriceText from "../../components/texts/PriceText";
+import { belongsToAuth } from "../../utils";
 import {
 	EDIT_ICON,
 	MAIL_ICON,
 	MARKER_ICON,
 	PRICE_ICON
-} from '../../utils/icon'
-import { useAuthContext } from '../../contexts/AuthProvider'
+} from "../../utils/icon";
+import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Avatar,
 	Box,
@@ -27,148 +27,161 @@ import {
 	Grid,
 	Stack,
 	Typography
-} from '@mui/material'
-import { apiFetch } from '../../http-common/apiFetch'
-import SimpleSlider from '../../components/swipers/SimpleSlider'
-import { AVATAR_PATH } from '../../utils/variables'
-import TitleSectionText from '../../components/texts/TitleSectionText'
+} from "@mui/material";
+import { apiFetch } from "../../http-common/apiFetch";
+import SimpleSlider from "../../components/swipers/SimpleSlider";
+import { AVATAR_PATH } from "../../utils/variables";
+import TitleSectionText from "../../components/texts/TitleSectionText";
+import axios from "axios";
 
 const ProductDetail = () => {
-  const params = useParams()
-  const { user } = useAuthContext()
-  const [product, setProduct] = useState(null)
-  const [isLoaded, setIdLoaded] = useState(false)
+	const params = useParams();
+	const { user } = useAuthContext();
+	const [product, setProduct] = useState(null);
+	const [isLoaded, setIdLoaded] = useState(false);
 
-  useEffect(() => {
-    loadProduct()
-  }, [])
+	useEffect(() => {
+		loadProduct();
+	}, []);
 
-  const loadProduct = async () => {
-    try {
-      const response = await apiFetch(
-				`/product/${params.slug}`,
-				'get'
-			)
-      setProduct(response)
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIdLoaded(true)
-    }
-  }
+	const loadProduct = async () => {
+		try {
+			const response = await axios.get(`/products/${params.slug}`);
+			setProduct(response.data);
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIdLoaded(true);
+		}
+	};
 
-  return isLoaded ? (
-    <React.Fragment>
-      <Box className='hero_banner'>
-        <Box py={5}>
-          <Container>
-            <Grid
-              container
-              alignItems='center'
-              spacing={{ xs: 8, md: 0 }}
+	return isLoaded ? (
+		<React.Fragment>
+			<Box className="hero_banner">
+				<Box py={5}>
+					<Container>
+						<Grid
+							container
+							alignItems="center"
+							spacing={{ xs: 8, md: 0 }}
 						>
-              <Grid
-                item
-                xs={12}
-                md={6}
-                alignItems='center'
-                justifyContent='center'
-                display='flex'
+							<Grid
+								item
+								xs={12}
+								md={6}
+								alignItems="center"
+								justifyContent="center"
+								display="flex"
 							>
-                <Box
-                  sx={{
-                    boxShadow: '-15px 15px 4px var(--coreego-blue)',
-                    borderRadius: '5px',
-                    height: 350,
-                    width: 350,
-                    maxWidth: '100%',
-                  }}
+								<Box
+									sx={{
+										boxShadow: "-15px 15px 4px var(--coreego-blue)",
+										borderRadius: "5px",
+										height: 350,
+										width: 350,
+										maxWidth: "100%"
+									}}
 								>
-                  <SimpleSlider images={product.images} />
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Stack spacing={2} alignItems='flex-start'>
-                  <Typography
-                    color='var(--coreego-blue)'
-                    sx={{ wordBreak: 'break-all' }}
-                    variant='h4'
-                    component='h1'
+									<SimpleSlider images={product?.images} />
+								</Box>
+							</Grid>
+							<Grid item xs={12} md={6}>
+								<Stack spacing={2} alignItems="flex-start">
+									{belongsToAuth(product.user.id, user?.id) ? (
+										<NavLink
+											style={{ width: "fit-content" }}
+											to={`/market-place/product/edit/${product.slug}`}
+										>
+											<Button
+												variant="outlined"
+												startIcon={<EDIT_ICON />}
+											>
+												Modifier
+											</Button>
+										</NavLink>
+									) : (
+										<></>
+									)}
+									<Typography
+										color="var(--coreego-blue)"
+										sx={{ wordBreak: "break-all" }}
+										variant="h4"
+										component="h1"
 									>
-                    {product.title}
-                  </Typography>
-                  <Typography
-                    color='var(--grey-bold)'
-                    whiteSpace='pre-line'
+										{product.title}
+									</Typography>
+									<Typography
+										color="var(--grey-bold)"
+										whiteSpace="pre-line"
 									>
-                    {product.description}
-                  </Typography>
-                  <Typography
-                    component='p'
-                    variant='h6'
-                    fontWeight='bold'
-                    noWrap
+										{product.description}
+									</Typography>
+									<Typography
+										component="p"
+										variant="h6"
+										fontWeight="bold"
+										noWrap
 									>
 										₩ {product.price}
-                  </Typography>
-                  <Stack
-                    direction='row'
-                    alignItems='center'
-                    spacing={1}
+									</Typography>
+									<Stack
+										direction="row"
+										alignItems="center"
+										spacing={1}
 									>
-                    <Avatar
-                    sx={{ width: 40, height: 40 }}
-                    src={AVATAR_PATH + product.user.avatarPath}
+										<Avatar
+											sx={{ width: 40, height: 40 }}
+											src={AVATAR_PATH + product?.user?.avatarPath}
 										/>
-                    <Typography fontWeight='bold'>
-                    {product.user.pseudo}
-                  </Typography>
-                  </Stack>
-                  <Button
-                    startIcon={<MAIL_ICON />}
-                    variant='contained'
+										<Typography fontWeight="bold">
+											{product?.user?.pseudo}
+										</Typography>
+									</Stack>
+									<Button
+										startIcon={<MAIL_ICON />}
+										variant="contained"
 									>
 										Contacter le vendeur
 									</Button>
-                </Stack>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
-      </Box>
-      <Box mb={5}>
-        <Container>
-          <Stack spacing={3}>
-            <TitleSectionText
-              startText='Localisation'
-              endText='de la vente'
+								</Stack>
+							</Grid>
+						</Grid>
+					</Container>
+				</Box>
+			</Box>
+			<Box mb={5}>
+				<Container>
+					<Stack spacing={3}>
+						<TitleSectionText
+							startText="Localisation"
+							endText="de la vente"
 						/>
-            <Typography display='flex' alignItems='center'>
-              <MARKER_ICON sx={{ mr: 1 }} />
-              {product.city.label},{product.district.label}
-            </Typography>
-            <Box
-              sx={{
-                height: { xs: 250, sm: 300, md: 400 },
-                width: '100%',
-                maxWidth: '100%',
-                boxShadow: '-15px 15px 4px var(--coreego-red)',
-                borderRadius: '5px',
-              }}
+						<Typography display="flex" alignItems="center">
+							<MARKER_ICON sx={{ mr: 1 }} />
+							{product?.city?.label},{product?.district?.label}
+						</Typography>
+						<Box
+							sx={{
+								height: { xs: 250, sm: 300, md: 400 },
+								width: "100%",
+								maxWidth: "100%",
+								boxShadow: "-15px 15px 4px var(--coreego-red)",
+								borderRadius: "5px"
+							}}
 						>
-              <KakaoMap
-                lat={product.district.latitude}
-                lng={product.district.longitude}
-                withCircle
+							<KakaoMap
+								lat={product?.district?.latitude}
+								lng={product?.district?.longitude}
+								withCircle
 							/>
-            </Box>
-          </Stack>
-        </Container>
-      </Box>
-    </React.Fragment>
+						</Box>
+					</Stack>
+				</Container>
+			</Box>
+		</React.Fragment>
 	) : (
-  <LoadingPage type='page' />
-	)
-}
+		<LoadingPage type="page" />
+	);
+};
 
-export default ProductDetail
+export default ProductDetail;

@@ -51,7 +51,7 @@ const DiscussionDetail: React.FC<any> = () => {
                     <Stack gap={5} justifyContent="center" alignItems="center">
                         {
                             belongsToAuth(discussion.user.id, user?.id) ?
-                                <NavLink style={{ width: 'fit-content' }} to={`/forum/discussion/edit/${params.id}`}>
+                                <NavLink style={{ width: 'fit-content' }} to={`/forum/discussion/edit/${discussion.slug}`}>
                                     <Button variant="outlined" startIcon={<EDIT_ICON />}>Modifier</Button>
                                 </NavLink>
                                 :

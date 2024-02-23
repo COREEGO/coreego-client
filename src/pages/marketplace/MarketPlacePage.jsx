@@ -34,32 +34,6 @@ import ProductCard from "../../components/card/ProductCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 
-const SwrData = ({ products }) => {
-	return (
-		<Box>
-			{products.length ? (
-				<Grid container spacing={2}>
-					{products.map((product) => {
-						return (
-							<Grid key={product.id} item xs={12} sm={6} md={4}>
-								<NavLink to={`/market-place/product/detail/${product.slug}`}>
-								<ProductCard product={product} />
-								</NavLink>
-							</Grid>
-						);
-					}
-
-					)}
-				</Grid>
-			) : (
-				<Typography align="center">
-					Aucun produit trouvé
-				</Typography>
-			)}
-		</Box>
-	);
-};
-
 
 const MarketPlacePage = () => {
 	const { updateFilter, searchParams } = useFilterContext();
@@ -89,7 +63,7 @@ const MarketPlacePage = () => {
 				"
 				imageLink={HEADER_IMG}
 				buttonLabel="Vendre un produit"
-				buttonLink="/"
+				buttonLink="/market-place/product/create"
 				imageDirection="start"
 			/>
 			<Box>
@@ -237,7 +211,7 @@ const MarketPlacePage = () => {
 										{products.data.data.map((product) => {
 											return (
 												<Grid key={product.id} item xs={12} sm={6} md={4}>
-													<NavLink to={`/market-place/product/detail/${product.slug}`}>
+													<NavLink to={`/market-place/product/${product.slug}`}>
 													<ProductCard product={product} />
 													</NavLink>
 												</Grid>

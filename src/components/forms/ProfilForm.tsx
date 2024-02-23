@@ -149,7 +149,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
         try {
             setIsUploadBusy(true)
             const formData = new FormData();
-            formData.append("avatarPath", files[0].file);
+            formData.append("avatarPath", files[0]);
             await apiFetch(`/user/edit-avatar`, 'post', formData, true)
             clearFiles()
 

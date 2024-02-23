@@ -87,8 +87,8 @@ const TraveloguePage = () => {
 		<React.Fragment>
 			<HeroBannerFeed
 				theme="red"
-				titleFr="Carnet de voyage"
-				titleKr="여행담"
+				titleFr="Mon carnet de voyage"
+				titleKr="나의 여행담"
 				description="
             MACC Essentials has an important role in making
             supplies and services available to customers and

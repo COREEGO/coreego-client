@@ -31,17 +31,17 @@ export default function RouterOutlet() {
             <Route element={<PrivateRoute />} >
                 <Route path="/" element={<HomePage />} />
 
-                <Route path="/forum/discussion/edit/:id" element={<DiscussionEditPage />} />
-                <Route path="/market-place/product/edit/:id" element={<ProductEditPage />} />
                 <Route path="/voyage/place/edit/:id" element={<PlaceEditPage />} />
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
 
                 <Route path="/forum" element={<ForumPage />} />
                 <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
                 <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
+                <Route path="/forum/discussion/edit/:slug" element={<DiscussionEditPage />} />
 
                 <Route path="/market-place" element={<MarketPlacePage />} />
-                <Route path="/market-place/product/detail/:slug" element={<ProductDetail />} />
+                <Route path="/market-place/product/edit/:slug" element={<ProductEditPage />} />
+                <Route path="/market-place/product/:slug" element={<ProductDetail />} />
                 <Route path="/market-place/product/create" element={<ProductCreatePage />} />
 
                 <Route path="/voyage/place/create" element={<PlaceCreatePage />} />

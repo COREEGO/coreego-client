@@ -1,12 +1,17 @@
 import { cleanHtmlText } from ".";
 
+export const errorField = (error) => {
+  return {
+      error: Boolean(error),
+      helperText: error?.message || "",
+  };
+};
+
 export const noEmptyValidator = {
-  required: "Cette valeur ne doit pas être vide",
-  minLength: { value: 1, message: "Minimum 1 caratère" },
-  pattern: {
-    value: /\S/,
-    message: "Cette valeur ne doit pas être vide",
-  },
+  required: {
+    value: true,
+    message: "Cette valeur ne doit pas être vide"
+  }
 };
 
 export const requiredValidator = {
@@ -23,13 +28,13 @@ export const emailValidator = {
   },
 };
 
-export const minLengthValidatior = (lenth: number) => {
+export const minLengthValidatior = (lenth) => {
   return {
     minLength: { value: lenth, message: `Minimum ${lenth} caratères` },
   };
 };
 
-export const notEmptyQuillEditor = (htmlString: string) => {
+export const notEmptyQuillEditor = (htmlString) => {
 
   if(!htmlString || cleanHtmlText(htmlString).length == 0){
     return "Cette valeur ne doit pas être vide"
@@ -37,31 +42,31 @@ export const notEmptyQuillEditor = (htmlString: string) => {
   return
 }
 
-export const minNumber = (value: number) => {
+export const minNumber = (value) => {
   return {
     min: {value: value, message: `Minimum de ${value} ` }
   }
 }
 
-export const maxLengthValidator = (lenth: number) => {
+export const maxLengthValidator = (length) => {
   return {
-    maxLength: { value: lenth, message: `Maximum ${lenth} caratères` },
+    maxLength: { value: length, message: `Le champ ne doit pas dépasser ${length} caractères` },
   };
 };
 
 
 
-export const noEmptyLocalisationValidator = (city:string | number, district: string | number) => {
+export const noEmptyLocalisationValidator = (city, district) => {
   if(city === '' || district === ''){
     return "La ville et le district ne doivent pas être vide"
   }
   return
 }
 
-export const noEmtyFileValidator = (files: Array<any>) => {
+export const noEmtyFileValidator = (files) => {
   return files.length > 0 || "Une image au minimum est attendu";
 };
 
-export const passwordMatchValidator = (password:string, confirmPassword:string) => {
+export const passwordMatchValidator = (password, confirmPassword) => {
     return password === confirmPassword || 'Les mots de passe ne correspondent pas.'
 }

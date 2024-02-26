@@ -7,7 +7,6 @@ import PrivateRoute from "./PrivateRoute";
 import TravelPage from "../travel/TravelPage";
 import DiscussionDetail from "../forum/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";
-import ResetPasswordCheckMailPage from "../authentification/PasswordForgotPage";
 import ProductDetail from "../marketplace/ProductDetailPage";
 import PlaceDetail from "../travel/PlaceDetailPage";
 import DiscussionCreatePage from "../forum/DiscussionCreatePage";
@@ -31,22 +30,24 @@ export default function RouterOutlet() {
             <Route element={<PrivateRoute />} >
                 <Route path="/" element={<HomePage />} />
 
-                <Route path="/voyage/place/edit/:id" element={<PlaceEditPage />} />
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
+
 
                 <Route path="/forum" element={<ForumPage />} />
                 <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
                 <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
                 <Route path="/forum/discussion/edit/:slug" element={<DiscussionEditPage />} />
 
+
                 <Route path="/market-place" element={<MarketPlacePage />} />
-                <Route path="/market-place/product/edit/:slug" element={<ProductEditPage />} />
                 <Route path="/market-place/product/:slug" element={<ProductDetail />} />
                 <Route path="/market-place/product/create" element={<ProductCreatePage />} />
+                <Route path="/market-place/product/edit/:slug" element={<ProductEditPage />} />
 
-                <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
                 <Route path="/voyage" element={<TravelPage />} />
                 <Route path="/voyage/place/:slug" element={<PlaceDetail />} />
+                <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
+                <Route path="/voyage/place/edit/:slug" element={<PlaceEditPage />} />
 
                 <Route path="/user/profil/:slug" element={<ProfilPage />} />
                 <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />

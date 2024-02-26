@@ -91,12 +91,12 @@ const HeroBannerFeed = ({
                 boxShadow: `${
 									imageDirection == 'start' ? '-15px' : '15px'
 								} 15px 4px var(--coreego-${theme})`,
-                marginRight: `${imageDirection == 'end' && '15px'}`,
-                marginLeft: `${imageDirection == 'start' && '15px'}`,
+                objectFit: 'cover',
+                objectPosition: 'center',
                 marginBottom: 20,
                 borderRadius: 5,
-                objectFit: 'cover',
-                objectPosition: 'center'
+                marginRight: `${imageDirection == 'end' && '15px'}`,
+                marginLeft: `${imageDirection == 'start' && '15px'}`,
               }}
               src={imageLink}
               alt={`coreego ${titleFr} `}

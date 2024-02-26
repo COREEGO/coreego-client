@@ -134,7 +134,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                             <Controller
                                 control={control}
                                 name="stars"
-                                rules={{ ...minNumber(1), ...noEmptyValidator }}
+                                // rules={{ ...minNumber(1), ...noEmptyValidator }}
                                 render={({ field: { onChange, value } }) => (
                                     <Rating onChange={onChange} value={Number(value)} sx={{ width: 'fit-content' }} name="size-large" size="large" />
                                 )}

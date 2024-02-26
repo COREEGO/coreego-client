@@ -1,87 +1,118 @@
-import * as React from 'react'
-import { useAuthContext } from "../../contexts/AuthProvider"
-import { NavLink, useNavigate } from "react-router-dom"
-import { useForm } from "react-hook-form"
-import { Card, CardActions, CardContent, CardHeader, Container, Divider, Stack, TextField } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { emailValidator, requiredValidator } from '../../utils/formValidation';
-
+import * as React from "react";
+import { useAuthContext } from "../../contexts/AuthProvider";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import {
+	Card,
+	CardActions,
+	CardContent,
+	CardHeader,
+	Container,
+	Divider,
+	Stack,
+	TextField,
+	Grid,
+	Typography
+} from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { toast } from "react-toastify";
+import axios from "axios";
+import {
+	errorField,
+	validationLogin
+} from "../../utils/formValidation";
+import TitleSectionText from "../../components/texts/TitleSectionText";
+import { getViolationField } from "../../utils";
+import { vestResolver } from "@hookform/resolvers/vest";
 
 export default function LoginPage() {
+	const { setUser, authentification } = useAuthContext();
 
-    const { setUser, authentification } = useAuthContext()
+	const navigate = useNavigate();
 
+	const {
+		register,
+		handleSubmit,
+		setError,
+		formState: { errors, isSubmitting }
+	} = useForm({
+		mode: "onBlur",
+		resolver: vestResolver(validationLogin)
+	});
 
-    const navigate = useNavigate()
+	const onSubmit = async (data) => {
+		try {
+			const response = await axios.post("/login", {
+				email: data.email.trim(),
+				password: data.password.trim()
+			});
+			if ("data" in response) {
+				localStorage.setItem("token", response.data.token);
+				await authentification();
+				navigate("/");
+			}
+		} catch (error) {
+			toast.error(error.response.data.message);
+			getViolationField(error, setError);
+		}
+	};
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors, isSubmitting },
-    } = useForm({
-        mode: 'onTouched'
-    })
-
-    const onSubmit = async (data) => {
-        try {
-            const response = await axios.post('/login', {
-                email: data.email.trim(),
-                password: data.password.trim()
-            })
-            localStorage.setItem('token', response.data.token)
-            await authentification()
-            navigate('/')
-
-        } catch (error) {
-            toast.error(error.response.data.message)
-        }
-
-    }
-
-    return (
-        <Container>
-            <Card sx={{ my: 5, mx: 'auto', width: 600, maxWidth: '100%' }}>
-                <CardHeader
-                    sx={{ textAlign: 'center' }}
-                    title="Je me connecte"
-                    subheader="Remplissez le formulaire pour vous connecter"
-                />
-                <CardContent>
-                    <Stack component="form" onSubmit={handleSubmit(onSubmit)} spacing={3}>
-                            <TextField
-                                fullWidth
-                                label="Adresse email"
-                                error={errors.email ? true : false}
-                                helperText={errors?.email?.message}
-                                required
-                                {...register('email', {...requiredValidator, ...emailValidator} )}
-                                placeholder="email@email.fr"
-                                type='email'
-                            />
-                            <TextField
-                                fullWidth
-                                label="Mot de passe"
-                                error={errors.password ? true : false}
-                                helperText={errors?.password?.message}
-                                required
-                                {...register('password', requiredValidator)}
-                                placeholder="Votre mot de passe"
-                                type='password'
-                            />
-                        <LoadingButton variant="contained" loading={isSubmitting} type="submit">Je m'inscris</LoadingButton>
-                    </Stack>
-                </CardContent>
-                <CardActions sx={{justifyContent: 'center'}}>
-                    <NavLink style={{ color: 'var(--coreego-blue)' }} to="/register">
-                        Inscrivez-vous ici
-                    </NavLink>
-                    <NavLink to="/password/forgot" style={{ color: 'var(--coreego-blue)' }}>
-                        Mot de passe oublié
-                    </NavLink>
-                </CardActions>
-            </Card>
-        </Container>
-    )
+	return (
+		<Container>
+			<Stack justifyContent="center" alignItems="center">
+				<Stack spacing={5} mt={5} width={700} maxWidth="100%">
+					<TitleSectionText
+						variant="h5"
+						alignSelf="center"
+						startText="Je me"
+						endText="connecte"
+					/>
+					<Stack
+						component="form"
+						onSubmit={handleSubmit(onSubmit)}
+						spacing={3}
+					>
+						<TextField
+							{...register("email")}
+							{...errorField(errors?.email)}
+							fullWidth
+							label="Adresse email"
+							required
+							placeholder="email@email.fr"
+							type="email"
+						/>
+						<TextField
+							{...register("password")}
+							{...errorField(errors?.password)}
+							fullWidth
+							label="Mot de passe"
+							required
+							placeholder="Votre mot de passe"
+							type="password"
+						/>
+						<Stack alignItems="flex-end">
+							<NavLink to="/password/forgot">
+								Mot de passe oublié
+							</NavLink>
+						</Stack>
+						<LoadingButton
+							variant="contained"
+							loading={isSubmitting}
+							type="submit"
+						>
+							Connexion
+						</LoadingButton>
+						<Stack
+							justifyContent="center"
+							spacing={1}
+							direction="row"
+						>
+							<Typography>Je n'est pas de compte ?</Typography>
+							<NavLink to="/register">Créer un compte</NavLink>
+						</Stack>
+					</Stack>
+				</Stack>
+			</Stack>
+		</Container>
+	);
 }

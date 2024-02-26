@@ -19,12 +19,12 @@ import {
 	DialogTitle,
 	IconButton,
 	DialogContent,
-	PaginationItem
+	PaginationItem,
+	MenuItem
 } from "@mui/material";
 import useSWR from "swr";
 import LoadingPage from "../../components/LoadingPage";
 import PlaceCard from "../../components/card/PlaceCard";
-import { MenuItem } from "@chakra-ui/react";
 import SearchInput from "../../components/inputs/SearchInput";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
@@ -48,7 +48,7 @@ const TravelPage = () => {
 
 	if (error) console.error("API ERROR:", error);
 
-	return (
+	return  (
 		<React.Fragment>
 			<HeroBannerFeed
 				theme="red"
@@ -63,7 +63,7 @@ const TravelPage = () => {
 				"
 				imageLink={HEADER_IMG}
 				buttonLabel="Partager un lieu"
-				buttonLink="/"
+				buttonLink="/voyage/place/create"
 				imageDirection="end"
 			/>
 
@@ -100,17 +100,16 @@ const TravelPage = () => {
 									)
 								}
 							>
-								<MenuItem value="0"> Toutes les catégories </MenuItem>
+								<MenuItem value="0"> Toutes les catégories</MenuItem>
 								{placeCategories.map((category) => {
 									return (
 										<MenuItem key={category.id} value={category.id}>
-											{" "}
-											{category.label}{" "}
+											{category.label}
 										</MenuItem>
 									);
 								})}
 							</Select>
-							<Box>
+							<Box width="fit-content">
 								<CityDistrictSelectInput
 									cityValue={searchParams.get("city") || "0"}
 									districtValue={searchParams.get("district") || "0"}

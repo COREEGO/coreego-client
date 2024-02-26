@@ -1,4 +1,118 @@
+import { create, test, enforce } from 'vest';
 import { cleanHtmlText } from ".";
+
+const IS_REQUIRED_MESSAGE = "Ce champ est requis";
+const IS_NOT_EMAIL_FORMAT_MESSAGE = "Veuillez fournir une adresse email valide";
+const IS_NOT_REGEX_VALID_MESSAGE = "Le format est invalide";
+const IS_NOT_SAME_VALUE_MESSAGE = "Les mots de passe ne correspondent pas";
+const IS_NOT_NUMERIC_MESSAGE = "La valeur doit être de type numérique";
+const IS_NOT_EXTENSIONS_VALID_MESSAGE = "Seuls les fichiers au format jpeg, png, jpg sont valides";
+
+
+const PSEUDO_REGEX = /^[a-zA-Z0-9_.]+$/
+const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+
+export const maxLength = (length) => `Le champ ne doit pas dépasser ${length} caractères.`
+export const minLength = (length) => `Le champ doit avoir au minimum ${length} caractères.`
+export const minNumber = (number) => `Minimum ${number}`
+
+
+
+export const validationRegister = create((data = {}) => {
+  test('pseudo', IS_REQUIRED_MESSAGE, () => {enforce(data.pseudo).isNotEmpty()});
+  test('pseudo', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.pseudo).matches(PSEUDO_REGEX)});
+  test('pseudo', maxLength(20), () => {enforce(data.pseudo).shorterThanOrEquals(20)});
+
+  test('email', IS_REQUIRED_MESSAGE, () => {enforce(data.email).isNotEmpty()});
+  test('email', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.email).matches(EMAIL_REGEX)});
+
+  test('password', IS_REQUIRED_MESSAGE, () => {enforce(data.password).isNotEmpty()});
+  test('password', minLength(6), () => {enforce(data.password).longerThanOrEquals(6)});
+
+  test('confirmPassword', IS_REQUIRED_MESSAGE, () => {enforce(data.confirmPassword).isNotEmpty()});
+  test('confirmPassword', IS_NOT_SAME_VALUE_MESSAGE, () => {
+    enforce(data.confirmPassword).equals(data.password);
+  });
+
+});
+
+export const validationLogin = create((data = {}) => {
+  test('email', IS_REQUIRED_MESSAGE, () => {enforce(data.email).isNotEmpty()});
+  test('email', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.email).matches(EMAIL_REGEX)});
+
+  test('password', IS_REQUIRED_MESSAGE, () => {enforce(data.password).isNotEmpty()});
+})
+
+export const validationForgotPassword = create((data = {}) => {
+  test('email', IS_REQUIRED_MESSAGE, () => {enforce(data.email).isNotEmpty()});
+  test('email', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.email).matches(EMAIL_REGEX)});
+})
+
+export const validationChangePassword = create((data = {}) => {
+  test('email', IS_REQUIRED_MESSAGE, () => {enforce(data.email).isNotEmpty()});
+  test('email', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.email).matches(EMAIL_REGEX)});
+
+  test('password', IS_REQUIRED_MESSAGE, () => {enforce(data.password).isNotEmpty()});
+  test('password', minLength(6), () => {enforce(data.password).longerThanOrEquals(6)});
+
+  test('confirmPassword', IS_REQUIRED_MESSAGE, () => {enforce(data.confirmPassword).isNotEmpty()});
+  test('confirmPassword', IS_NOT_SAME_VALUE_MESSAGE, () => {
+    enforce(data.confirmPassword).equals(data.password);
+  });
+
+})
+
+export const validationDiscussion = create((data = {}) => {
+  test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
+  test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
+  test('category_id', IS_REQUIRED_MESSAGE, () => {enforce(data.category_id).isNotEmpty()});
+  test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
+})
+
+export const validationProduct = create((data = {}) => {
+  test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
+  test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
+  test('description', IS_REQUIRED_MESSAGE, () => {enforce(data.description).isNotEmpty()});
+  test('description', maxLength(500), () => {enforce(data.description).shorterThanOrEquals(500)});
+
+  test('price', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
+
+  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).greaterThan(0)});
+  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).greaterThan(0)});
+
+  test('files', IS_REQUIRED_MESSAGE, () => {enforce(data.files).longerThan(0)});
+
+})
+
+export const validationPlace = create((data = {}) => {
+  test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
+  test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
+  test('description', IS_REQUIRED_MESSAGE, () => {enforce(data.description).isNotEmpty()});
+  test('description', maxLength(500), () => {enforce(data.description).shorterThanOrEquals(500)});
+  test('category_id', IS_REQUIRED_MESSAGE, () => {enforce(data.category_id).isNotEmpty()});
+
+  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).greaterThan(0)});
+  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).greaterThan(0)});
+
+  test('address', IS_REQUIRED_MESSAGE, () => {enforce(data.address).isNotEmpty()});
+})
+
+export const validationProfil = create((data = {}) => {
+  test('introduction', maxLength(250), () => {enforce(data.introduction).shorterThanOrEquals(250)});
+  test('hobby', maxLength(50), () => {enforce(data.hobby).shorterThanOrEquals(50)});
+  test('occupation', maxLength(50), () => {enforce(data.occupation).shorterThanOrEquals(50)});
+  test('facebook', maxLength(20), () => {enforce(data.facebook).shorterThanOrEquals(20)});
+  test('youtube', maxLength(20), () => {enforce(data.youtube).shorterThanOrEquals(20)});
+  test('instagram', maxLength(20), () => {enforce(data.instagram).shorterThanOrEquals(20)});
+  test('tiktok', maxLength(20), () => {enforce(data.tiktok).shorterThanOrEquals(20)});
+  test('kakao', maxLength(20), () => {enforce(data.kakao).shorterThanOrEquals(20)});
+
+})
+
+
+
+
+
 
 export const errorField = (error) => {
   return {
@@ -28,11 +142,7 @@ export const emailValidator = {
   },
 };
 
-export const minLengthValidatior = (lenth) => {
-  return {
-    minLength: { value: lenth, message: `Minimum ${lenth} caratères` },
-  };
-};
+
 
 export const notEmptyQuillEditor = (htmlString) => {
 
@@ -42,11 +152,7 @@ export const notEmptyQuillEditor = (htmlString) => {
   return
 }
 
-export const minNumber = (value) => {
-  return {
-    min: {value: value, message: `Minimum de ${value} ` }
-  }
-}
+
 
 export const maxLengthValidator = (length) => {
   return {
@@ -54,11 +160,25 @@ export const maxLengthValidator = (length) => {
   };
 };
 
+export const pseudoRegexValidator = {
+    pattern: {
+      value: /^[a-zA-Z0-9_.]+$/,
+      message: "Certain caractères ne sont pas valide",
+    },
+  }
 
+
+export const minLengthValidatior = (length) => {
+  return {
+    maxLength: {
+      value: length,
+      message: `Le champ doit avoir un minimum de ${length} caractères` },
+  };
+};
 
 export const noEmptyLocalisationValidator = (city, district) => {
-  if(city === '' || district === ''){
-    return "La ville et le district ne doivent pas être vide"
+  if(city == '0' || district == '0'){
+    return "Cette valeur ne doit pas être vide"
   }
   return
 }
@@ -69,4 +189,46 @@ export const noEmtyFileValidator = (files) => {
 
 export const passwordMatchValidator = (password, confirmPassword) => {
     return password === confirmPassword || 'Les mots de passe ne correspondent pas.'
+}
+
+
+export const combinedPseudoValidator = {
+      maxLength: {
+        value: 20,
+        message: `Le champ ne doit pas dépasser 20 caractères`
+      },
+      required:{
+        value: true,
+        message: 'Cette valeur ne doit pas être vide'
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9_.]+$/,
+        message: "Certain caractères ne sont pas valide",
+      },
+};
+
+export const combineEmailValidator = {
+  required:{
+    value: true,
+    message: 'Cette valeur ne doit pas être vide'
+  },
+  pattern: {
+    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+    message: "Adresse email invalide",
+  },
+}
+
+export const combienPasswordValidator = {
+  required:{
+    value: true,
+    message: 'Cette valeur ne doit pas être vide'
+  },
+    maxLength: {
+      value: 20,
+      message: `Le champ doit avoir un minimum de 20 caractères`
+    }
+}
+
+export const combineConfirmPasswordValidator = (password, confirmPassword) => {
+  return password === confirmPassword || 'Les mots de passe ne correspondent pas.'
 }

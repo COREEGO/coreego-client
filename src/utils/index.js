@@ -29,6 +29,10 @@ export const getViolationField = (error, setError) => {
   }
 };
 
+export const isKoreanAddress = (address) => {
+  return address.includes('South Korea')
+}
+
 export const createBlobImage = (image) => {
   return URL.createObjectURL(image)
 }

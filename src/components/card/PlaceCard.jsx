@@ -23,7 +23,7 @@ const PlaceCard = ({ place }) => {
                     component="img"
                     height="194"
                     image={getFirstImage(place.images) || "https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png"}
-                    alt="Paella dish"
+                    alt={place.title}
                 />
                 <CardContent>
                     <Stack flex={1} spacing={1} >
@@ -42,8 +42,8 @@ const PlaceCard = ({ place }) => {
                         <Typography display="flex"
                             alignItems="center">
                             <MARKER_ICON sx={{mr: 1}} />
-                            <Typography component="span" flex={1} noWrap={true}>{place.city.label},
-                            {place.district.label}</Typography>
+                            <Typography component="span" flex={1} noWrap={true}>{place?.city?.label},
+                            {place?.district?.label}</Typography>
                         </Typography>
                         <StarsAverageIcon datas={place.reviews} />
                         <Stack direction="row" gap={1}>

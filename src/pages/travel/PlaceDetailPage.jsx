@@ -32,7 +32,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import moment from "moment";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
-import KakaoMap from "../../components/maps/KakaoMap";
 import { AVATAR_PATH } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 
@@ -49,7 +48,7 @@ const PlaceDetail = () => {
 
 	const loadPlace = async () => {
 		try {
-			const response = await axios.get(`/place/${params.slug}`);
+			const response = await axios.get(`/places/${params.slug}`);
 			setPlace(response.data);
 		} catch (error) {
 			toast.error(error.response.data.message);
@@ -69,7 +68,7 @@ const PlaceDetail = () => {
 						spacing={5}
 					>
 						{belongsToAuth(place.user.id, user?.id) ? (
-							<NavLink to={`/voyage/place/edit/${params.id}`}>
+							<NavLink to={`/voyage/place/edit/${params.slug}`}>
 								<Button variant="outlined" startIcon={<EDIT_ICON />}>
 									Modifier
 								</Button>

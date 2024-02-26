@@ -18,9 +18,10 @@ const CityDistrictSelectInput = ({
 	districtValue,
 	showMap = false,
 	withCircle = false,
-    labelCity = 'Villes',
-    labelDistrict = 'Districts',
-	emptyOption = "Toutes les villes"
+	labelCity = "Villes",
+	labelDistrict = "Districts",
+	emptyOptionCity = "Toutes les villes",
+	emptyOptionDistict = "Toutes les districts",
 }) => {
 	const { cities } = useSelector((state) => state.app);
 
@@ -34,19 +35,25 @@ const CityDistrictSelectInput = ({
 	}, [selectedCity, cities]);
 
 	const geopoint = useMemo(() => {
+		let localisation = null;
 
-        let localisation = null
-
-        if(selectedCity && selectedDistrict == 0){
-            localisation = cities.find((city) => city.id == selectedCity) || null
-        }else if(selectedCity && selectedDistrict != 0){
-            localisation = districts.find((district) => district.id == selectedDistrict) || null
-        }else{
-            localisation = null
-        }
+		if (selectedCity && selectedDistrict == "0") {
+			localisation =
+				cities.find((city) => city.id == selectedCity) || null;
+		} else if (selectedCity && selectedDistrict != "0") {
+			localisation =
+				districts?.find(
+					(district) => district.id == selectedDistrict
+				) || null;
+		} else {
+			localisation = null;
+		}
 
 		return localisation
-			? { latitude: localisation.latitude, longitude: localisation.longitude }
+			? {
+					latitude: localisation.latitude,
+					longitude: localisation.longitude
+			  }
 			: null;
 	}, [selectedDistrict, selectedCity]);
 
@@ -70,14 +77,16 @@ const CityDistrictSelectInput = ({
 	return (
 		<Box sx={{ width: "100%" }}>
 			<FormControl fullWidth>
-				<InputLabel id="demo-simple-select-label">{labelCity}</InputLabel>
+				<InputLabel id="demo-simple-select-label">
+					{labelCity}
+				</InputLabel>
 				<Select
 					sx={{ backgroundColor: "white" }}
 					label={labelCity}
 					value={selectedCity}
 					onChange={handleCityChange}
 				>
-					<MenuItem value="0">{emptyOption}</MenuItem>
+					<MenuItem value="0">{emptyOptionCity}</MenuItem>
 					{cities.map((city) => (
 						<MenuItem key={city.id} value={city.id}>
 							{city.label}
@@ -86,7 +95,7 @@ const CityDistrictSelectInput = ({
 				</Select>
 			</FormControl>
 			{districts && districts.length > 0 ? (
-				<FormControl fullWidth sx={{mt: 2}}>
+				<FormControl fullWidth sx={{ mt: 2 }}>
 					<InputLabel id="demo-simple-select-label">
 						{labelDistrict}
 					</InputLabel>
@@ -96,7 +105,7 @@ const CityDistrictSelectInput = ({
 						value={selectedDistrict}
 						onChange={handleDistrictChange}
 					>
-						<MenuItem value="0">Tous les districts</MenuItem>
+						<MenuItem value="0">{emptyOptionDistict}</MenuItem>
 						{districts.map((district) => {
 							return (
 								<MenuItem key={district.id} value={district.id}>

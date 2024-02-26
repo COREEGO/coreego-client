@@ -1,135 +1,116 @@
-import { apiFetch } from "../../http-common/apiFetch";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
-	emailValidator,
-	maxLengthValidator,
-	minLengthValidatior,
-	noEmptyValidator,
-	passwordMatchValidator,
-	requiredValidator
+	errorField,
+	validationRegister
 } from "../../utils/formValidation";
+import { vestResolver } from '@hookform/resolvers/vest';
+
 import { NavLink, useNavigate } from "react-router-dom";
 import {
-	Card,
-	CardHeader,
 	Container,
-	FormControl,
 	Stack,
 	TextField,
 	Typography,
-	CardContent,
-	FormHelperText,
-	CardActions
+	InputAdornment
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import { getViolationField } from "../../utils";
+import TitleSectionText from "../../components/texts/TitleSectionText";
+import axios from "axios";
+
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
 
 	const {
-		control,
 		register,
+		watch,
 		handleSubmit,
 		setError,
-		formState: {
-			errors,
-			isSubmitting,
-			isSubmitted,
-			isSubmitSuccessful
-		},
-		getValues,
+		formState: { errors, isSubmitting },
 		reset
 	} = useForm({
-		mode: "onTouched"
+		mode: "onBlur",
+		resolver: vestResolver(validationRegister)
 	});
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await apiFetch("/register", "post", {
-				pseudo: data.pseudo,
+			const response = await axios.post("/register", {
+				pseudo: data.pseudo.trim(),
 				email: data.email,
 				password: data.password,
 				password_confirmation: data.confirmPassword
 			});
 			reset();
-			toast.success(response.message);
+			toast.success(response.data.message);
 			navigate("/login");
 		} catch (error) {
-			console.log(error)
-			getViolationField(error, setError)
+			getViolationField(error, setError);
 		}
 	};
 
 	return (
 		<Container>
-			<Card sx={{ my: 5, mx: "auto", width: 600, maxWidth: "100%" }}>
-				<CardHeader
-					sx={{ textAlign: "center" }}
-					title="Je crée mon compte"
-					subheader="Remplissez le formulaire pour créer votre compte"
-				/>
-				<CardContent>
+			<Stack justifyContent="center" alignItems="center">
+				<Stack spacing={5} mt={5} width={700} maxWidth="100%">
+					<TitleSectionText
+						variant="h5"
+						alignSelf="center"
+						startText="Je crée"
+						endText="mon compte"
+					/>
 					<Stack
 						component="form"
 						onSubmit={handleSubmit(onSubmit)}
 						spacing={3}
 					>
 						<TextField
+							{...register("pseudo")}
+							{...errorField(errors?.pseudo)}
 							label="Pseudo"
 							fullWidth
 							placeholder="Votre pseudo"
-							error={errors.pseudo ? true : false}
-							helperText={errors?.pseudo?.message}
 							required
-							{...register("pseudo", {
-								...requiredValidator,
-								...minLengthValidatior(3),
-								...maxLengthValidator(20)
-							})}
+							InputProps={{
+                                endAdornment: (
+                                    <InputAdornment
+                                        className="string_count"
+                                        position="end"
+                                    >
+                                        {watch("pseudo")?.length || 0}/{20}
+                                    </InputAdornment>
+                                ),
+                                inputProps: {
+                                    maxLength: 20
+                                }
+                            }}
 						/>
 						<TextField
+							{...register("email")}
+							{...errorField(errors?.email)}
 							fullWidth
 							label="Adresse email"
-							error={errors.email ? true : false}
-							helperText={errors?.email?.message}
-							autoFocus
 							required
-							{...register("email", {
-								...noEmptyValidator,
-								...emailValidator
-							})}
 							placeholder="email@email.fr"
 							type="email"
 						/>
 						<TextField
+							{...register("password")}
+							{...errorField(errors?.password)}
 							fullWidth
 							label="Mot de passe"
-							error={errors.password ? true : false}
-							helperText={errors?.password?.message}
 							required
-							{...register("password", {
-								...noEmptyValidator,
-								...minLengthValidatior(6)
-							})}
 							placeholder="6+ caractères requis"
 							type="password"
 						/>
 						<TextField
+							{...register("confirmPassword")}
+							{...errorField(errors?.confirmPassword)}
 							fullWidth
 							label="Confirmez votre mot de passe"
-							error={errors.confirmPassword ? true : false}
-							helperText={errors?.confirmPassword?.message}
 							required
-							{...register("confirmPassword", {
-								...noEmptyValidator,
-								validate: () =>
-									passwordMatchValidator(
-										getValues().password,
-										getValues().confirmPassword
-									)
-							})}
 							placeholder="6+ caractères requis"
 							type="password"
 						/>
@@ -140,17 +121,17 @@ const RegisterPage = () => {
 						>
 							Je m'inscris
 						</LoadingButton>
+						<Stack
+							justifyContent="center"
+							spacing={1}
+							direction="row"
+						>
+							<Typography>J'ai déjà un compte ?</Typography>
+							<NavLink to="/login">Je me connecte</NavLink>
+						</Stack>
 					</Stack>
-				</CardContent>
-				<CardActions sx={{ justifyContent: "center" }}>
-					<NavLink
-						style={{ color: "var(--coreego-blue)" }}
-						to="/login"
-					>
-						Connectez-vous ici
-					</NavLink>
-				</CardActions>
-			</Card>
+				</Stack>
+			</Stack>
 		</Container>
 	);
 };

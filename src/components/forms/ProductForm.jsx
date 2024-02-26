@@ -6,7 +6,8 @@ import {
 	noEmptyLocalisationValidator,
 	maxLengthValidator,
 	noEmtyFileValidator,
-	requiredValidator
+	requiredValidator,
+	validationProduct
 } from "../../utils/formValidation";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import { useEffect } from "react";
@@ -33,8 +34,13 @@ import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
 import useMalware from "../../hooks/useMalware";
 import TitleSectionText from "../texts/TitleSectionText";
-import { createBlobImage, getBlobImage } from "../../utils";
+import {
+	createBlobImage,
+	getBlobImage,
+	getViolationField
+} from "../../utils";
 import axios from "axios";
+import { vestResolver } from "@hookform/resolvers/vest";
 
 const ProductForm = ({
 	isEditMode = false,
@@ -57,15 +63,18 @@ const ProductForm = ({
 		register,
 		handleSubmit,
 		setValue,
+		setError,
 		getValues,
+		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onTouched",
+		mode: "onBlur",
+		resolver: vestResolver(validationProduct),
 		defaultValues: {
 			title: product?.title,
 			description: product?.description,
-			city: product?.city.id,
-			district: product?.district.id,
+			city_id: product?.city.id,
+			district_id: product?.district.id,
 			price: product?.price || 1000,
 			files: []
 		}
@@ -80,25 +89,27 @@ const ProductForm = ({
 		formData.append("title", data.title);
 		formData.append("description", data.description);
 		formData.append("price", parseInt(data.price));
-		formData.append("city_id", data.city);
-		formData.append("district_id", data.district);
+		formData.append("city_id", data.city_id);
+		formData.append("district_id", data.district_id);
 
-		data.files.forEach((file, index) => {
-			formData.append(`images[${index}]`, file);
-		});
-
+		if (data.files.length) {
+			data.files.forEach((file, index) => {
+				formData.append(`images[${index}]`, file);
+			});
+		}
 		try {
 			const response = await axios.post(
 				url,
 				formData,
 				BEARER_HEADERS
 			);
-			console.log(response);
+
 			toast.success(response.data.message);
 			clearFiles();
 			navigate(`/market-place/product/${response.data.data.slug}`);
 		} catch (error) {
-			toast.error(error.response.data.message);
+			toast.error(error?.response?.data?.message);
+			getViolationField(error, setError);
 		}
 	};
 
@@ -107,36 +118,44 @@ const ProductForm = ({
 	}, [files]);
 
 	return (
-		<Box my={3}>
-			<Container maxWidth="lg">
-				<Stack
-					component="form"
-					spacing={5}
-					onSubmit={handleSubmit(onSubmitForm)}
-				>
+		<Container>
+			<Stack justifyContent="center" alignItems="center">
+				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
-						variant="h4"
+						variant="h5"
+						alignSelf="center"
 						startText={isEditMode ? "Modifier" : "Mettre en vente"}
 						endText={"un produit"}
 					/>
-					<Stack spacing={3}>
+					<Stack
+						spacing={3}
+						component="form"
+						onSubmit={handleSubmit(onSubmitForm)}
+					>
 						<TextField
-							{...register("title", {
-								...requiredValidator,
-								...maxLengthValidator(100)
-							})}
+							{...register("title")}
 							{...errorField(errors?.title)}
 							required
 							fullWidth
 							placeholder="titre"
 							label="Donnez un titre à votre produit ?"
+							InputProps={{
+								endAdornment: (
+									<InputAdornment
+										className="string_count"
+										position="end"
+									>
+										{watch("title")?.length || 0}/{100}
+									</InputAdornment>
+								),
+								inputProps: {
+									maxLength: 100
+								}
+							}}
 						/>
+
 						<TextField
-							{...register(
-								"description",
-								requiredValidator,
-								maxLengthValidator(250)
-							)}
+							{...register("description")}
 							{...errorField(errors?.description)}
 							label="Decrivez le produit"
 							placeholder="Description"
@@ -144,11 +163,24 @@ const ProductForm = ({
 							required
 							multiline
 							rows={10}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment
+										className="string_count"
+										position="end"
+									>
+										{watch("description")?.length || 0}/{500}
+									</InputAdornment>
+								),
+								inputProps: {
+									maxLength: 500
+								}
+							}}
 						/>
 						<TextField
 							type="number"
 							required
-							{...register("price", requiredValidator)}
+							{...register("price")}
 							{...errorField(errors?.price)}
 							onInput={(event) => {
 								const value = event.target.value;
@@ -164,36 +196,32 @@ const ProductForm = ({
 								)
 							}}
 						/>
+
 						<Controller
 							control={control}
-							name="district"
-							rules={{
-								validate: () =>
-									noEmptyLocalisationValidator(
-										getValues().city,
-										getValues().district
-									)
-							}}
+							name="city_id"
 							render={() => (
 								<CityDistrictSelectInput
-									cityValue={product?.city.id || ""}
-									districtValue={product?.district.id || ""}
-									updateCity={(e) => setValue("city", e)}
-									updateDistrict={(e) => setValue("district", e)}
+									emptyOptionCity="-----"
+									emptyOptionDistict="-----"
+									labelCity="Dans quelle ville ?"
+									labelDistrict="Dans quel district ?"
+									cityValue={product?.city?.id || "0"}
+									districtValue={product?.district?.id || "0"}
+									updateCity={(e) => setValue("city_id", e)}
+									updateDistrict={(e) => setValue("district_id", e)}
 									showMap={true}
 								/>
 							)}
 						/>
-						{errors.district ? (
+						{(Boolean(errors?.city_id) || Boolean(errors?.district_id) )  && (
 							<FormHelperText>
-								{" "}
-								{errors.district.message}{" "}
+								{errors?.city_id?.message || errors?.district_id?.message}
 							</FormHelperText>
-						) : (
-							<></>
 						)}
+
 						{isEditMode && product?.images.length ? (
-							<FormControl>
+							<Stack spacing={1}>
 								<Typography fontWeight={"bold"}>Images</Typography>
 								<Stack direction="row" flexWrap={"wrap"} mt={2}>
 									{product.images.map((image, index) => {
@@ -212,7 +240,7 @@ const ProductForm = ({
 									})}
 								</Stack>
 								<Divider />
-							</FormControl>
+							</Stack>
 						) : (
 							<></>
 						)}
@@ -234,16 +262,11 @@ const ProductForm = ({
 						) : (
 							<></>
 						)}
+
 						<FormControl error={errors.files ? true : false}>
 							<Controller
 								control={control}
 								name="files"
-								rules={{
-									validate: () =>
-										noEmtyFileValidator(
-											files.concat(product?.images || [])
-										)
-								}}
 								render={() => (
 									<UpladButton
 										onChange={(e) => addFile(e.target.files)}
@@ -278,8 +301,8 @@ const ProductForm = ({
 						</Box>
 					</Stack>
 				</Stack>
-			</Container>
-		</Box>
+			</Stack>
+		</Container>
 	);
 };
 

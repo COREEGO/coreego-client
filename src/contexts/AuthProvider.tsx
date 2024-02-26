@@ -6,6 +6,7 @@ import { redirect, useLocation, useNavigate } from "react-router"
 import useSWR from 'swr';
 import axios from '../http-common/axiosInstance';
 import { BEARER_HEADERS, TOKEN } from '../utils/variables';
+import { toast } from 'react-toastify';
 
 const AuthContext = createContext({});
 
@@ -23,6 +24,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const response: any = await axios.get('/me', BEARER_HEADERS)
             setUser(response.data)
         } catch (error: any) {
+            toast.error(error.message)
             console.error(error.message);
         }
     };

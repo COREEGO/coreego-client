@@ -67,7 +67,7 @@ const useFile = (mutate = Function) => {
       .then((_) => {
         axios.delete(`/image/delete/${fileId}`, BEARER_HEADERS).then(
           (response) => {
-            mutate()
+              mutate()
               toast.success(response.data.message)
           }
         );

@@ -8,7 +8,8 @@ import {
 	maxLengthValidator,
 	noEmptyValidator,
 	notEmptyQuillEditor,
-	requiredValidator
+	requiredValidator,
+	validationDiscussion
 } from "../../utils/formValidation";
 import useFile from "../../hooks/useFile";
 import { apiFetch } from "../../http-common/apiFetch";
@@ -37,8 +38,12 @@ import ReactQuillInput from "../inputs/ReactQuillInput";
 import TitleSectionText from "../texts/TitleSectionText";
 import axios from "axios";
 import { getViolationField } from "../../utils";
+import { vestResolver } from "@hookform/resolvers/vest";
 
-const DiscussionForm = ({ isEditMode = false, discussion = null }) => {
+const DiscussionForm = ({
+	isEditMode = false,
+	discussion = null
+}) => {
 	const navigate = useNavigate();
 	const params = useParams();
 	const { user } = useAuthContext();
@@ -55,15 +60,16 @@ const DiscussionForm = ({ isEditMode = false, discussion = null }) => {
 		register,
 		getValues,
 		setValue,
-        setError,
+		setError,
 		handleSubmit,
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onTouched",
+		mode: "onBlur",
+		resolver: vestResolver(validationDiscussion),
 		defaultValues: {
 			title: discussion?.title,
-			content: discussion?.content,
+			content: discussion?.content
 		}
 	});
 
@@ -86,13 +92,14 @@ const DiscussionForm = ({ isEditMode = false, discussion = null }) => {
 	};
 
 	return (
-		<Box my={3}>
-			<Container maxWidth="lg">
-				<Stack spacing={5}>
+		<Container>
+			<Stack justifyContent="center" alignItems="center">
+				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
-						variant="h4"
-						startText={isEditMode ? 'Modifier un' : 'Nouveau' }
-						endText="sujet"
+						variant="h5"
+						alignSelf="center"
+						startText={isEditMode ? "Modifier une" : "Nouvelle"}
+						endText="discussion"
 					/>
 					<Stack
 						spacing={3}
@@ -100,35 +107,32 @@ const DiscussionForm = ({ isEditMode = false, discussion = null }) => {
 						onSubmit={handleSubmit(onSubmitForm)}
 					>
 						<TextField
-							{...register(
-								"title",
-								{...requiredValidator, ...maxLengthValidator(100)}
-							)}
+							{...register("title")}
 							{...errorField(errors?.title)}
 							required
 							fullWidth
 							placeholder="Titre de ma discussion"
 							label="De quoi parlera ma discussion ?"
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment
-                                        className="string_count"
-                                        position="end"
-                                    >
-                                        {watch("title")?.length || 0}/{100}
-                                    </InputAdornment>
-                                ),
-                                inputProps: {
-                                    maxLength: 100
-                                }
-                            }}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment
+										className="string_count"
+										position="end"
+									>
+										{watch("title")?.length || 0}/{100}
+									</InputAdornment>
+								),
+								inputProps: {
+									maxLength: 100
+								}
+							}}
 						/>
-						<FormControl error={Boolean(errors?.category)}>
-							<InputLabel>Catégorie de cette discussion</InputLabel>
+						<FormControl error={Boolean(errors?.category_id)}>
+							<InputLabel>Catégorie de la discussion</InputLabel>
 							<Select
-								{...register("category_id", noEmptyValidator)}
-								label="Catégorie de cette discussion"
-                                defaultValue={discussion?.category?.id}
+								{...register("category_id")}
+								label="Catégorie de la discussion"
+								defaultValue={discussion?.category?.id}
 							>
 								<MenuItem value="">-------</MenuItem>
 								{discussionCategories.map((category) => (
@@ -137,21 +141,18 @@ const DiscussionForm = ({ isEditMode = false, discussion = null }) => {
 									</MenuItem>
 								))}
 							</Select>
-							{Boolean(errors?.category) && (
+							{(Boolean(errors?.city_id) ||
+								Boolean(errors?.district_id)) && (
 								<FormHelperText>
-									{errors?.category?.message}
+									{errors?.city_id?.message ||
+										errors?.district_id?.message}
 								</FormHelperText>
 							)}
 						</FormControl>
-
 						<FormControl>
 							<Controller
 								control={control}
 								name="content"
-								rules={{
-									validate: () =>
-										notEmptyQuillEditor(watch("content"))
-								}}
 								render={({ field: { value, onChange } }) => (
 									<ReactQuillInput
 										value={value}
@@ -176,8 +177,26 @@ const DiscussionForm = ({ isEditMode = false, discussion = null }) => {
 						</Box>
 					</Stack>
 				</Stack>
-			</Container>
-		</Box>
+			</Stack>
+		</Container>
+		// <Box my={3}>
+		// 	<Container maxWidth="lg">
+		// 		<Stack spacing={5}>
+		// 			<TitleSectionText
+		// 				variant="h4"
+		// 				startText={isEditMode ? 'Modifier un' : 'Nouveau' }
+		// 				endText="sujet"
+		// 			/>
+		// 			<Stack
+		// 				spacing={3}
+		// 				component="form"
+		// 				onSubmit={handleSubmit(onSubmitForm)}
+		// 			>
+
+		// 			</Stack>
+		// 		</Stack>
+		// 	</Container>
+		// </Box>
 	);
 };
 

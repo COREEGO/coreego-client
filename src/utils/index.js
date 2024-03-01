@@ -1,5 +1,5 @@
 import moment from "moment";
-import { BASE_URL, IMAGE_PATH } from "./variables";
+import { IMAGE_PATH } from "./variables";
 import { apiFetch } from "../http-common/apiFetch";
 
 export const dateParse = (date) => {
@@ -15,14 +15,16 @@ export const dateParse = (date) => {
 export const getViolationField = (error, setError) => {
   if ("errors" in error?.response?.data) {
     const errors = error?.response?.data?.errors;
-    for (const field in errors) {
-      if (errors.hasOwnProperty(field)) {
-        const messages = errors[field];
-        for (const message of messages) {
-          setError(field, {
-            type: "manual",
-            message: message
-          });
+    if(errors.length){
+      for (const field in errors) {
+        if (errors.hasOwnProperty(field)) {
+          const messages = errors[field];
+          for (const message of messages) {
+            setError(field, {
+              type: "manual",
+              message: message
+            });
+          }
         }
       }
     }

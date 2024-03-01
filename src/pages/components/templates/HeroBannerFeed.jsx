@@ -60,7 +60,7 @@ const HeroBannerFeed = ({
                     {titleKr}
                   </Typography>
                 </Stack>
-                <Typography color='var(--grey-bold)'>
+                <Typography fontSize="18px" color='var(--grey-bold)'>
                   {description}
                 </Typography>
               </Stack>
@@ -94,7 +94,6 @@ const HeroBannerFeed = ({
                 objectFit: 'cover',
                 objectPosition: 'center',
                 marginBottom: 20,
-                borderRadius: 5,
                 marginRight: `${imageDirection == 'end' && '15px'}`,
                 marginLeft: `${imageDirection == 'start' && '15px'}`,
               }}

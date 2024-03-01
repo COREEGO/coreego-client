@@ -1,4 +1,4 @@
-import { Avatar, Box, Card, CardContent, Chip, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardActionArea, CardContent, Chip, Stack, Typography } from "@mui/material";
 import UserSniped from "../react-ux/UserSniped";
 import CategoryText from "../texts/CategoryText";
 import CommentCountIcon from "../icons/CommentCounterIcon";
@@ -17,14 +17,8 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
 
 
     return (
-        <Card elevation={3}
-
-            sx={{
-                transition: "0.3s ease",
-                ":hover": {
-                    boxShadow: "0 0 8px", // Change this value to the desired elevation on hover
-                }
-            }}>
+        <Card elevation={3}>
+            <CardActionArea component="div">
             <CardContent>
                 <Stack spacing={1}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
@@ -45,6 +39,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
                     </Stack>
                 </Stack>
             </CardContent>
+            </CardActionArea>
         </Card>
     )
 

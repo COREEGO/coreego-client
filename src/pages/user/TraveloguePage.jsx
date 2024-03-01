@@ -37,6 +37,10 @@ const TraveloguePage = () => {
 	const [isOpenFilterModal, setIsOpenFilterModal] =
 		React.useState(false);
 
+		const { placeCategories, cities } = useSelector(
+			(state) => state.app
+		);
+
 	const { updateFilter, searchParams } = useFilterContext();
 
 	const location = useLocation();
@@ -45,37 +49,14 @@ const TraveloguePage = () => {
 		loadData();
 	}, [location.search]);
 
-	const categories = useMemo(() => {
-		const reducer = places.reduce((current, next) => {
-            if (!current.some(category => category.id === next.category.id)) {
-                current.push(next.category);
-            }
-			return current;
-		}, []);
-		return reducer;
-	}, [places]);
-
-	const cities = useMemo(() => {
-		const reducer = places.reduce((current, next) => {
-            if (!current.some(city => city.id === next.city.id)) {
-                current.push(next.city);
-            }
-			return current;
-		}, []);
-		return reducer;
-	}, [places]);
-
 	async function loadData() {
 		try {
 			const response = await axios.get(
-				`/saved-places${location.search}`,
+				`/save-place${location.search}`,
 				BEARER_HEADERS
 			);
-			setPlaces(() => {
-				return response.data.map((place) => {
-					return { ...place.place };
-				});
-			});
+			console.log(response.data)
+			setPlaces(response.data);
 		} catch (error) {
 			console.error(error.message.message);
 		} finally {
@@ -129,7 +110,7 @@ const TraveloguePage = () => {
 								}
 							>
 								<MenuItem value="0"> Toutes les catégories </MenuItem>
-								{categories.map((category) => {
+								{placeCategories.map((category) => {
 									return (
 										<MenuItem key={category.id} value={category.id}>
 											{" "}
@@ -212,7 +193,7 @@ const TraveloguePage = () => {
 												{" "}
 												Toutes les catégories{" "}
 											</MenuItem>
-											{categories.map((category) => {
+											{placeCategories.map((category) => {
 												return (
 													<MenuItem
 														key={category.id}

@@ -9,26 +9,20 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import { SAVED_PLACE_ICON, UNSAVED_PLACE_ICON } from "../../utils/icon";
 
-interface SavePlaceButtonInterfcae {
-    placeId: any,
-    savedPlaces: Array<any>,
-    mutate: Function,
-    showLabel?: boolean
-}
 
-const SavePlaceButton: React.FC<SavePlaceButtonInterfcae> = ({ showLabel = false, placeId, savedPlaces, mutate }) => {
+const SavePlaceButton = ({ showLabel = false, placeId, users, mutate }) => {
 
-    const [isBusy, setIsBusy] = useState<boolean>(false)
-    const { user }: any = useAuthContext();
+    const [isBusy, setIsBusy] = useState(false)
+    const { user : auth } = useAuthContext();
 
     const existPlace = React.useMemo(() => {
-        return savedPlaces.find((place: any) => place?.user?.id === user.id) ? true : false
-    }, [savedPlaces, placeId])
+        return users.find((user) => user?.id === auth.id) ? true : false
+    }, [users, placeId])
 
     const handleClick = async () => {
         try {
             setIsBusy(true)
-            const response: any = await apiFetch('/saved-place', 'POST', {
+            const response = await apiFetch('/save-place', 'POST', {
                 place_id: placeId,
             }, true)
 
@@ -37,7 +31,7 @@ const SavePlaceButton: React.FC<SavePlaceButtonInterfcae> = ({ showLabel = false
                 mutate()
             }
 
-        } catch (error: any) {
+        } catch (error) {
             toast.error(error.message.message)
         } finally {
             setIsBusy(false)

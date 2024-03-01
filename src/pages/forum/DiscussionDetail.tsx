@@ -48,7 +48,7 @@ const DiscussionDetail: React.FC<any> = () => {
 
             <Box mt={5}>
                 <Container>
-                    <Stack gap={5} justifyContent="center" alignItems="center">
+                    <Stack gap={3} justifyContent="center" alignItems="center">
                         {
                             belongsToAuth(discussion.user.id, user?.id) ?
                                 <NavLink style={{ width: 'fit-content' }} to={`/forum/discussion/edit/${discussion.slug}`}>
@@ -68,6 +68,7 @@ const DiscussionDetail: React.FC<any> = () => {
                                 {moment(discussion.created_at).format('D MMMM YYYY')}
                             </Typography>
                         </Stack>
+                        <ShareButton />
                         <Typography color="var(--coreego-blue)" textAlign="center" sx={{ wordBreak: 'break-all' }} variant="h4" component="h1" > {discussion.title} </Typography>
                     </Stack>
                 </Container>
@@ -80,24 +81,19 @@ const DiscussionDetail: React.FC<any> = () => {
                 </Stack>
             </Divider>
 
-            <Box mt={5}>
+            <Box mt={3}>
                 <Container>
-                    <Box className="reactquill_content" dangerouslySetInnerHTML={{ __html: discussion.content }} color="var(--grey-bold)" />
+                    <Box fontSize={18} className="reactquill_content" dangerouslySetInnerHTML={{ __html: discussion.content }} color="var(--grey-bold)" />
                 </Container>
             </Box>
 
-            <Box mt={5}>
+            <Box mt={3}>
                 <Container>
-                    <Stack gap={2}>
-                        <Stack direction="row" spacing={1}>
-                            <LikeButton discussionId={discussion.id} likes={discussion.likes} mutate={fetchDiscussion} />
-                            <ShareButton />
-                        </Stack>
-                    </Stack>
+                    <LikeButton discussionId={discussion.id} likes={discussion.likes} mutate={fetchDiscussion} />
                 </Container>
             </Box>
 
-            <Box my={5}>
+            <Box my={3}>
                 <CommentModule mutate={fetchDiscussion} discussionId={discussion.id} comments={discussion.comments} />
             </Box>
         </>

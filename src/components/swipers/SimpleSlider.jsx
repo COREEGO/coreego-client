@@ -24,7 +24,6 @@ const SimpleSlider = ({ images }) => {
                             style={{
                                 objectFit: 'cover',
                                 objectPosition: 'center',
-                                borderRadius: 5,
                                 height: '100%',
                                 width: '100%'
                             }}

@@ -93,10 +93,9 @@ const Navigation = () => {
 
     return (
         <AppBar position="sticky" sx={{ top: 0, backgroundColor: 'white' }} color="transparent"  >
-            <Container maxWidth="lg">
+            <Container>
                 <Toolbar disableGutters>
-
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <NavLink className="nav_logo" to="/">
                             <img
                                 width={150}
@@ -200,6 +199,5 @@ const Navigation = () => {
         </AppBar >
     )
 }
-
 
 export default Navigation

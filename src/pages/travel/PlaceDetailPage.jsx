@@ -65,7 +65,7 @@ const PlaceDetail = () => {
 						maxWidth="100%"
 						justifyContent="center"
 						alignItems="center"
-						spacing={5}
+						spacing={3}
 					>
 						{belongsToAuth(place.user.id, user?.id) ? (
 							<NavLink to={`/voyage/place/edit/${params.slug}`}>
@@ -89,6 +89,7 @@ const PlaceDetail = () => {
 								{moment(place.created_at).format("D MMMM YYYY")}
 							</Typography>
 						</Stack>
+						<ShareButton />
 						<ReviewModule
 							placeId={place.id}
 							mutate={loadPlace}
@@ -105,7 +106,7 @@ const PlaceDetail = () => {
 						</Typography>
 						<Box
 							sx={{
-								boxShadow: "-20px 20px 4px var(--coreego-red)",
+								boxShadow: "-15px 15px 4px var(--coreego-red)",
 								height: {xs: 250, sm: 350 } ,
 								width: 700,
 								maxWidth: "100%"
@@ -128,18 +129,19 @@ const PlaceDetail = () => {
 						sx={{ width: 40, height: 40 }}
 						src={AVATAR_PATH + place.user.avatarPath}
 					/>
-					<Typography fontWeight="bold">
+				 	<Typography fontWeight="bold">
 						{place.user.pseudo}
 					</Typography>
 				</Stack>
 			</Divider>
 
-			<Box mt={5}>
+			<Box mt={3}>
 				<Container>
 					<Stack>
 						<Typography
 							color="var(--grey-bold)"
 							whiteSpace="pre-line"
+							fontSize={18}
 						>
 							{place.description}
 						</Typography>
@@ -147,29 +149,35 @@ const PlaceDetail = () => {
 				</Container>
 			</Box>
 
-			<Box mt={5}>
+			<Box mt={3}>
 				<Container>
-					<Stack spacing={2}>
+					<Stack direction={"row"} spacing={1}>
+						<LikeButton
+							likes={place.likes}
+							mutate={loadPlace}
+							placeId={place.id}
+						/>
+						<SavePlaceButton
+							placeId={place.id}
+							users={place.users}
+							mutate={loadPlace}
+						/>
+					</Stack>
+				</Container>
+			</Box>
+
+			<Box mt={3}>
+				<Container>
+					<Stack gap={2}>
 						<TitleSectionText
 							startText="localisation"
 							endText="du lieu"
 						/>
-						<Box>
-							<Typography
-								gutterBottom
-								display="flex"
-								alignItems="center"
-							>
-								<MARKER_ICON sx={{ mr: 1 }} />
-								{place.city.label},{place.district.label}
-							</Typography>
-							<Typography> {place.address} </Typography>
-						</Box>
 						<Box
 							sx={{
-								height: { xs: 250, md: 400 },
+								height: { xs: 250, md: 450 },
 								width: "100%",
-								position: "relative"
+								position: "relative",
 							}}
 						>
 							<MapSimpleMarker
@@ -183,28 +191,24 @@ const PlaceDetail = () => {
 								displayMapType={true}
 							/>
 						</Box>
+						<Box sx={{mt: 3}}>
+							<Typography
+								gutterBottom
+								display="flex"
+								alignItems="center"
+							>
+								<MARKER_ICON sx={{ mr: 1 }} />
+								{place.city.label},{place.district.label}
+							</Typography>
+							<Typography> {place.address} </Typography>
+						</Box>
 					</Stack>
 				</Container>
 			</Box>
 
-			<Box mt={5}>
-				<Container>
-					<Stack direction={"row"} spacing={1}>
-						<LikeButton
-							likes={place.likes}
-							mutate={loadPlace}
-							placeId={place.id}
-						/>
-						<SavePlaceButton
-							placeId={place.id}
-							savedPlaces={place.savedPlaces}
-							mutate={loadPlace}
-						/>
-						<ShareButton />
-					</Stack>
-				</Container>
-			</Box>
-			<Box my={5}>
+
+
+			<Box my={3}>
 				<CommentModule
 					placeId={place.id}
 					comments={place.comments}

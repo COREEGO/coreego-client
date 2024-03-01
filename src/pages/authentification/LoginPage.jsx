@@ -46,14 +46,17 @@ export default function LoginPage() {
 				email: data.email.trim(),
 				password: data.password.trim()
 			});
-			if ("data" in response) {
+			if ("data" in response && response.data) {
 				localStorage.setItem("token", response.data.token);
 				await authentification();
 				navigate("/");
 			}
 		} catch (error) {
-			toast.error(error.response.data.message);
-			getViolationField(error, setError);
+			console.log(error)
+			toast.error(error?.response?.data?.message);
+			if(errors){
+				getViolationField(error, setError);
+			}
 		}
 	};
 
@@ -106,6 +109,7 @@ export default function LoginPage() {
 							justifyContent="center"
 							spacing={1}
 							direction="row"
+							flexWrap="wrap"
 						>
 							<Typography>Je n'est pas de compte ?</Typography>
 							<NavLink to="/register">Créer un compte</NavLink>

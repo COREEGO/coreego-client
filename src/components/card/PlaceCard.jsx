@@ -2,7 +2,7 @@ import LikeCountIcon from "../icons/LikeCountIcon";
 import StarsAverageIcon from "../icons/StarsAverageIcon";
 import CategoryText from "../texts/CategoryText";
 import { getFirstImage } from "../../utils";
-import { Avatar, Box, Card, CardContent, CardMedia, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Card, CardActionArea, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import CommentCountIcon from "../icons/CommentCounterIcon";
 import ImageCountIcon from "../icons/ImageCountIcon";
 import { AVATAR_PATH } from "../../utils/variables";
@@ -12,19 +12,15 @@ import { MARKER_ICON } from "../../utils/icon";
 const PlaceCard = ({ place }) => {
 
         return (
-            <Card elevation={3}
-			sx={{
-				transition: "0.3s ease",
-				":hover": {
-					boxShadow: "0 0 8px" // Change this value to the desired elevation on hover
-				}
-			}}>
+            <Card elevation={3}>
+                <CardActionArea component="div">
+
                 <CardMedia
                     component="img"
                     height="194"
                     image={getFirstImage(place.images) || "https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png"}
                     alt={place.title}
-                />
+                    />
                 <CardContent>
                     <Stack flex={1} spacing={1} >
                     <Stack flex={1} direction="row" alignItems="center">
@@ -52,6 +48,7 @@ const PlaceCard = ({ place }) => {
                         </Stack>
                     </Stack>
                 </CardContent>
+                                </CardActionArea>
             </Card>
         )
 

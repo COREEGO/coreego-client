@@ -36,7 +36,8 @@ import {
 
 const theme = createTheme({
   typography: {
-    fontFamily: 'Monsterrat, sans-serif'
+    fontFamily:
+			'-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif'
   },
   components: {
     MuiButton: {
@@ -63,7 +64,7 @@ const theme = createTheme({
           '&.string_count': {
             position: 'absolute',
             right: ' 10px',
-            bottom: '15px',
+            bottom: '15px'
           }
         }
       }

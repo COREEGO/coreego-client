@@ -33,6 +33,7 @@ import SimpleSlider from "../../components/swipers/SimpleSlider";
 import { AVATAR_PATH } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
+import ShareButton from "../../components/buttons/ShareButton";
 
 const ProductDetail = () => {
 	const params = useParams();
@@ -76,7 +77,6 @@ const ProductDetail = () => {
 								<Box
 									sx={{
 										boxShadow: "-15px 15px 4px var(--coreego-blue)",
-										borderRadius: "5px",
 										height: 350,
 										width: 350,
 										maxWidth: "100%"
@@ -86,7 +86,7 @@ const ProductDetail = () => {
 								</Box>
 							</Grid>
 							<Grid item xs={12} md={6}>
-								<Stack spacing={2} alignItems="flex-start">
+								<Stack spacing={3} alignItems="flex-start">
 									{belongsToAuth(product.user.id, user?.id) ? (
 										<NavLink
 											style={{ width: "fit-content" }}
@@ -113,6 +113,7 @@ const ProductDetail = () => {
 									<Typography
 										color="var(--grey-bold)"
 										whiteSpace="pre-line"
+										fontSize={18}
 									>
 										{product.description}
 									</Typography>
@@ -143,6 +144,7 @@ const ProductDetail = () => {
 									>
 										Contacter le vendeur
 									</Button>
+									<ShareButton />
 								</Stack>
 							</Grid>
 						</Grid>
@@ -166,7 +168,6 @@ const ProductDetail = () => {
 								width: "100%",
 								maxWidth: "100%",
 								boxShadow: "-15px 15px 4px var(--coreego-red)",
-								borderRadius: "5px"
 							}}
 						>
 							<KakaoMap

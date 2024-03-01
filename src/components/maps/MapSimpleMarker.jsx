@@ -26,7 +26,6 @@ const MapSimpleMarker = ({ style = {}, lat, lng, zoom = 8, updateMarker, withCir
                     display: mapMode === "map" ? "block" : "none",
                     width: "100%",
                     height: "100%",
-                    borderRadius: '5px',
                     ...style
                 }}
                 mapTypeId={mapType}

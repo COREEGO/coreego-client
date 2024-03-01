@@ -95,7 +95,7 @@ const ProfilPage = () => {
 							gap={3}
 						>
 							<Avatar
-								sx={{boxShadow: '-5px 5px 4px var(--coreego-red)', width: 150, height: 150 }}
+								sx={{width: 150, height: 150 }}
 								src={AVATAR_PATH + user?.avatarPath}
 							/>
 							<Stack alignItems={{ xs: "center", md: "flex-start" }}>

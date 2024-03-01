@@ -4,7 +4,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import { HiLanguage } from "react-icons/hi2";
 import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiYoutubeFill } from "react-icons/ri";
 import { SiTiktok } from "react-icons/si";
-
+import XIcon from '@mui/icons-material/X';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { FaCircle } from "react-icons/fa";
 import { LiaEdit } from "react-icons/lia";
 import TuneIcon from '@mui/icons-material/Tune';
@@ -45,12 +46,17 @@ import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import RedditIcon from '@mui/icons-material/Reddit';
 
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
 
 export const SAVED_PLACE_ICON = BookmarkIcon
 export const UNSAVED_PLACE_ICON = BookmarkBorderIcon
+export const X_ICON = XIcon
+export const WHATSAPP_ICON = WhatsAppIcon
+export const REDDIT_ICON = RedditIcon
+
 
 export const LOGOUT_ICON = LogoutIcon
 

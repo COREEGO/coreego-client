@@ -54,7 +54,7 @@ export default function LoginPage() {
 		} catch (error) {
 			console.log(error)
 			toast.error(error?.response?.data?.message);
-			if(errors){
+			if(error){
 				getViolationField(error, setError);
 			}
 		}

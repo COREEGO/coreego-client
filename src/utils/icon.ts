@@ -47,6 +47,9 @@ import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import RedditIcon from '@mui/icons-material/Reddit';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
@@ -57,6 +60,7 @@ export const X_ICON = XIcon
 export const WHATSAPP_ICON = WhatsAppIcon
 export const REDDIT_ICON = RedditIcon
 
+export const DASHBOARD_ICON = DashboardOutlinedIcon
 
 export const LOGOUT_ICON = LogoutIcon
 
@@ -64,10 +68,14 @@ export const FORUM_ICON = ForumOutlinedIcon
 export const TRAVEL_ICON = TravelExploreIcon
 export const MARKET_PLACE_ICON = StorefrontIcon
 
+export const ANALITICS_PAGE_ICON = QueryStatsOutlinedIcon
+
 export const COMMENT_ICON = ChatBubbleOutlineIcon
 export const DISLIKE_ICON = FavoriteBorderIcon
 export const LIKE_ICON = FavoriteIcon
 export const IMAGE_ICON = ImageIcon
+
+export const BACK_ICON = ArrowBackIcon
 
 export const LOCALISATION_ICON = HomeIcon
 export const OCCUPATION_ICON = WorkIcon

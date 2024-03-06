@@ -20,6 +20,7 @@ import PlaceEditPage from "../travel/PlaceEditPage";
 import ProfilEditPage from "../user/ProfilEditPage";
 import EmailVerifyPage from "../authentification/EmailVerifyPage";
 import PasswordForgotPage from "../authentification/PasswordForgotPage";
+import AnaliticPage from "../dashboard/AnalisticPage";
 
 
 export default function RouterOutlet() {
@@ -31,6 +32,11 @@ export default function RouterOutlet() {
                 <Route path="/" element={<HomePage />} />
 
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
+
+                <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
+                    <Route path="/dashboard" element={<AnaliticPage />} />
+                </Route>
+
 
 
                 <Route path="/forum" element={<ForumPage />} />

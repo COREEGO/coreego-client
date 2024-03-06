@@ -1,15 +1,23 @@
 import { ReactNode, useEffect } from "react"
 import { Outlet, Navigate, useLocation } from "react-router-dom"
 import { useAuthContext } from "../../contexts/AuthProvider"
+import { isAdmin } from "../../utils"
 
 
-const PrivateRoute: React.FC<any> = () => {
+const PrivateRoute: React.FC<any> = (middlewareIsAdmin = false) => {
 
     const {user} : any = useAuthContext()
 
     const location = useLocation()
 
-    return ( user ? <Outlet /> : <Navigate to="/login" state={{path: location.pathname}} /> )
+    let isAuthorized = true
+
+    if(middlewareIsAdmin && user){
+        isAuthorized =  isAdmin(user?.role?.name)
+    }
+
+
+    return ( (user && isAuthorized) ? <Outlet /> : <Navigate to="/login" state={{path: location.pathname}} /> )
 
 }
 

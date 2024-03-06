@@ -81,7 +81,8 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: () => ({
         a: {
-          textDecoration: 'none'
+          textDecoration: 'none',
+          color: 'black'
         }
       })
     }

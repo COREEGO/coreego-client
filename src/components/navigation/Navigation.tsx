@@ -21,8 +21,9 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import PersonIcon from '@mui/icons-material/Person';
 import { CardMedia, Divider, Hidden, ImageListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { FORUM_ICON, LOGOUT_ICON, MARKET_PLACE_ICON, PROFIL_ICON, SAVED_PLACE_ICON, TRAVEL_ICON, UNSAVED_PLACE_ICON } from "../../utils/icon";
+import { DASHBOARD_ICON, FORUM_ICON, LOGOUT_ICON, MARKET_PLACE_ICON, PROFIL_ICON, SAVED_PLACE_ICON, TRAVEL_ICON, UNSAVED_PLACE_ICON } from "../../utils/icon";
 import { AVATAR_PATH } from '../../utils/variables';
+import { isAdmin } from '../../utils';
 
 
 const links = [
@@ -49,6 +50,15 @@ const NavigationUserMenu = () => {
     return (
         <>
             {user ? <>
+                {
+                    isAdmin(user.role.name) &&
+                    <NavLink to="/dashboard">
+                        <MenuItem sx={{ color: 'black' }}>
+                            <ListItemIcon sx={{ color: "black" }}><DASHBOARD_ICON /></ListItemIcon>
+                            <ListItemText>Dashboard</ListItemText>
+                        </MenuItem>
+                    </NavLink>
+                }
                 <NavLink to={`/user/profil/${user.slug}`}>
                     <MenuItem sx={{ color: 'black' }}>
                         <ListItemIcon sx={{ color: "black" }}><PROFIL_ICON /></ListItemIcon>
@@ -162,8 +172,8 @@ const Navigation = () => {
 
                     <Box className="navlink" sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
                         {links.map((link: any) => (
-                            <NavLink style={{display: 'flex', alignItems: 'center', margin: '0 20px' }} to={link.path} key={link.path}>
-                                <link.icon sx={{mr: 1}} />
+                            <NavLink style={{ display: 'flex', alignItems: 'center', margin: '0 20px' }} to={link.path} key={link.path}>
+                                <link.icon sx={{ mr: 1 }} />
                                 {link.label}
                             </NavLink>
                         ))}
@@ -171,7 +181,7 @@ const Navigation = () => {
 
                     <Box sx={{ flexGrow: 0 }}>
                         <IconButton onClick={(event: React.MouseEvent<HTMLElement>) => setAnchorElUser(event.currentTarget)} sx={{ p: 0 }}>
-                            <Avatar src={AVATAR_PATH + user?.avatarPath}  />
+                            <Avatar src={AVATAR_PATH + user?.avatarPath} />
                         </IconButton>
                         <Menu
                             sx={{ mt: '45px' }}

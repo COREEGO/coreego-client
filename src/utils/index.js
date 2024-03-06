@@ -114,3 +114,42 @@ export const cleanHtmlText = (htmlString) => {
 
   return cleanText;
 }
+
+export const isAdmin = (roleName) => {
+    return ['ADMIN', 'SUPERADMIN'].includes(roleName);
+}
+
+export const getChartCountArray = (datas) => {
+  return [
+		{
+			count: datas?.count?.users,
+			title: "Utilisateurs",
+			color: "#ff8a65"
+		},
+		{
+			count: datas?.count?.discussions,
+			title: "Discussions",
+			color: "#7986cb"
+		},
+		{
+			count: datas?.count?.products,
+			title: "Produits",
+			color: "#f06292"
+		},
+		{
+			count: datas?.count?.places,
+			title: "lieux",
+			color: "#4db6ac"
+		},
+		{
+			count: datas?.count?.comments,
+			title: "commentaires",
+			color: "#dce775"
+		},
+		{
+			count: datas?.count?.reviews,
+			title: "Reviews",
+			color: "#ffb74d"
+		}
+	];
+}

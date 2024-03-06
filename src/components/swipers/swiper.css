@@ -3,42 +3,44 @@
   height: 100%;
 }
 
-.default-swiper {
+.simple-swiper {
   position: relative;
   height: 100%;
   overflow-y: visible;
 }
-.default-swiper .swiper-slide {
+.simple-swiper .swiper-slide {
   width: auto;
   height: 100%;
 }
-.default-swiper .swiper-button-prev {
+.simple-swiper .swiper-button-prev {
   position: absolute;
-  top: -20px;
+  background-color: white;
+  top: 0px;
   right: 50px;
   left: auto;
-  height: 35px;
-  width: 35px;
-  border: 1px solid black;
+  height: 40px;
+  width: 40px;
+  border: 1px solid var(--coreego-blue);
   border-radius: 90%;
 }
-.default-swiper .swiper-button-prev::after {
-  font-size: 18px;
+.simple-swiper .swiper-button-prev::after {
+  font-size: 20px;
   font-weight: bolder;
-  color: black;
+  color: var(--coreego-blue);
 }
-.default-swiper .swiper-button-next {
+.simple-swiper .swiper-button-next {
+  background-color: white;
   position: absolute;
-  top: -20px;
+  top: 0px;
   right: 0;
-  height: 35px;
-  width: 35px;
-  border: 1px solid black;
+  height: 40px;
+  width: 40px;
+  border: 1px solid var(--coreego-blue);
   border-radius: 90%;
 }
-.default-swiper .swiper-button-next::after {
-  font-size: 18px;
-  color: black;
+.simple-swiper .swiper-button-next::after {
+  font-size: 20px;
+  color: var(--coreego-blue);
 }
 
 .thumb_swiper_top {
@@ -49,9 +51,11 @@
 .thumb_swiper_footer {
   width: 100%;
   max-height: 100px;
+  margin: 10px 0;
 }
 .thumb_swiper_footer .swiper-slide-thumb-active img {
-  border: 2px solid var(--coreego-blue);
+  border: 3px solid var(--coreego-blue);
+  border-bottom: 3px solid blueviolet;
 }
 .thumb_swiper_footer .swiper-slide:not(.swiper-slide-thumb-active) {
   opacity: 0.5;

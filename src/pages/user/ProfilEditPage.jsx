@@ -207,7 +207,10 @@ const ProfilEditPage = () => {
 										>
 											{watch("hobby")?.length || 0}/{50}
 										</InputAdornment>
-									)
+									),
+									inputProps: {
+										maxLength: 50
+									}
 								}}
 							/>
 							<TextField

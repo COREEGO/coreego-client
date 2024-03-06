@@ -2,13 +2,8 @@ import { create, test, enforce } from 'vest';
 import { cleanHtmlText } from ".";
 
 const IS_REQUIRED_MESSAGE = "Ce champ est requis";
-const IS_NOT_EMAIL_FORMAT_MESSAGE = "Veuillez fournir une adresse email valide";
 const IS_NOT_REGEX_VALID_MESSAGE = "Le format est invalide";
 const IS_NOT_SAME_VALUE_MESSAGE = "Les mots de passe ne correspondent pas";
-const IS_NOT_NUMERIC_MESSAGE = "La valeur doit être de type numérique";
-const IS_NOT_EXTENSIONS_VALID_MESSAGE = "Seuls les fichiers au format jpeg, png, jpg sont valides";
-
-
 const PSEUDO_REGEX = /^[a-zA-Z0-9_.]+$/
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 
@@ -106,13 +101,7 @@ export const validationProfil = create((data = {}) => {
   test('instagram', maxLength(20), () => {enforce(data.instagram).shorterThanOrEquals(20)});
   test('tiktok', maxLength(20), () => {enforce(data.tiktok).shorterThanOrEquals(20)});
   test('kakao', maxLength(20), () => {enforce(data.kakao).shorterThanOrEquals(20)});
-
 })
-
-
-
-
-
 
 export const errorField = (error) => {
   return {

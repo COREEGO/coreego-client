@@ -115,9 +115,8 @@ export const cleanHtmlText = (htmlString) => {
   return cleanText;
 }
 
-export const isAdmin = (roleName) => {
-    return ['ADMIN', 'SUPERADMIN'].includes(roleName);
-}
+export const isAdmin = (role) => role.is_admin;
+
 
 export const getChartCountArray = (datas) => {
   return [

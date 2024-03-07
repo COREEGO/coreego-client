@@ -1,4 +1,4 @@
-import { ANALITICS_PAGE_ICON, BACK_ICON } from "./icon";
+import { ANALITICS_PAGE_ICON, BACK_ICON, PROFIL_ICON } from "./icon";
 
 export const dashboardLinks = [
     {
@@ -9,6 +9,11 @@ export const dashboardLinks = [
     {
         page_name: 'Analyse des données',
         icon: <ANALITICS_PAGE_ICON />,
-        path: '/dashboard'
+        path: '/dashboard/analitics'
+    },
+    {
+        page_name: 'utilisateur',
+        icon: <PROFIL_ICON />,
+        path: '/dashboard/users'
     },
 ]

@@ -51,8 +51,8 @@ const NavigationUserMenu = () => {
         <>
             {user ? <>
                 {
-                    isAdmin(user.role.name) &&
-                    <NavLink to="/dashboard">
+                    isAdmin(user.role) &&
+                    <NavLink to="/dashboard/analitics">
                         <MenuItem sx={{ color: 'black' }}>
                             <ListItemIcon sx={{ color: "black" }}><DASHBOARD_ICON /></ListItemIcon>
                             <ListItemText>Dashboard</ListItemText>

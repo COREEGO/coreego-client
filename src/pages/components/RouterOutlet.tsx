@@ -21,6 +21,7 @@ import ProfilEditPage from "../user/ProfilEditPage";
 import EmailVerifyPage from "../authentification/EmailVerifyPage";
 import PasswordForgotPage from "../authentification/PasswordForgotPage";
 import AnaliticPage from "../dashboard/AnalisticPage";
+import UsersDashboardPage from "../dashboard/UsersDashboardPage";
 
 
 export default function RouterOutlet() {
@@ -34,10 +35,9 @@ export default function RouterOutlet() {
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
 
                 <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
-                    <Route path="/dashboard" element={<AnaliticPage />} />
+                    <Route path="/dashboard/analitics" element={<AnaliticPage />} />
+                    <Route path="/dashboard/users" element={<UsersDashboardPage />} />
                 </Route>
-
-
 
                 <Route path="/forum" element={<ForumPage />} />
                 <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />

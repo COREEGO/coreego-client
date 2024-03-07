@@ -85,7 +85,7 @@ const ProfilEditPage = () => {
 				formData.append("avatarPath", files[0]);
 			}
 			const response = await axios.post(
-				`/user/edit`,
+				`/users/edit/${auth.id}`,
 				formData,
 				BEARER_HEADERS
 			);
@@ -108,7 +108,7 @@ const ProfilEditPage = () => {
 			if (data.district_id == 0) data.district_id = null;
 
 			const response = await axios.post(
-				`/user/edit`,
+				`/users/edit/${auth.id}`,
 				data,
 				BEARER_HEADERS
 			);

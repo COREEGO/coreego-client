@@ -14,6 +14,8 @@ import { useLocation } from 'react-router'
 import { useFilterContext } from '../../contexts/FilterProvider'
 import DiscussionAnalitic from './analitics/DiscussionAnalitic'
 import UserAnalitic from './analitics/UserAnalitic'
+import ProductAnalitic from './analitics/ProductAnalitic'
+import PlaceAnalitic from './analitics/PlaceAnalitic'
 
 const AnaliticPage = () => {
   const [isBusy, setIsBusy] = React.useState(true)
@@ -50,23 +52,26 @@ const AnaliticPage = () => {
 						Type de données
 					</InputLabel>
           <Select
-            value={searchParams.get('data') || 'discussions'}
+            value={searchParams.get('analitic_target') || 'discussions'}
             label='Type de données'
             onChange={(event) =>
-							updateFilter('data', event.target.value)
+							updateFilter('analitic_target', event.target.value)
 						}
 					>
             <MenuItem value='discussions'>Discussions</MenuItem>
-            <MenuItem value='utilisateurs'>Utilisateurs</MenuItem>
-            <MenuItem value='produits'>Produits</MenuItem>
+            <MenuItem value='users'>Utilisateurs</MenuItem>
+            <MenuItem value='products'>Produits</MenuItem>
+            <MenuItem value='places'>Lieux</MenuItem>
           </Select>
         </FormControl>
       </Box>
       {!isBusy ? (
         <Box mt={3}>
-          {(searchParams.get('data') == 'discussions' ||
+          {(searchParams.get('analitic_target') == 'discussions' ||
 						!location.search) && <DiscussionAnalitic datas={datas} />}
-          {searchParams.get('data') == 'utilisateurs' && <UserAnalitic datas={datas} /> }
+          {searchParams.get('analitic_target') == 'users' && <UserAnalitic datas={datas} /> }
+          {searchParams.get('analitic_target') == 'products' && <ProductAnalitic datas={datas} /> }
+          {searchParams.get('analitic_target') == 'places' && <PlaceAnalitic datas={datas} /> }
         </Box>
 			) : (
   <LoadingPage type='data' />

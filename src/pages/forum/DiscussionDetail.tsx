@@ -50,7 +50,7 @@ const DiscussionDetail: React.FC<any> = () => {
                 <Container>
                     <Stack gap={3} justifyContent="center" alignItems="center">
                         {
-                            belongsToAuth(discussion.user.id, user?.id) ?
+                            belongsToAuth(discussion.user.id, user?.id) || user.role.is_admin ?
                                 <NavLink style={{ width: 'fit-content' }} to={`/forum/discussion/edit/${discussion.slug}`}>
                                     <Button variant="outlined" startIcon={<EDIT_ICON />}>Modifier</Button>
                                 </NavLink>

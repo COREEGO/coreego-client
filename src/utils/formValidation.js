@@ -11,8 +11,6 @@ export const maxLength = (length) => `Le champ ne doit pas dépasser ${length} c
 export const minLength = (length) => `Le champ doit avoir au minimum ${length} caractères.`
 export const minNumber = (number) => `Minimum ${number}`
 
-
-
 export const validationRegister = create((data = {}) => {
   test('pseudo', IS_REQUIRED_MESSAGE, () => {enforce(data.pseudo).isNotEmpty()});
   test('pseudo', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.pseudo).matches(PSEUDO_REGEX)});

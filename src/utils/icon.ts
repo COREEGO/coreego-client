@@ -50,9 +50,12 @@ import RedditIcon from '@mui/icons-material/Reddit';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import InboxIcon from '@mui/icons-material/Inbox';
 
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
+
+export const PUBLICATION_ICON = InboxIcon
 
 export const SAVED_PLACE_ICON = BookmarkIcon
 export const UNSAVED_PLACE_ICON = BookmarkBorderIcon

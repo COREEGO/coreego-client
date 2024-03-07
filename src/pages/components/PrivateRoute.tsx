@@ -13,7 +13,7 @@ const PrivateRoute: React.FC<any> = (middlewareIsAdmin = false) => {
     let isAuthorized = true
 
     if(middlewareIsAdmin && user){
-        isAuthorized =  isAdmin(user?.role?.name)
+        isAuthorized =  isAdmin(user?.role)
     }
 
 

@@ -5,11 +5,30 @@ import {
 	ListItemButton,
 	ListItemText,
 	ListItemIcon,
+	Collapse
 } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import { dashboardLinks } from '../../utils/navigationsLinks'
+import {
+	ANALITICS_PAGE_ICON,
+	BACK_ICON,
+	FORUM_ICON,
+	MARKET_PLACE_ICON,
+	PROFIL_ICON,
+	PUBLICATION_ICON,
+  TRAVEL_ICON
+} from '../../utils/icon'
+import {
+	ExpandLess,
+	ExpandMore,
+	StarBorder
+} from '@mui/icons-material'
+import React from 'react'
 
 const DashboardNavigation = () => {
+  const [openMenuPublications, setOpenMenuPublications] =
+		React.useState(false)
+
   return (
     <Toolbar
       disableGutters
@@ -24,18 +43,119 @@ const DashboardNavigation = () => {
       }}
 		>
       <List sx={{ width: '100%' }}>
-        {dashboardLinks.map((link, index) => {
-          return (
-            <ListItem key={index} disablePadding>
-              <NavLink to={link.path} style={{ width: '100%' }}>
+        <ListItem disablePadding>
+          <NavLink to='/' style={{ width: '100%' }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <BACK_ICON />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+                primary='Retourner sur le site'
+							/>
+            </ListItemButton>
+          </NavLink>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <NavLink
+            to='/dashboard/analitics'
+            style={{ width: '100%' }}
+					>
+            <ListItemButton>
+              <ListItemIcon>
+                <ANALITICS_PAGE_ICON />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+                primary='Analyse des données'
+							/>
+            </ListItemButton>
+          </NavLink>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <NavLink to='/dashboard/users' style={{ width: '100%' }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <PROFIL_ICON />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+                primary='utilisateurs'
+							/>
+            </ListItemButton>
+          </NavLink>
+        </ListItem>
+
+        <ListItemButton onClick={() => setOpenMenuPublications(!openMenuPublications)}>
+          <ListItemIcon>
+            <PUBLICATION_ICON />
+          </ListItemIcon>
+          <ListItemText primary='Publications' sx={{ display: { xs: 'none', sm: 'block' } }} />
+          {openMenuPublications ? <ExpandLess /> : <ExpandMore />}
+        </ListItemButton>
+
+        <Collapse
+          in={openMenuPublications}
+          timeout='auto'
+          unmountOnExit
+				>
+          <List component='div' disablePadding>
+
+            <ListItem >
+              <NavLink
+                to='/'
+                style={{ width: '100%' }}
+							>
                 <ListItemButton>
-                  <ListItemIcon>{link.icon}</ListItemIcon>
-                  <ListItemText sx={{display: {xs: 'none', sm: 'block' } }} primary={link.page_name} />
+                  <ListItemIcon>
+                  <FORUM_ICON />
+                </ListItemIcon>
+                  <ListItemText
+                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  primary='Discussions'
+									/>
                 </ListItemButton>
               </NavLink>
             </ListItem>
-          )
-        })}
+
+            <ListItem >
+              <NavLink
+                to='/'
+                style={{ width: '100%' }}
+							>
+                <ListItemButton>
+                  <ListItemIcon>
+                  <MARKET_PLACE_ICON />
+                </ListItemIcon>
+                  <ListItemText
+                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  primary='Produits'
+									/>
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+
+            <ListItem >
+              <NavLink
+                to='/'
+                style={{ width: '100%' }}
+							>
+                <ListItemButton>
+                  <ListItemIcon>
+                  <TRAVEL_ICON />
+                </ListItemIcon>
+                  <ListItemText
+                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  primary='Lieux'
+									/>
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+
+          </List>
+        </Collapse>
       </List>
     </Toolbar>
   )

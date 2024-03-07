@@ -50,7 +50,11 @@ const DiscussionForm = ({
 	const { owner } = useMalware();
 
 	useEffect(() => {
-		if (isEditMode) owner(discussion?.user?.id);
+		if (isEditMode){
+			if(discussion.user.id !== user.id && !user.role.is_admin ){
+				navigate('/')
+			}
+		}
 	}, []);
 
 	const { discussionCategories } = useSelector((state) => state.app);
@@ -179,24 +183,6 @@ const DiscussionForm = ({
 				</Stack>
 			</Stack>
 		</Container>
-		// <Box my={3}>
-		// 	<Container maxWidth="lg">
-		// 		<Stack spacing={5}>
-		// 			<TitleSectionText
-		// 				variant="h4"
-		// 				startText={isEditMode ? 'Modifier un' : 'Nouveau' }
-		// 				endText="sujet"
-		// 			/>
-		// 			<Stack
-		// 				spacing={3}
-		// 				component="form"
-		// 				onSubmit={handleSubmit(onSubmitForm)}
-		// 			>
-
-		// 			</Stack>
-		// 		</Stack>
-		// 	</Container>
-		// </Box>
 	);
 };
 

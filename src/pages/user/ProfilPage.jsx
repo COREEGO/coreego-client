@@ -38,6 +38,7 @@ import {
 	ListItemText,
 	Stack,
 	Tooltip,
+	CardHeader,
 	Typography
 } from "@mui/material";
 import { toast } from "react-toastify";
@@ -46,6 +47,7 @@ import ProfilForm from "../../components/forms/ProfilForm";
 import { AVATAR_PATH, SOCIAL_ICON_SIZE } from "../../utils/variables";
 import axios from "axios";
 import {
+	belongsToAuth,
 	dateParse,
 	facebookLink,
 	instagramLink,
@@ -74,7 +76,7 @@ const ProfilPage = () => {
 	const loadUser = async () => {
 		try {
 			const response = await axios.get("/user/" + params.slug);
-			console.log(response.data)
+			console.log(response.data);
 			setUser(response.data);
 		} catch (error) {
 			console.log(error);
@@ -85,153 +87,176 @@ const ProfilPage = () => {
 	};
 
 	return isLoaded ? (
-		<>
-			<Box py={5}>
-				<Container>
-					<Stack spacing={3}>
-						<Stack
-							direction={{ md: "row" }}
-							alignItems="center"
-							gap={3}
-						>
-							<Avatar
-								sx={{width: 150, height: 150 }}
-								src={AVATAR_PATH + user?.avatarPath}
-							/>
-							<Stack alignItems={{ xs: "center", md: "flex-start" }}>
-								<Typography
-									fontWeight="bold"
-									component="h1"
-									variant="h4"
-								>
-									{user.pseudo}
-								</Typography>
-								<Typography variant="body2">
-									Membre depuis le{" "}
-									{moment(user.created_at).format("D MMMM YYYY")}{" "}
-								</Typography>
-							</Stack>
-							{isCurrentAuthProfil && (
-								<NavLink to={"/user/profil/edit"}>
-									<Button variant="outlined">
-										Modifier mon profil
-									</Button>
-								</NavLink>
-							)}
-						</Stack>
-						<Stack
-							spacing={1}
-							direction={{ md: "row" }}
-							alignItems="center"
-						>
-							{user.youtube && (
-								<NavLink to={youtubeLink(user.youtube)}>
-									<IconButton edge="end">
-										<YOUTUBE_ICON />
-									</IconButton>
-								</NavLink>
-							)}
-							{user.facebook && (
-								<NavLink to={facebookLink(user.facebook)}>
-									<IconButton edge="end">
-										<FACEBOOK_ICON />
-									</IconButton>
-								</NavLink>
-							)}
-							{user.instagram && (
-								<NavLink to={instagramLink(user.instagram)}>
-									<IconButton edge="end">
-										<INSTAGRAM_ICON />
-									</IconButton>
-								</NavLink>
-							)}
-							{user.tiktok && (
-								<NavLink to={tiktokLink(user.tiktok)}>
-									<IconButton edge="end">
-										<TIKTOK_ICON />
-									</IconButton>
-								</NavLink>
-							)}
-							{user.kakao && (
-								<Tooltip title={user.kakao}>
-									<IconButton edge="end">
-										<KAKAO_ICON />
-									</IconButton>
-								</Tooltip>
-							)}
-						</Stack>
-					</Stack>
-				</Container>
-			</Box>
-
-			<Divider />
-
+		<Box py={5}>
 			<Container>
-				<Stack mt={5}>
-					<Box>
-						<TitleSectionText
-							gutterBottom
-							startText="à propos de"
-							endText={user.pseudo}
-						/>
-						<Typography
-							color="var(--grey-bold)"
-							whiteSpace="pre-line"
-						>
-							{user?.introduction || "Aucune description"}
-						</Typography>
-					</Box>
-					<Stack>
-						<ListItem
-							disableGutters
-							sx={{ display: !user.occupation && "none" }}
-						>
-							<ListItemAvatar>
-								<Avatar
-									sx={{
-										backgroundColor: "var(--coreego-blue)",
-										mb: 2
-									}}
+				<Grid container spacing={3}>
+					<Grid item xs={12}>
+						<Card>
+							<CardContent>
+								<Stack
+									direction={{ md: "row" }}
+									alignItems="center"
+									gap={3}
 								>
-									<OCCUPATION_ICON />
-								</Avatar>
-							</ListItemAvatar>
-							<ListItemText
-								primary="Profession"
-								secondary={user.occupation}
-							/>
-						</ListItem>
+									<Avatar
+										sx={{ width: 100, height: 100 }}
+										src={AVATAR_PATH + user?.avatarPath}
+									/>
+									<Stack>
+										<Typography
+											fontWeight="bold"
+											component="div"
+											variant="h5"
+										>
+											{user.pseudo}
+										</Typography>
+										<Typography component="div">
+											Membre depuis le{" "}
+											{moment(user.created_at).format("D MMMM YYYY")}{" "}
+										</Typography>
+									</Stack>
+									{belongsToAuth(user.id, currentUser?.id) && (
+										<NavLink to={"/user/profil/edit"}>
+											<Button variant="outlined">
+												Modifier mon profil
+											</Button>
+										</NavLink>
+									)}
+								</Stack>
+							</CardContent>
+						</Card>
+					</Grid>
 
-						<ListItem
-							disableGutters
-							sx={{ display: !user.hobby && "none" }}
-						>
-							<ListItemAvatar>
-								<Avatar
-									sx={{ backgroundColor: "var(--coreego-blue)" }}
-								>
-									<LIKE_ICON />
-								</Avatar>
-							</ListItemAvatar>
-							<ListItemText
-								primary="Ce que j'aime"
-								secondary={user.hobby}
+					<Grid item xs={12} md={6}>
+						<Card>
+							<CardHeader
+								title={<TitleSectionText endText="Introduction" />}
 							/>
-						</ListItem>
-						<ListItem
-							disableGutters
-							sx={{ display: !user?.city && "none" }}
-						>
-							<ListItemAvatar>
-								<Avatar
-									sx={{ backgroundColor: "var(--coreego-blue)" }}
-								>
-									<LOCALISATION_ICON />
-								</Avatar>
-							</ListItemAvatar>
-							<ListItemText
-								primary="Localisation"
-								secondary={`
+							<CardContent>
+								<Typography fontSize={18}>
+									{user?.introduction || "Aucune description"}
+								</Typography>
+							</CardContent>
+						</Card>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<Card>
+							<CardHeader
+								title={
+									<TitleSectionText
+										startText="Réseaux"
+										endText="sociaux"
+									/>
+								}
+							/>
+							<CardContent>
+								<Stack direction="row">
+									{user.youtube && (
+										<NavLink to={youtubeLink(user.youtube)}>
+											<IconButton>
+												<YOUTUBE_ICON />
+											</IconButton>
+										</NavLink>
+									)}
+									{user.facebook && (
+										<NavLink to={facebookLink(user.facebook)}>
+											<IconButton>
+												<FACEBOOK_ICON />
+											</IconButton>
+										</NavLink>
+									)}
+									{user.instagram && (
+										<NavLink to={instagramLink(user.instagram)}>
+											<IconButton>
+												<INSTAGRAM_ICON />
+											</IconButton>
+										</NavLink>
+									)}
+									{user.tiktok && (
+										<NavLink to={tiktokLink(user.tiktok)}>
+											<IconButton>
+												<TIKTOK_ICON />
+											</IconButton>
+										</NavLink>
+									)}
+									{user.kakao && (
+										<Tooltip title={user.kakao}>
+											<IconButton>
+												<KAKAO_ICON />
+											</IconButton>
+										</Tooltip>
+									)}
+								</Stack>
+							</CardContent>
+						</Card>
+					</Grid>
+
+					<Grid item xs={12} md={6}>
+						<Card>
+							<CardHeader
+								title={
+									<TitleSectionText
+										startText="A props de"
+										endText={user.pseudo}
+									/>
+								}
+							/>
+							<CardContent>
+								<Stack>
+									<ListItem
+										disableGutters
+										sx={{ display: !user.occupation && "none" }}
+									>
+										<ListItemAvatar>
+											<Avatar
+												sx={{
+													backgroundColor: "var(--coreego-blue)",
+													mb: 2
+												}}
+											>
+												<OCCUPATION_ICON />
+											</Avatar>
+										</ListItemAvatar>
+										<ListItemText
+											primary="Profession"
+											secondary={user.occupation}
+										/>
+									</ListItem>
+
+									<ListItem
+										disableGutters
+										sx={{ display: !user.hobby && "none" }}
+									>
+										<ListItemAvatar>
+											<Avatar
+												sx={{
+													backgroundColor: "var(--coreego-blue)"
+												}}
+											>
+												<LIKE_ICON />
+											</Avatar>
+										</ListItemAvatar>
+										<ListItemText
+											primary="Ce que j'aime"
+											secondary={user.hobby}
+										/>
+									</ListItem>
+									<ListItem
+										disableGutters
+										sx={{ display: !user?.city && "none" }}
+									>
+										<ListItemAvatar>
+											<Avatar
+												sx={{
+													backgroundColor: "var(--coreego-blue)"
+												}}
+											>
+												<LOCALISATION_ICON />
+											</Avatar>
+										</ListItemAvatar>
+										<ListItemText
+											primary="Localisation"
+											secondary={`
                 ${user?.city?.label || ""}
                 ${
 									user?.city?.label && user?.district?.label
@@ -240,75 +265,83 @@ const ProfilPage = () => {
 								}
                     ${user?.district?.label || ""}
                     `}
-							/>
-						</ListItem>
+										/>
+									</ListItem>
 
-						<ListItem
-							disableGutters
-							sx={{
-								display: !JSON.parse(user.languages).length && "none"
-							}}
-						>
-							<ListItemAvatar>
-								<Avatar
-									sx={{ backgroundColor: "var(--coreego-blue)" }}
-								>
-									<LANGUAGE_ICON />
-								</Avatar>
-							</ListItemAvatar>
-							<ListItemText
-								primary="Langues parlées"
-								secondary={
-									JSON.parse(user.languages).join(" , ")
+									<ListItem
+										disableGutters
+										sx={{
+											display:
+												!JSON.parse(user.languages).length && "none"
+										}}
+									>
+										<ListItemAvatar>
+											<Avatar
+												sx={{
+													backgroundColor: "var(--coreego-blue)"
+												}}
+											>
+												<LANGUAGE_ICON />
+											</Avatar>
+										</ListItemAvatar>
+										<ListItemText
+											primary="Langues parlées"
+											secondary={JSON.parse(user.languages).join(
+												" , "
+											)}
+										/>
+									</ListItem>
+								</Stack>
+							</CardContent>
+						</Card>
+					</Grid>
+
+					<Grid item xs={12} md={6}>
+						<Card>
+							<CardHeader
+								title={
+									<TitleSectionText
+										startText="Publications de"
+										endText={user.pseudo}
+									/>
 								}
 							/>
-						</ListItem>
-					</Stack>
-				</Stack>
-
-				<Stack gap={2} my={5}>
-					<TitleSectionText
-						startText="Publications de"
-						endText={user.pseudo}
-					/>
-					<Grid container spacing={3}>
-						<Grid item xs={12} md={6}>
-							<NavLink to={`/voyage?user=${user.id}`}>
-								<Button
-									sx={{ width: "100%", py: 3 }}
-									variant="outlined"
-									startIcon={<TRAVEL_ICON />}
-								>
-									Lieux
-								</Button>
-							</NavLink>
-						</Grid>
-						<Grid item xs={12} md={6}>
-							<NavLink to={`/forum?user=${user.id}`}>
-								<Button
-									sx={{ width: "100%", py: 3 }}
-									variant="outlined"
-									startIcon={<FORUM_ICON />}
-								>
-									Discussions
-								</Button>
-							</NavLink>
-						</Grid>
-						<Grid item xs={12} md={6}>
-							<NavLink to={`/market-place?user=${user.id}`}>
-								<Button
-									sx={{ width: "100%", py: 3 }}
-									variant="outlined"
-									startIcon={<MARKET_PLACE_ICON />}
-								>
-									Produits en vente
-								</Button>
-							</NavLink>
-						</Grid>
+							<CardContent>
+								<Stack spacing={3}>
+									<NavLink to={`/voyage?user=${user.slug}`}>
+										<Button
+											sx={{ width: "100%", py: 3 }}
+											variant="outlined"
+											startIcon={<TRAVEL_ICON />}
+										>
+											Lieux
+										</Button>
+									</NavLink>
+									<NavLink to={`/forum?user=${user.slug}`}>
+										<Button
+											sx={{ width: "100%", py: 3 }}
+											variant="outlined"
+											startIcon={<FORUM_ICON />}
+										>
+											Discussions
+										</Button>
+									</NavLink>
+									<NavLink to={`/market-place?user=${user.slug}`}>
+										<Button
+											sx={{ width: "100%", py: 3 }}
+											variant="outlined"
+											startIcon={<MARKET_PLACE_ICON />}
+										>
+											Produits en vente
+										</Button>
+									</NavLink>
+								</Stack>
+							</CardContent>
+						</Card>
 					</Grid>
-				</Stack>
+				</Grid>
 			</Container>
-		</>
+		</Box>
 	) : (
 		<LoadingPage type="page" />
 	);

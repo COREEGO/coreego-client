@@ -34,6 +34,7 @@ import { AVATAR_PATH } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
 import ShareButton from "../../components/buttons/ShareButton";
+import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 
 const ProductDetail = () => {
 	const params = useParams();
@@ -87,21 +88,6 @@ const ProductDetail = () => {
 							</Grid>
 							<Grid item xs={12} md={6}>
 								<Stack spacing={3} alignItems="flex-start">
-									{belongsToAuth(product.user.id, user?.id) ? (
-										<NavLink
-											style={{ width: "fit-content" }}
-											to={`/market-place/product/edit/${product.slug}`}
-										>
-											<Button
-												variant="outlined"
-												startIcon={<EDIT_ICON />}
-											>
-												Modifier
-											</Button>
-										</NavLink>
-									) : (
-										<></>
-									)}
 									<Typography
 										color="var(--coreego-blue)"
 										sx={{ wordBreak: "break-all" }}
@@ -111,7 +97,6 @@ const ProductDetail = () => {
 										{product.title}
 									</Typography>
 									<Typography
-										color="var(--grey-bold)"
 										whiteSpace="pre-line"
 										fontSize={18}
 									>
@@ -137,6 +122,13 @@ const ProductDetail = () => {
 										<Typography fontWeight="bold">
 											{product?.user?.pseudo}
 										</Typography>
+										{belongsToAuth(product.user.id, user?.id) && (
+											<OptionPublicationButton
+												editLink={`/market-place/product/edit/${product.slug}`}
+												deleteUrl={`/products/${product.id}`}
+												redirectionUrl={"/market-place"}
+											/>
+										)}
 									</Stack>
 									<Button
 										startIcon={<MAIL_ICON />}
@@ -167,7 +159,7 @@ const ProductDetail = () => {
 								height: { xs: 250, sm: 300, md: 400 },
 								width: "100%",
 								maxWidth: "100%",
-								boxShadow: "-15px 15px 4px var(--coreego-red)",
+								boxShadow: "-15px 15px 4px var(--coreego-red)"
 							}}
 						>
 							<KakaoMap

@@ -7,7 +7,6 @@ const PaginationData = ({ lastPage }) => {
 
 	return (
 		<Pagination
-			sx={{width: '100%'}}
 			page={Number(searchParams.get("page")) || 1}
 			onChange={(_event, value) =>
 				updateFilter("page", value.toString())}

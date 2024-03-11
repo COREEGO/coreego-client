@@ -3,7 +3,7 @@ import { useAuthContext } from "../../contexts/AuthProvider"
 import { Button, Card, CardContent, Dialog, DialogContent, FormControl, FormHelperText, IconButton, Menu, MenuItem, Rating, Stack, TextField, Typography } from "@mui/material"
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state"
 import React, { useState } from "react"
-import { MORE_OPTIONS } from "../../utils/icon"
+import { MORE_OPTIONS_ICON} from "../../utils/icon"
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import { minNumber, noEmptyValidator } from "../../utils/formValidation"
 import LoadingButton from "@mui/lab/LoadingButton"
@@ -102,7 +102,7 @@ const ReviewCard: React.FC<ReviewCardInterface> = ({ review, mutate }) => {
                                             aria-haspopup="true"
                                             color="inherit"
                                         >
-                                            <MORE_OPTIONS />
+                                            <MORE_OPTIONS_ICON/>
                                         </IconButton>
                                         <Menu {...bindMenu(popupState)}>
                                             {isReviewUser

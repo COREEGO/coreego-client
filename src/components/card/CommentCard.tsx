@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import { noEmptyValidator } from "../../utils/formValidation"
 import UserSniped from "../react-ux/UserSniped"
 import { Card, CardContent, Menu, Stack, Box, IconButton, MenuList, MenuItem, Popover,Avatar, Typography, DialogTitle, DialogContent, FormControl, TextField, FormHelperText, Button, Dialog } from "@mui/material"
-import { MORE_OPTIONS } from "../../utils/icon"
+import { MORE_OPTIONS_ICON} from "../../utils/icon"
 import React, { useMemo, useState } from "react"
 import PopupState, { bindTrigger, bindMenu, bindPopover } from 'material-ui-popup-state';
 import { useConfirm } from "material-ui-confirm";
@@ -91,7 +91,7 @@ const CommentCard: React.FC<CommentCardInterface> = ({ comment, mutate }) => {
                                             aria-haspopup="true"
                                             color="inherit"
                                         >
-                                            <MORE_OPTIONS />
+                                            <MORE_OPTIONS_ICON/>
                                         </IconButton>
                                         <Menu {...bindMenu(popupState)}>
                                             {isCommentUser

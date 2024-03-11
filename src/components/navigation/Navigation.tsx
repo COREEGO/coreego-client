@@ -51,13 +51,13 @@ const NavigationUserMenu = () => {
         <>
             {user ? <>
                 {
-                    isAdmin(user.role) &&
+                    user?.role?.is_admin ?
                     <NavLink to="/dashboard/analitics">
                         <MenuItem sx={{ color: 'black' }}>
                             <ListItemIcon sx={{ color: "black" }}><DASHBOARD_ICON /></ListItemIcon>
                             <ListItemText>Dashboard</ListItemText>
                         </MenuItem>
-                    </NavLink>
+                    </NavLink> : <></>
                 }
                 <NavLink to={`/user/profil/${user.slug}`}>
                     <MenuItem sx={{ color: 'black' }}>

@@ -114,7 +114,7 @@ export const ADD_ICON = AddIcon
 
 export const STAR_ICON = StarIcon
 
-export const MORE_OPTIONS = MoreVertIcon
+export const MORE_OPTIONS_ICON = MoreVertIcon
 
 export const FILTER_ICON = TuneIcon
 export const EDIT_ICON = EditIcon

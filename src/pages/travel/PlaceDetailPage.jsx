@@ -34,6 +34,7 @@ import moment from "moment";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
 import { AVATAR_PATH } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
+import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 
 const PlaceDetail = () => {
 	const params = useParams();
@@ -67,15 +68,6 @@ const PlaceDetail = () => {
 						alignItems="center"
 						spacing={3}
 					>
-						{belongsToAuth(place.user.id, user?.id) ? (
-							<NavLink to={`/voyage/place/edit/${params.slug}`}>
-								<Button variant="outlined" startIcon={<EDIT_ICON />}>
-									Modifier
-								</Button>
-							</NavLink>
-						) : (
-							<></>
-						)}
 						<Stack alignItems="center" direction="row" spacing={1}>
 							<CategoryText category={place.category} />
 							<Typography
@@ -132,6 +124,13 @@ const PlaceDetail = () => {
 				 	<Typography fontWeight="bold">
 						{place.user.pseudo}
 					</Typography>
+					{belongsToAuth(place.user.id, user?.id) && (
+							<OptionPublicationButton
+								editLink={`/voyage/place/edit/${place.slug}`}
+                                deleteUrl={`/places/${place.id}`}
+                                redirectionUrl={'/voyage'}
+							/>
+						)}
 				</Stack>
 			</Divider>
 

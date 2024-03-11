@@ -34,10 +34,7 @@ export default function RouterOutlet() {
 
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
 
-                <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
-                    <Route path="/dashboard/analitics" element={<AnaliticPage />} />
-                    <Route path="/dashboard/users" element={<UsersDashboardPage />} />
-                </Route>
+
 
                 <Route path="/forum" element={<ForumPage />} />
                 <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
@@ -57,6 +54,12 @@ export default function RouterOutlet() {
 
                 <Route path="/user/profil/:slug" element={<ProfilPage />} />
                 <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />
+
+                <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
+                    <Route path="/dashboard/analitics" element={<AnaliticPage />} />
+                    <Route path="/dashboard/users" element={<UsersDashboardPage />} />
+                </Route>
+
             </Route>
 
             <Route path="/login" element={<LoginPage />} />

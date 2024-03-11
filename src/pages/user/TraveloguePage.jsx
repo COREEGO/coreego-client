@@ -29,6 +29,11 @@ import { CLOSE_ICON, FILTER_ICON } from "../../utils/icon";
 import SearchInput from "../../components/inputs/SearchInput";
 import { useSelector } from "react-redux";
 import PaginationData from "../../components/PaginationData";
+import {
+	DateCalendar,
+	LocalizationProvider
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 const TraveloguePage = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -37,9 +42,9 @@ const TraveloguePage = () => {
 	const [isOpenFilterModal, setIsOpenFilterModal] =
 		React.useState(false);
 
-		const { placeCategories, cities } = useSelector(
-			(state) => state.app
-		);
+	const { placeCategories, cities } = useSelector(
+		(state) => state.app
+	);
 
 	const { updateFilter, searchParams } = useFilterContext();
 
@@ -55,7 +60,7 @@ const TraveloguePage = () => {
 				`/save-place${location.search}`,
 				BEARER_HEADERS
 			);
-			console.log(response.data)
+			console.log(response.data);
 			setPlaces(response.data);
 		} catch (error) {
 			console.error(error.message.message);
@@ -94,7 +99,7 @@ const TraveloguePage = () => {
 								placeholder="Rechercher une discussion..."
 								sx={{
 									width: 300,
-									maxWidth: "100%",
+									maxWidth: "100%"
 								}}
 								defaultValue={searchParams.get("q")}
 								onChange={(value) => updateFilter("q", value)}
@@ -173,13 +178,13 @@ const TraveloguePage = () => {
 								<DialogContent dividers>
 									<Stack direction="row" gap={2} flexWrap="wrap">
 										<SearchInput
-                                        fullWidth
+											fullWidth
 											placeholder="Rechercher une discussion..."
 											defaultValue={searchParams.get("q")}
 											onChange={(value) => updateFilter("q", value)}
 										/>
 										<Select
-                                            fullWidth
+											fullWidth
 											placeholder="Catégorie"
 											value={searchParams.get("category") || "0"}
 											onChange={(category) =>
@@ -206,7 +211,7 @@ const TraveloguePage = () => {
 											})}
 										</Select>
 										<Select
-                                        fullWidth
+											fullWidth
 											placeholder="Villes"
 											value={searchParams.get("city") || "0"}
 											onChange={(city) =>
@@ -238,6 +243,9 @@ const TraveloguePage = () => {
 			</Box>
 
 			<Box my={5}>
+				<LocalizationProvider dateAdapter={AdapterDayjs}>
+					<DateCalendar />
+				</LocalizationProvider>
 				<Container>
 					{places.length ? (
 						<Grid container spacing={2}>
@@ -256,12 +264,11 @@ const TraveloguePage = () => {
 					)}
 				</Container>
 			</Box>
-            {places.length ? <TravelLogueModal places={places} /> : <></>}
+			{places.length ? <TravelLogueModal places={places} /> : <></>}
 		</React.Fragment>
 	) : (
 		<LoadingPage type={"page"} />
 	);
-
 };
 
 export default TraveloguePage;

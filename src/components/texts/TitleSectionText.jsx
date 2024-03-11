@@ -11,7 +11,7 @@ const TitleSectionText = ({
       textTransform='uppercase'
       variant={props.variant || 'h6'}
       component='span'
-      fontWeight='bold'
+      fontWeight='bolder'
 		>
       {startText}{' '}
       {endText && (

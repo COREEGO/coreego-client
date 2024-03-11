@@ -102,7 +102,7 @@ const ProfilPage = () => {
 										sx={{ width: 100, height: 100 }}
 										src={AVATAR_PATH + user?.avatarPath}
 									/>
-									<Stack>
+									<Stack alignItems={{xs: 'center', md: 'flex-start' }}>
 										<Typography
 											fontWeight="bold"
 											component="div"
@@ -308,7 +308,7 @@ const ProfilPage = () => {
 							/>
 							<CardContent>
 								<Stack spacing={3}>
-									<NavLink to={`/voyage?user=${user.slug}`}>
+									<NavLink to={`/voyage?user=${user.id}`}>
 										<Button
 											sx={{ width: "100%", py: 3 }}
 											variant="outlined"
@@ -317,7 +317,7 @@ const ProfilPage = () => {
 											Lieux
 										</Button>
 									</NavLink>
-									<NavLink to={`/forum?user=${user.slug}`}>
+									<NavLink to={`/forum?user=${user.id}`}>
 										<Button
 											sx={{ width: "100%", py: 3 }}
 											variant="outlined"
@@ -326,7 +326,7 @@ const ProfilPage = () => {
 											Discussions
 										</Button>
 									</NavLink>
-									<NavLink to={`/market-place?user=${user.slug}`}>
+									<NavLink to={`/market-place?user=${user.id}`}>
 										<Button
 											sx={{ width: "100%", py: 3 }}
 											variant="outlined"

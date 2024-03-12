@@ -4,13 +4,10 @@ import { useEffect, useState } from "react"
 import { Box, Dialog, Fab, IconButton } from "@mui/material"
 import { CLOSE_ICON, MAP_ICON } from "../../utils/icon"
 
-interface PropsInterface {
-    places: Array<any>
-}
 
-const TravelLogueModal: React.FC<PropsInterface> = ({ places }) => {
+const TravelLogueModal = ({ places }) => {
 
-    const [isOpen, setIsOpen] = useState<boolean>(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     return (
         <>

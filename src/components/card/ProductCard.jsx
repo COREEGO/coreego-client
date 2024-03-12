@@ -34,20 +34,19 @@ const ProductCard = ({ product }) => {
           alt={product.title}
 				/>
         <CardContent>
-          <Stack spacing={1}>
+          <Stack gap={1}>
             <Stack direction='row' spacing={1} alignItems='center'>
               <Avatar
                 src={AVATAR_PATH + product.user.avatarPath}
                 sx={{ width: 30, height: 30 }}
 							/>
               <Typography variant='body2' fontWeight='bold'>
-                {' '}
-                {product.user.pseudo}{' '}
+                {product.user.pseudo}
               </Typography>
             </Stack>
             <Typography
               color='var(--coreego-blue)'
-              component='span'
+              component='div'
               variant='h6'
               noWrap
 						>
@@ -56,10 +55,10 @@ const ProductCard = ({ product }) => {
             <Typography fontWeight='bold' noWrap>
 							₩ {product.price}
             </Typography>
-            <Typography noWrap display='flex' alignItems='center'>
-              <MARKER_ICON sx={{ mr: 1 }} />
-              {product.city.label},{product.district.label}
-            </Typography>
+            <Stack direction="row">
+              <MARKER_ICON />
+              <Typography noWrap component='div'>{product.city.label},{product.district.label}</Typography>
+            </Stack>
           </Stack>
         </CardContent>
       </CardActionArea>

@@ -12,9 +12,11 @@ const PrivateRoute = ({middlewareIsAdmin = false}) => {
     const location = useLocation()
 
 
-    if(middlewareIsAdmin){
-        setIsAuthorized(isAdmin(user?.role))
-    }
+    useEffect(() => {
+        if (middlewareIsAdmin) {
+          setIsAuthorized(isAdmin(user?.role));
+        }
+      }, [user, middlewareIsAdmin]);
 
 
     return ( (user && isAuthorized) ? <Outlet /> : <Navigate to="/login" state={{path: location.pathname}} /> )

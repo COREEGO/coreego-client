@@ -86,7 +86,7 @@ const theme = createTheme({
         }
       })
     }
-  }
+  },
 })
 
 function App () {

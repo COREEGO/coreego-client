@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react"; // Import React fro
 import LoadingPage from "../../components/LoadingPage";
 import { useLocation } from "react-router-dom"; // Import from "react-router-dom"
 import TravelLogueModal from "../../components/Modals/TravelLogueModal";
+
 import {
 	Box,
 	Button,
@@ -17,6 +18,7 @@ import {
 	Select,
 	Typography
 } from "@mui/material";
+
 import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
 import PlaceMapCard from "../../components/card/PlaceMapCard";
 import { useFilterContext } from "../../contexts/FilterProvider";
@@ -34,9 +36,11 @@ import {
 	LocalizationProvider
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import moment from "moment";
+import TitleSectionText from "../../components/texts/TitleSectionText";
 
 const TraveloguePage = () => {
-	const [isLoaded, setIsLoaded] = useState(false);
+	const [isBusy, setIsBusy] = useState(true);
 	const [places, setPlaces] = useState([]);
 
 	const [isOpenFilterModal, setIsOpenFilterModal] =
@@ -54,22 +58,22 @@ const TraveloguePage = () => {
 		loadData();
 	}, [location.search]);
 
-	async function loadData() {
+	const loadData = async () => {
 		try {
+			setIsBusy(true);
 			const response = await axios.get(
 				`/save-place${location.search}`,
 				BEARER_HEADERS
 			);
-			console.log(response.data);
 			setPlaces(response.data);
 		} catch (error) {
 			console.error(error.message.message);
 		} finally {
-			setIsLoaded(true);
+			setIsBusy(false);
 		}
-	}
+	};
 
-	return isLoaded ? (
+	return  (
 		<React.Fragment>
 			<HeroBannerFeed
 				theme="red"
@@ -118,8 +122,7 @@ const TraveloguePage = () => {
 								{placeCategories.map((category) => {
 									return (
 										<MenuItem key={category.id} value={category.id}>
-											{" "}
-											{category.label}{" "}
+											{category.label}
 										</MenuItem>
 									);
 								})}
@@ -139,8 +142,7 @@ const TraveloguePage = () => {
 								{cities.map((city) => {
 									return (
 										<MenuItem key={city.id} value={city.id}>
-											{" "}
-											{city.label}{" "}
+											{city.label}
 										</MenuItem>
 									);
 								})}
@@ -195,8 +197,7 @@ const TraveloguePage = () => {
 											}
 										>
 											<MenuItem value="0">
-												{" "}
-												Toutes les catégories{" "}
+												Toutes les catégories
 											</MenuItem>
 											{placeCategories.map((category) => {
 												return (
@@ -204,8 +205,7 @@ const TraveloguePage = () => {
 														key={category.id}
 														value={category.id}
 													>
-														{" "}
-														{category.label}{" "}
+														{category.label}
 													</MenuItem>
 												);
 											})}
@@ -221,15 +221,11 @@ const TraveloguePage = () => {
 												)
 											}
 										>
-											<MenuItem value="0">
-												{" "}
-												Toutes les villes{" "}
-											</MenuItem>
+											<MenuItem value="0">Toutes les villes</MenuItem>
 											{cities.map((city) => {
 												return (
 													<MenuItem key={city.id} value={city.id}>
-														{" "}
-														{city.label}{" "}
+														{city.label}
 													</MenuItem>
 												);
 											})}
@@ -242,21 +238,29 @@ const TraveloguePage = () => {
 				</Container>
 			</Box>
 
-			<Box my={5}>
-				<LocalizationProvider dateAdapter={AdapterDayjs}>
-					<DateCalendar />
-				</LocalizationProvider>
+			{
+				isBusy ? <LoadingPage type="data" /> : <Box my={5}>
 				<Container>
-					{places.length ? (
-						<Grid container spacing={2}>
-							{places.map((place) => {
-								return (
-									<Grid key={place.id} item xs={12} sm={6} md={4}>
-										<PlaceMapCard place={place} />
-									</Grid>
-								);
-							})}
-						</Grid>
+					{places?.length ? (
+						<Stack gap={3}>
+							<TitleSectionText
+								startText="Lieux à visiter"
+								endText="prochainement"
+							/>
+							<Grid container spacing={2}>
+								{places.map((place) => {
+									return (
+										<Grid key={place.id} item xs={12} sm={6} md={4}>
+											<PlaceMapCard
+												readOnly={false}
+												place={place}
+												mutate={loadData}
+											/>
+										</Grid>
+									);
+								})}
+							</Grid>
+						</Stack>
 					) : (
 						<Typography textAlign="center">
 							Aucune lieu trouvé
@@ -264,11 +268,15 @@ const TraveloguePage = () => {
 					)}
 				</Container>
 			</Box>
-			{places.length ? <TravelLogueModal places={places} /> : <></>}
+			}
+
+			{places.length ? (
+				<TravelLogueModal readOnly={true} places={places} />
+			) : (
+				<></>
+			)}
 		</React.Fragment>
-	) : (
-		<LoadingPage type={"page"} />
-	);
+	)
 };
 
 export default TraveloguePage;

@@ -7,15 +7,12 @@ import { Box, Button, ButtonGroup } from "@mui/material"
 import { LANDSCAPE_ICON, MAP_ICON } from "../../utils/icon"
 
 
-const MapMultiMarker: React.FC<{
-    places: Array<any>,
-    withDetailCard?: boolean
-}> = ({ places, withDetailCard = false }) => {
+const MapMultiMarker  = ({ places, withDetailCard = false }) => {
 
     // const [mapMode, setMapMode] = useState<'map' | 'roadview'>("map")
-    const [mapType, setMapType] = useState<"ROADMAP" | "HYBRID">("ROADMAP")
+    const [mapType, setMapType] = useState("ROADMAP")
 
-    const [target, setTarget] = useState<any>(null)
+    const [target, setTarget] = useState(null)
 
     useKakaoLoader()
 
@@ -33,7 +30,7 @@ const MapMultiMarker: React.FC<{
             level={12} // 지도의 확대 레벨
         >
             {
-                places.map((place: any) => {
+                places.map((place) => {
                     return <Box key={place.id} id={place.id}>
                         <MapMarker onClick={() => withDetailCard ? setTarget(place) : {}} position={{ lat: place.latitude, lng: place.longitude }} />
                         {(withDetailCard && target) ?

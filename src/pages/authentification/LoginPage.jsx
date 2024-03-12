@@ -46,11 +46,11 @@ export default function LoginPage() {
 				email: data.email.trim(),
 				password: data.password.trim()
 			});
-			if ("data" in response && response.data) {
+
 				localStorage.setItem("token", response.data.token);
-				await authentification();
+				setUser(response.data.data)
 				navigate("/");
-			}
+
 		} catch (error) {
 			console.log(error)
 			toast.error(error?.response?.data?.message);

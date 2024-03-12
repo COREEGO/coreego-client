@@ -1,11 +1,9 @@
 'use client'
 
-import { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { apiFetch } from '../http-common/apiFetch';
-import { redirect, useLocation, useNavigate } from "react-router"
-import useSWR from 'swr';
+import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { useNavigate } from "react-router"
 import axios from '../http-common/axiosInstance';
-import { BEARER_HEADERS, TOKEN } from '../utils/variables';
+import { TOKEN } from '../utils/variables';
 import { toast } from 'react-toastify';
 
 const AuthContext = createContext({});
@@ -29,8 +27,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
     };
 
+    const BEARER_HEADERS = React.useMemo(() => {
+        return {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        }
+    }, [localStorage.getItem('token')])
+
+
     const logout = useCallback(async () => {
         try {
+            await axios.post('/logout', null, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
             localStorage.removeItem('token')
             setUser(null)
             navigate('/login')

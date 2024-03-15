@@ -37,7 +37,7 @@ const ProductCard = ({ product }) => {
           <Stack gap={1}>
             <Stack direction='row' spacing={1} alignItems='center'>
               <Avatar
-                src={AVATAR_PATH + product.user.avatarPath}
+                src={AVATAR_PATH + product.user.avatar}
                 sx={{ width: 30, height: 30 }}
 							/>
               <Typography variant='body2' fontWeight='bold'>

@@ -24,6 +24,8 @@ import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import TitleSectionText from "../../../components/texts/TitleSectionText";
+import axios from "axios";
+import { BEARER_HEADERS } from "../../../utils/variables";
 
 const CommentModule = ({
 	comments,
@@ -53,24 +55,19 @@ const CommentModule = ({
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await apiFetch(
-				"/comment/new",
-				"POST",
-				{
-					discussion_id: discussionId,
-					place_id: placeId,
-					content: data.content
-				},
-				true
-			);
+			const response = await axios.post('/comments',{
+				discussion_id: discussionId,
+				place_id: placeId,
+				content: data.content
+			}, BEARER_HEADERS)
 
-			toast.success(response.message);
+			toast.success(response.data.message);
 
 			reset();
 			mutate();
 			setOpen(false);
 		} catch (error) {
-			toast.success(error.message);
+			toast.success(error.data.message);
 		}
 	};
 

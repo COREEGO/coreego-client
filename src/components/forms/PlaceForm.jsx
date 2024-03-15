@@ -9,25 +9,19 @@ import {
 } from "../../utils/variables";
 import {
 	errorField,
-	maxLengthValidator,
 	noEmptyLocalisationValidator,
-	noEmptyValidator,
 	noEmtyFileValidator,
-	requiredValidator,
 	validationPlace
 } from "../../utils/formValidation";
 import UpladButton from "../buttons/UplaodButton";
 import useFile from "../../hooks/useFile";
 import { CAMERA_ICON, TRASH_ICON } from "../../utils/icon";
 import FormImage from "../images/FormImage";
-import { apiFetch } from "../../http-common/apiFetch";
 import { useEffect, useState } from "react";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
-import LoadingPage from "../LoadingPage";
 import axios from "axios";
 import MapSimpleMarker from "../maps/MapSimpleMarker";
 import {
-	Autocomplete,
 	Box,
 	Button,
 	Container,
@@ -44,9 +38,7 @@ import {
 	debounce
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useAuthContext } from "../../contexts/AuthProvider";
 import { toast } from "react-toastify";
-import useMalware from "../../hooks/useMalware";
 import TitleSectionText from "../texts/TitleSectionText";
 import {
 	createBlobImage,
@@ -61,12 +53,6 @@ const PlaceForm = ({
 	mutate = Function
 }) => {
 	const navigate = useNavigate();
-
-	const { owner } = useMalware();
-
-	useEffect(() => {
-		if (isEditMode) owner(place.user.id);
-	}, []);
 
 	const [adressData, setAdressData] = useState([]);
 
@@ -252,45 +238,48 @@ const PlaceForm = ({
 								/>
 							)}
 						/>
-						{Boolean(errors?.city_id) && (
+						{Boolean(errors?.city_id) ? (
 							<FormHelperText>
 								{errors?.city_id?.message}
 							</FormHelperText>
-						)}
-
-						<TextField
-							required
-							{...register("address")}
-							{...errorField(errors?.address)}
-							onChange={handleSearchAdresse}
-							type="text"
-							label="Addresse du lieu"
-						/>
-						{watch("latitude") ? (
-							<Box
-								sx={{
-									mt: 2,
-									height: {
-										xs: 300,
-										md: 400,
-										position: "relative",
-										width: "100%"
-									}
-								}}
-							>
-								<MapSimpleMarker
-									updateMarker={(event) =>
-										handleSearchAdresse(`${event.lat},${event.lng}`)
-									}
-									displayMapMode={true}
-									displayMapType={true}
-									lat={getValues().latitude || place?.latitude}
-									lng={getValues().longitude || place?.longitude}
-								/>
-							</Box>
 						) : (
 							<></>
 						)}
+						<Box width="100%">
+							<TextField
+								fullWidth
+								required
+								{...register("address")}
+								{...errorField(errors?.address)}
+								onChange={handleSearchAdresse}
+								type="text"
+								label="Addresse du lieu"
+							/>
+							{(watch("latitude") && watch("address")) ? (
+								<Box
+									sx={{
+										height: {
+											xs: 300,
+											md: 400,
+											position: "relative",
+											width: "100%"
+										}
+									}}
+								>
+									<MapSimpleMarker
+										updateMarker={(event) =>
+											handleSearchAdresse(`${event.lat},${event.lng}`)
+										}
+										displayMapMode={true}
+										displayMapType={true}
+										lat={getValues().latitude || place?.latitude}
+										lng={getValues().longitude || place?.longitude}
+									/>
+								</Box>
+							) : (
+								<></>
+							)}
+						</Box>
 
 						<TextField
 							{...register("description")}

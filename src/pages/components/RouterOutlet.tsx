@@ -20,8 +20,13 @@ import PlaceEditPage from "../travel/PlaceEditPage";
 import ProfilEditPage from "../user/ProfilEditPage";
 import EmailVerifyPage from "../authentification/EmailVerifyPage";
 import PasswordForgotPage from "../authentification/PasswordForgotPage";
-import AnaliticPage from "../dashboard/AnalisticPage";
+import AnaliticPage from "../dashboard/analitics/AnalisticPage";
 import UsersDashboardPage from "../dashboard/UsersDashboardPage";
+import DiscussionsPublicationsDashboardPage from "../dashboard/publications/DiscussionsPublicationsDashboardPage";
+import ProductsPublicationsDashboardPage from "../dashboard/publications/ProductsPublicationsDashboardPage";
+import PlacesPublicationsDashboardPage from "../dashboard/publications/PlacesPublicationsDashboardPage";
+import CommentsPublicationsDashboard from "../dashboard/publications/CommentsPublicationsDashboard";
+import ReviewPublicationsDashboard from "../dashboard/publications/ReviewPublicationsDashboard";
 
 
 export default function RouterOutlet() {
@@ -58,6 +63,11 @@ export default function RouterOutlet() {
                 <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
                     <Route path="/dashboard/analitics" element={<AnaliticPage />} />
                     <Route path="/dashboard/users" element={<UsersDashboardPage />} />
+                    <Route path="/dashboard/publication/discussions" element={<DiscussionsPublicationsDashboardPage />} />
+                    <Route path="/dashboard/publication/products" element={<ProductsPublicationsDashboardPage />} />
+                    <Route path="/dashboard/publication/places" element={<PlacesPublicationsDashboardPage />} />
+                    <Route path="/dashboard/publication/comments" element={<CommentsPublicationsDashboard />} />
+                    <Route path="/dashboard/publication/reviews" element={<ReviewPublicationsDashboard />} />
                 </Route>
 
             </Route>

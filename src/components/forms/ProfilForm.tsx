@@ -149,7 +149,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
         try {
             setIsUploadBusy(true)
             const formData = new FormData();
-            formData.append("avatarPath", files[0]);
+            formData.append("avatar", files[0]);
             await apiFetch(`/user/edit-avatar`, 'post', formData, true)
             clearFiles()
 
@@ -175,7 +175,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                         md={4}
                     >
                             <Stack direction="column" alignItems="center" spacing={1}>
-                                <UserSniped styles={{ width: 150, height: 150 }} avatar={profil.avatarPath} />
+                                <UserSniped styles={{ width: 150, height: 150 }} avatar={profil.avatar} />
                                 {!isEditMode ?
                                     <>
                                         <Typography variant="h6" fontWeight="bold" component="h1"> {profil.pseudo} </Typography>

@@ -23,7 +23,7 @@ const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
                 <Stack spacing={1}>
                     <Stack direction="row" alignItems="center" justifyContent="space-between">
                         <Stack direction="row" spacing={1} alignItems="center">
-                            <Avatar src={AVATAR_PATH + discussion.user.avatarPath} sx={{width: 30, height: 30}} />
+                            <Avatar src={AVATAR_PATH + discussion.user.avatar} sx={{width: 30, height: 30}} />
                             <Typography variant="body2" fontWeight="bold"> {discussion.user.pseudo} </Typography>
                         </Stack>
                         <Typography variant="body2"> {moment(discussion.created_at).format('D MMMM YYYY')} </Typography>

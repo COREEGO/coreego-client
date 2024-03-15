@@ -19,7 +19,8 @@ import { useConfirm } from "material-ui-confirm";
 
 const OptionPublicationButton = ({
 	deleteUrl,
-	redirectionUrl,
+	redirectionUrl = null,
+	mutate = () => null,
 	editLink
 }) => {
 	const [anchorOption, setanchorOption] = React.useState();
@@ -37,7 +38,8 @@ const OptionPublicationButton = ({
 					BEARER_HEADERS
 				);
 				toast.success(response.data.message);
-				navigate(redirectionUrl);
+				redirectionUrl && navigate(redirectionUrl);
+				mutate()
 			})
 			.catch((error) => {
 				toast.error(error?.data?.message);

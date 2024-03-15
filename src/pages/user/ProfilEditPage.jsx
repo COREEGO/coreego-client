@@ -82,7 +82,7 @@ const ProfilEditPage = () => {
 			const formData = new FormData();
 
 			if (files.length) {
-				formData.append("avatarPath", files[0]);
+				formData.append("avatar", files[0]);
 			}
 			const response = await axios.post(
 				`/users/edit/${auth.id}`,
@@ -136,7 +136,7 @@ const ProfilEditPage = () => {
 								height: 150,
 								mb: -2
 							}}
-							src={AVATAR_PATH + auth.avatarPath}
+							src={AVATAR_PATH + auth.avatar}
 						/>
 						<UpladButton
 							multiple={false}

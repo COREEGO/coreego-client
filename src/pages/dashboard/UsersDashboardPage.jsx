@@ -73,10 +73,10 @@ const UsersDashboardPage = () => {
 	};
 
 	return (
-		<Box>
+		<Stack spacing={3}>
 			<TitleSectionText endText="Utilisateurs" />
-			<TableContainer component={Paper} sx={{mt: 3}}>
-				<Table sx={{ minWidth: 650 }} aria-label="simple table">
+			<TableContainer component={Paper}>
+				<Table aria-label="simple table">
 					<TableHead>
 						<TableRow>
 							<TableCell>Avatar</TableCell>
@@ -94,7 +94,7 @@ const UsersDashboardPage = () => {
 								return (
 									<TableRow key={user.id}>
 										<TableCell component="th" scope="row">
-											<Avatar src={AVATAR_PATH + user.avatarPath} />
+											<Avatar src={AVATAR_PATH + user.avatar} />
 										</TableCell>
 										<TableCell component="th" scope="row">
 											{user.slug}
@@ -107,7 +107,7 @@ const UsersDashboardPage = () => {
 												<FormControl>
 													<InputLabel>Role</InputLabel>
 													<Select
-                            size="small"
+														size="small"
 														label="Role"
 														defaultValue={user.role.id} // Set the initial value based on user's role
 														onChange={(event) =>
@@ -139,7 +139,7 @@ const UsersDashboardPage = () => {
 					<PaginationData lastPage={users?.meta?.last_page} />
 				</Stack>
 			</TableContainer>
-		</Box>
+		</Stack>
 	);
 };
 

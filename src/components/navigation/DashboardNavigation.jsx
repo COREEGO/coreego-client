@@ -12,11 +12,13 @@ import { dashboardLinks } from '../../utils/navigationsLinks'
 import {
 	ANALITICS_PAGE_ICON,
 	BACK_ICON,
+	COMMENT_ICON,
 	FORUM_ICON,
 	MARKET_PLACE_ICON,
 	PROFIL_ICON,
 	PUBLICATION_ICON,
-  TRAVEL_ICON
+	STAR_ICON,
+	TRAVEL_ICON
 } from '../../utils/icon'
 import {
 	ExpandLess,
@@ -88,11 +90,18 @@ const DashboardNavigation = () => {
           </NavLink>
         </ListItem>
 
-        <ListItemButton onClick={() => setOpenMenuPublications(!openMenuPublications)}>
+        <ListItemButton
+          onClick={() =>
+						setOpenMenuPublications(!openMenuPublications)
+					}
+				>
           <ListItemIcon>
             <PUBLICATION_ICON />
           </ListItemIcon>
-          <ListItemText primary='Publications' sx={{ display: { xs: 'none', sm: 'block' } }} />
+          <ListItemText
+            primary='Publications'
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+					/>
           {openMenuPublications ? <ExpandLess /> : <ExpandMore />}
         </ListItemButton>
 
@@ -102,10 +111,9 @@ const DashboardNavigation = () => {
           unmountOnExit
 				>
           <List component='div' disablePadding>
-
-            <ListItem >
+            <ListItem>
               <NavLink
-                to='/'
+                to='/dashboard/publication/discussions'
                 style={{ width: '100%' }}
 							>
                 <ListItemButton>
@@ -120,9 +128,9 @@ const DashboardNavigation = () => {
               </NavLink>
             </ListItem>
 
-            <ListItem >
+            <ListItem>
               <NavLink
-                to='/'
+                to='/dashboard/publication/products'
                 style={{ width: '100%' }}
 							>
                 <ListItemButton>
@@ -137,9 +145,9 @@ const DashboardNavigation = () => {
               </NavLink>
             </ListItem>
 
-            <ListItem >
+            <ListItem>
               <NavLink
-                to='/'
+                to='/dashboard/publication/places'
                 style={{ width: '100%' }}
 							>
                 <ListItemButton>
@@ -153,7 +161,38 @@ const DashboardNavigation = () => {
                 </ListItemButton>
               </NavLink>
             </ListItem>
-
+            <ListItem>
+              <NavLink
+                to='/dashboard/publication/comments'
+                style={{ width: '100%' }}
+							>
+                <ListItemButton>
+                  <ListItemIcon>
+                  <COMMENT_ICON />
+                </ListItemIcon>
+                  <ListItemText
+                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  primary='Commentaires'
+									/>
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to='/dashboard/publication/reviews'
+                style={{ width: '100%' }}
+							>
+                <ListItemButton>
+                  <ListItemIcon>
+                  <STAR_ICON />
+                </ListItemIcon>
+                  <ListItemText
+                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  primary='Lieux avis'
+									/>
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
           </List>
         </Collapse>
       </List>

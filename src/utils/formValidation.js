@@ -26,7 +26,6 @@ export const validationRegister = create((data = {}) => {
   test('confirmPassword', IS_NOT_SAME_VALUE_MESSAGE, () => {
     enforce(data.confirmPassword).equals(data.password);
   });
-
 });
 
 export const validationLogin = create((data = {}) => {

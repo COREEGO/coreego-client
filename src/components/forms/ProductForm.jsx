@@ -37,7 +37,8 @@ import TitleSectionText from "../texts/TitleSectionText";
 import {
 	createBlobImage,
 	getBlobImage,
-	getViolationField
+	getViolationField,
+	isAdmin
 } from "../../utils";
 import axios from "axios";
 import { vestResolver } from "@hookform/resolvers/vest";
@@ -48,12 +49,6 @@ const ProductForm = ({
 	product = null
 }) => {
 	const navigate = useNavigate();
-
-	const { owner } = useMalware();
-
-	useEffect(() => {
-		if (isEditMode) owner(product.user.id);
-	}, []);
 
 	const { files, addFile, removeFile, deleteFile, clearFiles } =
 		useFile(mutate);

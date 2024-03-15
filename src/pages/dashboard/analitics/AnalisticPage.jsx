@@ -5,17 +5,17 @@ import {
 	Select,
 	MenuItem
 } from '@mui/material'
-import TitleSectionText from '../../components/texts/TitleSectionText'
+import TitleSectionText from '../../../components/texts/TitleSectionText'
 import React from 'react'
 import axios from 'axios'
-import LoadingPage from '../../components/LoadingPage'
-import { BEARER_HEADERS } from '../../utils/variables'
+import LoadingPage from '../../../components/LoadingPage'
+import { BEARER_HEADERS } from '../../../utils/variables'
 import { useLocation } from 'react-router'
-import { useFilterContext } from '../../contexts/FilterProvider'
-import DiscussionAnalitic from './analitics/DiscussionAnalitic'
-import UserAnalitic from './analitics/UserAnalitic'
-import ProductAnalitic from './analitics/ProductAnalitic'
-import PlaceAnalitic from './analitics/PlaceAnalitic'
+import { useFilterContext } from '../../../contexts/FilterProvider'
+import DiscussionAnalitic from './_DiscussionAnalitic'
+import UserAnalitic from './_UserAnalitic'
+import ProductAnalitic from './_ProductAnalitic'
+import PlaceAnalitic from './_PlaceAnalitic'
 
 const AnaliticPage = () => {
   const [isBusy, setIsBusy] = React.useState(true)

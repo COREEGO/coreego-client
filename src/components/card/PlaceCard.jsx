@@ -25,7 +25,7 @@ const PlaceCard = ({ place }) => {
                     <Stack flex={1} spacing={1} >
                     <Stack flex={1} direction="row" alignItems="center">
                         <Stack flex={1} direction="row" spacing={1} alignItems="center">
-                            <Avatar src={AVATAR_PATH + place.user.avatarPath} sx={{width: 30, height: 30}} />
+                            <Avatar src={AVATAR_PATH + place.user.avatar} sx={{width: 30, height: 30}} />
                             <Typography flex={1} width="100%" noWrap={true} component="span"  variant="body2" fontWeight="bold">{place.user.pseudo}</Typography>
                             <Typography  variant="body2"> {moment(place.created_at).format('D MMMM YYYY')} </Typography>
                         </Stack>

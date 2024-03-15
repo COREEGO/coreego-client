@@ -12,6 +12,7 @@ const LoadingPage: React.FC<Props> = ({ type }) => {
     function Page() {
         return (
             <Stack
+                component="span"
                 direction="row"
                 sx={{
                     alignItems: 'center',

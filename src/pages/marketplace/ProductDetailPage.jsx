@@ -117,7 +117,7 @@ const ProductDetail = () => {
 									>
 										<Avatar
 											sx={{ width: 40, height: 40 }}
-											src={AVATAR_PATH + product?.user?.avatarPath}
+											src={AVATAR_PATH + product?.user?.avatar}
 										/>
 										<Typography fontWeight="bold">
 											{product?.user?.pseudo}

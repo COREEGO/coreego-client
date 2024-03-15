@@ -12,31 +12,24 @@ import { CLOSE_ICON } from "../../../utils/icon"
 import LoadingButton from "@mui/lab/LoadingButton"
 import { toast } from "react-toastify"
 import { useConfirm } from "material-ui-confirm";
+import axios from "axios"
+import { BEARER_HEADERS } from "../../../utils/variables"
 
-interface ReviewModuleInterface {
-    placeId: number,
-    mutate: Function,
-    reviews: Array<any>,
-}
 
-type Inputs = {
-    content: string,
-    stars: number
-}
 
-const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, reviews }) => {
-    const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
-    const { user }: any = useAuthContext();
+const ReviewModule = ({ placeId, mutate, reviews }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpenForm, setIsOpenForm] = useState(false);
+    const { user } = useAuthContext();
 
-    const reviewList: Array<any> = useMemo(() => {
-        return reviews.sort((a: { created_at: Date }, b: { created_at: Date }) => {
+    const reviewList= useMemo(() => {
+        return reviews.sort((a, b) => {
             return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
         });
     }, [reviews]);
 
     const currentUserReview = useMemo(() => {
-        return reviews.find((review: any) => review?.user?.id === user?.id);
+        return reviews.find((review) => review?.user?.id === user?.id);
     }, [reviews]);
 
     const {
@@ -45,25 +38,25 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
         handleSubmit,
         reset,
         formState: { errors, isSubmitting },
-    } = useForm<Inputs>({
+    } = useForm({
         mode: 'onTouched'
     });
 
 
-    const onSubmit: SubmitHandler<Inputs> = async (data: any) => {
+    const onSubmit = async (data) => {
         try {
-            const response: any = await apiFetch('/review/new', 'post', {
+            const response = await axios.post('/reviews', {
                 place_id: placeId,
                 stars: data.stars,
                 content: data.content,
-            }, true);
+            }, BEARER_HEADERS)
 
-            toast.success(response.message);
+            toast.success(response.data.message);
             setIsOpenForm(false);
             reset();
             mutate();
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch (error) {
+            toast.error(error?.data?.message);
         }
     };
 
@@ -111,7 +104,7 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                         {
                             reviewList.length ? <Stack>
                                 {
-                                    reviewList.map((review: any) => {
+                                    reviewList.map((review) => {
                                         return (
                                             <ReviewCard
                                                 mutate={mutate}
@@ -134,7 +127,6 @@ const ReviewModule: React.FC<ReviewModuleInterface> = ({ placeId, mutate, review
                             <Controller
                                 control={control}
                                 name="stars"
-                                // rules={{ ...minNumber(1), ...noEmptyValidator }}
                                 render={({ field: { onChange, value } }) => (
                                     <Rating onChange={onChange} value={Number(value)} sx={{ width: 'fit-content' }} name="size-large" size="large" />
                                 )}

@@ -119,7 +119,7 @@ const PlaceDetail = () => {
 				<Stack direction="row" alignItems="center" spacing={1}>
 					<Avatar
 						sx={{ width: 40, height: 40 }}
-						src={AVATAR_PATH + place.user.avatarPath}
+						src={AVATAR_PATH + place.user.avatar}
 					/>
 				 	<Typography fontWeight="bold">
 						{place.user.pseudo}

@@ -100,7 +100,7 @@ const ProfilPage = () => {
 								>
 									<Avatar
 										sx={{ width: 100, height: 100 }}
-										src={AVATAR_PATH + user?.avatarPath}
+										src={AVATAR_PATH + user?.avatar}
 									/>
 									<Stack alignItems={{xs: 'center', md: 'flex-start' }}>
 										<Typography

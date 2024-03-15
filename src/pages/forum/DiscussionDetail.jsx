@@ -108,7 +108,7 @@ const DiscussionDetail = () => {
 				<Stack direction="row" alignItems="center" spacing={1}>
 					<Avatar
 						sx={{ width: 40, height: 40 }}
-						src={AVATAR_PATH + discussion.user.avatarPath}
+						src={AVATAR_PATH + discussion.user.avatar}
 					/>
 					<Typography fontWeight="bold">
 						{discussion.user.pseudo}

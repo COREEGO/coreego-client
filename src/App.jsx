@@ -1,20 +1,3 @@
-import React, {
-	JSXElementConstructor,
-	ReactElement,
-	Suspense,
-	useEffect,
-	useState
-} from 'react'
-import {
-	Box,
-	ChakraProvider,
-	Container,
-	Fade,
-	SkipNavLink,
-	extendTheme,
-	position,
-	withDefaultColorScheme
-} from '@chakra-ui/react'
 import './App.scss'
 import RouterOutleft from './pages/components/RouterOutlet'
 import { Provider } from 'react-redux'
@@ -31,10 +14,11 @@ import 'react-toastify/dist/ReactToastify.css'
 import {
 	CssBaseline,
 	ThemeProvider,
-	createTheme
+	createTheme,
+  responsiveFontSizes
 } from '@mui/material'
 
-const theme = createTheme({
+let theme = createTheme({
   typography: {
     fontFamily:
 			'Open Sans, Roboto, Lato, Source Sans Pro, Montserrat, sans-serif'
@@ -88,6 +72,8 @@ const theme = createTheme({
     }
   },
 })
+
+theme = responsiveFontSizes(theme);
 
 function App () {
   return (

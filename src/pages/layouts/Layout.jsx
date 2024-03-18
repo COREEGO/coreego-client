@@ -24,7 +24,6 @@ const Layout = ({ children }) => {
 
 	useEffect(() => {
 		onLoadedApplication();
-		console.log(location);
 	}, []);
 
 	const onLoadedApplication = async () => {

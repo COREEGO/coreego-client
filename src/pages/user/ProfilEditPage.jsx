@@ -72,7 +72,6 @@ const ProfilEditPage = () => {
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onBlur",
 		resolver: vestResolver(validationProfil)
 	});
 

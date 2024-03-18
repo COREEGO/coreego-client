@@ -3,41 +3,26 @@ import { useNavigate, useParams } from "react-router";
 import LoadingPage from "../../components/LoadingPage";
 import LikeButton from "../../components/buttons/LikeButton";
 import CommentModule from "../components/modules/CommentModule";
-import {
-	AVATAR_PATH,
-	BEARER_HEADERS,
-	IMAGE_PATH
-} from "../../utils/variables";
+import { AVATAR_PATH } from "../../utils/variables";
 import { NavLink } from "react-router-dom";
 import CategoryText from "../../components/texts/CategoryText";
 import ShareButton from "../../components/buttons/ShareButton";
 import { belongsToAuth } from "../../utils";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
-	EDIT_ICON,
-	MORE_OPTIONS,
-	MORE_OPTIONS_ICON
-} from "../../utils/icon";
-import {
 	Box,
-	Button,
-	Chip,
 	Container,
 	Divider,
 	Avatar,
 	Stack,
 	Typography,
-	IconButton,
-	Menu,
-	MenuItem,
-	ListItemIcon
+	Portal
 } from "@mui/material";
 import moment from "moment";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { ListIcon } from "@chakra-ui/react";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
+import ReportModule from "../components/modules/ReportModule";
 
 const DiscussionDetail = () => {
 	const params = useParams();
@@ -113,11 +98,16 @@ const DiscussionDetail = () => {
 					<Typography fontWeight="bold">
 						{discussion.user.pseudo}
 					</Typography>
-					{belongsToAuth(discussion.user.id, user?.id) && (
+					{belongsToAuth(discussion.user.id, user?.id) ? (
 						<OptionPublicationButton
 							editLink={`/forum/discussion/edit/${discussion.slug}`}
 							deleteUrl={`/discussions/${discussion.id}`}
 							redirectionUrl={"/forum"}
+						/>
+					) : (
+						<ReportModule
+							targetElement="discussion_reported_id"
+							targetValue={discussion.id}
 						/>
 					)}
 				</Stack>

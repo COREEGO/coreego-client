@@ -9,8 +9,6 @@ import {
 	TableRow,
 	Avatar,
 	Typography,
-	Menu,
-	Box
 } from "@mui/material";
 import TitleSectionText from "../../../components/texts/TitleSectionText";
 import React, { useMemo } from "react";
@@ -18,13 +16,10 @@ import LoadingPage from "../../../components/LoadingPage";
 import axios from "axios";
 import { AVATAR_PATH } from "../../../utils/variables";
 import PaginationData from "../../../components/PaginationData";
-import CategoryText from "../../../components/texts/CategoryText";
 import { useLocation } from "react-router";
-import { IconButton } from "@chakra-ui/react";
-import { MARKER_ICON, MORE_OPTIONS_ICON } from "../../../utils/icon";
+import { MARKER_ICON } from "../../../utils/icon";
 import OptionPublicationButton from "../../../components/buttons/OptionPublicationButton";
 import moment from "moment";
-import { DataGrid } from "@mui/x-data-grid";
 
 const ProductsPublicationsDashboardPage = () => {
 	const [products, setProducts] = React.useState([]);

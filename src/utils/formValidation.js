@@ -100,6 +100,11 @@ export const validationProfil = create((data = {}) => {
   test('kakao', maxLength(20), () => {enforce(data.kakao).shorterThanOrEquals(20)});
 })
 
+export const validationReport = create((data = {}) => {
+  test('content',  IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
+  test('content', minLength(3), () => {enforce(data.content).longerThanOrEquals(3)});
+})
+
 export const errorField = (error) => {
   return {
       error: Boolean(error),

@@ -67,7 +67,7 @@ const CommentModule = ({
 			mutate();
 			setOpen(false);
 		} catch (error) {
-			toast.success(error.data.message);
+			toast.success(error?.data?.message);
 		}
 	};
 

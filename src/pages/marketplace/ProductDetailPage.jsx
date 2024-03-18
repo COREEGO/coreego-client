@@ -35,6 +35,7 @@ import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
 import ShareButton from "../../components/buttons/ShareButton";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
+import ReportModule from "../components/modules/ReportModule";
 
 const ProductDetail = () => {
 	const params = useParams();
@@ -122,13 +123,15 @@ const ProductDetail = () => {
 										<Typography fontWeight="bold">
 											{product?.user?.pseudo}
 										</Typography>
-										{belongsToAuth(product.user.id, user?.id) && (
+										{belongsToAuth(product.user.id, user?.id) ? (
 											<OptionPublicationButton
 												editLink={`/market-place/product/edit/${product.slug}`}
 												deleteUrl={`/products/${product.id}`}
 												redirectionUrl={"/market-place"}
 											/>
-										)}
+										) : <ReportModule
+										placeholder="En quoi ce produit ne convient pas ?"
+										targetElement="product_reported_id" targetValue={product.id} /> }
 									</Stack>
 									<Button
 										startIcon={<MAIL_ICON />}

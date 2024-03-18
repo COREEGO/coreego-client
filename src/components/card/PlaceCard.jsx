@@ -4,7 +4,6 @@ import CategoryText from "../texts/CategoryText";
 import { getFirstImage } from "../../utils";
 import { Avatar, Box, Card, CardActionArea, CardContent, CardMedia, Stack, Typography } from "@mui/material";
 import CommentCountIcon from "../icons/CommentCounterIcon";
-import ImageCountIcon from "../icons/ImageCountIcon";
 import { AVATAR_PATH } from "../../utils/variables";
 import moment from "moment";
 import { MARKER_ICON } from "../../utils/icon";

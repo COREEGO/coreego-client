@@ -32,13 +32,13 @@ import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../utils/variables";
+import { belongsToAuth } from "../../utils";
+import ReportModule from "../../pages/components/modules/ReportModule";
 
 const ReviewCard = ({ review, mutate }) => {
 	const { user } = useAuthContext();
 
 	const [isOpen, setIsOpen] = useState(false);
-
-	const isReviewUser = user.id === review.user.id;
 
 	const confirm = useConfirm();
 
@@ -104,47 +104,47 @@ const ReviewCard = ({ review, mutate }) => {
 								pseudo={review.user.pseudo}
 								publishDate={review.created_at}
 							/>
-							<PopupState variant="popover" popupId="demo-popup-menu">
-								{(popupState) => (
-									<>
-										<IconButton
-											{...bindTrigger(popupState)}
-											size="small"
-											aria-label="account of current user"
-											aria-controls="menu-options"
-											aria-haspopup="true"
-											color="inherit"
-										>
-											<MORE_OPTIONS_ICON />
-										</IconButton>
-										<Menu {...bindMenu(popupState)}>
-											{isReviewUser
-												? [
-														<MenuItem
-															key="modifier"
-															onClick={() => setIsOpen(true)}
-														>
-															Modifier
-														</MenuItem>,
-														<MenuItem
-															key="supprimer"
-															onClick={() => onDelete(review.id)}
-														>
-															Supprimer
-														</MenuItem>
-												  ]
-												: [
-														<MenuItem
-															key="signaler"
-															onClick={popupState.close}
-														>
-															Signaler
-														</MenuItem>
-												  ]}
-										</Menu>
-									</>
-								)}
-							</PopupState>
+							{belongsToAuth(review.user.id, user.id) ? (
+								<PopupState
+									variant="popover"
+									popupId="demo-popup-menu"
+								>
+									{(popupState) => (
+										<>
+											<IconButton
+												{...bindTrigger(popupState)}
+												size="small"
+												aria-label="account of current user"
+												aria-controls="menu-options"
+												aria-haspopup="true"
+												color="inherit"
+											>
+												<MORE_OPTIONS_ICON />
+											</IconButton>
+											<Menu {...bindMenu(popupState)}>
+												<MenuItem
+													key="modifier"
+													onClick={() => setIsOpen(true)}
+												>
+													Modifier
+												</MenuItem>
+												<MenuItem
+													key="supprimer"
+													onClick={() => onDelete(review.id)}
+												>
+													Supprimer
+												</MenuItem>
+											</Menu>
+										</>
+									)}
+								</PopupState>
+							) : (
+								<ReportModule
+									placeholder="En quoi cette avis ne convient pas ?"
+									targetElement="review_reported_id"
+									targetValue={review.id}
+								/>
+							)}
 						</Stack>
 						<Rating value={review.stars} readOnly />
 						<Typography sx={{ whiteSpace: "pre-line" }}>

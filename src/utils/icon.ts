@@ -52,9 +52,12 @@ import QueryStatsOutlinedIcon from '@mui/icons-material/QueryStatsOutlined';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InboxIcon from '@mui/icons-material/Inbox';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ReportIcon from '@mui/icons-material/Report';
 
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
+
+export const REPORT_ICON = ReportIcon
 
 export const CALENDAR_ICON = CalendarMonthIcon
 

@@ -34,9 +34,10 @@ import PopupState, {
 import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { dateParse } from "../../utils";
+import { belongsToAuth, dateParse } from "../../utils";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import axios from "axios";
+import ReportModule from "../../pages/components/modules/ReportModule";
 
 const CommentCard = ({ comment, mutate }) => {
 	const confirm = useConfirm();
@@ -109,7 +110,7 @@ const CommentCard = ({ comment, mutate }) => {
 									{comment.user.pseudo}
 								</Typography>
 							</Stack>
-							{comment.user.id === user.id ? (
+							{belongsToAuth(comment.user.id, user.id)  ? (
 								<PopupState
 									variant="popover"
 									popupId="demo-popup-menu"
@@ -141,19 +142,19 @@ const CommentCard = ({ comment, mutate }) => {
 									)}
 								</PopupState>
 							) : (
-								<></>
+								<ReportModule
+								placeholder="En quoi ce commentaire ne convient pas ?"
+								targetElement="comment_reported_id" targetValue={comment.id} />
 							)}
 						</Stack>
 						<Typography
 							sx={{ whiteSpace: "pre-line" }}
 							color="var(--grey-bold)"
 						>
-							{" "}
-							{comment.content}{" "}
+							{comment.content}
 						</Typography>
 						<Typography variant="body2" textAlign="right">
-							{" "}
-							{dateParse(comment.created_at)}{" "}
+							{dateParse(comment.created_at)}
 						</Typography>
 					</Stack>
 				</CardContent>

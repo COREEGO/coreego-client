@@ -1,19 +1,13 @@
-import { Avatar, Box, Card, CardActionArea, CardContent, Chip, Stack, Typography } from "@mui/material";
-import UserSniped from "../react-ux/UserSniped";
+import { Avatar, Box, Card, CardActionArea, CardContent, Stack, Typography } from "@mui/material";
 import CategoryText from "../texts/CategoryText";
 import CommentCountIcon from "../icons/CommentCounterIcon";
-import ImageCountIcon from "../icons/ImageCountIcon";
 import LikeCountIcon from "../icons/LikeCountIcon";
-import { cleanHtmlText, dateParse } from "../../utils";
+import { cleanHtmlText } from "../../utils";
 import moment from "moment";
 import { AVATAR_PATH } from "../../utils/variables";
 
 
-interface DiscussionCardProps {
-    discussion: any,
-}
-
-const DiscussionCard: React.FC<DiscussionCardProps> = ({ discussion }) => {
+const DiscussionCard = ({ discussion }) => {
 
 
     return (

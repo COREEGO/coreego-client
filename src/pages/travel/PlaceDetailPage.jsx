@@ -35,6 +35,7 @@ import SimpleSlider from "../../components/swipers/SimpleSlider";
 import { AVATAR_PATH } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
+import ReportModule from "../components/modules/ReportModule";
 
 const PlaceDetail = () => {
 	const params = useParams();
@@ -99,7 +100,7 @@ const PlaceDetail = () => {
 						<Box
 							sx={{
 								boxShadow: "-15px 15px 4px var(--coreego-red)",
-								height: {xs: 250, sm: 350 } ,
+								height: { xs: 250, sm: 350 },
 								width: 700,
 								maxWidth: "100%"
 							}}
@@ -121,16 +122,22 @@ const PlaceDetail = () => {
 						sx={{ width: 40, height: 40 }}
 						src={AVATAR_PATH + place.user.avatar}
 					/>
-				 	<Typography fontWeight="bold">
+					<Typography fontWeight="bold">
 						{place.user.pseudo}
 					</Typography>
-					{belongsToAuth(place.user.id, user?.id) && (
-							<OptionPublicationButton
-								editLink={`/voyage/place/edit/${place.slug}`}
-                                deleteUrl={`/places/${place.id}`}
-                                redirectionUrl={'/voyage'}
-							/>
-						)}
+					{belongsToAuth(place.user.id, user?.id) ? (
+						<OptionPublicationButton
+							editLink={`/voyage/place/edit/${place.slug}`}
+							deleteUrl={`/places/${place.id}`}
+							redirectionUrl={"/voyage"}
+						/>
+					) : (
+						<ReportModule
+							placeholder="En quoi ce lieu ne convient pas ?"
+								targetElement="place_reported_id"
+							targetValue={place.id}
+						/>
+					)}
 				</Stack>
 			</Divider>
 
@@ -176,7 +183,7 @@ const PlaceDetail = () => {
 							sx={{
 								height: { xs: 250, md: 450 },
 								width: "100%",
-								position: "relative",
+								position: "relative"
 							}}
 						>
 							<MapSimpleMarker
@@ -190,7 +197,7 @@ const PlaceDetail = () => {
 								displayMapType={true}
 							/>
 						</Box>
-						<Box sx={{mt: 3}}>
+						<Box sx={{ mt: 3 }}>
 							<Typography
 								gutterBottom
 								display="flex"
@@ -204,8 +211,6 @@ const PlaceDetail = () => {
 					</Stack>
 				</Container>
 			</Box>
-
-
 
 			<Box my={3}>
 				<CommentModule

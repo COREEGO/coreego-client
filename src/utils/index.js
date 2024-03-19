@@ -55,33 +55,8 @@ export const wonToEuro = (price) => {
   return convertir;
 };
 
-export const findMatchingUser = (datas, user) => {
-  return datas.find((data) => data?.user?.id === user.id);
-};
-
-export const isAlreadySaved = (likes, user) => {
-  return likes.find((like) => like.user.id === user.id);
-};
-
-
-export const getValueFiltered = (
-  datas,
-  value = ""
-) => {
-  let DATAS = [...datas];
-  return value.length
-    ? [...DATAS].filter((language) =>
-        language.label.toLowerCase().includes(value.toLowerCase())
-      )
-    : datas;
-};
-
 export const belongsToAuth = (userId, authId) => {
   return authId && userId === authId;
-};
-
-export const mutationUrl = async (url) => {
-  return await apiFetch(url, "GET");
 };
 
 export const youtubeLink = (pseudo) => {
@@ -116,38 +91,67 @@ export const cleanHtmlText = (htmlString) => {
 
 export const isAdmin = (role) => role.is_admin;
 
+export const productSteps = [
+  {
+    label: "Titre",
+    element: "title"
+  },
+    {
+    label: "Images",
+    element: "files"
+  },
+  {
+    label: "Prix",
+    element: "price"
+  },
+  {
+    label: "Localisation",
+    element: "city_id"
+  },
+  {
+    label: "Description",
+    element: "description"
+  }
+]
 
-export const getChartCountArray = (datas) => {
-  return [
-		{
-			count: datas?.count?.users,
-			title: "Utilisateurs",
-			color: "#ff8a65"
-		},
-		{
-			count: datas?.count?.discussions,
-			title: "Discussions",
-			color: "#7986cb"
-		},
-		{
-			count: datas?.count?.products,
-			title: "Produits",
-			color: "#f06292"
-		},
-		{
-			count: datas?.count?.places,
-			title: "lieux",
-			color: "#4db6ac"
-		},
-		{
-			count: datas?.count?.comments,
-			title: "commentaires",
-			color: "#dce775"
-		},
-		{
-			count: datas?.count?.reviews,
-			title: "Reviews",
-			color: "#ffb74d"
-		}
-	];
-}
+export const placeStep = [
+  {
+    label: "Titre",
+    element: "title"
+  },
+  {
+    label: "Catégorie",
+    element: "category_id"
+  },
+  {
+    label: "Images",
+    element: "files"
+  },
+  {
+    label: "Localisation",
+    element: "city_id"
+  },
+  {
+    label: "Adresse",
+    element: "address"
+  },
+  {
+    label: "Description",
+    element: "description"
+  }
+]
+
+export const discussionStep =  [
+  {
+    label: "Titre",
+    element: "title"
+  },
+  {
+    label: "Catégorie",
+    element: "category_id"
+  },
+  {
+    label: "Contenu",
+    element: "content"
+  }
+]

@@ -60,7 +60,7 @@ const HeroBannerFeed = ({
                     {titleKr}
                   </Typography>
                 </Stack>
-                <Typography fontSize="18px" color='var(--grey-bold)'>
+                <Typography component="p" fontWeight="normal">
                   {description}
                 </Typography>
               </Stack>

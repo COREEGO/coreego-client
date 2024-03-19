@@ -69,8 +69,8 @@ export const validationProduct = create((data = {}) => {
 
   test('price', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
 
-  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).greaterThan(0)});
-  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).greaterThan(0)});
+  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
+  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
 
   test('files', IS_REQUIRED_MESSAGE, () => {enforce(data.files).longerThan(0)});
 
@@ -87,6 +87,9 @@ export const validationPlace = create((data = {}) => {
   test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).greaterThan(0)});
 
   test('address', IS_REQUIRED_MESSAGE, () => {enforce(data.address).isNotEmpty()});
+
+  test('files', IS_REQUIRED_MESSAGE, () => {enforce(data.files).longerThan(0)});
+
 })
 
 export const validationProfil = create((data = {}) => {

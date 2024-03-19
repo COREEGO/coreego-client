@@ -95,9 +95,9 @@ const MarketPlacePage = () => {
 											/>
 
 											<CityDistrictSelectInput
-												cityValue={searchParams.get("city") || "0"}
+												cityValue={searchParams.get("city") || ""}
 												districtValue={
-													searchParams.get("district") || "0"
+													searchParams.get("district") || ""
 												}
 												updateCity={e =>
 													updateFilter("city", e.toString())}
@@ -167,9 +167,9 @@ const MarketPlacePage = () => {
 												/>
 
 												<CityDistrictSelectInput
-													cityValue={searchParams.get("city") || "0"}
+													cityValue={searchParams.get("city") || ""}
 													districtValue={
-														searchParams.get("district") || "0"
+														searchParams.get("district") || ""
 													}
 													updateCity={e =>
 														updateFilter("city", e.toString())}

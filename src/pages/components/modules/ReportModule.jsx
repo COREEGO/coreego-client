@@ -18,6 +18,7 @@ import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../../utils/variables";
 import { toast } from "react-toastify";
+import { useAuthContext } from "../../../contexts/AuthProvider";
 
 const ReportModule = ({
 	placeholder = "En quoi ce sujet ne convient pas ?",
@@ -25,6 +26,8 @@ const ReportModule = ({
   targetValue
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const {user} = useAuthContext()
 
 	const {
 		register,
@@ -38,7 +41,6 @@ const ReportModule = ({
 	});
 
 	const onSubmitReport = async (data) => {
-    console.log('osdjk')
     try{
       const response = await axios.post('/reports', {
         content: data.content,
@@ -53,7 +55,7 @@ const ReportModule = ({
     }
   };
 
-	return (
+	return user ? (
 		<React.Fragment>
 			<IconButton onClick={event => setAnchorEl(event.currentTarget)}>
 				<REPORT_ICON />
@@ -93,7 +95,7 @@ const ReportModule = ({
 					</Box>
 			</Menu>
 		</React.Fragment>
-	);
+	) : <></>;
 };
 
 export default ReportModule;

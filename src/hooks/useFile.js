@@ -65,7 +65,7 @@ const useFile = (mutate = Function) => {
   const deleteFile = async (fileId) => {
     confirm({ description: "Supprimer l'image ?" })
       .then((_) => {
-        axios.delete(`/image/delete/${fileId}`, BEARER_HEADERS).then(
+        axios.delete(`/images/${fileId}`, BEARER_HEADERS).then(
           (response) => {
               mutate()
               toast.success(response.data.message)

@@ -17,10 +17,10 @@ const FormImage = ({ imageUrl, onRemove, displayTrash = true }) => {
       <IconButton
         onClick={onRemove}
         sx={{
-          color: 'white',
           position: 'absolute',
           bottom: 1,
           right: 1,
+          color: 'white',
           backgroundColor: 'var(--coreego-red)'
         }}
         aria-label='remove image'

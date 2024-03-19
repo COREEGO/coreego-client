@@ -15,19 +15,27 @@ import {
 } from "../../utils/formValidation";
 import UpladButton from "../buttons/UplaodButton";
 import useFile from "../../hooks/useFile";
-import { CAMERA_ICON, TRASH_ICON } from "../../utils/icon";
+import {
+	CAMERA_ICON,
+	TRASH_ICON,
+	UPLOAD_ICON
+} from "../../utils/icon";
 import FormImage from "../images/FormImage";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import axios from "axios";
 import MapSimpleMarker from "../maps/MapSimpleMarker";
 import {
 	Box,
 	Button,
+	Card,
+	CardActions,
+	CardContent,
 	Container,
 	Divider,
 	FormControl,
 	FormHelperText,
+	FormLabel,
 	InputAdornment,
 	InputLabel,
 	MenuItem,
@@ -41,11 +49,15 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import TitleSectionText from "../texts/TitleSectionText";
 import {
+	PlaceStep,
 	createBlobImage,
 	getViolationField,
-	isKoreanAddress
+	isKoreanAddress,
+	placeStep
 } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
+import StepperForm from "./_StepperForm";
+import PreviewImageCard from "../card/PreviewImageCard";
 
 const PlaceForm = ({
 	isEditMode = false,
@@ -53,6 +65,8 @@ const PlaceForm = ({
 	mutate = Function
 }) => {
 	const navigate = useNavigate();
+
+	const [activeStep, setActiveStep] = React.useState(0);
 
 	const [adressData, setAdressData] = useState([]);
 
@@ -160,47 +174,60 @@ const PlaceForm = ({
 
 	return (
 		<Container>
-			<Stack justifyContent="center" alignItems="center">
-				<Stack spacing={5} my={5} width={700} maxWidth="100%">
-					<TitleSectionText
-						variant="h5"
-						alignSelf="center"
-						startText={isEditMode ? "Modifier" : "Partager"}
-						endText={"un lieu"}
-					/>
-					<Stack
-						spacing={3}
-						component="form"
-						onSubmit={handleSubmit(onSubmitForm)}
-					>
-						<TextField
-							{...register("title")}
-							{...errorField(errors?.title)}
-							required
-							fullWidth
-							placeholder="titre"
-							label="Donnez un titre à votre lieu ?"
-							id="title"
-							InputProps={{
-								endAdornment: (
-									<InputAdornment
-										className="string_count"
-										position="end"
-									>
-										{watch("title")?.length || 0}/{100}
-									</InputAdornment>
-								),
-								inputProps: {
-									maxLength: 250
-								}
-							}}
-						/>
+			<Stack spacing={5} my={5} width="100%">
+				<TitleSectionText
+					variant="h5"
+					alignSelf="center"
+					startText={isEditMode ? "Modifier" : "Partager"}
+					endText={"un lieu"}
+				/>
 
-						<FormControl error={Boolean(errors?.category_id)}>
-							<InputLabel>Type de lieu</InputLabel>
+				<StepperForm
+					steps={placeStep}
+					errors={errors}
+					setActiveStep={(index) => setActiveStep(index)}
+					activeStep={activeStep}
+				/>
+
+				<Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
+					{activeStep === 0 && (
+						<FormControl fullWidth>
+							<FormLabel htmlFor="title" sx={{ mb: 3 }}>
+								Donner un titre à votre lieu
+							</FormLabel>
+							<TextField
+								id="title"
+								{...register("title")}
+								{...errorField(errors?.title)}
+								required
+								fullWidth
+								placeholder="Titre de mon lieu"
+								InputProps={{
+									endAdornment: (
+										<InputAdornment
+											className="string_count"
+											position="end"
+										>
+											{watch("title")?.length || 0}/{100}
+										</InputAdornment>
+									),
+									inputProps: {
+										maxLength: 100
+									}
+								}}
+							/>
+						</FormControl>
+					)}
+					{activeStep === 1 && (
+						<FormControl
+							fullWidth
+							error={Boolean(errors?.category_id)}
+						>
+							<FormLabel htmlFor="category" sx={{ mb: 3 }}>
+								Dans quelle catégorie fait partie ce lieu ?
+							</FormLabel>
 							<Select
 								{...register("category_id")}
-								label="Type de lieu"
 								defaultValue={place?.category?.id || ""}
 							>
 								<MenuItem value="">-------</MenuItem>
@@ -216,36 +243,145 @@ const PlaceForm = ({
 								</FormHelperText>
 							)}
 						</FormControl>
+					)}
 
-						<Controller
-							control={control}
-							name="city_id"
-							rules={{
-								validate: () =>
-									noEmptyLocalisationValidator(
-										getValues().city_id,
-										getValues().district_id
-									)
-							}}
-							render={() => (
-								<CityDistrictSelectInput
-									emptyOptionCity="-----"
-									emptyOptionDistict="-----"
-									cityValue={place?.city?.id || "0"}
-									districtValue={place?.district?.id || "0"}
-									updateCity={(e) => setValue("city_id", e)}
-									updateDistrict={(e) => setValue("district_id", e)}
+					{activeStep === 2 && (
+						<>
+							<FormControl
+								fullWidth
+								error={errors.files ? true : false}
+							>
+								<Controller
+									control={control}
+									name="files"
+									render={() => (
+										<Card>
+											<CardContent>
+												<UpladButton
+													onChange={(e) => addFile(e.target.files)}
+												>
+													<Box
+														sx={{
+															border: "3px black dotted",
+															textAlign: "center",
+															py: 5
+														}}
+													>
+														<UPLOAD_ICON sx={{ fontSize: 72 }} />
+														<Typography>
+															Ajouter des images
+														</Typography>
+													</Box>
+												</UpladButton>
+											</CardContent>
+											<CardActions>
+												{isEditMode && place?.images.length ? (
+													<Stack gap={1}>
+														<Typography
+															component="div"
+															fontWeight="bold"
+														>
+															Images du lieu
+														</Typography>
+														<Stack
+															spacing={2}
+															direction="row"
+															flexWrap="wrap"
+														>
+															{place.images.map((image, index) => {
+																return (
+																	<PreviewImageCard
+																		key={index}
+																		displayTrash={Boolean(
+																			place?.images.length > 1
+																		)}
+																		imageUrl={IMAGE_PATH + image.name}
+																		onRemove={() =>
+																			deleteFile(image.id)
+																		}
+																	/>
+																);
+															})}
+														</Stack>
+													</Stack>
+												) : (
+													<></>
+												)}
+												{files.length ? (
+													<Stack gap={1}>
+														<Typography
+															component="div"
+															fontWeight="bold"
+														>
+															Preview images
+														</Typography>
+														<Stack
+															spacing={2}
+															direction="row"
+															flexWrap="wrap"
+														>
+															{files.map((file, index) => {
+																return (
+																	<PreviewImageCard
+																		key={index}
+																		imageUrl={createBlobImage(file)}
+																		onRemove={() => removeFile(index)}
+																	/>
+																);
+															})}
+														</Stack>
+													</Stack>
+												) : (
+													<></>
+												)}
+											</CardActions>
+										</Card>
+									)}
 								/>
+								{Boolean(errors?.files) && (
+									<FormHelperText>
+										{errors?.files?.message}
+									</FormHelperText>
+								)}
+							</FormControl>
+						</>
+					)}
+
+					{activeStep === 3 && (
+						<FormControl fullWidth>
+							<FormLabel htmlFor="city_id" sx={{ mb: 3 }}>
+								Dans quel ville et quartier se trouve ce lieu ?
+							</FormLabel>
+							<Controller
+								control={control}
+								name="city_id"
+								render={() => (
+									<CityDistrictSelectInput
+										labelCity="Dans quelle ville ?"
+										labelDistrict="Dans quel district ?"
+										cityValue={place?.city?.id || ""}
+										districtValue={place?.district?.id || ""}
+										updateCity={(e) => setValue("city_id", e)}
+										updateDistrict={(e) => setValue("district_id", e)}
+										showMap={true}
+									/>
+								)}
+							/>
+							{(Boolean(errors?.city_id) ||
+								Boolean(errors?.district_id)) && (
+								<FormHelperText>
+									{errors?.city_id?.message ||
+										errors?.district_id?.message}
+								</FormHelperText>
 							)}
-						/>
-						{Boolean(errors?.city_id) ? (
-							<FormHelperText>
-								{errors?.city_id?.message}
-							</FormHelperText>
-						) : (
-							<></>
-						)}
-						<Box width="100%">
+						</FormControl>
+					)}
+
+					{activeStep === 4 && (
+						<FormControl fullWidth>
+							<FormLabel htmlFor="address" sx={{ mb: 3 }}>
+								Adresse, corrdonnée GSP ... du lieu
+							</FormLabel>
 							<TextField
 								fullWidth
 								required
@@ -255,7 +391,7 @@ const PlaceForm = ({
 								type="text"
 								label="Addresse du lieu"
 							/>
-							{(watch("latitude") && watch("address")) ? (
+							{watch("latitude") && watch("address") ? (
 								<Box
 									sx={{
 										height: {
@@ -279,116 +415,138 @@ const PlaceForm = ({
 							) : (
 								<></>
 							)}
-						</Box>
-
-						<TextField
-							{...register("description")}
-							{...errorField(errors?.description)}
-							label="Dites en plus sur ce lieu"
-							placeholder="en quoi ce lieu est-il important à découvrir ?"
-							required
-							multiline
-							rows={10}
-							InputProps={{
-								endAdornment: (
-									<InputAdornment
-										className="string_count"
-										position="end"
-									>
-										{watch("description")?.length || 0}/{500}
-									</InputAdornment>
-								),
-								inputProps: {
-									maxLength: 500
-								}
-							}}
-						/>
-
-						{isEditMode && place?.images.length ? (
-							<Stack spacing={1}>
-								<Typography fontWeight={"bold"}>Images</Typography>
-								<Stack direction="row" flexWrap={"wrap"} mt={2}>
-									{place.images.map((image, index) => {
-										return (
-											<Box key={index} mr={1} mb={1}>
-												<FormImage
-													key={index}
-													imageUrl={IMAGE_PATH + image.name}
-													onRemove={() => deleteFile(image.id)}
-												/>
-											</Box>
-										);
-									})}
-								</Stack>
-								<Divider />
-							</Stack>
-						) : (
-							<></>
-						)}
-
-						{files.length ? (
-							<Stack direction="row" flexWrap={"wrap"} mb={2}>
-								{files.map((image, index) => {
-									return (
-										<Box key={index} mr={1} mb={1}>
-											<FormImage
-												key={index}
-												imageUrl={createBlobImage(image)}
-												onRemove={() => removeFile(index)}
-											/>
-										</Box>
-									);
-								})}
-							</Stack>
-						) : (
-							<></>
-						)}
-						<FormControl error={errors.files ? true : false}>
-							<Controller
-								control={control}
-								name="files"
-								rules={{
-									validate: () =>
-										noEmtyFileValidator(
-											files.concat(place?.images || [])
-										)
-								}}
-								render={() => (
-									<UpladButton
-										onChange={(e) => addFile(e.target.files)}
-									>
-										<Button
-											variant="outlined"
-											startIcon={<CAMERA_ICON />}
-										>
-											Ajouter des photos
-										</Button>
-									</UpladButton>
-								)}
-							/>
-							{errors.files ? (
-								<FormHelperText>
-									{errors.files.message}
-								</FormHelperText>
-							) : (
-								<></>
-							)}
 						</FormControl>
-						<Box>
-							<LoadingButton
-								type="submit"
-								loading={isSubmitting}
-								variant="contained"
-							>
-								{isEditMode
-									? "Modifier le lieu"
-									: " Partager ce lieu"}
-							</LoadingButton>
-						</Box>
-					</Stack>
-				</Stack>
+					)}
+
+					{activeStep === 5 && (
+						<>
+							<FormControl fullWidth>
+								<FormLabel htmlFor="description" sx={{ mb: 3 }}>
+									Pourquoi ce lieu est il important à visiter ?
+								</FormLabel>
+								<TextField
+									{...register("description")}
+									{...errorField(errors?.description)}
+									required
+									multiline
+									rows={10}
+									InputProps={{
+										endAdornment: (
+											<InputAdornment
+												className="string_count"
+												position="end"
+											>
+												{watch("description")?.length || 0}/{500}
+											</InputAdornment>
+										),
+										inputProps: {
+											maxLength: 500
+										}
+									}}
+								/>
+							</FormControl>
+							<Stack alignItems="flex-end" mt={3}>
+								<LoadingButton
+									sx={{ width: "fit-content" }}
+									type="submit"
+									loading={isSubmitting}
+									variant="contained"
+								>
+									enregistrer
+								</LoadingButton>
+							</Stack>
+						</>
+					)}
+				</Box>
 			</Stack>
 		</Container>
+		// <Container>
+
+		// 				{isEditMode && place?.images.length ? (
+		// 					<Stack spacing={1}>
+		// 						<Typography fontWeight={"bold"}>Images</Typography>
+		// 						<Stack direction="row" flexWrap={"wrap"} mt={2}>
+		// 							{place.images.map((image, index) => {
+		// 								return (
+		// 									<Box key={index} mr={1} mb={1}>
+		// 										<FormImage
+		// 											key={index}
+		// 											imageUrl={IMAGE_PATH + image.name}
+		// 											onRemove={() => deleteFile(image.id)}
+		// 										/>
+		// 									</Box>
+		// 								);
+		// 							})}
+		// 						</Stack>
+		// 						<Divider />
+		// 					</Stack>
+		// 				) : (
+		// 					<></>
+		// 				)}
+
+		// 				{files.length ? (
+		// 					<Stack direction="row" flexWrap={"wrap"} mb={2}>
+		// 						{files.map((image, index) => {
+		// 							return (
+		// 								<Box key={index} mr={1} mb={1}>
+		// 									<FormImage
+		// 										key={index}
+		// 										imageUrl={createBlobImage(image)}
+		// 										onRemove={() => removeFile(index)}
+		// 									/>
+		// 								</Box>
+		// 							);
+		// 						})}
+		// 					</Stack>
+		// 				) : (
+		// 					<></>
+		// 				)}
+		// 				<FormControl error={errors.files ? true : false}>
+		// 					<Controller
+		// 						control={control}
+		// 						name="files"
+		// 						rules={{
+		// 							validate: () =>
+		// 								noEmtyFileValidator(
+		// 									files.concat(place?.images || [])
+		// 								)
+		// 						}}
+		// 						render={() => (
+		// 							<UpladButton
+		// 								onChange={(e) => addFile(e.target.files)}
+		// 							>
+		// 								<Button
+		// 									variant="outlined"
+		// 									startIcon={<CAMERA_ICON />}
+		// 								>
+		// 									Ajouter des photos
+		// 								</Button>
+		// 							</UpladButton>
+		// 						)}
+		// 					/>
+		// 					{errors.files ? (
+		// 						<FormHelperText>
+		// 							{errors.files.message}
+		// 						</FormHelperText>
+		// 					) : (
+		// 						<></>
+		// 					)}
+		// 				</FormControl>
+		// 				<Box>
+		// 					<LoadingButton
+		// 						type="submit"
+		// 						loading={isSubmitting}
+		// 						variant="contained"
+		// 					>
+		// 						{isEditMode
+		// 							? "Modifier le lieu"
+		// 							: " Partager ce lieu"}
+		// 					</LoadingButton>
+		// 				</Box>
+		// 			</Stack>
+		// 		</Stack>
+		// 	</Stack>
+		// </Container>
 	);
 };
 

@@ -13,7 +13,7 @@ import {
 } from "../../utils/formValidation";
 import useFile from "../../hooks/useFile";
 import { apiFetch } from "../../http-common/apiFetch";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 
@@ -37,22 +37,28 @@ import useMalware from "../../hooks/useMalware";
 import ReactQuillInput from "../inputs/ReactQuillInput";
 import TitleSectionText from "../texts/TitleSectionText";
 import axios from "axios";
-import { getViolationField } from "../../utils";
+import { discussionStep, getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
+import { Stepper } from "@mui/material";
+import { Step } from "@mui/material";
+import { StepButton } from "@mui/material";
+import { StepLabel } from "@mui/material";
+import { FormLabel } from "@mui/material";
+import StepperForm from "./_StepperForm";
 
 const DiscussionForm = ({
 	isEditMode = false,
 	discussion = null
 }) => {
+	const [activeStep, setActiveStep] = React.useState(0);
+
 	const navigate = useNavigate();
-	const params = useParams();
 	const { user } = useAuthContext();
-	const { owner } = useMalware();
 
 	useEffect(() => {
-		if (isEditMode){
-			if(discussion.user.id !== user.id && !user.role.is_admin ){
-				navigate('/')
+		if (isEditMode) {
+			if (discussion.user.id !== user.id && !user.role.is_admin) {
+				navigate("/");
 			}
 		}
 	}, []);
@@ -97,46 +103,63 @@ const DiscussionForm = ({
 
 	return (
 		<Container>
-			<Stack justifyContent="center" alignItems="center">
-				<Stack spacing={5} my={5} width={700} maxWidth="100%">
-					<TitleSectionText
-						variant="h5"
-						alignSelf="center"
-						startText={isEditMode ? "Modifier une" : "Nouvelle"}
-						endText="discussion"
-					/>
-					<Stack
-						spacing={3}
-						component="form"
-						onSubmit={handleSubmit(onSubmitForm)}
-					>
-						<TextField
-							{...register("title")}
-							{...errorField(errors?.title)}
-							required
+			<Stack spacing={5} my={5} width="100%">
+				<TitleSectionText
+					variant="h5"
+					alignSelf="center"
+					startText={isEditMode ? "Modifier une" : "Nouvelle"}
+					endText="discussion"
+				/>
+
+				<StepperForm
+					steps={discussionStep}
+					errors={errors}
+					setActiveStep={(index) => setActiveStep(index)}
+					activeStep={activeStep}
+				/>
+
+
+				<Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
+					{activeStep === 0 && (
+						<FormControl fullWidth>
+							<FormLabel htmlFor="title" sx={{ mb: 3 }}>
+								De quoi parlera votre discussion ?
+							</FormLabel>
+							<TextField
+								id="title"
+								{...register("title")}
+								{...errorField(errors?.title)}
+								required
+								fullWidth
+								placeholder="Titre de ma discussion"
+								// label="De quoi parlera ma discussion ?"
+								InputProps={{
+									endAdornment: (
+										<InputAdornment
+											className="string_count"
+											position="end"
+										>
+											{watch("title")?.length || 0}/{100}
+										</InputAdornment>
+									),
+									inputProps: {
+										maxLength: 100
+									}
+								}}
+							/>
+						</FormControl>
+					)}
+					{activeStep === 1 && (
+						<FormControl
 							fullWidth
-							placeholder="Titre de ma discussion"
-							label="De quoi parlera ma discussion ?"
-							InputProps={{
-								endAdornment: (
-									<InputAdornment
-										className="string_count"
-										position="end"
-									>
-										{watch("title")?.length || 0}/{100}
-									</InputAdornment>
-								),
-								inputProps: {
-									maxLength: 100
-								}
-							}}
-						/>
-						<FormControl error={Boolean(errors?.category_id)}>
-							<InputLabel>Catégorie de la discussion</InputLabel>
+							error={Boolean(errors?.category_id)}
+						>
+							<FormLabel htmlFor="category" sx={{ mb: 3 }}>
+								Dans quelle catégorie se place cette discussion ?
+							</FormLabel>
 							<Select
 								{...register("category_id")}
-								label="Catégorie de la discussion"
-								defaultValue={discussion?.category?.id}
+								defaultValue={discussion?.category?.id || ""}
 							>
 								<MenuItem value="">-------</MenuItem>
 								{discussionCategories.map((category) => (
@@ -145,42 +168,48 @@ const DiscussionForm = ({
 									</MenuItem>
 								))}
 							</Select>
-							{(Boolean(errors?.city_id) ||
-								Boolean(errors?.district_id)) && (
+							{Boolean(errors?.category_id) && (
 								<FormHelperText>
-									{errors?.city_id?.message ||
-										errors?.district_id?.message}
+									{errors?.category_id?.message}
 								</FormHelperText>
 							)}
 						</FormControl>
-						<FormControl>
-							<Controller
-								control={control}
-								name="content"
-								render={({ field: { value, onChange } }) => (
-									<ReactQuillInput
-										value={value}
-										onChange={onChange}
-									/>
+					)}
+					{activeStep === 2 && (
+						<>
+							<FormControl fullWidth>
+								<FormLabel htmlFor="content" sx={{ mb: 3 }}>
+									Que voulez vous dire ?
+								</FormLabel>
+								<Controller
+									control={control}
+									name="content"
+									render={({ field: { value, onChange } }) => (
+										<ReactQuillInput
+											value={value}
+											onChange={onChange}
+										/>
+									)}
+								/>
+								{Boolean(errors?.content) && (
+									<FormHelperText>
+										{errors?.content?.message}
+									</FormHelperText>
 								)}
-							/>
-							{errors.content && (
-								<FormHelperText>
-									{errors.content.message}
-								</FormHelperText>
-							)}
-						</FormControl>
-						<Box>
-							<LoadingButton
-								type="submit"
-								loading={isSubmitting}
-								variant="contained"
-							>
-								{isEditMode ? "Modifier ce sujet" : " Créer ce sujet"}
-							</LoadingButton>
-						</Box>
-					</Stack>
-				</Stack>
+							</FormControl>
+							<Stack alignItems="flex-end" mt={3}>
+								<LoadingButton
+									sx={{ width: "fit-content" }}
+									type="submit"
+									loading={isSubmitting}
+									variant="contained"
+								>
+									enregistrer
+								</LoadingButton>
+							</Stack>
+						</>
+					)}
+				</Box>
 			</Stack>
 		</Container>
 	);

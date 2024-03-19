@@ -53,12 +53,13 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InboxIcon from '@mui/icons-material/Inbox';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ReportIcon from '@mui/icons-material/Report';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
 
 export const REPORT_ICON = ReportIcon
-
+export const UPLOAD_ICON = CloudUploadIcon
 export const CALENDAR_ICON = CalendarMonthIcon
 
 export const PUBLICATION_ICON = InboxIcon

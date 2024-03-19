@@ -2,7 +2,6 @@
 import { BsBookmark, BsBookmarkStarFill } from "react-icons/bs";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import React, { useEffect, useState } from "react";
-import { findMatchingUser } from "../../utils";
 import { apiFetch } from "../../http-common/apiFetch";
 import { IconButton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
@@ -11,6 +10,8 @@ import { SAVED_PLACE_ICON, UNSAVED_PLACE_ICON } from "../../utils/icon";
 
 
 const SavePlaceButton = ({ showLabel = false, placeId, users, mutate }) => {
+
+    const [activeStep, setActiveStep] = React.useState(0);
 
     const [isBusy, setIsBusy] = useState(false)
     const { user : auth } = useAuthContext();

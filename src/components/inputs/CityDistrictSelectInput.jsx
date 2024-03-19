@@ -37,10 +37,10 @@ const CityDistrictSelectInput = ({
 	const geopoint = useMemo(() => {
 		let localisation = null;
 
-		if (selectedCity && selectedDistrict == "0") {
+		if (selectedCity && selectedDistrict) {
 			localisation =
 				cities.find((city) => city.id == selectedCity) || null;
-		} else if (selectedCity && selectedDistrict != "0") {
+		} else if (selectedCity && selectedDistrict) {
 			localisation =
 				districts?.find(
 					(district) => district.id == selectedDistrict
@@ -59,7 +59,7 @@ const CityDistrictSelectInput = ({
 
 	const handleCityChange = (event) => {
 		setSelectedCity(event.target.value);
-		setSelectedDistrict("0");
+		setSelectedDistrict("");
 	};
 
 	const handleDistrictChange = (event) => {
@@ -86,7 +86,7 @@ const CityDistrictSelectInput = ({
 					value={selectedCity}
 					onChange={handleCityChange}
 				>
-					<MenuItem value="0">{emptyOptionCity}</MenuItem>
+					<MenuItem value="">{emptyOptionCity}</MenuItem>
 					{cities.map((city) => (
 						<MenuItem key={city.id} value={city.id}>
 							{city.label}
@@ -105,7 +105,7 @@ const CityDistrictSelectInput = ({
 						value={selectedDistrict}
 						onChange={handleDistrictChange}
 					>
-						<MenuItem value="0">{emptyOptionDistict}</MenuItem>
+						<MenuItem value="">{emptyOptionDistict}</MenuItem>
 						{districts.map((district) => {
 							return (
 								<MenuItem key={district.id} value={district.id}>

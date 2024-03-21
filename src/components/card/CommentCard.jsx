@@ -22,7 +22,8 @@ import {
 	TextField,
 	FormHelperText,
 	Button,
-	Dialog
+	Dialog,
+	CardHeader
 } from "@mui/material";
 import { MORE_OPTIONS_ICON } from "../../utils/icon";
 import React, { useMemo, useState } from "react";
@@ -38,6 +39,7 @@ import { belongsToAuth, dateParse } from "../../utils";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import axios from "axios";
 import ReportModule from "../../pages/components/modules/ReportModule";
+import moment from "moment";
 
 const CommentCard = ({ comment, mutate }) => {
 	const confirm = useConfirm();
@@ -94,69 +96,56 @@ const CommentCard = ({ comment, mutate }) => {
 	return (
 		<>
 			<Card variant="outlined" sx={{ width: "100%" }}>
-				<CardContent>
-					<Stack spacing={1}>
-						<Stack
-							alignItems={"flex-start"}
-							direction="row"
-							justifyContent="space-between"
-						>
-							<Stack direction="row" alignItems="center" spacing={1}>
-								<Avatar
-									src={AVATAR_PATH + comment.user.avatar}
-									sx={{ width: 30, height: 30 }}
-								/>
-								<Typography variant="body2" fontWeight="bold">
-									{comment.user.pseudo}
-								</Typography>
-							</Stack>
-							{belongsToAuth(comment.user.id, user.id)  ? (
-								<PopupState
-									variant="popover"
-									popupId="demo-popup-menu"
-								>
-									{(popupState) => (
-										<React.Fragment>
-											<IconButton
-												{...bindTrigger(popupState)}
-												size="small"
-												aria-label="account of current user"
-												aria-controls="menu-options"
-												aria-haspopup="true"
-												color="inherit"
+				<CardHeader
+					avatar={<Avatar src={AVATAR_PATH + comment.user.avatar} />}
+					title={
+						<Typography component="div" fontWeight="bold">
+							{comment.user.pseudo}
+						</Typography>
+					}
+					subheader={dateParse(comment.created_at)}
+					action={
+						belongsToAuth(comment.user.id, user.id) ? (
+							<PopupState variant="popover" popupId="demo-popup-menu">
+								{(popupState) => (
+									<React.Fragment>
+										<IconButton
+											{...bindTrigger(popupState)}
+											size="small"
+											aria-label="account of current user"
+											aria-controls="menu-options"
+											aria-haspopup="true"
+											color="inherit"
+										>
+											<MORE_OPTIONS_ICON />
+										</IconButton>
+										<Menu {...bindMenu(popupState)}>
+											<MenuItem
+												key="modifier"
+												onClick={() => setOpen(true)}
 											>
-												<MORE_OPTIONS_ICON />
-											</IconButton>
-											<Menu {...bindMenu(popupState)}>
-												<MenuItem
-													key="modifier"
-													onClick={() => setOpen(true)}
-												>
-													Modifier
-												</MenuItem>
-												<MenuItem key="supprimer" onClick={onDelete}>
-													Supprimer
-												</MenuItem>
-											</Menu>
-										</React.Fragment>
-									)}
-								</PopupState>
-							) : (
-								<ReportModule
+												Modifier
+											</MenuItem>
+											<MenuItem key="supprimer" onClick={onDelete}>
+												Supprimer
+											</MenuItem>
+										</Menu>
+									</React.Fragment>
+								)}
+							</PopupState>
+						) : (
+							<ReportModule
 								placeholder="En quoi ce commentaire ne convient pas ?"
-								targetElement="comment_reported_id" targetValue={comment.id} />
-							)}
-						</Stack>
-						<Typography
-							sx={{ whiteSpace: "pre-line" }}
-							color="var(--grey-bold)"
-						>
-							{comment.content}
-						</Typography>
-						<Typography variant="body2" textAlign="right">
-							{dateParse(comment.created_at)}
-						</Typography>
-					</Stack>
+								targetElement="comment_reported_id"
+								targetValue={comment.id}
+							/>
+						)
+					}
+				/>
+				<CardContent>
+					<Typography sx={{ whiteSpace: "pre-line" }}>
+						{comment.content}
+					</Typography>
 				</CardContent>
 			</Card>
 			{comment.user.id === user.id && (

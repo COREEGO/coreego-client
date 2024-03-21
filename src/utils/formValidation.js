@@ -1,7 +1,7 @@
 import { create, test, enforce } from 'vest';
 import { cleanHtmlText } from ".";
 
-const IS_REQUIRED_MESSAGE = "Ce champ est requis";
+export const IS_REQUIRED_MESSAGE = "Ce champ est requis";
 const IS_NOT_REGEX_VALID_MESSAGE = "Le format est invalide";
 const IS_NOT_SAME_VALUE_MESSAGE = "Les mots de passe ne correspondent pas";
 const PSEUDO_REGEX = /^[a-zA-Z0-9_.]+$/
@@ -61,35 +61,54 @@ export const validationDiscussion = create((data = {}) => {
   test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
 })
 
-export const validationProduct = create((data = {}) => {
+export const validationCreateProduct = create((data = {}) => {
   test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
   test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
   test('description', IS_REQUIRED_MESSAGE, () => {enforce(data.description).isNotEmpty()});
   test('description', maxLength(500), () => {enforce(data.description).shorterThanOrEquals(500)});
-
   test('price', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
-
-  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
-  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
-
-  test('files', IS_REQUIRED_MESSAGE, () => {enforce(data.files).longerThan(0)});
-
+  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).isNotEmpty()});
+  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).isNotEmpty()});
+  test('images',IS_REQUIRED_MESSAGE, () => {enforce(data.images).longerThan(0)})
+})
+export const validationUpdateProduct = create((data = {}) => {
+  test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
+  test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
+  test('description', IS_REQUIRED_MESSAGE, () => {enforce(data.description).isNotEmpty()});
+  test('description', maxLength(500), () => {enforce(data.description).shorterThanOrEquals(500)});
+  test('price', IS_REQUIRED_MESSAGE, () => {enforce(data.price).isNotEmpty()});
+  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).isNotEmpty()});
+  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).isNotEmpty()});
 })
 
-export const validationPlace = create((data = {}) => {
+
+
+
+
+export const validationCreatePlace = create((data = {}) => {
   test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
   test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
-  test('description', IS_REQUIRED_MESSAGE, () => {enforce(data.description).isNotEmpty()});
-  test('description', maxLength(500), () => {enforce(data.description).shorterThanOrEquals(500)});
   test('category_id', IS_REQUIRED_MESSAGE, () => {enforce(data.category_id).isNotEmpty()});
-
-  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).greaterThan(0)});
-  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).greaterThan(0)});
-
+  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).isNotEmpty()});
+  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).isNotEmpty()});
   test('address', IS_REQUIRED_MESSAGE, () => {enforce(data.address).isNotEmpty()});
-
-  test('files', IS_REQUIRED_MESSAGE, () => {enforce(data.files).longerThan(0)});
-
+  test('images',IS_REQUIRED_MESSAGE, () => {enforce(data.images).longerThan(0)})
+  test('reasons_to_visit', IS_REQUIRED_MESSAGE, () => {
+    enforce(data.reasons_to_visit).isNotEmpty()
+    enforce(data.reasons_to_visit.at(0)).isNotEmpty();
+  });
+})
+export const validationUpdatePlace = create((data = {}) => {
+  test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
+  test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
+  test('category_id', IS_REQUIRED_MESSAGE, () => {enforce(data.category_id).isNotEmpty()});
+  test('city_id', IS_REQUIRED_MESSAGE, () => {enforce(data.city_id).isNotEmpty()});
+  test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).isNotEmpty()});
+  test('address', IS_REQUIRED_MESSAGE, () => {enforce(data.address).isNotEmpty()});
+  test('reasons_to_visit', IS_REQUIRED_MESSAGE, () => {
+    enforce(data.reasons_to_visit).isNotEmpty()
+    enforce(data.reasons_to_visit.at(0)).isNotEmpty();
+  });
 })
 
 export const validationProfil = create((data = {}) => {

@@ -54,6 +54,7 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ReportIcon from '@mui/icons-material/Report';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
@@ -103,6 +104,8 @@ export const MARKER_ICON = RoomOutlinedIcon
 export const PRICE_ICON = MonetizationOnOutlinedIcon
 export const GPS_ICON = NearMeIcon
 export const EYE_ICON = RemoveRedEyeIcon
+
+export const MOIN_ICON = RemoveIcon
 
 //Social network
 export const INSTAGRAM_ICON = InstagramIcon

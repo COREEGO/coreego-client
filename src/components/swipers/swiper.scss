@@ -18,7 +18,7 @@
     .swiper-button-prev{
         position: absolute;
         background-color: white;
-        top: 0px;
+        top: 25px;
         right: 50px;
         left: auto;
         height: 40px;
@@ -34,8 +34,8 @@
     .swiper-button-next{
         background-color: white;
         position: absolute;
-        top: 0px;
-        right: 0;
+        top: 25px;
+        right: 5px;
         height: 40px;
         width: 40px;
         border: 1px solid var(--coreego-blue);

@@ -39,10 +39,7 @@ import TitleSectionText from "../texts/TitleSectionText";
 import axios from "axios";
 import { discussionStep, getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
-import { Stepper } from "@mui/material";
-import { Step } from "@mui/material";
-import { StepButton } from "@mui/material";
-import { StepLabel } from "@mui/material";
+
 import { FormLabel } from "@mui/material";
 import StepperForm from "./_StepperForm";
 
@@ -79,7 +76,8 @@ const DiscussionForm = ({
 		resolver: vestResolver(validationDiscussion),
 		defaultValues: {
 			title: discussion?.title,
-			content: discussion?.content
+			content: discussion?.content,
+			category_id: discussion?.category?.id || ""
 		}
 	});
 
@@ -118,7 +116,6 @@ const DiscussionForm = ({
 					activeStep={activeStep}
 				/>
 
-
 				<Box component="form" onSubmit={handleSubmit(onSubmitForm)}>
 					{activeStep === 0 && (
 						<FormControl fullWidth>
@@ -132,7 +129,6 @@ const DiscussionForm = ({
 								required
 								fullWidth
 								placeholder="Titre de ma discussion"
-								// label="De quoi parlera ma discussion ?"
 								InputProps={{
 									endAdornment: (
 										<InputAdornment
@@ -150,29 +146,28 @@ const DiscussionForm = ({
 						</FormControl>
 					)}
 					{activeStep === 1 && (
-						<FormControl
-							fullWidth
-							error={Boolean(errors?.category_id)}
-						>
+						<FormControl fullWidth>
 							<FormLabel htmlFor="category" sx={{ mb: 3 }}>
 								Dans quelle catégorie se place cette discussion ?
 							</FormLabel>
-							<Select
-								{...register("category_id")}
-								defaultValue={discussion?.category?.id || ""}
-							>
-								<MenuItem value="">-------</MenuItem>
-								{discussionCategories.map((category) => (
-									<MenuItem key={category.id} value={category.id}>
-										{category.label}
-									</MenuItem>
-								))}
-							</Select>
-							{Boolean(errors?.category_id) && (
-								<FormHelperText>
-									{errors?.category_id?.message}
-								</FormHelperText>
-							)}
+							<Controller
+								control={control}
+								name="category_id"
+								render={({ field }) => (
+									<TextField
+										{...field}
+										label="Choisir une catégorie"
+										{...errorField(errors?.category_id)}
+										select
+									>
+										{discussionCategories.map((category) => (
+											<MenuItem key={category.id} value={category.id}>
+												{category.label}
+											</MenuItem>
+										))}
+									</TextField>
+								)}
+							/>
 						</FormControl>
 					)}
 					{activeStep === 2 && (
@@ -184,7 +179,7 @@ const DiscussionForm = ({
 								<Controller
 									control={control}
 									name="content"
-									render={({ field: { value, onChange } }) => (
+									render={({ field: {value, onChange} }) => (
 										<ReactQuillInput
 											value={value}
 											onChange={onChange}

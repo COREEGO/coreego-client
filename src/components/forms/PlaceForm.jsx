@@ -11,7 +11,9 @@ import {
 	errorField,
 	noEmptyLocalisationValidator,
 	noEmtyFileValidator,
-	validationPlace
+	validationCreatePlace,
+	validationPlace,
+	validationUpdatePlace
 } from "../../utils/formValidation";
 import UpladButton from "../buttons/UplaodButton";
 import useFile from "../../hooks/useFile";
@@ -58,6 +60,7 @@ import {
 import { vestResolver } from "@hookform/resolvers/vest";
 import StepperForm from "./_StepperForm";
 import PreviewImageCard from "../card/PreviewImageCard";
+import InputTextArray from "../inputs/InputTextArray";
 
 const PlaceForm = ({
 	isEditMode = false,
@@ -87,19 +90,20 @@ const PlaceForm = ({
 		formState: { errors, isSubmitting }
 	} = useForm({
 		mode: "onBlur",
-		resolver: vestResolver(validationPlace),
+		resolver: vestResolver(isEditMode ? validationUpdatePlace : validationCreatePlace),
 		defaultValues: {
 			title: place?.title,
 			city_id: place?.city.id || "",
 			district_id: place?.district.id || "",
-			category_id: place?.category.id,
-			description: place?.description,
+			category_id: place?.category.id || "",
+			reasons_to_visit: place?.reasons_to_visit || [""],
 			longitude: place?.longitude,
 			latitude: place?.latitude,
 			address: place?.address,
-			files: []
+			images: []
 		}
 	});
+
 
 	const onSubmitForm = async (data) => {
 		const url = isEditMode ? `/places/edit/${place.id}` : "/places";
@@ -107,7 +111,7 @@ const PlaceForm = ({
 		const formData = new FormData();
 
 		formData.append("title", data.title);
-		formData.append("description", data.description);
+		formData.append("reasons_to_visit", JSON.stringify(data.reasons_to_visit));
 		formData.append("longitude", data.longitude);
 		formData.append("latitude", data.latitude);
 		formData.append("city_id", data.city_id);
@@ -115,7 +119,7 @@ const PlaceForm = ({
 		formData.append("district_id", data.district_id);
 		formData.append("address", data.address);
 
-		if (data.files.length) {
+		if (data.images.length) {
 			data.files.forEach((file, index) => {
 				formData.append(`images[${index}]`, file);
 			});
@@ -169,8 +173,12 @@ const PlaceForm = ({
 	}, 1000);
 
 	useEffect(() => {
-		setValue("files", files);
+		setValue("images", files, {shouldValidate: true});
 	}, [files]);
+
+	useEffect(()=>{
+		console.log(errors)
+	}, [errors])
 
 	return (
 		<Container>
@@ -219,29 +227,28 @@ const PlaceForm = ({
 						</FormControl>
 					)}
 					{activeStep === 1 && (
-						<FormControl
-							fullWidth
-							error={Boolean(errors?.category_id)}
-						>
+						<FormControl fullWidth>
 							<FormLabel htmlFor="category" sx={{ mb: 3 }}>
 								Dans quelle catégorie fait partie ce lieu ?
 							</FormLabel>
-							<Select
-								{...register("category_id")}
-								defaultValue={place?.category?.id || ""}
-							>
-								<MenuItem value="">-------</MenuItem>
-								{placeCategories.map((category) => (
-									<MenuItem key={category.id} value={category.id}>
-										{category.label}
-									</MenuItem>
-								))}
-							</Select>
-							{Boolean(errors?.category_id) && (
-								<FormHelperText>
-									{errors?.category_id?.message}
-								</FormHelperText>
-							)}
+							<Controller
+								control={control}
+								name="category_id"
+								render={({field: {value, onChange} }) => (
+									<TextField
+										value={value}
+										onChange={onChange}
+										{...errorField(errors?.category_id)}
+										select
+									>
+										{placeCategories.map((category) => (
+											<MenuItem key={category.id} value={category.id}>
+												{category.label}
+											</MenuItem>
+										))}
+									</TextField>
+								)}
+							/>
 						</FormControl>
 					)}
 
@@ -249,11 +256,11 @@ const PlaceForm = ({
 						<>
 							<FormControl
 								fullWidth
-								error={errors.files ? true : false}
+								error={errors.images ? true : false}
 							>
 								<Controller
 									control={control}
-									name="files"
+									name="images"
 									render={() => (
 										<Card>
 											<CardContent>
@@ -338,9 +345,9 @@ const PlaceForm = ({
 										</Card>
 									)}
 								/>
-								{Boolean(errors?.files) && (
+								{Boolean(errors?.images) && (
 									<FormHelperText>
-										{errors?.files?.message}
+										{errors?.images?.message}
 									</FormHelperText>
 								)}
 							</FormControl>
@@ -359,8 +366,8 @@ const PlaceForm = ({
 									<CityDistrictSelectInput
 										labelCity="Dans quelle ville ?"
 										labelDistrict="Dans quel district ?"
-										cityValue={place?.city?.id || ""}
-										districtValue={place?.district?.id || ""}
+										cityValue={place?.city?.id || getValues().city_id}
+										districtValue={place?.district?.id || getValues().district_id}
 										updateCity={(e) => setValue("city_id", e)}
 										updateDistrict={(e) => setValue("district_id", e)}
 										showMap={true}
@@ -421,30 +428,28 @@ const PlaceForm = ({
 					{activeStep === 5 && (
 						<>
 							<FormControl fullWidth>
-								<FormLabel htmlFor="description" sx={{ mb: 3 }}>
-									Pourquoi ce lieu est il important à visiter ?
+								<FormLabel htmlFor="reasons_to_visit" sx={{ mb: 3 }}>
+									Pourquoi ce lieu est-il à visiter ?
 								</FormLabel>
-								<TextField
-									{...register("description")}
-									{...errorField(errors?.description)}
-									required
-									multiline
-									rows={10}
-									InputProps={{
-										endAdornment: (
-											<InputAdornment
-												className="string_count"
-												position="end"
-											>
-												{watch("description")?.length || 0}/{500}
-											</InputAdornment>
-										),
-										inputProps: {
-											maxLength: 500
-										}
-									}}
+								<Controller
+									control={control}
+									name="reasons_to_visit"
+									render={() => (
+										<InputTextArray
+											value={place?.reasons_to_visit || getValues().reasons_to_visit}
+											onchange={(event) =>
+												setValue("reasons_to_visit", event)
+											}
+										/>
+									)}
 								/>
+								{Boolean(errors?.reasons_to_visit) && (
+									<FormHelperText>
+										{errors?.reasons_to_visit?.message}
+									</FormHelperText>
+								)}
 							</FormControl>
+
 							<Stack alignItems="flex-end" mt={3}>
 								<LoadingButton
 									sx={{ width: "fit-content" }}
@@ -460,93 +465,6 @@ const PlaceForm = ({
 				</Box>
 			</Stack>
 		</Container>
-		// <Container>
-
-		// 				{isEditMode && place?.images.length ? (
-		// 					<Stack spacing={1}>
-		// 						<Typography fontWeight={"bold"}>Images</Typography>
-		// 						<Stack direction="row" flexWrap={"wrap"} mt={2}>
-		// 							{place.images.map((image, index) => {
-		// 								return (
-		// 									<Box key={index} mr={1} mb={1}>
-		// 										<FormImage
-		// 											key={index}
-		// 											imageUrl={IMAGE_PATH + image.name}
-		// 											onRemove={() => deleteFile(image.id)}
-		// 										/>
-		// 									</Box>
-		// 								);
-		// 							})}
-		// 						</Stack>
-		// 						<Divider />
-		// 					</Stack>
-		// 				) : (
-		// 					<></>
-		// 				)}
-
-		// 				{files.length ? (
-		// 					<Stack direction="row" flexWrap={"wrap"} mb={2}>
-		// 						{files.map((image, index) => {
-		// 							return (
-		// 								<Box key={index} mr={1} mb={1}>
-		// 									<FormImage
-		// 										key={index}
-		// 										imageUrl={createBlobImage(image)}
-		// 										onRemove={() => removeFile(index)}
-		// 									/>
-		// 								</Box>
-		// 							);
-		// 						})}
-		// 					</Stack>
-		// 				) : (
-		// 					<></>
-		// 				)}
-		// 				<FormControl error={errors.files ? true : false}>
-		// 					<Controller
-		// 						control={control}
-		// 						name="files"
-		// 						rules={{
-		// 							validate: () =>
-		// 								noEmtyFileValidator(
-		// 									files.concat(place?.images || [])
-		// 								)
-		// 						}}
-		// 						render={() => (
-		// 							<UpladButton
-		// 								onChange={(e) => addFile(e.target.files)}
-		// 							>
-		// 								<Button
-		// 									variant="outlined"
-		// 									startIcon={<CAMERA_ICON />}
-		// 								>
-		// 									Ajouter des photos
-		// 								</Button>
-		// 							</UpladButton>
-		// 						)}
-		// 					/>
-		// 					{errors.files ? (
-		// 						<FormHelperText>
-		// 							{errors.files.message}
-		// 						</FormHelperText>
-		// 					) : (
-		// 						<></>
-		// 					)}
-		// 				</FormControl>
-		// 				<Box>
-		// 					<LoadingButton
-		// 						type="submit"
-		// 						loading={isSubmitting}
-		// 						variant="contained"
-		// 					>
-		// 						{isEditMode
-		// 							? "Modifier le lieu"
-		// 							: " Partager ce lieu"}
-		// 					</LoadingButton>
-		// 				</Box>
-		// 			</Stack>
-		// 		</Stack>
-		// 	</Stack>
-		// </Container>
 	);
 };
 

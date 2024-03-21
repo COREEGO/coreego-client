@@ -16,15 +16,21 @@ import { NavLink } from "react-router-dom";
 import LocalisationText from "../../components/texts/LocalisationText";
 import CategoryText from "../../components/texts/CategoryText";
 import { belongsToAuth } from "../../utils";
-import { EDIT_ICON, MARKER_ICON } from "../../utils/icon";
+import { CIRCLE_ICON, EDIT_ICON, MARKER_ICON } from "../../utils/icon";
 import { useAuthContext } from "../../contexts/AuthProvider";
 
 import {
 	Avatar,
 	Box,
 	Button,
+	Card,
+	CardHeader,
 	Container,
 	Divider,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemText,
 	Stack,
 	Typography
 } from "@mui/material";
@@ -87,16 +93,19 @@ const PlaceDetail = () => {
 							placeId={place.id}
 							mutate={loadPlace}
 							reviews={place.reviews}
+							average={place.review_average}
 						/>
+						<Box>
 						<Typography
 							textAlign="center"
 							color="var(--coreego-blue)"
-							sx={{ wordBreak: "break-all" }}
-							variant="h4"
+							sx={{ wordBreak: "break" }}
+							variant="h3"
 							component="h1"
-						>
+							>
 							{place.title}
 						</Typography>
+								</Box>
 						<Box
 							sx={{
 								boxShadow: "-15px 15px 4px var(--coreego-red)",
@@ -117,33 +126,57 @@ const PlaceDetail = () => {
 					"&:after, &:before": { backgroundColor: "black" }
 				}}
 			>
-				<Stack direction="row" alignItems="center" spacing={1}>
-					<Avatar
-						sx={{ width: 40, height: 40 }}
-						src={AVATAR_PATH + place.user.avatar}
-					/>
-					<Typography fontWeight="bold">
-						{place.user.pseudo}
-					</Typography>
-					{belongsToAuth(place.user.id, user?.id) ? (
-						<OptionPublicationButton
-							editLink={`/voyage/place/edit/${place.slug}`}
-							deleteUrl={`/places/${place.id}`}
-							redirectionUrl={"/voyage"}
+				<Card raised={true} >
+						<CardHeader
+							avatar={
+								<Avatar
+									sx={{ height: 50, width: 50 }}
+									src={AVATAR_PATH + place.user.avatar}
+								/>
+							}
+							title={
+								<Typography component="div" fontWeight="bold">
+									{place.user.pseudo}
+								</Typography>
+							}
+							action={
+								belongsToAuth(place.user.id, user?.id) ? (
+									<OptionPublicationButton
+										editLink={`/voyage/place/edit/${place.slug}`}
+										deleteUrl={`/places/${place.id}`}
+										redirectionUrl={"/voyage"}
+									/>
+								) : (
+									<ReportModule
+										placeholder="En quoi ce lieu ne convient pas ?"
+										targetElement="place_reported_id"
+										targetValue={place.id}
+									/>
+								)
+							}
 						/>
-					) : (
-						<ReportModule
-							placeholder="En quoi ce lieu ne convient pas ?"
-								targetElement="place_reported_id"
-							targetValue={place.id}
-						/>
-					)}
-				</Stack>
+					</Card>
 			</Divider>
 
 			<Box mt={3}>
 				<Container>
-					<Stack>
+					<Stack gap={2}>
+						<TitleSectionText
+							startText="Raisons pou visiter"
+							endText="ce lieu"
+						/>
+						<List>
+							{JSON.parse(place.reasons_to_visit).map((reason, index) => {
+								return (
+									<ListItem key={index}>
+										<ListItemIcon>
+											<CIRCLE_ICON />
+										</ListItemIcon>
+										<ListItemText primary={reason} />
+									</ListItem>
+								);
+							})}
+						</List>
 						<Typography
 							color="var(--grey-bold)"
 							whiteSpace="pre-line"
@@ -155,22 +188,6 @@ const PlaceDetail = () => {
 				</Container>
 			</Box>
 
-			<Box mt={3}>
-				<Container>
-					<Stack direction={"row"} spacing={1}>
-						<LikeButton
-							likes={place.likes}
-							mutate={loadPlace}
-							placeId={place.id}
-						/>
-						<SavePlaceButton
-							placeId={place.id}
-							users={place.users}
-							mutate={loadPlace}
-						/>
-					</Stack>
-				</Container>
-			</Box>
 
 			<Box mt={3}>
 				<Container>
@@ -208,6 +225,23 @@ const PlaceDetail = () => {
 							</Typography>
 							<Typography> {place.address} </Typography>
 						</Box>
+					</Stack>
+				</Container>
+			</Box>
+
+			<Box mt={3}>
+				<Container>
+					<Stack direction={"row"} spacing={1}>
+						<LikeButton
+							likes={place.likes}
+							mutate={loadPlace}
+							placeId={place.id}
+						/>
+						<SavePlaceButton
+							placeId={place.id}
+							users={place.users}
+							mutate={loadPlace}
+						/>
 					</Stack>
 				</Container>
 			</Box>

@@ -1,6 +1,17 @@
-import { Stack, Step, StepButton, StepLabel, Stepper } from "@mui/material"
+import {
+	Stack,
+	Step,
+	StepButton,
+	StepLabel,
+	Stepper
+} from '@mui/material'
 
-const StepperForm = ({ steps = [], errors, activeStep, setActiveStep = () => {} }) => {
+const StepperForm = ({
+	steps = [],
+	errors,
+	activeStep,
+	setActiveStep = () => {}
+}) => {
   return (
     <Stack
       sx={{
@@ -19,11 +30,20 @@ const StepperForm = ({ steps = [], errors, activeStep, setActiveStep = () => {} 
 			>
         {steps.map((step, index) => {
           let labelProps = {}
-          if (errors[step.element]) {
-            labelProps.error = true
+          if (Array.isArray(step.element)) {
+            step.element.forEach((element) => {
+              if (errors[element]) {
+                labelProps.error = true // S'il y a une erreur, marquez cette étape
+              }
+            })
           } else {
-            labelProps.error = false
+            if (errors[step.element]) {
+              labelProps.error = true
+            } else {
+              labelProps.error = false
+            }
           }
+
           return (
             <Step sx={{ width: 'fit-content' }} key={index}>
               <StepButton

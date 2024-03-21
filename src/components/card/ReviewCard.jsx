@@ -1,9 +1,11 @@
 import UserSniped from "../react-ux/UserSniped";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
+	Avatar,
 	Button,
 	Card,
 	CardContent,
+	CardHeader,
 	Dialog,
 	DialogContent,
 	FormControl,
@@ -31,8 +33,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
-import { BEARER_HEADERS } from "../../utils/variables";
-import { belongsToAuth } from "../../utils";
+import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
+import { belongsToAuth, dateParse } from "../../utils";
 import ReportModule from "../../pages/components/modules/ReportModule";
 
 const ReviewCard = ({ review, mutate }) => {
@@ -78,7 +80,7 @@ const ReviewCard = ({ review, mutate }) => {
 		})
 			.then(async () => {
 				const response = await axios.delete(
-					`/reviews/edit/${id}`,
+					`/reviews/${id}`,
 					BEARER_HEADERS
 				);
 				toast.success(response.data.message);
@@ -92,60 +94,58 @@ const ReviewCard = ({ review, mutate }) => {
 	return (
 		<>
 			<Card id={"review-" + review.id}>
+				<CardHeader
+					sx={{pb: 0}}
+					avatar={<Avatar src={AVATAR_PATH + review.user.avatar} />}
+					title={
+						<Typography component="div" fontWeight="bold">
+							{review.user.pseudo}
+						</Typography>
+					}
+					subheader={dateParse(review.created_at)}
+					action={
+						belongsToAuth(review.user.id, user.id) ? (
+							<PopupState variant="popover" popupId="demo-popup-menu">
+								{(popupState) => (
+									<>
+										<IconButton
+											{...bindTrigger(popupState)}
+											size="small"
+											aria-label="account of current user"
+											aria-controls="menu-options"
+											aria-haspopup="true"
+											color="inherit"
+										>
+											<MORE_OPTIONS_ICON />
+										</IconButton>
+										<Menu {...bindMenu(popupState)}>
+											<MenuItem
+												key="modifier"
+												onClick={() => setIsOpen(true)}
+											>
+												Modifier
+											</MenuItem>
+											<MenuItem
+												key="supprimer"
+												onClick={() => onDelete(review.id)}
+											>
+												Supprimer
+											</MenuItem>
+										</Menu>
+									</>
+								)}
+							</PopupState>
+						) : (
+							<ReportModule
+								placeholder="En quoi cette avis ne convient pas ?"
+								targetElement="review_reported_id"
+								targetValue={review.id}
+							/>
+						)
+					}
+				/>
 				<CardContent>
 					<Stack spacing={2}>
-						<Stack
-							alignItems={"flex-start"}
-							direction="row"
-							justifyContent="space-between"
-						>
-							<UserSniped
-								avatar={review.user.avatar}
-								pseudo={review.user.pseudo}
-								publishDate={review.created_at}
-							/>
-							{belongsToAuth(review.user.id, user.id) ? (
-								<PopupState
-									variant="popover"
-									popupId="demo-popup-menu"
-								>
-									{(popupState) => (
-										<>
-											<IconButton
-												{...bindTrigger(popupState)}
-												size="small"
-												aria-label="account of current user"
-												aria-controls="menu-options"
-												aria-haspopup="true"
-												color="inherit"
-											>
-												<MORE_OPTIONS_ICON />
-											</IconButton>
-											<Menu {...bindMenu(popupState)}>
-												<MenuItem
-													key="modifier"
-													onClick={() => setIsOpen(true)}
-												>
-													Modifier
-												</MenuItem>
-												<MenuItem
-													key="supprimer"
-													onClick={() => onDelete(review.id)}
-												>
-													Supprimer
-												</MenuItem>
-											</Menu>
-										</>
-									)}
-								</PopupState>
-							) : (
-								<ReportModule
-									placeholder="En quoi cette avis ne convient pas ?"
-									targetElement="review_reported_id"
-									targetValue={review.id}
-								/>
-							)}
-						</Stack>
 						<Rating value={review.stars} readOnly />
 						<Typography sx={{ whiteSpace: "pre-line" }}>
 							{review.content}

@@ -20,7 +20,8 @@ import {
 	IconButton,
 	DialogContent,
 	PaginationItem,
-	MenuItem
+	MenuItem,
+	TextField
 } from "@mui/material";
 import useSWR from "swr";
 import LoadingPage from "../../components/LoadingPage";
@@ -30,9 +31,7 @@ import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 
 const TravelPage = () => {
-	const { placeCategories } = useSelector(
-		(state) => state.app
-	);
+	const { placeCategories } = useSelector((state) => state.app);
 
 	const [isOpenFilterModal, setIsOpenFilterModal] =
 		React.useState(false);
@@ -48,7 +47,7 @@ const TravelPage = () => {
 
 	if (error) console.error("API ERROR:", error);
 
-	return  (
+	return (
 		<React.Fragment>
 			<HeroBannerFeed
 				theme="red"
@@ -78,41 +77,32 @@ const TravelPage = () => {
 						>
 							<SearchInput
 								placeholder="Rechercher une discussion..."
-								sx={{
-									width: 300,
-									maxWidth: "100%",
-									backgroundColor: "white"
-								}}
 								defaultValue={searchParams.get("q")}
 								onChange={(value) => updateFilter("q", value)}
 							/>
-							<Select
-								sx={{
-									width: "fit-content",
-									backgroundColor: "white"
-								}}
-								placeholder="Catégorie"
+							<TextField
 								value={searchParams.get("category") || "0"}
-								onChange={(category) =>
+								onChange={(value) =>
 									updateFilter(
 										"category",
-										category.target.value.toString()
+										value.target.value.toString()
 									)
 								}
+								select
 							>
-								<MenuItem value="0"> Toutes les catégories</MenuItem>
-								{placeCategories.map((category) => {
-									return (
-										<MenuItem key={category.id} value={category.id}>
-											{category.label}
-										</MenuItem>
-									);
-								})}
-							</Select>
-							<Box width="fit-content">
+								<MenuItem value="0">Toutes les catégories</MenuItem>
+								{placeCategories.map((category) => (
+									<MenuItem key={category.id} value={category.id}>
+										{category.label}
+									</MenuItem>
+								))}
+							</TextField>
+							<Box width={250} maxWidth="100%">
 								<CityDistrictSelectInput
-									cityValue={searchParams.get("city") || "0"}
-									districtValue={searchParams.get("district") || "0"}
+									labelCity="Toutes les villes"
+									labelDistrict="Tous les districts"
+									cityValue={searchParams.get("city") || ""}
+									districtValue={searchParams.get("district") || ""}
 									updateCity={(e) =>
 										updateFilter("city", e.toString())
 									}
@@ -126,6 +116,7 @@ const TravelPage = () => {
 					<Hidden smUp>
 						<Box>
 							<Button
+								size="large"
 								fullWidth
 								onClick={() => setIsOpenFilterModal(true)}
 								variant="outlined"
@@ -159,38 +150,35 @@ const TravelPage = () => {
 											defaultValue={searchParams.get("q")}
 											onChange={(value) => updateFilter("q", value)}
 										/>
-										<Select
-											fullWidth
-											placeholder="Catégorie"
+										<TextField
 											value={searchParams.get("category") || "0"}
-											onChange={(category) =>
+											onChange={(value) =>
 												updateFilter(
 													"category",
-													category.target.value.toString()
+													value.target.value.toString()
 												)
 											}
+											select
 										>
 											<MenuItem value="0">
-												{" "}
-												Toutes les catégories{" "}
+												Toutes les catégories
 											</MenuItem>
-											{placeCategories.map((category) => {
-												return (
-													<MenuItem
-														key={category.id}
-														value={category.id}
-													>
-														{" "}
-														{category.label}{" "}
-													</MenuItem>
-												);
-											})}
-										</Select>
+											{placeCategories.map((category) => (
+												<MenuItem
+													key={category.id}
+													value={category.id}
+												>
+													{category.label}
+												</MenuItem>
+											))}
+										</TextField>
 										<Box sx={{ width: "100%" }}>
 											<CityDistrictSelectInput
-												cityValue={searchParams.get("city") || "0"}
+												labelCity="Toutes les villes"
+												labelDistrict="Tous les districts"
+												cityValue={searchParams.get("city") || ""}
 												districtValue={
-													searchParams.get("district") || "0"
+													searchParams.get("district") || ""
 												}
 												updateCity={(e) =>
 													updateFilter("city", e.toString())

@@ -16,7 +16,10 @@ import {
 	Avatar,
 	Stack,
 	Typography,
-	Portal
+	Portal,
+	Card,
+	CardHeader,
+	CardActionArea
 } from "@mui/material";
 import moment from "moment";
 import { useConfirm } from "material-ui-confirm";
@@ -73,8 +76,8 @@ const DiscussionDetail = () => {
 						<Typography
 							color="var(--coreego-blue)"
 							textAlign="center"
-							sx={{ wordBreak: "break-all" }}
-							variant="h4"
+							sx={{ wordBreak: "break" }}
+							variant="h3"
 							component="h1"
 						>
 							{discussion.title}
@@ -90,36 +93,43 @@ const DiscussionDetail = () => {
 					"&:after, &:before": { backgroundColor: "black" }
 				}}
 			>
-				<Stack direction="row" alignItems="center" spacing={1}>
-					<Avatar
-						sx={{ width: 40, height: 40 }}
-						src={AVATAR_PATH + discussion.user.avatar}
-					/>
-					<Typography fontWeight="bold">
-						{discussion.user.pseudo}
-					</Typography>
-					{belongsToAuth(discussion.user.id, user?.id) ? (
-						<OptionPublicationButton
-							editLink={`/forum/discussion/edit/${discussion.slug}`}
-							deleteUrl={`/discussions/${discussion.id}`}
-							redirectionUrl={"/forum"}
+					<Card raised={true}>
+						<CardHeader
+							avatar={
+								<Avatar
+									sx={{ height: 50, width: 50 }}
+									src={AVATAR_PATH + discussion.user.avatar}
+								/>
+							}
+							title={
+								<Typography component="div" fontWeight="bold">
+									{discussion.user.pseudo}
+								</Typography>
+							}
+							action={
+								belongsToAuth(discussion.user.id, user?.id) ? (
+									<OptionPublicationButton
+										editLink={`/forum/discussion/edit/${discussion.slug}`}
+										deleteUrl={`/discussions/${discussion.id}`}
+										redirectionUrl={"/forum"}
+									/>
+								) : (
+									<ReportModule
+										targetElement="discussion_reported_id"
+										targetValue={discussion.id}
+									/>
+								)
+							}
 						/>
-					) : (
-						<ReportModule
-							targetElement="discussion_reported_id"
-							targetValue={discussion.id}
-						/>
-					)}
-				</Stack>
+					</Card>
 			</Divider>
 
 			<Box mt={3}>
 				<Container>
 					<Box
-						fontSize={18}
+						fontSize={16}
 						className="reactquill_content"
 						dangerouslySetInnerHTML={{ __html: discussion.content }}
-						color="var(--grey-bold)"
 					/>
 				</Container>
 			</Box>

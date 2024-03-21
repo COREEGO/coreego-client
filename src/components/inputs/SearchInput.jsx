@@ -14,7 +14,7 @@ const SearchInput = ({...props}) => {
       {...props}
         sx={{backgroundColor: 'white'}}
         defaultValue={props.defaultValue}
-        placeholder={props.placeholder}
+        placeholder="Rechercher..."
         id="q"
         name="q"
         InputProps={{

@@ -98,7 +98,7 @@ export const productSteps = [
   },
     {
     label: "Images",
-    element: "files"
+    element: "images"
   },
   {
     label: "Prix",
@@ -106,7 +106,7 @@ export const productSteps = [
   },
   {
     label: "Localisation",
-    element: "city_id"
+    element: ["city_id", 'district_id']
   },
   {
     label: "Description",
@@ -125,19 +125,19 @@ export const placeStep = [
   },
   {
     label: "Images",
-    element: "files"
+    element: "images"
   },
   {
     label: "Localisation",
-    element: "city_id"
+    element: ["city_id", 'district_id']
   },
   {
     label: "Adresse",
     element: "address"
   },
   {
-    label: "Description",
-    element: "description"
+    label: "Arguments",
+    element: "reasons_to_visit"
   }
 ]
 

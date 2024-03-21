@@ -39,13 +39,13 @@ const OptionPublicationButton = ({
 				);
 				toast.success(response.data.message);
 				redirectionUrl && navigate(redirectionUrl);
-				mutate()
+				mutate();
 			})
 			.catch((error) => {
 				toast.error(error?.data?.message);
 			})
 			.finally(() => {
-                setanchorOption(null)
+				setanchorOption(null);
 				setIsBusy(false);
 			});
 	};
@@ -55,41 +55,43 @@ const OptionPublicationButton = ({
 			{isBusy ? (
 				<CircularProgress />
 			) : (
-				<IconButton
-					onClick={(event) => setanchorOption(event.currentTarget)}
-				>
-					<MORE_OPTIONS_ICON />
-				</IconButton>
-			)}
+				<>
+					<IconButton
+						onClick={(event) => setanchorOption(event.currentTarget)}
+					>
+						<MORE_OPTIONS_ICON />
+					</IconButton>
 
-			<Menu
-				anchorEl={anchorOption}
-				anchorOrigin={{
-					vertical: "bottom",
-					horizontal: "right"
-				}}
-				transformOrigin={{
-					vertical: "top",
-					horizontal: "right"
-				}}
-				open={Boolean(anchorOption)}
-				onClose={() => setanchorOption(null)}
-			>
-				<NavLink to={editLink}>
-					<MenuItem onClick={() => setanchorOption(null)}>
-						<ListItemIcon>
-							<EDIT_ICON />
-						</ListItemIcon>
-						Modifier
-					</MenuItem>
-				</NavLink>
-				<MenuItem onClick={onDelete}>
-					<ListItemIcon>
-						<TRASH_ICON />
-					</ListItemIcon>
-					Supprimer
-				</MenuItem>
-			</Menu>
+					<Menu
+						anchorEl={anchorOption}
+						anchorOrigin={{
+							vertical: "bottom",
+							horizontal: "right"
+						}}
+						transformOrigin={{
+							vertical: "top",
+							horizontal: "right"
+						}}
+						open={Boolean(anchorOption)}
+						onClose={() => setanchorOption(null)}
+					>
+						<NavLink to={editLink}>
+							<MenuItem onClick={() => setanchorOption(null)}>
+								<ListItemIcon>
+									<EDIT_ICON />
+								</ListItemIcon>
+								Modifier
+							</MenuItem>
+						</NavLink>
+						<MenuItem onClick={onDelete}>
+							<ListItemIcon>
+								<TRASH_ICON />
+							</ListItemIcon>
+							Supprimer
+						</MenuItem>
+					</Menu>
+				</>
+			)}
 		</React.Fragment>
 	);
 };

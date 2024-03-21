@@ -91,9 +91,10 @@ const ProductDetail = () => {
 								<Stack spacing={3} alignItems="flex-start">
 									<Typography
 										color="var(--coreego-blue)"
-										sx={{ wordBreak: "break-all" }}
-										variant="h4"
+										sx={{ wordBreak: "break" }}
+										variant="h3"
 										component="h1"
+										fontWeight="inherit"
 									>
 										{product.title}
 									</Typography>

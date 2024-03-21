@@ -15,7 +15,8 @@ import {
 	Dialog,
 	DialogTitle,
 	DialogContent,
-	Hidden
+	Hidden,
+	TextField
 } from "@mui/material";
 import useSWR from "swr";
 import { useFilterContext } from "../../contexts/FilterProvider";
@@ -28,7 +29,6 @@ import SearchInput from "../../components/inputs/SearchInput";
 import DiscussionCard from "../../components/card/DiscussionCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
-
 
 const ForumPage = () => {
 	const { updateFilter, searchParams } = useFilterContext();
@@ -72,45 +72,33 @@ const ForumPage = () => {
 					<Hidden smDown>
 						<Stack direction="row" gap={2} flexWrap="wrap">
 							<SearchInput
-								placeholder="Rechercher une discussion..."
-								sx={{
-									width: 300,
-									maxWidth: "100%",
-									backgroundColor: "white"
-								}}
 								defaultValue={searchParams.get("q")}
 								onChange={(value) => updateFilter("q", value)}
 							/>
-							<Select
-								sx={{
-									width: "fit-content",
-									backgroundColor: "white"
-								}}
-								placeholder="Catégorie"
+							<TextField
 								value={searchParams.get("category") || "0"}
-								onChange={(category) =>
+								onChange={(value) =>
 									updateFilter(
 										"category",
-										category.target.value.toString()
+										value.target.value.toString()
 									)
 								}
+								select
 							>
-								<MenuItem value="0"> Toutes les catégories </MenuItem>
-								{discussionCategories.map((category) => {
-									return (
-										<MenuItem key={category.id} value={category.id}>
-											{" "}
-											{category.label}{" "}
-										</MenuItem>
-									);
-								})}
-							</Select>
+								<MenuItem value="0">Toutes les catégories</MenuItem>
+								{discussionCategories.map((category) => (
+									<MenuItem key={category.id} value={category.id}>
+										{category.label}
+									</MenuItem>
+								))}
+							</TextField>
 						</Stack>
 					</Hidden>
 					<Hidden smUp>
 						<Box>
 							<Button
 								fullWidth
+								size="large"
 								onClick={() => setIsOpenFilterModal(true)}
 								variant="outlined"
 								startIcon={<FILTER_ICON />}
@@ -143,33 +131,30 @@ const ForumPage = () => {
 											defaultValue={searchParams.get("q")}
 											onChange={(value) => updateFilter("q", value)}
 										/>
-										<Select
+										<TextField
+											margin="normal"
 											fullWidth
-											placeholder="Catégorie"
 											value={searchParams.get("category") || "0"}
-											onChange={(category) =>
+											onChange={(value) =>
 												updateFilter(
 													"category",
-													category.target.value.toString()
+													value.target.value.toString()
 												)
 											}
+											select
 										>
 											<MenuItem value="0">
-												{" "}
-												Toutes les catégories{" "}
+												Toutes les catégories
 											</MenuItem>
-											{discussionCategories.map((category) => {
-												return (
-													<MenuItem
-														key={category.id}
-														value={category.id}
-													>
-														{" "}
-														{category.label}{" "}
-													</MenuItem>
-												);
-											})}
-										</Select>
+											{discussionCategories.map((category) => (
+												<MenuItem
+													key={category.id}
+													value={category.id}
+												>
+													{category.label}
+												</MenuItem>
+											))}
+										</TextField>
 									</Stack>
 								</DialogContent>
 							</Dialog>

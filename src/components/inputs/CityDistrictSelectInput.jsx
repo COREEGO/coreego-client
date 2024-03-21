@@ -8,7 +8,8 @@ import {
 	InputLabel,
 	MenuItem,
 	Select,
-	Stack
+	Stack,
+	TextField
 } from "@mui/material";
 
 const CityDistrictSelectInput = ({
@@ -21,7 +22,7 @@ const CityDistrictSelectInput = ({
 	labelCity = "Villes",
 	labelDistrict = "Districts",
 	emptyOptionCity = "Toutes les villes",
-	emptyOptionDistict = "Toutes les districts",
+	emptyOptionDistict = "Tous les districts"
 }) => {
 	const { cities } = useSelector((state) => state.app);
 
@@ -37,7 +38,7 @@ const CityDistrictSelectInput = ({
 	const geopoint = useMemo(() => {
 		let localisation = null;
 
-		if (selectedCity && selectedDistrict) {
+		if (selectedCity && !selectedDistrict) {
 			localisation =
 				cities.find((city) => city.id == selectedCity) || null;
 		} else if (selectedCity && selectedDistrict) {
@@ -75,46 +76,40 @@ const CityDistrictSelectInput = ({
 	}, [selectedDistrict]);
 
 	return (
-		<Box sx={{ width: "100%" }}>
-			<FormControl fullWidth>
-				<InputLabel id="demo-simple-select-label">
-					{labelCity}
-				</InputLabel>
-				<Select
-					sx={{ backgroundColor: "white" }}
-					label={labelCity}
-					value={selectedCity}
-					onChange={handleCityChange}
-				>
-					<MenuItem value="">{emptyOptionCity}</MenuItem>
-					{cities.map((city) => (
-						<MenuItem key={city.id} value={city.id}>
-							{city.label}
-						</MenuItem>
-					))}
-				</Select>
-			</FormControl>
+		<>
+			<TextField
+				fullWidth
+				label={labelCity}
+				select
+				value={selectedCity}
+				onChange={handleCityChange}
+			>
+				<MenuItem value="">{emptyOptionCity}</MenuItem>
+				{cities.map((city) => (
+					<MenuItem key={city.id} value={city.id}>
+						{city.label}
+					</MenuItem>
+				))}
+			</TextField>
+
 			{districts && districts.length > 0 ? (
-				<FormControl fullWidth sx={{ mt: 2 }}>
-					<InputLabel id="demo-simple-select-label">
-						{labelDistrict}
-					</InputLabel>
-					<Select
-						sx={{ backgroundColor: "white" }}
-						label={labelDistrict}
-						value={selectedDistrict}
-						onChange={handleDistrictChange}
-					>
-						<MenuItem value="">{emptyOptionDistict}</MenuItem>
-						{districts.map((district) => {
-							return (
-								<MenuItem key={district.id} value={district.id}>
-									{district.label}
-								</MenuItem>
-							);
-						})}
-					</Select>
-				</FormControl>
+				<TextField
+					sx={{mt: 2}}
+					fullWidth
+					label={labelDistrict}
+					select
+					value={selectedDistrict}
+					onChange={handleDistrictChange}
+				>
+					<MenuItem value="">{emptyOptionDistict}</MenuItem>
+					{districts.map((district) => {
+						return (
+							<MenuItem key={district.id} value={district.id}>
+								{district.label}
+							</MenuItem>
+						);
+					})}
+				</TextField>
 			) : (
 				<></>
 			)}
@@ -130,7 +125,7 @@ const CityDistrictSelectInput = ({
 			) : (
 				<></>
 			)}
-		</Box>
+		</>
 	);
 };
 

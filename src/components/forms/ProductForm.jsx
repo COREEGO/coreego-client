@@ -7,7 +7,10 @@ import {
 	maxLengthValidator,
 	noEmtyFileValidator,
 	requiredValidator,
-	validationProduct
+	validationProduct,
+	IS_REQUIRED_MESSAGE,
+	validationUpdateProduct,
+	validationCreateProduct
 } from "../../utils/formValidation";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import React, { useEffect } from "react";
@@ -81,7 +84,8 @@ const ProductForm = ({
 				navigate("/");
 			}
 		}
-	}, []);
+		console.log(isEditMode)
+	}, [isEditMode]);
 
 	const {
 		control,
@@ -93,19 +97,22 @@ const ProductForm = ({
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onBlur",
-		resolver: vestResolver(validationProduct),
+		resolver: vestResolver(isEditMode ? validationUpdateProduct : validationCreateProduct),
+		mode: 'onBlur',
 		defaultValues: {
 			title: product?.title,
 			description: product?.description,
-			city_id: product?.city.id,
-			district_id: product?.district.id,
+			city_id: product?.city.id || "",
+			district_id: product?.district.id || "",
 			price: product?.price || 1000,
-			files: []
+			images: []
 		}
 	});
 
+
+
 	const onSubmitForm = async (data) => {
+
 		const url = isEditMode
 			? `/products/edit/${product.id}`
 			: "/products";
@@ -117,11 +124,12 @@ const ProductForm = ({
 		formData.append("city_id", data.city_id);
 		formData.append("district_id", data.district_id);
 
-		if (data.files.length) {
-			data.files.forEach((file, index) => {
+		if (data.images.length) {
+			data.images.forEach((file, index) => {
 				formData.append(`images[${index}]`, file);
 			});
 		}
+
 		try {
 			const response = await axios.post(
 				url,
@@ -138,8 +146,10 @@ const ProductForm = ({
 	};
 
 	useEffect(() => {
-		setValue("files", files);
+		setValue("images", files, {shouldValidate: true});
 	}, [files]);
+
+
 
 	return (
 		<Container>
@@ -192,11 +202,10 @@ const ProductForm = ({
 						<>
 							<FormControl
 								fullWidth
-								error={errors.files ? true : false}
 							>
 								<Controller
 									control={control}
-									name="files"
+									name="images"
 									render={() => (
 										<Card>
 											<CardContent>
@@ -216,8 +225,7 @@ const ProductForm = ({
 														</Typography>
 													</Box>
 												</UpladButton>
-											</CardContent>
-											<CardActions>
+											<Stack gap={1} mt={2}>
 												{isEditMode && product?.images.length ? (
 													<Stack gap={1}>
 														<Typography
@@ -227,7 +235,7 @@ const ProductForm = ({
 															Images du produit
 														</Typography>
 														<Stack
-															spacing={2}
+															gap={2}
 															direction="row"
 															flexWrap="wrap"
 														>
@@ -259,7 +267,7 @@ const ProductForm = ({
 															Preview images
 														</Typography>
 														<Stack
-															spacing={2}
+															gap={2}
 															direction="row"
 															flexWrap="wrap"
 														>
@@ -277,13 +285,14 @@ const ProductForm = ({
 												) : (
 													<></>
 												)}
-											</CardActions>
+											</Stack>
+											</CardContent>
 										</Card>
 									)}
 								/>
-								{errors.files ? (
+								{Boolean(errors?.images) ? (
 									<FormHelperText>
-										{errors.files.message}
+										{errors.images.message}
 									</FormHelperText>
 								) : (
 									<></>
@@ -321,19 +330,19 @@ const ProductForm = ({
 					{activeStep === 3 && (
 						<FormControl fullWidth>
 							<FormLabel htmlFor="city_id" sx={{ mb: 3 }}>
-								Dans quel ville et quartier se trouve la vente ?
+								Dans quel ville et district se trouve le produit ?
 							</FormLabel>
 							<Controller
 								control={control}
-								name="city_id"
+								name="district_id"
 								render={() => (
 									<CityDistrictSelectInput
-										labelCity="Dans quelle ville ?"
-										labelDistrict="Dans quel district ?"
-										cityValue={product?.city?.id || ""}
-										districtValue={product?.district?.id || ""}
-										updateCity={(e) => setValue("city_id", e)}
-										updateDistrict={(e) => setValue("district_id", e)}
+										labelCity="Choisir une ville ?"
+										labelDistrict="Choisir un district ?"
+										cityValue={product?.city?.id || getValues().city_id}
+										districtValue={product?.district?.id || getValues().district_id}
+										updateCity={(e) => setValue("city_id", e, {shouldValidate: true})}
+										updateDistrict={(e) => setValue("district_id", e, {shouldValidate: true})}
 										showMap={true}
 									/>
 								)}

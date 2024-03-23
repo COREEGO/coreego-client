@@ -38,6 +38,7 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment";
 import TitleSectionText from "../../components/texts/TitleSectionText";
+import TravelLogueFilter from "../components/filters/TravelLogueFilter";
 
 const TraveloguePage = () => {
 	const [isBusy, setIsBusy] = useState(true);
@@ -73,8 +74,8 @@ const TraveloguePage = () => {
 		}
 	};
 
-	return  (
-		<React.Fragment>
+	return (
+		<Container>
 			<HeroBannerFeed
 				theme="red"
 				titleFr="Mon carnet de voyage"
@@ -90,157 +91,12 @@ const TraveloguePage = () => {
 				imageDirection="end"
 			/>
 
-			<Box>
-				<Container>
-					<Hidden smDown>
-						<Stack
-							direction="row"
-							alignItems="flex-start"
-							gap={2}
-							flexWrap="wrap"
-						>
-							<SearchInput
-								placeholder="Rechercher une discussion..."
-								sx={{
-									width: 300,
-									maxWidth: "100%"
-								}}
-								defaultValue={searchParams.get("q")}
-								onChange={(value) => updateFilter("q", value)}
-							/>
-							<Select
-								placeholder="Catégorie"
-								value={searchParams.get("category") || "0"}
-								onChange={(category) =>
-									updateFilter(
-										"category",
-										category.target.value.toString()
-									)
-								}
-							>
-								<MenuItem value="0"> Toutes les catégories </MenuItem>
-								{placeCategories.map((category) => {
-									return (
-										<MenuItem key={category.id} value={category.id}>
-											{category.label}
-										</MenuItem>
-									);
-								})}
-							</Select>
-							<Select
-								sx={{
-									width: "fit-content",
-									backgroundColor: "white"
-								}}
-								placeholder="Villes"
-								value={searchParams.get("city") || "0"}
-								onChange={(city) =>
-									updateFilter("city", city.target.value.toString())
-								}
-							>
-								<MenuItem value="0"> Toutes les villes </MenuItem>
-								{cities.map((city) => {
-									return (
-										<MenuItem key={city.id} value={city.id}>
-											{city.label}
-										</MenuItem>
-									);
-								})}
-							</Select>
-						</Stack>
-					</Hidden>
-					<Hidden smUp>
-						<Box>
-							<Button
-								fullWidth
-								onClick={() => setIsOpenFilterModal(true)}
-								variant="outlined"
-								startIcon={<FILTER_ICON />}
-							>
-								Filtres
-							</Button>
-							<Dialog
-								onClose={() => setIsOpenFilterModal(false)}
-								open={isOpenFilterModal}
-							>
-								<DialogTitle display="flex" alignItems="center">
-									<FILTER_ICON sx={{ mr: 2 }} /> Filtres{" "}
-								</DialogTitle>
-								<IconButton
-									aria-label="close"
-									onClick={() => setIsOpenFilterModal(false)}
-									sx={{
-										position: "absolute",
-										right: 8,
-										top: 8
-									}}
-								>
-									<CLOSE_ICON />
-								</IconButton>
-								<DialogContent dividers>
-									<Stack direction="row" gap={2} flexWrap="wrap">
-										<SearchInput
-											fullWidth
-											placeholder="Rechercher une discussion..."
-											defaultValue={searchParams.get("q")}
-											onChange={(value) => updateFilter("q", value)}
-										/>
-										<Select
-											fullWidth
-											placeholder="Catégorie"
-											value={searchParams.get("category") || "0"}
-											onChange={(category) =>
-												updateFilter(
-													"category",
-													category.target.value.toString()
-												)
-											}
-										>
-											<MenuItem value="0">
-												Toutes les catégories
-											</MenuItem>
-											{placeCategories.map((category) => {
-												return (
-													<MenuItem
-														key={category.id}
-														value={category.id}
-													>
-														{category.label}
-													</MenuItem>
-												);
-											})}
-										</Select>
-										<Select
-											fullWidth
-											placeholder="Villes"
-											value={searchParams.get("city") || "0"}
-											onChange={(city) =>
-												updateFilter(
-													"city",
-													city.target.value.toString()
-												)
-											}
-										>
-											<MenuItem value="0">Toutes les villes</MenuItem>
-											{cities.map((city) => {
-												return (
-													<MenuItem key={city.id} value={city.id}>
-														{city.label}
-													</MenuItem>
-												);
-											})}
-										</Select>
-									</Stack>
-								</DialogContent>
-							</Dialog>
-						</Box>
-					</Hidden>
-				</Container>
-			</Box>
+			<TravelLogueFilter />
 
-			{
-				isBusy ? <LoadingPage type="data" /> : <Box my={5}>
-				<Container>
+			{isBusy ? (
+				<LoadingPage type="data" />
+			) : (
+				<Box my={5}>
 					{places?.length ? (
 						<Stack gap={3}>
 							<TitleSectionText
@@ -266,17 +122,16 @@ const TraveloguePage = () => {
 							Aucune lieu trouvé
 						</Typography>
 					)}
-				</Container>
-			</Box>
-			}
+				</Box>
+			)}
 
 			{places.length ? (
 				<TravelLogueModal readOnly={true} places={places} />
 			) : (
 				<></>
 			)}
-		</React.Fragment>
-	)
+		</Container>
+	);
 };
 
 export default TraveloguePage;

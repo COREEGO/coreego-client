@@ -29,6 +29,7 @@ import SearchInput from "../../components/inputs/SearchInput";
 import DiscussionCard from "../../components/card/DiscussionCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
+import DiscussionsFilter from "../components/filters/DiscussionsFilter";
 
 const ForumPage = () => {
 	const { updateFilter, searchParams } = useFilterContext();
@@ -49,7 +50,7 @@ const ForumPage = () => {
 	const { discussionCategories } = useSelector((state) => state.app);
 
 	return (
-		<React.Fragment>
+		<Container>
 			<HeroBannerFeed
 				theme="red"
 				titleFr="Forum"
@@ -67,128 +68,32 @@ const ForumPage = () => {
 				imageDirection="end"
 			/>
 
-			<Box>
-				<Container>
-					<Hidden smDown>
-						<Stack direction="row" gap={2} flexWrap="wrap">
-							<SearchInput
-								defaultValue={searchParams.get("q")}
-								onChange={(value) => updateFilter("q", value)}
-							/>
-							<TextField
-								value={searchParams.get("category") || "0"}
-								onChange={(value) =>
-									updateFilter(
-										"category",
-										value.target.value.toString()
-									)
-								}
-								select
-							>
-								<MenuItem value="0">Toutes les catégories</MenuItem>
-								{discussionCategories.map((category) => (
-									<MenuItem key={category.id} value={category.id}>
-										{category.label}
-									</MenuItem>
-								))}
-							</TextField>
-						</Stack>
-					</Hidden>
-					<Hidden smUp>
-						<Box>
-							<Button
-								fullWidth
-								size="large"
-								onClick={() => setIsOpenFilterModal(true)}
-								variant="outlined"
-								startIcon={<FILTER_ICON />}
-							>
-								Filtres
-							</Button>
-							<Dialog
-								onClose={() => setIsOpenFilterModal(false)}
-								open={isOpenFilterModal}
-							>
-								<DialogTitle display="flex" alignItems="center">
-									<FILTER_ICON sx={{ mr: 2 }} /> Filtres{" "}
-								</DialogTitle>
-								<IconButton
-									aria-label="close"
-									onClick={() => setIsOpenFilterModal(false)}
-									sx={{
-										position: "absolute",
-										right: 8,
-										top: 8
-									}}
-								>
-									<CLOSE_ICON />
-								</IconButton>
-								<DialogContent dividers>
-									<Stack direction="row" gap={1} flexWrap="wrap">
-										<SearchInput
-											fullWidth
-											placeholder="Rechercher une discussion..."
-											defaultValue={searchParams.get("q")}
-											onChange={(value) => updateFilter("q", value)}
-										/>
-										<TextField
-											margin="normal"
-											fullWidth
-											value={searchParams.get("category") || "0"}
-											onChange={(value) =>
-												updateFilter(
-													"category",
-													value.target.value.toString()
-												)
-											}
-											select
-										>
-											<MenuItem value="0">
-												Toutes les catégories
-											</MenuItem>
-											{discussionCategories.map((category) => (
-												<MenuItem
-													key={category.id}
-													value={category.id}
-												>
-													{category.label}
-												</MenuItem>
-											))}
-										</TextField>
-									</Stack>
-								</DialogContent>
-							</Dialog>
-						</Box>
-					</Hidden>
-				</Container>
-			</Box>
+			<DiscussionsFilter />
 
 			{isLoading ? (
 				<LoadingPage type="data" />
 			) : (
 				<>
 					<Box my={5}>
-						<Container>
-							{discussions.data.length ? (
-								<Grid container spacing={2}>
-									{discussions.data.map((discussion) => {
-										return (
-											<Grid key={discussion.id} item xs={12} md={6}>
-												<NavLink
-													to={`/forum/discussion/${discussion.slug}`}
-												>
-													<DiscussionCard discussion={discussion} />
-												</NavLink>
-											</Grid>
-										);
-									})}
-								</Grid>
-							) : (
-								<Typography textAlign="center">
-									Aucune discussion trouvé
-								</Typography>
-							)}
-						</Container>
+						{discussions.data.length ? (
+							<Grid container spacing={2}>
+								{discussions.data.map((discussion) => {
+									return (
+										<Grid key={discussion.id} item xs={12} md={6}>
+											<NavLink
+												to={`/forum/discussion/${discussion.slug}`}
+											>
+												<DiscussionCard discussion={discussion} />
+											</NavLink>
+										</Grid>
+									);
+								})}
+							</Grid>
+						) : (
+							<Typography textAlign="center">
+								Aucune discussion trouvé
+							</Typography>
+						)}
 					</Box>
 					<Box
 						sx={{ display: "flex", justifyContent: "center", mb: 5 }}
@@ -197,7 +102,7 @@ const ForumPage = () => {
 					</Box>
 				</>
 			)}
-		</React.Fragment>
+		</Container>
 	);
 };
 

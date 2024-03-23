@@ -35,7 +35,6 @@ const UsersDashboardPage = () => {
 
 	React.useEffect(() => {
 		loadUsers();
-		console.log(users?.meta?.last_page);
 	}, [location.search]);
 
 	const loadUsers = async () => {

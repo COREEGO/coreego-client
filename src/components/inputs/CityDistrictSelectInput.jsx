@@ -1,16 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import MapSimpleMarker from "../maps/MapSimpleMarker";
-import {
-	Box,
-	FormControl,
-	InputAdornment,
-	InputLabel,
-	MenuItem,
-	Select,
-	Stack,
-	TextField
-} from "@mui/material";
+import { Box, MenuItem, TextField } from "@mui/material";
 
 const CityDistrictSelectInput = ({
 	updateCity,
@@ -26,54 +17,41 @@ const CityDistrictSelectInput = ({
 }) => {
 	const { cities } = useSelector((state) => state.app);
 
-	const [selectedCity, setSelectedCity] = useState(cityValue);
-	const [selectedDistrict, setSelectedDistrict] =
-		useState(districtValue);
+	const handleCityChange = useCallback(
+		(event) => {
+			updateCity(event.target.value);
+			updateDistrict("");
+		},
+		[updateCity, cityValue]
+	);
+
+	const handleDistrictChange = useCallback(
+		(event) => {
+			const districtId = event.target.value;
+			updateDistrict && updateDistrict(districtId);
+		},
+		[updateDistrict, districtValue]
+	);
 
 	const districts = useMemo(() => {
-		const city = cities.find((city) => city.id == selectedCity);
-		return city?.districts || null;
-	}, [selectedCity, cities]);
+		const selectedCityData = cities.find(
+			(city) => city.id == cityValue
+		);
+		return selectedCityData ? selectedCityData.districts || [] : [];
+	}, [cities, cityValue]);
 
 	const geopoint = useMemo(() => {
-		let localisation = null;
-
-		if (selectedCity && !selectedDistrict) {
-			localisation =
-				cities.find((city) => city.id == selectedCity) || null;
-		} else if (selectedCity && selectedDistrict) {
-			localisation =
-				districts?.find(
-					(district) => district.id == selectedDistrict
-				) || null;
-		} else {
-			localisation = null;
-		}
-
-		return localisation
+		const selectedLocation =
+			districts.find(
+				(district) => district.id === districtValue
+			) || cities.find((city) => city.id === cityValue);
+		return selectedLocation
 			? {
-					latitude: localisation.latitude,
-					longitude: localisation.longitude
+					latitude: selectedLocation.latitude,
+					longitude: selectedLocation.longitude
 			  }
 			: null;
-	}, [selectedDistrict, selectedCity]);
-
-	const handleCityChange = (event) => {
-		setSelectedCity(event.target.value);
-		setSelectedDistrict("");
-	};
-
-	const handleDistrictChange = (event) => {
-		setSelectedDistrict(event.target.value);
-	};
-
-	useEffect(() => {
-		updateCity(selectedCity);
-	}, [selectedCity]);
-
-	useEffect(() => {
-		updateDistrict && updateDistrict(selectedDistrict);
-	}, [selectedDistrict]);
+	}, [cities, districts, cityValue, districtValue]);
 
 	return (
 		<>
@@ -81,7 +59,7 @@ const CityDistrictSelectInput = ({
 				fullWidth
 				label={labelCity}
 				select
-				value={selectedCity}
+				value={cityValue}
 				onChange={handleCityChange}
 			>
 				<MenuItem value="">{emptyOptionCity}</MenuItem>
@@ -94,11 +72,11 @@ const CityDistrictSelectInput = ({
 
 			{districts && districts.length > 0 ? (
 				<TextField
-					sx={{mt: 2}}
+					sx={{ mt: 2 }}
 					fullWidth
 					label={labelDistrict}
 					select
-					value={selectedDistrict}
+					value={districtValue}
 					onChange={handleDistrictChange}
 				>
 					<MenuItem value="">{emptyOptionDistict}</MenuItem>

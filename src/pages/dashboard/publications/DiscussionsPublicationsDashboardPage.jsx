@@ -20,6 +20,7 @@ import CategoryText from "../../../components/texts/CategoryText";
 import { useLocation } from "react-router";
 import OptionPublicationButton from "../../../components/buttons/OptionPublicationButton";
 import moment from "moment";
+import DiscussionsFilter from "../../components/filters/DiscussionsFilter";
 
 const DiscussionsPublicationsDashboardPage = () => {
 	const [discussions, setDiscussions] = React.useState([]);
@@ -49,6 +50,9 @@ const DiscussionsPublicationsDashboardPage = () => {
 	return (
 		<Stack spacing={3}>
 			<TitleSectionText endText="Discussions" />
+
+			<DiscussionsFilter showModal={false} />
+
 			{isBusy ? <LoadingPage type="data" /> : <TableContainer component={Paper}>
 				<Table aria-label="simple table">
 					<TableHead>

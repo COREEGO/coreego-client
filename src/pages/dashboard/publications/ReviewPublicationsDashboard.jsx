@@ -21,20 +21,24 @@ import moment from "moment";
 import { useConfirm } from "material-ui-confirm";
 import { TRASH_ICON } from "../../../utils/icon";
 import { toast } from "react-toastify";
+import ReviewsFilter from "../../components/filters/ReviewsFilter";
+import { useLocation } from "react-router";
 
 const ReviewPublicationsDashboard = () => {
 	const [isBusy, setIsBusy] = React.useState(true);
 
 	const [reviews, setReviews] = React.useState([]);
 
+	const location = useLocation()
+
 	React.useEffect(() => {
 		loadReviews();
-	}, []);
+	}, [location.search]);
 
 	const loadReviews = async () => {
 		try {
 			setIsBusy(true);
-			const response = await axios.get("/reviews", BEARER_HEADERS);
+			const response = await axios.get(`/reviews${location.search}`, BEARER_HEADERS);
 			setReviews(response.data);
 		} catch (error) {
 			console.log(error);
@@ -60,7 +64,8 @@ const ReviewPublicationsDashboard = () => {
 
 	return (
 		<Stack spacing={3}>
-			<TitleSectionText endText="Lieux avis" />
+			<TitleSectionText endText="Reviews" />
+			<ReviewsFilter />
 			{isBusy ? (
 				<LoadingPage type="data" />
 			) : reviews.data.length ? (

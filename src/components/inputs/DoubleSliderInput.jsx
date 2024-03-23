@@ -37,27 +37,29 @@ const DoubleSliderInput = ({onChange, defaultValue, rangeValue}) => {
     }, [value, pendingUpdate, onChange]);
 
     return (
+      <>
         <Slider
         sx={{color: 'var(--coreego-red)'
       }}
-        getAriaLabel={() => 'Minimum distance shift'}
-        value={value}
-        min={Number(rangeValue[0])}
-        max={Number(rangeValue[1])}
-        onChange={handleChange}
-        marks={[
-          {
-            value: Number(rangeValue[0]),
-            label: 'min'
-          },
-          {
-            value: Number(rangeValue[1]),
-            label: 'max'
-          },
-        ]}
-        valueLabelDisplay="auto"
-        disableSwap
+      getAriaLabel={() => 'Minimum distance shift'}
+      value={value}
+      min={Number(rangeValue[0])}
+      max={Number(rangeValue[1])}
+      onChange={handleChange}
+      marks={[
+        {
+          value: Number(rangeValue[0]),
+          label: 'min'
+        },
+        {
+          value: Number(rangeValue[1]),
+          label: 'max'
+        },
+      ]}
+      valueLabelDisplay="auto"
+      disableSwap
       />
+      </>
     )
 }
 

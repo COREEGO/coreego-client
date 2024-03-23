@@ -55,9 +55,15 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ReportIcon from '@mui/icons-material/Report';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import RemoveIcon from '@mui/icons-material/Remove';
+import SearchIcon from '@mui/icons-material/Search';
+import CheckIcon from '@mui/icons-material/Check';
 
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
+
+export const CHECK_ICON = CheckIcon
+
+export const SEARCH_ICON = SearchIcon
 
 export const REPORT_ICON = ReportIcon
 export const UPLOAD_ICON = CloudUploadIcon

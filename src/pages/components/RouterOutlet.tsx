@@ -27,6 +27,7 @@ import ProductsPublicationsDashboardPage from "../dashboard/publications/Product
 import PlacesPublicationsDashboardPage from "../dashboard/publications/PlacesPublicationsDashboardPage";
 import CommentsPublicationsDashboard from "../dashboard/publications/CommentsPublicationsDashboard";
 import ReviewPublicationsDashboard from "../dashboard/publications/ReviewPublicationsDashboard";
+import ReportDashboard from "../dashboard/ReportDashboard";
 
 
 export default function RouterOutlet() {
@@ -63,6 +64,7 @@ export default function RouterOutlet() {
                 <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
                     <Route path="/dashboard/analitics" element={<AnaliticPage />} />
                     <Route path="/dashboard/users" element={<UsersDashboardPage />} />
+                    <Route path="/dashboard/reports" element={<ReportDashboard />} />
                     <Route path="/dashboard/publication/discussions" element={<DiscussionsPublicationsDashboardPage />} />
                     <Route path="/dashboard/publication/products" element={<ProductsPublicationsDashboardPage />} />
                     <Route path="/dashboard/publication/places" element={<PlacesPublicationsDashboardPage />} />

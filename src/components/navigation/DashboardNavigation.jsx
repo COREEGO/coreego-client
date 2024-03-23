@@ -17,14 +17,11 @@ import {
 	MARKET_PLACE_ICON,
 	PROFIL_ICON,
 	PUBLICATION_ICON,
+	REPORT_ICON,
 	STAR_ICON,
 	TRAVEL_ICON
 } from '../../utils/icon'
-import {
-	ExpandLess,
-	ExpandMore,
-	StarBorder
-} from '@mui/icons-material'
+import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import React from 'react'
 
 const DashboardNavigation = () => {
@@ -41,7 +38,14 @@ const DashboardNavigation = () => {
         height: '100vh',
         top: 0,
         bottom: 0,
-        background: 'white'
+        background: 'white',
+        '.active': {
+          background: 'var(--coreego-blue)',
+          '*': {
+            color: 'white',
+            fill: 'white'
+          }
+        }
       }}
 		>
       <List sx={{ width: '100%' }}>
@@ -85,6 +89,20 @@ const DashboardNavigation = () => {
               <ListItemText
                 sx={{ display: { xs: 'none', sm: 'block' } }}
                 primary='utilisateurs'
+							/>
+            </ListItemButton>
+          </NavLink>
+        </ListItem>
+
+        <ListItem disablePadding>
+          <NavLink to='/dashboard/reports' style={{ width: '100%' }}>
+            <ListItemButton>
+              <ListItemIcon>
+                <REPORT_ICON />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ display: { xs: 'none', sm: 'block' } }}
+                primary='Signalements'
 							/>
             </ListItemButton>
           </NavLink>
@@ -188,7 +206,7 @@ const DashboardNavigation = () => {
                 </ListItemIcon>
                   <ListItemText
                   sx={{ display: { xs: 'none', sm: 'block' } }}
-                  primary='Lieux avis'
+                  primary='Reviews'
 									/>
                 </ListItemButton>
               </NavLink>

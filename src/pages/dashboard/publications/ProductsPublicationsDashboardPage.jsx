@@ -20,6 +20,7 @@ import { useLocation } from "react-router";
 import { MARKER_ICON } from "../../../utils/icon";
 import OptionPublicationButton from "../../../components/buttons/OptionPublicationButton";
 import moment from "moment";
+import ProductsFilter from "../../components/filters/ProductsFilter";
 
 const ProductsPublicationsDashboardPage = () => {
 	const [products, setProducts] = React.useState([]);
@@ -46,6 +47,7 @@ const ProductsPublicationsDashboardPage = () => {
 	return (
 		<Stack spacing={3}>
 			<TitleSectionText endText="Produits mis en vente" />
+			<ProductsFilter data={products?.data} showModal={false} />
 			{isBusy ? (
 				<LoadingPage type="data" />
 			) : (

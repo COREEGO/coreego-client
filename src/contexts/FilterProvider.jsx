@@ -1,25 +1,18 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 
-interface FilterContextType {
-  searchParams: any;
-  updateFilter: (name: string, value: string) => void;
-}
 
-const FilterContext = createContext<FilterContextType>({
+const FilterContext = createContext({
   searchParams: {},
   updateFilter: () => { },
 });
 
-interface FilterProviderProps {
-  children: ReactNode;
-}
 
-export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
+export const FilterProvider = ({ children }) => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const updateFilter = (name: string, value: string) => {
+  const updateFilter = (name, value) => {
 
     if (!value || !value.length || value == '0') {
      searchParams.delete(name)
@@ -33,9 +26,12 @@ export const FilterProvider: React.FC<FilterProviderProps> = ({ children }) => {
     setSearchParams(searchParams)
   };
 
+  const clearFilters = () => {
+    setSearchParams('');
+  };
 
   return (
-    <FilterContext.Provider value={{ searchParams, updateFilter }}>
+    <FilterContext.Provider value={{ searchParams, updateFilter, clearFilters }}>
       {children}
     </FilterContext.Provider>
   );

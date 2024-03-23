@@ -22,7 +22,6 @@ const HeroBannerFeed = ({
 }) => {
   return (
     <Box my={5}>
-      <Container>
         <Grid
           flexDirection={`
 				row${imageDirection === 'start' && '-reverse'}
@@ -102,7 +101,6 @@ const HeroBannerFeed = ({
 						/>
           </Grid>
         </Grid>
-      </Container>
     </Box>
   )
 }

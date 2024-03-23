@@ -23,23 +23,30 @@ import CommentCard from "../../../components/card/CommentCard";
 import LoadingPage from "../../../components/LoadingPage";
 import PaginationData from "../../../components/PaginationData";
 import moment from "moment";
-import { TRASH_ICON } from "../../../utils/icon";
+import { EYE_ICON, TRASH_ICON } from "../../../utils/icon";
 import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
+import CommentsFilter from "../../components/filters/CommentsFilter";
+import { useLocation } from "react-router";
+import { NavLink } from "react-router-dom";
 
 const CommentsPublicationsDashboard = () => {
 	const [isBusy, setIsBusy] = React.useState(true);
 
 	const [comments, setComments] = React.useState([]);
+	const location = useLocation();
 
 	React.useEffect(() => {
 		loadComments();
-	}, []);
+	}, [location.search]);
 
 	const loadComments = async () => {
 		try {
 			setIsBusy(true);
-			const response = await axios.get("/comments", BEARER_HEADERS);
+			const response = await axios.get(
+				`/comments${location.search}`,
+				BEARER_HEADERS
+			);
 			setComments(response.data);
 		} catch (error) {
 			console.log(error);
@@ -66,6 +73,7 @@ const CommentsPublicationsDashboard = () => {
 	return (
 		<Stack spacing={3}>
 			<TitleSectionText endText="Commentaires" />
+			<CommentsFilter />
 			{isBusy ? (
 				<LoadingPage type="data" />
 			) : comments.data.length ? (
@@ -75,6 +83,7 @@ const CommentsPublicationsDashboard = () => {
 							<TableRow>
 								<TableCell>Utilisateur</TableCell>
 								<TableCell>Content</TableCell>
+								<TableCell>Type</TableCell>
 								<TableCell>Date publication</TableCell>
 								<TableCell>Actions</TableCell>
 							</TableRow>
@@ -100,6 +109,32 @@ const CommentsPublicationsDashboard = () => {
 										</TableCell>
 										<TableCell component="th" scope="row">
 											{comment.content}
+										</TableCell>
+										<TableCell component="th" scope="row">
+											{comment?.place && (
+												<>
+													Lieu
+													<NavLink
+														to={`/voyage/place/${comment.place.slug}`}
+													>
+														<IconButton color="primary">
+															<EYE_ICON />
+														</IconButton>
+													</NavLink>
+												</>
+											)}
+											{comment?.discussion && (
+												<>
+													Discussion
+													<NavLink
+														to={`/forum/discussion/${comment.discussion.slug}`}
+													>
+														<IconButton color="primary">
+															<EYE_ICON />
+														</IconButton>
+													</NavLink>
+												</>
+											)}
 										</TableCell>
 										<TableCell component="th" scope="row">
 											{moment(comment.created_at).format(

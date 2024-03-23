@@ -8,7 +8,7 @@ import {
 	TableHead,
 	TableRow,
 	Avatar,
-	Typography,
+	Typography
 } from "@mui/material";
 import TitleSectionText from "../../../components/texts/TitleSectionText";
 import React from "react";
@@ -21,6 +21,7 @@ import { useLocation } from "react-router";
 import { MARKER_ICON } from "../../../utils/icon";
 import OptionPublicationButton from "../../../components/buttons/OptionPublicationButton";
 import moment from "moment";
+import PlacesFilter from "../../components/filters/PlacesFilter";
 
 const PlacesPublicationsDashboardPage = () => {
 	const [places, setPlaces] = React.useState([]);
@@ -47,6 +48,9 @@ const PlacesPublicationsDashboardPage = () => {
 	return (
 		<Stack spacing={3}>
 			<TitleSectionText endText="Lieux" />
+
+			<PlacesFilter showModal={false} />
+
 			{isBusy ? (
 				<LoadingPage type="data" />
 			) : (

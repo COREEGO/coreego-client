@@ -29,14 +29,9 @@ import PlaceCard from "../../components/card/PlaceCard";
 import SearchInput from "../../components/inputs/SearchInput";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
+import PlacesFilter from "../components/filters/PlacesFilter";
 
 const TravelPage = () => {
-	const { placeCategories } = useSelector((state) => state.app);
-
-	const [isOpenFilterModal, setIsOpenFilterModal] =
-		React.useState(false);
-
-	const { updateFilter, searchParams } = useFilterContext();
 	const location = useLocation();
 
 	const {
@@ -48,7 +43,7 @@ const TravelPage = () => {
 	if (error) console.error("API ERROR:", error);
 
 	return (
-		<React.Fragment>
+		<Container>
 			<HeroBannerFeed
 				theme="red"
 				titleFr="Voyage"
@@ -66,140 +61,14 @@ const TravelPage = () => {
 				imageDirection="end"
 			/>
 
-			<Box>
-				<Container>
-					<Hidden smDown>
-						<Stack
-							direction="row"
-							alignItems="flex-start"
-							gap={2}
-							flexWrap="wrap"
-						>
-							<SearchInput
-								placeholder="Rechercher une discussion..."
-								defaultValue={searchParams.get("q")}
-								onChange={(value) => updateFilter("q", value)}
-							/>
-							<TextField
-								value={searchParams.get("category") || "0"}
-								onChange={(value) =>
-									updateFilter(
-										"category",
-										value.target.value.toString()
-									)
-								}
-								select
-							>
-								<MenuItem value="0">Toutes les catégories</MenuItem>
-								{placeCategories.map((category) => (
-									<MenuItem key={category.id} value={category.id}>
-										{category.label}
-									</MenuItem>
-								))}
-							</TextField>
-							<Box width={250} maxWidth="100%">
-								<CityDistrictSelectInput
-									labelCity="Toutes les villes"
-									labelDistrict="Tous les districts"
-									cityValue={searchParams.get("city") || ""}
-									districtValue={searchParams.get("district") || ""}
-									updateCity={(e) =>
-										updateFilter("city", e.toString())
-									}
-									updateDistrict={(e) =>
-										updateFilter("district", e.toString())
-									}
-								/>
-							</Box>
-						</Stack>
-					</Hidden>
-					<Hidden smUp>
-						<Box>
-							<Button
-								size="large"
-								fullWidth
-								onClick={() => setIsOpenFilterModal(true)}
-								variant="outlined"
-								startIcon={<FILTER_ICON />}
-							>
-								Filtres
-							</Button>
-							<Dialog
-								onClose={() => setIsOpenFilterModal(false)}
-								open={isOpenFilterModal}
-							>
-								<DialogTitle display="flex" alignItems="center">
-									<FILTER_ICON sx={{ mr: 2 }} /> Filtres{" "}
-								</DialogTitle>
-								<IconButton
-									aria-label="close"
-									onClick={() => setIsOpenFilterModal(false)}
-									sx={{
-										position: "absolute",
-										right: 8,
-										top: 8
-									}}
-								>
-									<CLOSE_ICON />
-								</IconButton>
-								<DialogContent dividers>
-									<Stack direction="row" gap={2} flexWrap="wrap">
-										<SearchInput
-											fullWidth
-											placeholder="Rechercher une discussion..."
-											defaultValue={searchParams.get("q")}
-											onChange={(value) => updateFilter("q", value)}
-										/>
-										<TextField
-											value={searchParams.get("category") || "0"}
-											onChange={(value) =>
-												updateFilter(
-													"category",
-													value.target.value.toString()
-												)
-											}
-											select
-										>
-											<MenuItem value="0">
-												Toutes les catégories
-											</MenuItem>
-											{placeCategories.map((category) => (
-												<MenuItem
-													key={category.id}
-													value={category.id}
-												>
-													{category.label}
-												</MenuItem>
-											))}
-										</TextField>
-										<Box sx={{ width: "100%" }}>
-											<CityDistrictSelectInput
-												labelCity="Toutes les villes"
-												labelDistrict="Tous les districts"
-												cityValue={searchParams.get("city") || ""}
-												districtValue={
-													searchParams.get("district") || ""
-												}
-												updateCity={(e) =>
-													updateFilter("city", e.toString())
-												}
-												updateDistrict={(e) =>
-													updateFilter("district", e.toString())
-												}
-											/>
-										</Box>
-									</Stack>
-								</DialogContent>
-							</Dialog>
-						</Box>
-					</Hidden>
-				</Container>
-			</Box>
+
+			<PlacesFilter />
+
+
 			{isLoading ? (
 				<LoadingPage type="data" />
 			) : (
 				<Box my={5}>
-					<Container>
 						{places.data.length ? (
 							<Grid container spacing={2}>
 								{places.data.map((place) => {
@@ -217,13 +86,12 @@ const TravelPage = () => {
 								Aucune lieu trouvé
 							</Typography>
 						)}
-					</Container>
 				</Box>
 			)}
 			<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>
 				<PaginationData lastPage={places?.meta?.last_page} />
 			</Box>
-		</React.Fragment>
+		</Container>
 	);
 };
 

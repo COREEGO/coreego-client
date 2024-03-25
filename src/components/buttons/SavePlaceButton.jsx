@@ -17,7 +17,7 @@ const SavePlaceButton = ({ showLabel = false, placeId, users, mutate }) => {
     const { user : auth } = useAuthContext();
 
     const existPlace = React.useMemo(() => {
-        return users.find((user) => user?.id === auth.id) ? true : false
+        return users.includes(auth.id)
     }, [users, placeId])
 
     const handleClick = async () => {

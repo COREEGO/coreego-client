@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import LoadingPage from "../../components/LoadingPage";
 import LikeButton from "../../components/buttons/LikeButton";
 import CommentModule from "../components/modules/CommentModule";
-import { AVATAR_PATH } from "../../utils/variables";
+import { AVATAR_PATH, UNKNOWN_USER } from "../../utils/variables";
 import { NavLink } from "react-router-dom";
 import CategoryText from "../../components/texts/CategoryText";
 import ShareButton from "../../components/buttons/ShareButton";
@@ -93,35 +93,27 @@ const DiscussionDetail = () => {
 					"&:after, &:before": { backgroundColor: "black" }
 				}}
 			>
-					<Card raised={true}>
-						<CardHeader
-							avatar={
-								<Avatar
-									sx={{ height: 50, width: 50 }}
-									src={AVATAR_PATH + discussion.user.avatar}
-								/>
-							}
-							title={
-								<Typography component="div" fontWeight="bold">
-									{discussion.user.pseudo}
-								</Typography>
-							}
-							action={
-								belongsToAuth(discussion.user.id, user?.id) ? (
-									<OptionPublicationButton
-										editLink={`/forum/discussion/edit/${discussion.slug}`}
-										deleteUrl={`/discussions/${discussion.id}`}
-										redirectionUrl={"/forum"}
-									/>
-								) : (
-									<ReportModule
-										targetElement="discussion_reported_id"
-										targetValue={discussion.id}
-									/>
-								)
-							}
+				<Stack direction="row" alignItems="center" gap={2}>
+					<Avatar
+						sx={{ height: 50, width: 50 }}
+						src={AVATAR_PATH + discussion?.user?.avatar}
+					/>
+					<Typography component="div" fontWeight="bold">
+						{discussion?.user?.pseudo || UNKNOWN_USER }
+					</Typography>
+					{belongsToAuth(discussion?.user?.id, user?.id) ? (
+						<OptionPublicationButton
+							editLink={`/forum/discussion/edit/${discussion.slug}`}
+							deleteUrl={`/discussions/${discussion.id}`}
+							redirectionUrl={"/forum"}
 						/>
-					</Card>
+					) : (
+						<ReportModule
+							targetElement="discussion_reported_id"
+							targetValue={discussion.id}
+						/>
+					)}
+				</Stack>
 			</Divider>
 
 			<Box mt={3}>

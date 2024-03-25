@@ -120,7 +120,7 @@ const PlaceForm = ({
 		formData.append("address", data.address);
 
 		if (data.images.length) {
-			data.files.forEach((file, index) => {
+			data.images.forEach((file, index) => {
 				formData.append(`images[${index}]`, file);
 			});
 		}

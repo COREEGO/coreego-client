@@ -20,6 +20,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import StarIcon from '@mui/icons-material/Star';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import WorkIcon from '@mui/icons-material/Work';
 import HomeIcon from '@mui/icons-material/Home';
 import TranslateIcon from '@mui/icons-material/Translate';
@@ -43,7 +44,7 @@ import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined
 import AddIcon from '@mui/icons-material/Add';
 import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
-
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import RedditIcon from '@mui/icons-material/Reddit';
@@ -76,7 +77,7 @@ export const UNSAVED_PLACE_ICON = BookmarkBorderIcon
 export const X_ICON = XIcon
 export const WHATSAPP_ICON = WhatsAppIcon
 export const REDDIT_ICON = RedditIcon
-
+export const NOTIFICATION_ICON = NotificationsNoneIcon
 export const DASHBOARD_ICON = DashboardOutlinedIcon
 
 export const LOGOUT_ICON = LogoutIcon
@@ -131,6 +132,7 @@ export const ADD_ICON = AddIcon
 export const STAR_ICON = StarIcon
 
 export const MORE_OPTIONS_ICON = MoreVertIcon
+export const MORE_OPTIONS_HORIZONTAL_ICON = MoreHorizIcon
 
 export const FILTER_ICON = TuneIcon
 export const EDIT_ICON = EditIcon

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { NavLink } from "react-router-dom";
 import useSWR from "swr";
 import {
@@ -44,7 +44,11 @@ import {
 import { toast } from "react-toastify";
 import { apiFetch } from "../../http-common/apiFetch";
 import ProfilForm from "../../components/forms/ProfilForm";
-import { AVATAR_PATH, SOCIAL_ICON_SIZE } from "../../utils/variables";
+import {
+	AVATAR_PATH,
+	BEARER_HEADERS,
+	SOCIAL_ICON_SIZE
+} from "../../utils/variables";
 import axios from "axios";
 import {
 	belongsToAuth,
@@ -62,6 +66,8 @@ const ProfilPage = () => {
 
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { user: currentUser } = useAuthContext();
+	const { setUser: setUserContext } = useAuthContext();
+	const navigate = useNavigate();
 
 	const isCurrentAuthProfil = currentUser
 		? currentUser.slug == params.slug
@@ -86,12 +92,26 @@ const ProfilPage = () => {
 		}
 	};
 
+	const onDeleteUser = async () => {
+		try {
+			const response = await axios.delete(
+				`/users/${currentUser.id}`,
+				BEARER_HEADERS
+			);
+			toast.success(response?.data?.message);
+			// setUserContext(null)
+			// navigate('/');
+		} catch (error) {
+			alert(error);
+		}
+	};
+
 	return isLoaded ? (
 		<Box py={5}>
 			<Container>
 				<Grid container spacing={3}>
 					<Grid item xs={12}>
-						<Card>
+						<Card variant="outlined">
 							<CardContent>
 								<Stack
 									direction={{ md: "row" }}
@@ -102,7 +122,9 @@ const ProfilPage = () => {
 										sx={{ width: 100, height: 100 }}
 										src={AVATAR_PATH + user?.avatar}
 									/>
-									<Stack alignItems={{xs: 'center', md: 'flex-start' }}>
+									<Stack
+										alignItems={{ xs: "center", md: "flex-start" }}
+									>
 										<Typography
 											fontWeight="bold"
 											component="div"
@@ -128,19 +150,21 @@ const ProfilPage = () => {
 					</Grid>
 
 					<Grid item xs={12} md={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardHeader
 								title={<TitleSectionText endText="Introduction" />}
 							/>
-							<CardContent>
-								<Typography fontSize={18}>
-									{user?.introduction || "Aucune description"}
-								</Typography>
-							</CardContent>
+							{user?.introduction && (
+								<CardContent>
+									<Typography fontSize={18}>
+										{user?.introduction}
+									</Typography>
+								</CardContent>
+							)}
 						</Card>
 					</Grid>
 					<Grid item xs={12} md={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardHeader
 								title={
 									<TitleSectionText
@@ -149,50 +173,56 @@ const ProfilPage = () => {
 									/>
 								}
 							/>
-							<CardContent>
-								<Stack direction="row">
-									{user.youtube && (
-										<NavLink to={youtubeLink(user.youtube)}>
-											<IconButton>
-												<YOUTUBE_ICON />
-											</IconButton>
-										</NavLink>
-									)}
-									{user.facebook && (
-										<NavLink to={facebookLink(user.facebook)}>
-											<IconButton>
-												<FACEBOOK_ICON />
-											</IconButton>
-										</NavLink>
-									)}
-									{user.instagram && (
-										<NavLink to={instagramLink(user.instagram)}>
-											<IconButton>
-												<INSTAGRAM_ICON />
-											</IconButton>
-										</NavLink>
-									)}
-									{user.tiktok && (
-										<NavLink to={tiktokLink(user.tiktok)}>
-											<IconButton>
-												<TIKTOK_ICON />
-											</IconButton>
-										</NavLink>
-									)}
-									{user.kakao && (
-										<Tooltip title={user.kakao}>
-											<IconButton>
-												<KAKAO_ICON />
-											</IconButton>
-										</Tooltip>
-									)}
-								</Stack>
-							</CardContent>
+							{(user.youtube ||
+								user.facebook ||
+								user.instagram ||
+								user.tiktok ||
+								user.kakao) && (
+								<CardContent>
+									<Stack direction="row">
+										{user.youtube && (
+											<NavLink to={youtubeLink(user.youtube)}>
+												<IconButton>
+													<YOUTUBE_ICON />
+												</IconButton>
+											</NavLink>
+										)}
+										{user.facebook && (
+											<NavLink to={facebookLink(user.facebook)}>
+												<IconButton>
+													<FACEBOOK_ICON />
+												</IconButton>
+											</NavLink>
+										)}
+										{user.instagram && (
+											<NavLink to={instagramLink(user.instagram)}>
+												<IconButton>
+													<INSTAGRAM_ICON />
+												</IconButton>
+											</NavLink>
+										)}
+										{user.tiktok && (
+											<NavLink to={tiktokLink(user.tiktok)}>
+												<IconButton>
+													<TIKTOK_ICON />
+												</IconButton>
+											</NavLink>
+										)}
+										{user.kakao && (
+											<Tooltip title={user.kakao}>
+												<IconButton>
+													<KAKAO_ICON />
+												</IconButton>
+											</Tooltip>
+										)}
+									</Stack>
+								</CardContent>
+							)}
 						</Card>
 					</Grid>
 
 					<Grid item xs={12} md={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardHeader
 								title={
 									<TitleSectionText
@@ -201,62 +231,66 @@ const ProfilPage = () => {
 									/>
 								}
 							/>
-							<CardContent>
-								<Stack>
-									<ListItem
-										disableGutters
-										sx={{ display: !user.occupation && "none" }}
-									>
-										<ListItemAvatar>
-											<Avatar
-												sx={{
-													backgroundColor: "var(--coreego-blue)",
-													mb: 2
-												}}
-											>
-												<OCCUPATION_ICON />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText
-											primary="Profession"
-											secondary={user.occupation}
-										/>
-									</ListItem>
+							{(user.occupation ||
+								user.hobby ||
+								(user?.city?.label && user?.district?.label) ||
+								JSON.parse(user.languages).length > 0 ) && (
+								<CardContent>
+									<Stack>
+										<ListItem
+											disableGutters
+											sx={{ display: !user.occupation && "none" }}
+										>
+											<ListItemAvatar>
+												<Avatar
+													sx={{
+														backgroundColor: "var(--coreego-blue)",
+														mb: 2
+													}}
+												>
+													<OCCUPATION_ICON />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText
+												primary="Profession"
+												secondary={user.occupation}
+											/>
+										</ListItem>
 
-									<ListItem
-										disableGutters
-										sx={{ display: !user.hobby && "none" }}
-									>
-										<ListItemAvatar>
-											<Avatar
-												sx={{
-													backgroundColor: "var(--coreego-blue)"
-												}}
-											>
-												<LIKE_ICON />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText
-											primary="Ce que j'aime"
-											secondary={user.hobby}
-										/>
-									</ListItem>
-									<ListItem
-										disableGutters
-										sx={{ display: !user?.city && "none" }}
-									>
-										<ListItemAvatar>
-											<Avatar
-												sx={{
-													backgroundColor: "var(--coreego-blue)"
-												}}
-											>
-												<LOCALISATION_ICON />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText
-											primary="Localisation"
-											secondary={`
+										<ListItem
+											disableGutters
+											sx={{ display: !user.hobby && "none" }}
+										>
+											<ListItemAvatar>
+												<Avatar
+													sx={{
+														backgroundColor: "var(--coreego-blue)"
+													}}
+												>
+													<LIKE_ICON />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText
+												primary="Ce que j'aime"
+												secondary={user.hobby}
+											/>
+										</ListItem>
+										<ListItem
+											disableGutters
+											sx={{ display: !user?.city && "none" }}
+										>
+											<ListItemAvatar>
+												<Avatar
+													sx={{
+														backgroundColor: "var(--coreego-blue)"
+													}}
+												>
+													<LOCALISATION_ICON />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText
+												primary="Localisation"
+												secondary={`
                 ${user?.city?.label || ""}
                 ${
 									user?.city?.label && user?.district?.label
@@ -265,39 +299,40 @@ const ProfilPage = () => {
 								}
                     ${user?.district?.label || ""}
                     `}
-										/>
-									</ListItem>
+											/>
+										</ListItem>
 
-									<ListItem
-										disableGutters
-										sx={{
-											display:
-												!JSON.parse(user.languages).length && "none"
-										}}
-									>
-										<ListItemAvatar>
-											<Avatar
-												sx={{
-													backgroundColor: "var(--coreego-blue)"
-												}}
-											>
-												<LANGUAGE_ICON />
-											</Avatar>
-										</ListItemAvatar>
-										<ListItemText
-											primary="Langues parlées"
-											secondary={JSON.parse(user.languages).join(
-												" , "
-											)}
-										/>
-									</ListItem>
-								</Stack>
-							</CardContent>
+										<ListItem
+											disableGutters
+											sx={{
+												display:
+													!JSON.parse(user.languages).length && "none"
+											}}
+										>
+											<ListItemAvatar>
+												<Avatar
+													sx={{
+														backgroundColor: "var(--coreego-blue)"
+													}}
+												>
+													<LANGUAGE_ICON />
+												</Avatar>
+											</ListItemAvatar>
+											<ListItemText
+												primary="Langues parlées"
+												secondary={JSON.parse(user.languages).join(
+													" , "
+												)}
+											/>
+										</ListItem>
+									</Stack>
+								</CardContent>
+							)}
 						</Card>
 					</Grid>
 
 					<Grid item xs={12} md={6}>
-						<Card>
+						<Card variant="outlined">
 							<CardHeader
 								title={
 									<TitleSectionText

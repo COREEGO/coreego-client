@@ -3,17 +3,31 @@ import { IMAGE_PATH } from "./variables";
 import { apiFetch } from "../http-common/apiFetch";
 
 export const dateParse = (date) => {
-  let dateParse = moment(date).fromNow();
+  const diffInYears = moment().diff(moment(date), "years");
+  const diffInMonths = moment().diff(moment(date), "months");
+  const diffInDays = moment().diff(moment(date), "days");
+  const diffInHours = moment().diff(moment(date), "hours");
+  const diffInMinutes = moment().diff(moment(date), "minutes");
+  const diffInSeconds = moment().diff(moment(date), "seconds");
 
-  if (moment(new Date()).diff(date, "d") > 0) {
-    dateParse = moment(date).fromNow();
+  if (diffInYears > 0) {
+    return diffInYears + " a";
+  } else if (diffInMonths > 0) {
+    return diffInMonths + " m";
+  } else if (diffInDays > 0) {
+    return diffInDays + " j"
+  } else if (diffInHours > 0) {
+    return diffInHours + ' h'
+  } else if (diffInMinutes > 0) {
+    return diffInMinutes + " min";
+  } else {
+    return diffInSeconds + " sec";
   }
 
-  return dateParse;
 };
 
 export const getViolationField = (error, setError) => {
-  if ("errors" in error?.response?.data) {
+  if (error?.response?.data?.errors) {
     const errors = error.response.data.errors;
     for (const field in errors) {
       if (errors.hasOwnProperty(field)) {
@@ -155,3 +169,7 @@ export const discussionStep =  [
     element: "content"
   }
 ]
+
+export const hasNotificationNotReaded = (notifications) => {
+  return notifications?.some(notification => !notification.read_at)
+}

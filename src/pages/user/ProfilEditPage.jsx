@@ -37,22 +37,39 @@ import TitleSectionText from "../../components/texts/TitleSectionText";
 import { useNavigate } from "react-router";
 import {
 	errorField,
-	maxLengthValidator,
 	validationProfil
 } from "../../utils/formValidation";
 import { getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
+import LoadingPage from "../../components/LoadingPage";
 
 const ProfilEditPage = () => {
-	const { user: auth, authentification } = useAuthContext();
+	const { user: auth, authentification, setUser } = useAuthContext();
 
 	const { files, addFile, clearFiles } = useFile();
 	const [isUploadBusy, setIsUploadBusy] = React.useState(false);
-	const [isBusy, setIsBusy] = React.useState(false);
-
+	const [isLoaded, setIsLoaded] = React.useState(false);
+	const [profil, setProfil] = React.useState();
 	const [languagesSelected, setLanguagesSelected] = React.useState(
-		JSON.parse(auth.languages)
+		[]
 	);
+
+	React.useEffect(() => {
+		loadUser();
+	}, []);
+
+	const loadUser = async () => {
+		try {
+			const response = await axios.get("/user/" + auth.slug);
+			setProfil(response.data);
+			setLanguagesSelected(JSON.parse(response?.data?.languages));
+		} catch (error) {
+			toast.error(error.message);
+		} finally {
+			setIsLoaded(true);
+		}
+	};
+
 	const { languages } = useSelector((state) => state.app);
 
 	const navigate = useNavigate();
@@ -84,14 +101,15 @@ const ProfilEditPage = () => {
 				formData.append("avatar", files[0]);
 			}
 			const response = await axios.post(
-				`/users/edit/${auth.id}`,
+				`/users/edit/${profil.id}`,
 				formData,
 				BEARER_HEADERS
 			);
 
 			clearFiles();
-
+			await loadUser();
 			await authentification();
+
 			toast.success(response.data.message);
 		} catch (error) {
 			toast.error(error.response.message);
@@ -107,13 +125,13 @@ const ProfilEditPage = () => {
 			if (data.district_id == 0) data.district_id = null;
 
 			const response = await axios.post(
-				`/users/edit/${auth.id}`,
+				`/users/edit/${profil.id}`,
 				data,
 				BEARER_HEADERS
 			);
 			await authentification();
 			toast.success(response.data.message);
-			navigate(`/user/profil/${auth.slug}`);
+			navigate(`/user/profil/${profil.slug}`);
 		} catch (error) {
 			toast.error(error.response.data.message);
 			getViolationField(error, setError);
@@ -124,7 +142,9 @@ const ProfilEditPage = () => {
 		if (files.length > 0) handleUpdateAvatar();
 	}, [files]);
 
-	return (
+	return !isLoaded ? (
+		<LoadingPage type="page" />
+	) : (
 		<Container>
 			<Stack my={5} alignItems="center">
 				<Stack spacing={5} width={700} maxWidth="100%">
@@ -135,23 +155,25 @@ const ProfilEditPage = () => {
 								height: 150,
 								mb: -2
 							}}
-							src={AVATAR_PATH + auth.avatar}
+							src={AVATAR_PATH + profil.avatar}
 						/>
-						<UpladButton
-							multiple={false}
-							onChange={async (event) =>
-								await addFile(event.target.files, false)
-							}
-						>
-							<LoadingButton
-								loading={isUploadBusy}
-								variant={"outlined"}
-								sx={{ backgroundColor: "white" }}
-								startIcon={<CAMERA_ICON />}
+						<Box>
+							<UpladButton
+								multiple={false}
+								onChange={async (event) =>
+									await addFile(event.target.files, false)
+								}
 							>
-								Modifier
-							</LoadingButton>
-						</UpladButton>
+								<LoadingButton
+									loading={isUploadBusy}
+									variant={"outlined"}
+									sx={{ backgroundColor: "white" }}
+									startIcon={<CAMERA_ICON />}
+								>
+									Modifier
+								</LoadingButton>
+							</UpladButton>
+						</Box>
 					</Stack>
 
 					<Box
@@ -169,7 +191,7 @@ const ProfilEditPage = () => {
 								{...errorField(errors?.introduction)}
 								fullWidth
 								label="Décrivez vous en quelque ligne"
-								defaultValue={auth.introduction}
+								defaultValue={profil.introduction}
 								multiline
 								rows={3}
 								InputProps={{
@@ -192,7 +214,7 @@ const ProfilEditPage = () => {
 								fullWidth
 								label="Ce que j'aime"
 								placeholder="ce que j'aime"
-								defaultValue={auth.hobby}
+								defaultValue={profil.hobby}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -218,7 +240,7 @@ const ProfilEditPage = () => {
 								fullWidth
 								label="Ma profession"
 								placeholder="ma profession"
-								defaultValue={auth.occupation}
+								defaultValue={profil.occupation}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -300,7 +322,7 @@ const ProfilEditPage = () => {
 								fullWidth
 								label="Pseudo facebook"
 								placeholder="mon pseudo facebook"
-								defaultValue={auth.facebook}
+								defaultValue={profil.facebook}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -326,7 +348,7 @@ const ProfilEditPage = () => {
 								fullWidth
 								label="Pseudo youtube"
 								placeholder="mon pseudo youtube"
-								defaultValue={auth.youtube}
+								defaultValue={profil.youtube}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -352,7 +374,7 @@ const ProfilEditPage = () => {
 								fullWidth
 								label="Pseudo instagram"
 								placeholder="mon pseudo instagram"
-								defaultValue={auth.instagram}
+								defaultValue={profil.instagram}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -378,7 +400,7 @@ const ProfilEditPage = () => {
 								fullWidth
 								label="Pseudo tiktok"
 								placeholder="mon pseudo tiktok"
-								defaultValue={auth.tiktok}
+								defaultValue={profil.tiktok}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">
@@ -404,7 +426,7 @@ const ProfilEditPage = () => {
 								fullWidth
 								label="Pseudo kakaotalk"
 								placeholder="mon pseudo kakaoTalk"
-								defaultValue={auth.kakao}
+								defaultValue={profil.kakao}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position="start">

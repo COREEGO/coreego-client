@@ -24,6 +24,7 @@ import {
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
+import { BEARER_HEADERS } from "../../utils/variables";
 
 export default function LoginPage() {
 	const { setUser, authentification } = useAuthContext();
@@ -46,15 +47,14 @@ export default function LoginPage() {
 				email: data.email.trim(),
 				password: data.password.trim()
 			});
-
+			if (response && response.data) {
 				localStorage.setItem("token", response.data.token);
-				setUser(response.data.data)
-				navigate("/");
-
+				window.location.replace('/')
+			}
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 			toast.error(error?.response?.data?.message);
-			if(error){
+			if (error) {
 				getViolationField(error, setError);
 			}
 		}

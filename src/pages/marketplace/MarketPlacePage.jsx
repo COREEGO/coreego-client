@@ -65,15 +65,15 @@ const MarketPlacePage = () => {
 				imageDirection="start"
 			/>
 
-			<ProductsFilter data={products?.data} />
+			<ProductsFilter data={products?.meta} />
 
 			{isLoading ? (
 				<LoadingPage type="data" />
 			) : (
 				<Box my={5}>
-					{products.data.data.length ? (
+					{products.data.length ? (
 						<Grid container spacing={2}>
-							{products.data.data.map((product) => {
+							{products.data.map((product) => {
 								return (
 									<Grid key={product.id} item xs={12} sm={6} md={4}>
 										<NavLink

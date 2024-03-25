@@ -48,8 +48,8 @@ const ProductsFilter = ({ showModal = true, data }) => {
 						<Box width={400} maxWidth="100%">
 							<PriceFilterInput
 								rangeValue={[
-									data?.filter.min_price,
-									data?.filter.max_price
+									data?.min_price,
+									data?.max_price
 								]}
 							/>
 						</Box>
@@ -94,8 +94,8 @@ const ProductsFilter = ({ showModal = true, data }) => {
 								<LocalisationFilterInput />
 								<PriceFilterInput
 									rangeValue={[
-										data?.filter.min_price,
-										data?.filter.max_price
+										data?.min_price,
+										data?.max_price
 									]}
 								/>
 								<ClearFilterButton />
@@ -121,8 +121,8 @@ const ProductsFilter = ({ showModal = true, data }) => {
 					<Box width={400} maxWidth="100%">
 						<PriceFilterInput
 							rangeValue={[
-								data?.filter.min_price,
-								data?.filter.max_price
+								data?.min_price,
+								data?.max_price
 							]}
 						/>
 					</Box>

@@ -4,6 +4,8 @@ export const BASE_URL_API = process.env.REACT_APP_API_BASE_URL
 export const IMAGE_PATH =  BASE_URL + '/storage/images/'
 export const AVATAR_PATH = BASE_URL + '/storage/avatars/'
 
+export const UNKNOWN_USER = "Ancien membre"
+
 export const SOCIAL_ICON_SIZE = 30
 
 export const TOKEN = localStorage.getItem('token')

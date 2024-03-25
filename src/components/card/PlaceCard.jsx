@@ -14,7 +14,7 @@ import {
 	Typography
 } from "@mui/material";
 import CommentCountIcon from "../icons/CommentCounterIcon";
-import { AVATAR_PATH, IMAGE_PATH } from "../../utils/variables";
+import { AVATAR_PATH, IMAGE_PATH, UNKNOWN_USER } from "../../utils/variables";
 import moment from "moment";
 import { MARKER_ICON } from "../../utils/icon";
 
@@ -23,10 +23,10 @@ const PlaceCard = ({ place }) => {
 		<Card elevation={3}>
 			<CardActionArea component="div">
 				<CardHeader
-					avatar={<Avatar src={AVATAR_PATH + place.user.avatar} />}
+					avatar={<Avatar src={AVATAR_PATH + place?.user?.avatar} />}
 					title={
 						<Typography component="div" fontWeight="bold">
-							{place.user.pseudo}
+							{place?.user?.pseudo || UNKNOWN_USER}
 						</Typography>
 					}
 					subheader={moment(place.created_at).format("D MMMM YYYY")}

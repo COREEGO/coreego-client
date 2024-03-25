@@ -3,7 +3,7 @@
 import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router"
 import axios from '../http-common/axiosInstance';
-import { TOKEN } from '../utils/variables';
+import { BEARER_HEADERS, TOKEN } from '../utils/variables';
 import { toast } from 'react-toastify';
 
 const AuthContext = createContext({});
@@ -26,14 +26,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             console.error(error.message);
         }
     };
-
-    const BEARER_HEADERS = React.useMemo(() => {
-        return {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-        }
-    }, [localStorage.getItem('token')])
 
 
     const logout = useCallback(async () => {

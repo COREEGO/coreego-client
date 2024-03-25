@@ -47,7 +47,7 @@ const ProductsPublicationsDashboardPage = () => {
 	return (
 		<Stack spacing={3}>
 			<TitleSectionText endText="Produits mis en vente" />
-			<ProductsFilter data={products?.data} showModal={false} />
+			<ProductsFilter data={products?.meta} showModal={false} />
 			{isBusy ? (
 				<LoadingPage type="data" />
 			) : (
@@ -64,7 +64,7 @@ const ProductsPublicationsDashboardPage = () => {
 							</TableRow>
 						</TableHead>
 						<TableBody>
-							{products?.data?.data.map((product) => {
+							{products?.data.map((product) => {
 								return (
 									<TableRow key={product.id}>
 										<TableCell component="th" scope="row">

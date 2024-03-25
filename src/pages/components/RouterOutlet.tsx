@@ -28,6 +28,7 @@ import PlacesPublicationsDashboardPage from "../dashboard/publications/PlacesPub
 import CommentsPublicationsDashboard from "../dashboard/publications/CommentsPublicationsDashboard";
 import ReviewPublicationsDashboard from "../dashboard/publications/ReviewPublicationsDashboard";
 import ReportDashboard from "../dashboard/ReportDashboard";
+import NotificationPage from "../user/NotificationPage";
 
 
 export default function RouterOutlet() {
@@ -39,6 +40,7 @@ export default function RouterOutlet() {
                 <Route path="/" element={<HomePage />} />
 
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
+                <Route path="/notifications" element={<NotificationPage />} />
 
 
 

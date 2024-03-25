@@ -16,7 +16,7 @@ import {
 	MARKER_ICON,
 	PRICE_ICON
 } from '../../utils/icon'
-import { AVATAR_PATH } from '../../utils/variables'
+import { AVATAR_PATH, IMAGE_PATH } from '../../utils/variables'
 import moment from 'moment'
 
 const ProductCard = ({ product }) => {
@@ -30,7 +30,8 @@ const ProductCard = ({ product }) => {
           }}
           width='100%'
           image={
-            getFirstImage(product.images) ||
+            product?.thumbnail?.name
+            ? IMAGE_PATH + product?.thumbnail?.name :
             'https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png'
           }
           alt={product.title}

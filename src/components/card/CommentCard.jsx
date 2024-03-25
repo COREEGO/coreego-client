@@ -95,7 +95,7 @@ const CommentCard = ({ comment, mutate }) => {
 
 	return (
 		<>
-			<Card variant="outlined" sx={{ width: "100%" }}>
+			<Card id={`comment-${comment.id}`} variant="outlined" sx={{ width: "100%" }}>
 				<CardHeader
 					avatar={<Avatar src={AVATAR_PATH + comment.user.avatar} />}
 					title={

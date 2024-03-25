@@ -126,36 +126,27 @@ const PlaceDetail = () => {
 					"&:after, &:before": { backgroundColor: "black" }
 				}}
 			>
-				<Card raised={true} >
-						<CardHeader
-							avatar={
-								<Avatar
-									sx={{ height: 50, width: 50 }}
-									src={AVATAR_PATH + place.user.avatar}
-								/>
-							}
-							title={
-								<Typography component="div" fontWeight="bold">
-									{place.user.pseudo}
-								</Typography>
-							}
-							action={
-								belongsToAuth(place.user.id, user?.id) ? (
-									<OptionPublicationButton
-										editLink={`/voyage/place/edit/${place.slug}`}
-										deleteUrl={`/places/${place.id}`}
-										redirectionUrl={"/voyage"}
-									/>
-								) : (
-									<ReportModule
-										placeholder="En quoi ce lieu ne convient pas ?"
-										targetElement="place_reported_id"
-										targetValue={place.id}
-									/>
-								)
-							}
+				<Stack direction="row" alignItems="center" gap={2}>
+					<Avatar
+						sx={{ height: 50, width: 50 }}
+						src={AVATAR_PATH + place.user.avatar}
+					/>
+					<Typography component="div" fontWeight="bold">
+						{place.user.pseudo}
+					</Typography>
+					{belongsToAuth(place.user.id, user?.id) ? (
+						<OptionPublicationButton
+							editLink={`/voyage/place/edit/${place.slug}`}
+							deleteUrl={`/places/${place.id}`}
+							redirectionUrl={"/forum"}
 						/>
-					</Card>
+					) : (
+						<ReportModule
+							targetElement="place_reported_id"
+							targetValue={place.id}
+						/>
+					)}
+				</Stack>
 			</Divider>
 
 			<Box mt={3}>

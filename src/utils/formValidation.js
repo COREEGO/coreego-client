@@ -15,6 +15,7 @@ export const validationRegister = create((data = {}) => {
   test('pseudo', IS_REQUIRED_MESSAGE, () => {enforce(data.pseudo).isNotEmpty()});
   test('pseudo', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.pseudo).matches(PSEUDO_REGEX)});
   test('pseudo', maxLength(20), () => {enforce(data.pseudo).shorterThanOrEquals(20)});
+  test('pseudo', minLength(3), () => {enforce(data.pseudo).longerThanOrEquals(3)});
 
   test('email', IS_REQUIRED_MESSAGE, () => {enforce(data.email).isNotEmpty()});
   test('email', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.email).matches(EMAIL_REGEX)});
@@ -22,11 +23,28 @@ export const validationRegister = create((data = {}) => {
   test('password', IS_REQUIRED_MESSAGE, () => {enforce(data.password).isNotEmpty()});
   test('password', minLength(6), () => {enforce(data.password).longerThanOrEquals(6)});
 
-  test('confirmPassword', IS_REQUIRED_MESSAGE, () => {enforce(data.confirmPassword).isNotEmpty()});
-  test('confirmPassword', IS_NOT_SAME_VALUE_MESSAGE, () => {
-    enforce(data.confirmPassword).equals(data.password);
+  test('password_confirmation', IS_REQUIRED_MESSAGE, () => {enforce(data.password_confirmation).isNotEmpty()});
+  test('password_confirmation', IS_NOT_SAME_VALUE_MESSAGE, () => {
+    enforce(data.password_confirmation).equals(data.password);
   });
 });
+
+export const validationUpdatePassword = create((data = {}) => {
+  test('password', IS_REQUIRED_MESSAGE, () => {enforce(data.password).isNotEmpty()});
+  test('password', minLength(6), () => {enforce(data.password).longerThanOrEquals(6)});
+
+  test('password_confirmation', IS_REQUIRED_MESSAGE, () => {enforce(data.password_confirmation).isNotEmpty()});
+  test('password_confirmation', IS_NOT_SAME_VALUE_MESSAGE, () => {
+    enforce(data.password_confirmation).equals(data.password);
+  });
+});
+export const validationUpdatePseudo = create((data = {}) => {
+  test('pseudo', IS_REQUIRED_MESSAGE, () => {enforce(data.pseudo).isNotEmpty()});
+  test('pseudo', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.pseudo).matches(PSEUDO_REGEX)});
+  test('pseudo', maxLength(20), () => {enforce(data.pseudo).shorterThanOrEquals(20)});
+  test('pseudo', minLength(3), () => {enforce(data.pseudo).longerThanOrEquals(3)});
+});
+
 
 export const validationLogin = create((data = {}) => {
   test('email', IS_REQUIRED_MESSAGE, () => {enforce(data.email).isNotEmpty()});
@@ -81,10 +99,6 @@ export const validationUpdateProduct = create((data = {}) => {
   test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).isNotEmpty()});
 })
 
-
-
-
-
 export const validationCreatePlace = create((data = {}) => {
   test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
   test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});
@@ -120,7 +134,10 @@ export const validationProfil = create((data = {}) => {
   test('instagram', maxLength(20), () => {enforce(data.instagram).shorterThanOrEquals(20)});
   test('tiktok', maxLength(20), () => {enforce(data.tiktok).shorterThanOrEquals(20)});
   test('kakao', maxLength(20), () => {enforce(data.kakao).shorterThanOrEquals(20)});
+
 })
+
+
 
 export const validationReport = create((data = {}) => {
   test('content',  IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});

@@ -41,7 +41,7 @@ const RegisterPage = () => {
 				pseudo: data.pseudo.trim(),
 				email: data.email,
 				password: data.password,
-				password_confirmation: data.confirmPassword
+				password_confirmation: data.password_confirmation
 			});
 			reset();
 			toast.success(response.data.message);
@@ -72,7 +72,7 @@ const RegisterPage = () => {
 							label="Pseudo"
 							fullWidth
 							placeholder="Votre pseudo"
-							required
+							required5
 							InputProps={{
                                 endAdornment: (
                                     <InputAdornment
@@ -106,8 +106,8 @@ const RegisterPage = () => {
 							type="password"
 						/>
 						<TextField
-							{...register("confirmPassword")}
-							{...errorField(errors?.confirmPassword)}
+							{...register("password_confirmation")}
+							{...errorField(errors?.password_confirmation)}
 							fullWidth
 							label="Confirmez votre mot de passe"
 							required

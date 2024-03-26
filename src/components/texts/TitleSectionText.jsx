@@ -9,8 +9,8 @@ const TitleSectionText = ({
     <Typography
       {...props}
       textTransform='uppercase'
-      variant={props.variant || 'h6'}
-      component='span'
+      fontSize={24}
+      component={props.component || 'div'}
       fontWeight='bolder'
 		>
       {startText}{' '}

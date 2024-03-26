@@ -134,7 +134,7 @@ const ProfilPage = () => {
 										</Typography>
 										<Typography component="div">
 											Membre depuis le{" "}
-											{moment(user.created_at).format("D MMMM YYYY")}{" "}
+											{moment(user.created_at).format("D MMMM YYYY")}
 										</Typography>
 									</Stack>
 									{belongsToAuth(user.id, currentUser?.id) && (
@@ -156,7 +156,7 @@ const ProfilPage = () => {
 							/>
 							{user?.introduction && (
 								<CardContent>
-									<Typography fontSize={18}>
+									<Typography>
 										{user?.introduction}
 									</Typography>
 								</CardContent>

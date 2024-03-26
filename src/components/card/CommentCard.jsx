@@ -36,7 +36,7 @@ import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { belongsToAuth, dateParse } from "../../utils";
-import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
+import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../utils/variables";
 import axios from "axios";
 import ReportModule from "../../pages/components/modules/ReportModule";
 import moment from "moment";
@@ -97,10 +97,10 @@ const CommentCard = ({ comment, mutate }) => {
 		<>
 			<Card id={`comment-${comment.id}`} variant="outlined" sx={{ width: "100%" }}>
 				<CardHeader
-					avatar={<Avatar src={AVATAR_PATH + comment.user.avatar} />}
+					avatar={<Avatar src={AVATAR_PATH + comment?.user?.avatar} />}
 					title={
 						<Typography component="div" fontWeight="bold">
-							{comment.user.pseudo}
+							{comment?.user?.pseudo || UNKNOWN_USER}
 						</Typography>
 					}
 					subheader={dateParse(comment.created_at)}

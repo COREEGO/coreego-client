@@ -33,7 +33,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
-import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
+import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../utils/variables";
 import { belongsToAuth, dateParse } from "../../utils";
 import ReportModule from "../../pages/components/modules/ReportModule";
 
@@ -96,10 +96,10 @@ const ReviewCard = ({ review, mutate }) => {
 			<Card id={"review-" + review.id}>
 				<CardHeader
 					sx={{pb: 0}}
-					avatar={<Avatar src={AVATAR_PATH + review.user.avatar} />}
+					avatar={<Avatar src={AVATAR_PATH + review?.user?.avatar} />}
 					title={
 						<Typography component="div" fontWeight="bold">
-							{review.user.pseudo}
+							{review?.user?.pseudo || UNKNOWN_USER}
 						</Typography>
 					}
 					subheader={dateParse(review.created_at)}

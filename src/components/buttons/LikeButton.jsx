@@ -29,7 +29,7 @@ const LikeButton = ({
 		try {
 			setIsBusy(true);
 			const response = await axios.post(
-				"/like",
+				"/likes",
 				{
 					discussion_id: discussionId,
 					place_id: placeId

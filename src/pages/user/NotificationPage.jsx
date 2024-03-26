@@ -112,7 +112,9 @@ const CommentNotificationCard = ({ notification }) => {
 					}
 				/>
 				<Stack alignItems="center">
-					<Typography variant="caption">{dateParse(notification.created_at)}</Typography>
+					<Typography variant="caption">
+						{dateParse(notification.created_at)}
+					</Typography>
 					<Box>
 						<IconButton
 							onClick={(event) => {
@@ -135,45 +137,47 @@ const NotificationPage = () => {
 	const { user, authentification } = useAuthContext();
 	const navigate = useNavigate();
 
-    const onDeleteAllNotification = async () => {
-        try {
-            await axios.post(
+	const onDeleteAllNotification = async () => {
+		try {
+			await axios.post(
 				`/notifications?delete_all=true`,
 				null,
 				BEARER_HEADERS
 			);
 			await authentification();
-        } catch (error) {
-            alert(error)
-        }
-    }
-    const onDeleteAllNotificationReaded = async () => {
-        try {
-            await axios.post(
+		} catch (error) {
+			alert(error);
+		}
+	};
+	const onDeleteAllNotificationReaded = async () => {
+		try {
+			await axios.post(
 				`/notifications?delete_all_readed=true`,
 				null,
 				BEARER_HEADERS
 			);
 			await authentification();
-        } catch (error) {
-            alert(error)
-        }
-    }
+		} catch (error) {
+			alert(error);
+		}
+	};
 
 	return (
 		user && (
 			<Container>
-				<Stack justifyContent="center" alignItems="center">
-					<Stack gap={3} my={5} width={750} maxWidth="100%">
+					<Stack gap={2} my={5}>
 						<Stack direction="row" alignItems="center" gap={1}>
-							<TitleSectionText
-								endText={
-									<Stack direction="row" alignItems="center" gap={1}>
-										<NOTIFICATION_ICON /> Notifications
-									</Stack>
-								}
-							/>
-							<Box>
+							<Stack gap={1} direction="row" alignItems="center">
+								<NOTIFICATION_ICON />
+								<TitleSectionText
+									component="h1"
+									startText="Mes"
+									endText="notifications"
+								/>
+							</Stack>
+							<Box
+								display={user?.notification?.length ? "block" : "none"}
+							>
 								<IconButton
 									onClick={(event) =>
 										setAnchorEl(event.currentTarget)
@@ -182,7 +186,7 @@ const NotificationPage = () => {
 									<MORE_OPTIONS_ICON />
 								</IconButton>
 								<Menu
-                                    onClick={() => setAnchorEl(null)}
+									onClick={() => setAnchorEl(null)}
 									anchorEl={anchorEl}
 									open={Boolean(anchorEl)}
 									onClose={() => setAnchorEl(null)}
@@ -195,17 +199,13 @@ const NotificationPage = () => {
 										horizontal: "right"
 									}}
 								>
-									<MenuItem
-										onClick={onDeleteAllNotification}
-									>
+									<MenuItem onClick={onDeleteAllNotification}>
 										<ListItemIcon>
 											<TRASH_ICON fontSize="small" />
 										</ListItemIcon>
 										<ListItemText>Tout supprimer</ListItemText>
 									</MenuItem>
-									<MenuItem
-										onClick={onDeleteAllNotificationReaded}
-									>
+									<MenuItem onClick={onDeleteAllNotificationReaded}>
 										<ListItemIcon>
 											<DeleteSweep fontSize="small" />
 										</ListItemIcon>
@@ -233,7 +233,6 @@ const NotificationPage = () => {
 							<Typography>Aucune notifications</Typography>
 						)}
 					</Stack>
-				</Stack>
 			</Container>
 		)
 	);

@@ -29,6 +29,8 @@ import CommentsPublicationsDashboard from "../dashboard/publications/CommentsPub
 import ReviewPublicationsDashboard from "../dashboard/publications/ReviewPublicationsDashboard";
 import ReportDashboard from "../dashboard/ReportDashboard";
 import NotificationPage from "../user/NotificationPage";
+import AccountPage from "../user/AccountPage";
+import UserLikes from "../user/UserLikesPage";
 
 
 export default function RouterOutlet() {
@@ -40,7 +42,9 @@ export default function RouterOutlet() {
                 <Route path="/" element={<HomePage />} />
 
                 <Route path="/user/profil/edit" element={<ProfilEditPage />} />
-                <Route path="/notifications" element={<NotificationPage />} />
+                <Route path="/mes-notifications" element={<NotificationPage />} />
+                <Route path="/mon-compte" element={<AccountPage />} />
+                <Route path="/mes-likes" element={<UserLikes />} />
 
 
 

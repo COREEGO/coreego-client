@@ -58,7 +58,11 @@ import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import RemoveIcon from '@mui/icons-material/Remove';
 import SearchIcon from '@mui/icons-material/Search';
 import CheckIcon from '@mui/icons-material/Check';
+import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 
+export const PASSWORD_ICON = HttpsOutlinedIcon
+export const EDITNOTE_ICON = EditNoteIcon
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
 

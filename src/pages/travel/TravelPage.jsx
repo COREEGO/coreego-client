@@ -83,7 +83,7 @@ const TravelPage = () => {
 							</Grid>
 						) : (
 							<Typography textAlign="center">
-								Aucune lieu trouvé
+								Aucun lieu trouvé
 							</Typography>
 						)}
 				</Box>

@@ -79,12 +79,12 @@ const NavigationUserMenu = () => {
 			) : (
 				<></>
 			)}
-			<NavLink to={`/user/profil/${user.slug}`}>
+			<NavLink to={`/mon-compte`}>
 				<MenuItem sx={{ color: "black" }}>
 					<ListItemIcon sx={{ color: "black" }}>
 						<PROFIL_ICON />
 					</ListItemIcon>
-					<ListItemText>Profil</ListItemText>
+					<ListItemText>Mon compte</ListItemText>
 				</MenuItem>
 			</NavLink>
 			<NavLink to={`/user/carnet-de-voyage`}>
@@ -230,7 +230,7 @@ const Navigation = () => {
 							gap={2}
 						>
 							<Box>
-                                <NavLink to="/notifications">
+                                <NavLink to="/mes-notifications">
 								<IconButton>
 									<Badge color={hasNotificationNotReaded(user.notifications) ? 'error' : '' } variant="dot">
 										<NOTIFICATION_ICON />

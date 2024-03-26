@@ -38,7 +38,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import moment from "moment";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
-import { AVATAR_PATH } from "../../utils/variables";
+import { AVATAR_PATH, UNKNOWN_USER } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
@@ -129,12 +129,12 @@ const PlaceDetail = () => {
 				<Stack direction="row" alignItems="center" gap={2}>
 					<Avatar
 						sx={{ height: 50, width: 50 }}
-						src={AVATAR_PATH + place.user.avatar}
+						src={AVATAR_PATH + place?.user?.avatar}
 					/>
 					<Typography component="div" fontWeight="bold">
-						{place.user.pseudo}
+						{place?.user?.pseudo || UNKNOWN_USER}
 					</Typography>
-					{belongsToAuth(place.user.id, user?.id) ? (
+					{belongsToAuth(place?.user?.id, user?.id) ? (
 						<OptionPublicationButton
 							editLink={`/voyage/place/edit/${place.slug}`}
 							deleteUrl={`/places/${place.id}`}

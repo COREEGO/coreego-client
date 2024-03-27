@@ -67,7 +67,7 @@ const ProfilPage = () => {
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { user: currentUser } = useAuthContext();
 	const { setUser: setUserContext } = useAuthContext();
-	const navigate = useNavigate();
+
 
 	const isCurrentAuthProfil = currentUser
 		? currentUser.slug == params.slug
@@ -92,19 +92,6 @@ const ProfilPage = () => {
 		}
 	};
 
-	const onDeleteUser = async () => {
-		try {
-			const response = await axios.delete(
-				`/users/${currentUser.id}`,
-				BEARER_HEADERS
-			);
-			toast.success(response?.data?.message);
-			// setUserContext(null)
-			// navigate('/');
-		} catch (error) {
-			alert(error);
-		}
-	};
 
 	return isLoaded ? (
 		<Box py={5}>

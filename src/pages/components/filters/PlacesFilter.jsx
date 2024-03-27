@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogTitle,
 	Hidden,
@@ -15,19 +16,22 @@ import { useSelector } from "react-redux";
 import React from "react";
 import { useFilterContext } from "../../../contexts/FilterProvider";
 import CityDistrictSelectInput from "../../../components/inputs/CityDistrictSelectInput";
-import { CLOSE_ICON, FILTER_ICON } from "../../../utils/icon";
+import {
+	CLOSE_ICON,
+	FILTER_ICON,
+	GEOLOCALISATION_ICON
+} from "../../../utils/icon";
 import SearchFilterInput from "./inputs/SearchFilterInput";
 import CategoriesFilterInput from "./inputs/CategoriesFilterInput";
 import LocalisationFilterInput from "./inputs/LocalisationFilterInput";
-import ClearFilterButton from "../../../components/buttons/ClearFilterButton";
+import ClearFilterButton from "./inputs/ClearFilterButton";
+import { getMyGeoLocalisation } from "../../../utils";
+import GeoLocalisationFilterInput from "./inputs/GeoLocalisationFilterInput";
 
 const PlacesFilter = ({ showModal = true }) => {
 	const { placeCategories } = useSelector((state) => state.app);
 	const [isOpenFilterModal, setIsOpenFilterModal] =
 		React.useState(false);
-
-	const { updateFilter, searchParams, clearFilters } =
-		useFilterContext();
 
 	return showModal ? (
 		<>
@@ -38,14 +42,13 @@ const PlacesFilter = ({ showModal = true }) => {
 					gap={2}
 					flexWrap="wrap"
 				>
+					<ClearFilterButton />
 					<SearchFilterInput />
 					<CategoriesFilterInput categories={placeCategories} />
 					<Box width={250} maxWidth="100%">
 						<LocalisationFilterInput />
 					</Box>
-					<Box mt={1.5}>
-						<ClearFilterButton />
-					</Box>
+						<GeoLocalisationFilterInput />
 				</Stack>
 			</Hidden>
 
@@ -61,6 +64,7 @@ const PlacesFilter = ({ showModal = true }) => {
 						Filtres
 					</Button>
 					<Dialog
+						fullWidth
 						onClose={() => setIsOpenFilterModal(false)}
 						open={isOpenFilterModal}
 					>
@@ -86,10 +90,12 @@ const PlacesFilter = ({ showModal = true }) => {
 									categories={placeCategories}
 								/>
 								<LocalisationFilterInput />
-
-								<ClearFilterButton />
+								<GeoLocalisationFilterInput />
 							</Stack>
 						</DialogContent>
+						<DialogActions>
+						<ClearFilterButton />
+						</DialogActions>
 					</Dialog>
 				</Box>
 			</Hidden>
@@ -101,13 +107,14 @@ const PlacesFilter = ({ showModal = true }) => {
 			gap={2}
 			flexWrap="wrap"
 		>
+			<ClearFilterButton />
 			<SearchFilterInput />
 			<CategoriesFilterInput categories={placeCategories} />
 			<Box width={250} maxWidth="100%">
 				<LocalisationFilterInput />
 			</Box>
 			<Box mt={1.5}>
-				<ClearFilterButton />
+				<GeoLocalisationFilterInput />
 			</Box>
 		</Stack>
 	);

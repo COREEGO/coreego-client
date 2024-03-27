@@ -3,7 +3,7 @@ import { useFilterContext } from '../../../contexts/FilterProvider'
 import SearchFilterInput from './inputs/SearchFilterInput'
 import OrderByDateFilterInput from './inputs/OrderByDateFilterInput'
 import { Box, Stack } from '@mui/material'
-import ClearFilterButton from '../../../components/buttons/ClearFilterButton'
+import ClearFilterButton from './inputs/ClearFilterButton'
 
 const CommentsFilter = ({ showModal = true }) => {
   const [isOpenFilterModal, setIsOpenFilterModal] =
@@ -17,11 +17,9 @@ const CommentsFilter = ({ showModal = true }) => {
         gap={2}
         flexWrap='wrap'
 			>
+        <ClearFilterButton />
         <SearchFilterInput />
         <OrderByDateFilterInput />
-        <Box mt={1.5}>
-          <ClearFilterButton />
-        </Box>
       </Stack>
     </React.Fragment>
   )

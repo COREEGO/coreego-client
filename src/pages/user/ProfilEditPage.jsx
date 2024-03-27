@@ -89,7 +89,11 @@ const ProfilEditPage = () => {
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		resolver: vestResolver(validationProfil)
+		resolver: vestResolver(validationProfil),
+		defaultValues:{
+			city_id: profil?.city?.id || '',
+			district_id: profil?.district?.id || '',
+		}
 	});
 
 	const handleUpdateAvatar = async () => {
@@ -260,22 +264,28 @@ const ProfilEditPage = () => {
 									}
 								}}
 							/>
-							<Controller
-								control={control}
-								name="district_id"
-								render={() => (
-									<CityDistrictSelectInput
-										labelCity="Ville de résidance"
-										labelDistrict="District de résidance"
-										emptyOption="-------"
-										cityValue={auth?.city?.id || ""}
-										districtValue={auth?.district?.id || ""}
-										updateCity={(e) => setValue("city_id", e)}
-										updateDistrict={(e) => setValue("district_id", e)}
-										showMap={true}
-									/>
-								)}
-							/>
+							<Box>
+								<Controller
+									control={control}
+									name="district_id"
+									render={() => (
+										<CityDistrictSelectInput
+											labelCity="Ville de résidance"
+											labelDistrict="District de résidance"
+											emptyOption="-------"
+											cityValue={profil?.city?.id || watch("city_id")}
+											districtValue={
+												profil?.district?.id || watch("district_id")
+											}
+											updateCity={(e) => setValue("city_id", e)}
+											updateDistrict={(e) =>
+												setValue("district_id", e)
+											}
+											showMap={true}
+										/>
+									)}
+								/>
+							</Box>
 							<Stack direction="row" alignItems="center">
 								<LANGUAGE_ICON sx={{ color: "grey", mr: 1 }} />
 								<Autocomplete

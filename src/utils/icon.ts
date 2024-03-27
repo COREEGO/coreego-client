@@ -60,11 +60,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import CheckIcon from '@mui/icons-material/Check';
 import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import ExploreOffOutlinedIcon from '@mui/icons-material/ExploreOffOutlined';
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 
 export const PASSWORD_ICON = HttpsOutlinedIcon
 export const EDITNOTE_ICON = EditNoteIcon
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
+
+export const GEOLOCALISATION_ICON = ExploreOffOutlinedIcon
 
 export const CHECK_ICON = CheckIcon
 
@@ -139,4 +143,5 @@ export const MORE_OPTIONS_ICON = MoreVertIcon
 export const MORE_OPTIONS_HORIZONTAL_ICON = MoreHorizIcon
 
 export const FILTER_ICON = TuneIcon
+export const FILTER_OFF_ICON = FilterAltOffIcon
 export const EDIT_ICON = EditIcon

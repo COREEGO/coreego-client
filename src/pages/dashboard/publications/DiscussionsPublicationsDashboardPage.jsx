@@ -14,7 +14,7 @@ import TitleSectionText from "../../../components/texts/TitleSectionText";
 import React from "react";
 import LoadingPage from "../../../components/LoadingPage";
 import axios from "axios";
-import { AVATAR_PATH } from "../../../utils/variables";
+import { AVATAR_PATH, UNKNOWN_USER } from "../../../utils/variables";
 import PaginationData from "../../../components/PaginationData";
 import CategoryText from "../../../components/texts/CategoryText";
 import { useLocation } from "react-router";
@@ -77,10 +77,10 @@ const DiscussionsPublicationsDashboardPage = () => {
 												<Avatar
 													sx={{ width: 40, height: 40 }}
 													src={
-														AVATAR_PATH + discussion.user.avatar
+														AVATAR_PATH + discussion?.user?.avatar
 													}
 												/>
-												<Typography fontWeight="bold">{discussion.user.pseudo}</Typography>
+												<Typography fontWeight="bold">{discussion?.user?.pseudo || UNKNOWN_USER}</Typography>
 											</Stack>
 										</TableCell>
 										<TableCell component="th" scope="row">

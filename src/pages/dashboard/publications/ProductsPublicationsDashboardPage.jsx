@@ -14,7 +14,7 @@ import TitleSectionText from "../../../components/texts/TitleSectionText";
 import React, { useMemo } from "react";
 import LoadingPage from "../../../components/LoadingPage";
 import axios from "axios";
-import { AVATAR_PATH } from "../../../utils/variables";
+import { AVATAR_PATH, UNKNOWN_USER } from "../../../utils/variables";
 import PaginationData from "../../../components/PaginationData";
 import { useLocation } from "react-router";
 import { MARKER_ICON } from "../../../utils/icon";
@@ -75,11 +75,11 @@ const ProductsPublicationsDashboardPage = () => {
 											>
 												<Avatar
 													sx={{ width: 40, height: 40 }}
-													src={AVATAR_PATH + product.user.avatar}
+													src={AVATAR_PATH + product?.user?.avatar}
 												/>
 												<Stack>
 													<Typography fontWeight="bold">
-														{product.user.pseudo}
+														{product?.user?.pseudo || UNKNOWN_USER}
 													</Typography>
 													<Typography>
 														{product.user.email}

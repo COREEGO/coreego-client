@@ -366,8 +366,8 @@ const PlaceForm = ({
 									<CityDistrictSelectInput
 										labelCity="Dans quelle ville ?"
 										labelDistrict="Dans quel district ?"
-										cityValue={place?.city?.id || getValues().city_id}
-										districtValue={place?.district?.id || getValues().district_id}
+										cityValue={place?.city?.id || watch("city_id")}
+										districtValue={place?.district?.id || watch("district_id")}
 										updateCity={(e) => setValue("city_id", e)}
 										updateDistrict={(e) => setValue("district_id", e)}
 										showMap={true}

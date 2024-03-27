@@ -5,6 +5,7 @@ import {
 	CardContent,
 	CardHeader,
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogTitle,
 	FormGroup,
@@ -25,7 +26,7 @@ import DoubleSliderInput from "../../../components/inputs/DoubleSliderInput";
 import SearchFilterInput from "./inputs/SearchFilterInput";
 import LocalisationFilterInput from "./inputs/LocalisationFilterInput";
 import PriceFilterInput from "./inputs/PriceFilterInput";
-import ClearFilterButton from "../../../components/buttons/ClearFilterButton";
+import ClearFilterButton from "./inputs/ClearFilterButton";
 
 const ProductsFilter = ({ showModal = true, data }) => {
 	const [isOpenFilterModal, setIsOpenFilterModal] =
@@ -40,6 +41,7 @@ const ProductsFilter = ({ showModal = true, data }) => {
 					gap={2}
 					flexWrap="wrap"
 				>
+					<ClearFilterButton />
 					<SearchFilterInput />
 					<Box width={250} maxWidth="100%">
 						<LocalisationFilterInput />
@@ -47,16 +49,10 @@ const ProductsFilter = ({ showModal = true, data }) => {
 					{data && (
 						<Box width={400} maxWidth="100%">
 							<PriceFilterInput
-								rangeValue={[
-									data?.min_price,
-									data?.max_price
-								]}
+								rangeValue={[data?.min_price, data?.max_price]}
 							/>
 						</Box>
 					)}
-					<Box mt={1.5}>
-						<ClearFilterButton />
-					</Box>
 				</Stack>
 			</Hidden>
 			<Hidden smUp>
@@ -93,14 +89,13 @@ const ProductsFilter = ({ showModal = true, data }) => {
 								<SearchFilterInput fullWidth />
 								<LocalisationFilterInput />
 								<PriceFilterInput
-									rangeValue={[
-										data?.min_price,
-										data?.max_price
-									]}
+									rangeValue={[data?.min_price, data?.max_price]}
 								/>
-								<ClearFilterButton />
 							</Stack>
 						</DialogContent>
+						<DialogActions>
+							<ClearFilterButton />
+						</DialogActions>
 					</Dialog>
 				</Box>
 			</Hidden>
@@ -112,6 +107,7 @@ const ProductsFilter = ({ showModal = true, data }) => {
 			gap={2}
 			flexWrap="wrap"
 		>
+			<ClearFilterButton />
 			<SearchFilterInput />
 			<Box width={250} maxWidth="100%">
 				<LocalisationFilterInput />
@@ -120,16 +116,10 @@ const ProductsFilter = ({ showModal = true, data }) => {
 				{data && (
 					<Box width={400} maxWidth="100%">
 						<PriceFilterInput
-							rangeValue={[
-								data?.min_price,
-								data?.max_price
-							]}
+							rangeValue={[data?.min_price, data?.max_price]}
 						/>
 					</Box>
 				)}
-			</Box>
-			<Box mt={1.5}>
-				<ClearFilterButton />
 			</Box>
 		</Stack>
 	);

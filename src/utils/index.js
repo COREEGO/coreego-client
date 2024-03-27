@@ -173,3 +173,28 @@ export const discussionStep =  [
 export const hasNotificationNotReaded = (notifications) => {
   return notifications?.some(notification => !notification.read_at)
 }
+
+export const getMyGeoLocalisation = () => {
+  return new Promise((resolve, reject) => {
+    if ("geolocation" in navigator) {
+      // La géolocalisation est disponible
+      navigator.geolocation.getCurrentPosition(
+        function(position) {
+          // Récupérer les coordonnées de latitude et longitude
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          resolve({ latitude, longitude });
+        },
+        function(error) {
+          // En cas d'erreur
+          console.error("Erreur de géolocalisation :", error);
+          reject(error);
+        }
+      );
+    } else {
+      // La géolocalisation n'est pas disponible
+      console.log("La géolocalisation n'est pas disponible sur cet appareil.");
+      reject(new Error("La géolocalisation n'est pas disponible sur cet appareil."));
+    }
+  });
+};

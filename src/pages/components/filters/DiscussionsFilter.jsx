@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogTitle,
 	Hidden,
@@ -13,7 +14,7 @@ import React from "react";
 import { CLOSE_ICON, FILTER_ICON } from "../../../utils/icon";
 import SearchFilterInput from "./inputs/SearchFilterInput";
 import CategoriesFilterInput from "./inputs/CategoriesFilterInput";
-import ClearFilterButton from "../../../components/buttons/ClearFilterButton";
+import ClearFilterButton from "./inputs/ClearFilterButton";
 
 const DiscussionsFilter = ({ showModal = true }) => {
 	const { discussionCategories } = useSelector((state) => state.app);
@@ -29,11 +30,9 @@ const DiscussionsFilter = ({ showModal = true }) => {
 					gap={2}
 					flexWrap="wrap"
 				>
+					<ClearFilterButton />
 					<SearchFilterInput />
 					<CategoriesFilterInput categories={discussionCategories} />
-					<Box mt={1.5}>
-						<ClearFilterButton />
-					</Box>
 				</Stack>
 			</Hidden>
 
@@ -49,6 +48,7 @@ const DiscussionsFilter = ({ showModal = true }) => {
 						Filtres
 					</Button>
 					<Dialog
+						fullWidth
 						onClose={() => setIsOpenFilterModal(false)}
 						open={isOpenFilterModal}
 					>
@@ -73,10 +73,11 @@ const DiscussionsFilter = ({ showModal = true }) => {
 									fullWidth
 									categories={discussionCategories}
 								/>
-
-								<ClearFilterButton />
 							</Stack>
 						</DialogContent>
+						<DialogActions>
+							<ClearFilterButton />
+						</DialogActions>
 					</Dialog>
 				</Box>
 			</Hidden>
@@ -88,11 +89,9 @@ const DiscussionsFilter = ({ showModal = true }) => {
 			gap={2}
 			flexWrap="wrap"
 		>
+			<ClearFilterButton />
 			<SearchFilterInput />
 			<CategoriesFilterInput categories={discussionCategories} />
-			<Box mt={1.5}>
-				<ClearFilterButton />
-			</Box>
 		</Stack>
 	);
 };

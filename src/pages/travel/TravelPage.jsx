@@ -30,9 +30,11 @@ import SearchInput from "../../components/inputs/SearchInput";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import PlacesFilter from "../components/filters/PlacesFilter";
+import TitleSectionText from "../../components/texts/TitleSectionText";
 
 const TravelPage = () => {
 	const location = useLocation();
+	const { searchParams } = useFilterContext();
 
 	const {
 		data: places,
@@ -61,31 +63,37 @@ const TravelPage = () => {
 				imageDirection="end"
 			/>
 
-
 			<PlacesFilter />
-
 
 			{isLoading ? (
 				<LoadingPage type="data" />
 			) : (
 				<Box my={5}>
-						{places.data.length ? (
-							<Grid container spacing={2}>
-								{places.data.map((place) => {
-									return (
-										<Grid key={place.id} item xs={12} sm={6} md={4}>
-											<NavLink to={`/voyage/place/${place.slug}`}>
-												<PlaceCard place={place} />
-											</NavLink>
-										</Grid>
-									);
-								})}
-							</Grid>
-						) : (
-							<Typography textAlign="center">
-								Aucun lieu trouvé
-							</Typography>
+					{searchParams.get("longitude") &&
+						searchParams.get("latitude") && (
+							<TitleSectionText
+								mb={3}
+								startText="Lieux autour"
+								endText="de moi"
+							/>
 						)}
+					{places.data.length ? (
+						<Grid container spacing={2}>
+							{places.data.map((place) => {
+								return (
+									<Grid key={place.id} item xs={12} sm={6} md={4}>
+										<NavLink to={`/voyage/place/${place.slug}`}>
+											<PlaceCard place={place} />
+										</NavLink>
+									</Grid>
+								);
+							})}
+						</Grid>
+					) : (
+						<Typography textAlign="center">
+							Aucun lieu trouvé
+						</Typography>
+					)}
 				</Box>
 			)}
 			<Box sx={{ display: "flex", justifyContent: "center", mb: 5 }}>

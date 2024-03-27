@@ -17,7 +17,8 @@ import React from "react";
 import axios from "axios";
 import {
 	AVATAR_PATH,
-	BEARER_HEADERS
+	BEARER_HEADERS,
+	UNKNOWN_USER
 } from "../../../utils/variables";
 import CommentCard from "../../../components/card/CommentCard";
 import LoadingPage from "../../../components/LoadingPage";
@@ -100,10 +101,10 @@ const CommentsPublicationsDashboard = () => {
 											>
 												<Avatar
 													sx={{ width: 40, height: 40 }}
-													src={AVATAR_PATH + comment.user.avatar}
+													src={AVATAR_PATH + comment?.user?.avatar}
 												/>
 												<Typography fontWeight="bold">
-													{comment.user.pseudo}
+													{comment?.user?.pseudo || UNKNOWN_USER}
 												</Typography>
 											</Stack>
 										</TableCell>

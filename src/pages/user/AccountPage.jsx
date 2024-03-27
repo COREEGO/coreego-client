@@ -1,6 +1,7 @@
 import {
 	Avatar,
 	Box,
+	Button,
 	Card,
 	CardActionArea,
 	CardContent,
@@ -29,7 +30,7 @@ import {
 } from "../../utils/icon";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { useAuthContext } from "../../contexts/AuthProvider";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import React from "react";
 import moment from "moment";
@@ -43,6 +44,7 @@ import { vestResolver } from "@hookform/resolvers/vest";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useConfirm } from "material-ui-confirm";
 
 const CardPseudo = () => {
 	const [open, setOpen] = React.useState(false);
@@ -57,6 +59,8 @@ const CardPseudo = () => {
 	} = useForm({
 		resolver: vestResolver(validationUpdatePseudo)
 	});
+
+
 
 	const onSubmit = async (data) => {
 		try {
@@ -249,7 +253,37 @@ const CardPassword = () => {
 };
 
 const AccountPage = () => {
-	const { user } = useAuthContext();
+	const { user, setUser } = useAuthContext();
+
+	const confirm = useConfirm();
+	const navigate = useNavigate();
+
+	const [isBusy, setIsBusy] = React.useState(false)
+
+	const onDeleteAccount = () => {
+		confirm({
+			title: "Supprimer votre compte ?",
+			description: `Attention cette action est ireversible.
+		Si vous supprimé votre compte vos publications aunsi que vos commentaires resterons présent sur le site.
+		`
+		})
+			.then(async () => {
+				setIsBusy(true)
+				const response = await axios.delete(
+					`/users/${user.id}`,
+					BEARER_HEADERS
+				);
+				toast.success(response?.data?.message);
+				localStorage.removeItem("token");
+				setUser(null);
+				navigate("/login");
+			})
+			.catch((error) => {
+
+			}).finally(() => {
+				setIsBusy(false)
+			})
+	};
 
 	return (
 		<Container>
@@ -350,6 +384,22 @@ const AccountPage = () => {
 						</Grid>
 					</Grid>
 				</Box>
+				<Stack
+					mt={10}
+					justifyContent="center"
+					alignItems="center"
+					width="100%"
+				>
+					<Typography>Je souhaite supprimer mon compte</Typography>
+					<LoadingButton
+						loading={isBusy}
+						onClick={onDeleteAccount}
+						size="small"
+						color="error"
+					>
+						supprimer mon compte
+					</LoadingButton>
+				</Stack>
 			</Stack>
 		</Container>
 	);

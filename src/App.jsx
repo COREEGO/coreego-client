@@ -15,7 +15,7 @@ import {
 	CssBaseline,
 	ThemeProvider,
 	createTheme,
-  responsiveFontSizes
+	responsiveFontSizes
 } from '@mui/material'
 
 let theme = createTheme({
@@ -24,24 +24,6 @@ let theme = createTheme({
 			'Open Sans, Roboto, Lato, Source Sans Pro, Montserrat, sans-serif'
   },
   components: {
-    MuiButton: {
-      styleOverrides: {
-        containedPrimary: {
-          backgroundColor: 'var(--coreego-blue)'
-        },
-        outlinedPrimary: {
-          borderColor: 'var(--coreego-blue)',
-          color: 'var(--coreego-blue)'
-        },
-        containedError: {
-          backgroundColor: 'var(--coreego-red)'
-        },
-        outlinedError: {
-          borderColor: 'var(--coreego-red)',
-          color: 'var(--coreego-red)'
-        }
-      }
-    },
     MuiInputAdornment: {
       styleOverrides: {
         root: {
@@ -71,9 +53,17 @@ let theme = createTheme({
       })
     }
   },
+  palette: {
+    primary: {
+      main: '#005998',
+    },
+    error: {
+      main: '#ce293b'
+    }
+  },
 })
 
-theme = responsiveFontSizes(theme);
+theme = responsiveFontSizes(theme)
 
 function App () {
   return (
@@ -96,9 +86,10 @@ function App () {
           <ConfirmProvider
             defaultOptions={{
               title: 'Confirmation',
-              cancellationText: 'Non',
-              confirmationText: 'Oui',
-              confirmationButtonProps: { autoFocus: true }
+              cancellationText: 'Annuler',
+              confirmationText: 'Valider',
+              cancellationButtonProps: {variant: 'contained', color: 'error'},
+              confirmationButtonProps: { variant: 'contained' }
             }}
 					>
             <FilterProvider>

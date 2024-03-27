@@ -7,18 +7,19 @@ import {
 import { ADD_ICON, MOIN_ICON } from "../../utils/icon";
 import React, { useEffect } from "react";
 
-const InputTextArray = ({value, onchange}) => {
+const InputTextArray = ({ value, onchange }) => {
 	const [inputs, setInputs] = React.useState(() => {
-        if(Array.isArray(value)){
-            return value
-        }else{
-            return JSON.parse(value)
-        }
-    }); // State pour stocker les valeurs des champs d'entrée
+		if (Array.isArray(value)) {
+			return value;
+		} else {
+			return JSON.parse(value);
+		}
+	}); // State pour stocker les valeurs des champs d'entrée
 
-    useEffect(()=>{
-        onchange(inputs)
-    }, [inputs])
+	useEffect(() => {
+		onchange(inputs);
+	}, [inputs]);
+
 
 	// Fonction pour ajouter un nouveau champ d'entrée
 
@@ -29,11 +30,18 @@ const InputTextArray = ({value, onchange}) => {
 		setInputs(newInputs);
 	};
 
-    const removeInput = (index) => {
-        const newInputs = [...inputs];
-        newInputs.splice(index, 1);
-        setInputs(newInputs);
-      };
+	const removeInput = (index) => {
+		const newInputs = [...inputs];
+		newInputs.splice(index, 1);
+		setInputs(newInputs);
+	};
+
+	const handleKeyDown = (event, index) => {
+		if (event.key === "Enter") {
+			event.preventDefault();
+			setInputs([...inputs, ""]);
+		}
+	};
 
 	return (
 		<Box>
@@ -42,6 +50,7 @@ const InputTextArray = ({value, onchange}) => {
 					type="text"
 					key={index}
 					value={input}
+					onKeyDown={(event) => handleKeyDown(event, index)}
 					onChange={(event) => handleInputChange(index, event)}
 					fullWidth
 					label={`Argument ${index + 1}`}

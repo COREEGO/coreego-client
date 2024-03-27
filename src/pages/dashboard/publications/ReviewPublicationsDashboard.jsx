@@ -14,7 +14,7 @@ import {
 import TitleSectionText from "../../../components/texts/TitleSectionText";
 import React from "react";
 import axios from "axios";
-import { AVATAR_PATH, BEARER_HEADERS } from "../../../utils/variables";
+import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../../utils/variables";
 import LoadingPage from "../../../components/LoadingPage";
 import PaginationData from "../../../components/PaginationData";
 import moment from "moment";
@@ -92,10 +92,10 @@ const ReviewPublicationsDashboard = () => {
 											>
 												<Avatar
 													sx={{ width: 40, height: 40 }}
-													src={AVATAR_PATH + review.user.avatar}
+													src={AVATAR_PATH + review?.user?.avatar}
 												/>
 												<Typography fontWeight="bold">
-													{review.user.pseudo}
+													{review?.user?.pseudo || UNKNOWN_USER}
 												</Typography>
 											</Stack>
 										</TableCell>

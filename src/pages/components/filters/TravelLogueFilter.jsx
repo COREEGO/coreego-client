@@ -2,6 +2,7 @@ import {
 	Box,
 	Button,
 	Dialog,
+	DialogActions,
 	DialogContent,
 	DialogTitle,
 	Hidden,
@@ -20,7 +21,7 @@ import SearchFilterInput from "./inputs/SearchFilterInput";
 import CategoriesFilterInput from "./inputs/CategoriesFilterInput";
 import LocalisationFilterInput from "./inputs/LocalisationFilterInput";
 import CitiesFilterInput from "./inputs/CitiesFilterInput";
-import ClearFilterButton from "../../../components/buttons/ClearFilterButton";
+import ClearFilterButton from "./inputs/ClearFilterButton";
 
 const TravelLogueFilter = ({ showModal = true }) => {
 	const { placeCategories } = useSelector((state) => state.app);
@@ -39,17 +40,16 @@ const TravelLogueFilter = ({ showModal = true }) => {
 					gap={2}
 					flexWrap="wrap"
 				>
+					<ClearFilterButton />
 					<SearchFilterInput />
 					<CategoriesFilterInput categories={placeCategories} />
 					<CitiesFilterInput />
-					<Box mt={1.5}>
-						<ClearFilterButton />
-					</Box>
 				</Stack>
 			</Hidden>
 			<Hidden smUp>
 				<Box>
 					<Button
+						size="large"
 						fullWidth
 						onClick={() => setIsOpenFilterModal(true)}
 						variant="outlined"
@@ -58,6 +58,7 @@ const TravelLogueFilter = ({ showModal = true }) => {
 						Filtres
 					</Button>
 					<Dialog
+						fullWidth
 						onClose={() => setIsOpenFilterModal(false)}
 						open={isOpenFilterModal}
 					>
@@ -83,11 +84,11 @@ const TravelLogueFilter = ({ showModal = true }) => {
 									categories={placeCategories}
 								/>
 								<CitiesFilterInput fullWidth />
-								<Box mt={1.5}>
-									<ClearFilterButton />
-								</Box>
 							</Stack>
 						</DialogContent>
+						<DialogActions>
+							<ClearFilterButton />
+						</DialogActions>
 					</Dialog>
 				</Box>
 			</Hidden>
@@ -99,12 +100,10 @@ const TravelLogueFilter = ({ showModal = true }) => {
 			gap={2}
 			flexWrap="wrap"
 		>
+			<ClearFilterButton />
 			<SearchFilterInput />
 			<CategoriesFilterInput categories={placeCategories} />
 			<CitiesFilterInput />
-			<Box mt={1.5}>
-				<ClearFilterButton />
-			</Box>
 		</Stack>
 	);
 };

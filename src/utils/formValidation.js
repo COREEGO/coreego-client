@@ -72,6 +72,17 @@ export const validationChangePassword = create((data = {}) => {
 
 })
 
+export const validationReview = create((data = {}) => {
+  test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
+  test('stars', IS_REQUIRED_MESSAGE, () => {enforce(data.stars).isNotEmpty()});
+  test('stars', minNumber(1), () => {enforce(data.stars).longerThan(0)});
+})
+
+export const validationComment = create((data = {}) => {
+  test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
+})
+
+
 export const validationDiscussion = create((data = {}) => {
   test('title', IS_REQUIRED_MESSAGE, () => {enforce(data.title).isNotEmpty()});
   test('title', maxLength(100), () => {enforce(data.title).shorterThanOrEquals(100)});

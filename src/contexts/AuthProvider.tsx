@@ -22,8 +22,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             const response: any = await axios.get('/me', BEARER_HEADERS)
             setUser(response.data)
         } catch (error: any) {
-            toast.error(error.message)
-            console.error(error.message);
+           //
         }
     };
 

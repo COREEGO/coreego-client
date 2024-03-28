@@ -54,9 +54,9 @@ const RegisterPage = () => {
 	return (
 		<Container>
 			<Stack justifyContent="center" alignItems="center">
-				<Stack spacing={5} mt={5} width={700} maxWidth="100%">
+				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
-						variant="h5"
+						component="h1"
 						alignSelf="center"
 						startText="Je crée"
 						endText="mon compte"

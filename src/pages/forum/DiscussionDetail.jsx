@@ -103,7 +103,7 @@ const DiscussionDetail = () => {
 					</Typography>
 					{belongsToAuth(discussion?.user?.id, user?.id) ? (
 						<OptionPublicationButton
-							editLink={`/forum/discussion/edit/${discussion.slug}`}
+							editLink={`/forum/discussion/modification/${discussion.slug}`}
 							deleteUrl={`/discussions/${discussion.id}`}
 							redirectionUrl={"/forum"}
 						/>

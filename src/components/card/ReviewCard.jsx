@@ -7,6 +7,7 @@ import {
 	CardContent,
 	CardHeader,
 	Dialog,
+	DialogActions,
 	DialogContent,
 	FormControl,
 	FormHelperText,
@@ -26,16 +27,23 @@ import React, { useState } from "react";
 import { MORE_OPTIONS_ICON } from "../../utils/icon";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
+	errorField,
 	minNumber,
-	noEmptyValidator
+	noEmptyValidator,
+	validationReview
 } from "../../utils/formValidation";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
-import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../utils/variables";
+import {
+	AVATAR_PATH,
+	BEARER_HEADERS,
+	UNKNOWN_USER
+} from "../../utils/variables";
 import { belongsToAuth, dateParse } from "../../utils";
 import ReportModule from "../../pages/components/modules/ReportModule";
+import { vestResolver } from "@hookform/resolvers/vest";
 
 const ReviewCard = ({ review, mutate }) => {
 	const { user } = useAuthContext();
@@ -51,7 +59,7 @@ const ReviewCard = ({ review, mutate }) => {
 		reset,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onTouched",
+		resolver: vestResolver(validationReview),
 		defaultValues: {
 			content: review?.content,
 			stars: review?.stars
@@ -95,7 +103,7 @@ const ReviewCard = ({ review, mutate }) => {
 		<>
 			<Card id={"review-" + review.id}>
 				<CardHeader
-					sx={{pb: 0}}
+					sx={{ pb: 0 }}
 					avatar={<Avatar src={AVATAR_PATH + review?.user?.avatar} />}
 					title={
 						<Typography component="div" fontWeight="bold">
@@ -118,7 +126,7 @@ const ReviewCard = ({ review, mutate }) => {
 										>
 											<MORE_OPTIONS_ICON />
 										</IconButton>
-										<Menu {...bindMenu(popupState)}>
+										<Menu {...bindMenu(popupState)} onClick={() => popupState.close()}>
 											<MenuItem
 												key="modifier"
 												onClick={() => setIsOpen(true)}
@@ -153,59 +161,63 @@ const ReviewCard = ({ review, mutate }) => {
 					</Stack>
 				</CardContent>
 			</Card>
-			<Dialog open={isOpen}>
+			<Dialog
+				fullWidth
+				open={isOpen}
+				PaperProps={{
+					component: "form",
+					onSubmit: handleSubmit(onSubmit)
+				}}
+			>
 				<DialogContent>
-					<Stack
-						sx={{ width: 500, maxWidth: "100%" }}
-						component="form"
-						onSubmit={handleSubmit(onSubmit)}
-					>
-						<FormControl sx={{ mb: 1 }}>
-							<Controller
-								control={control}
-								name="stars"
-								render={({ field: { onChange, value } }) => (
-									<Rating
-										onChange={onChange}
-										value={Number(value)}
-										sx={{ width: "fit-content" }}
-										name="size-large"
-										size="large"
-									/>
+					<Controller
+						control={control}
+						name="stars"
+						render={({ field: { onChange, value } }) => (
+							<>
+								<Rating
+									onChange={onChange}
+									value={Number(value)}
+									sx={{ width: "fit-content" }}
+									name="size-large"
+									size="large"
+								/>
+								{errors.stars && (
+									<FormHelperText>
+										{errors.stars.message}
+									</FormHelperText>
 								)}
-							/>
-							{errors.stars && (
-								<FormHelperText>
-									{errors.stars.message}
-								</FormHelperText>
-							)}
-						</FormControl>
-						<FormControl fullWidth variant="standard">
-							<TextField
-								{...register("content", { ...noEmptyValidator })}
-								error={errors.content ? true : false}
-								autoFocus
-								placeholder="Ecrivez votre commentaire..."
-								required
-								multiline
-								rows={10}
-							/>
-							{errors.content && (
-								<FormHelperText id="component-error-text">
-									{errors.content.message}
-								</FormHelperText>
-							)}
-						</FormControl>
-						<Stack direction="row" sx={{ mt: 3 }}>
-							<LoadingButton loading={isSubmitting} type="submit">
-								Envoyer
-							</LoadingButton>
-							<Button onClick={() => setIsOpen(false)}>
-								Annuler
-							</Button>
-						</Stack>
-					</Stack>
+							</>
+						)}
+					/>
+					<TextField
+						{...register("content")}
+						{...errorField(errors?.content)}
+						margin="normal"
+						fullWidth
+						autoFocus
+						placeholder="Ecrivez votre commentaire..."
+						required
+						multiline
+						rows={10}
+					/>
 				</DialogContent>
+				<DialogActions>
+					<LoadingButton
+						variant="contained"
+						loading={isSubmitting}
+						type="submit"
+					>
+						Envoyer
+					</LoadingButton>
+					<Button
+						variant="contained"
+						color="error"
+						onClick={() => setIsOpen(false)}
+					>
+						Annuler
+					</Button>
+				</DialogActions>
 			</Dialog>
 		</>
 	);

@@ -109,7 +109,7 @@ const ProductsPublicationsDashboardPage = () => {
 										</TableCell>
 										<TableCell component="th" scope="row">
 											<OptionPublicationButton
-												editLink={`/market-place/product/edit/${product.slug}`}
+												editLink={`/market-place/produit/modification/${product.slug}`}
 												deleteUrl={`/products/${product.id}`}
 												mutate={loadProducts}
 											/>

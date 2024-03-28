@@ -9,11 +9,11 @@ import {
 	initLanguages
 } from "../../store/reducers/app.reducer";
 import Navigation from "../../components/navigation/Navigation";
-import { apiFetch } from "../../http-common/apiFetch";
 import axios from "axios";
 import { TOKEN } from "../../utils/variables";
 import DashboardLayout from "./DashboardLayout";
 import { useLocation } from "react-router";
+import Footer from "../Footer";
 
 const Layout = ({ children }) => {
 	const [isLoaded, setIsLoaded] = useState(false);
@@ -25,6 +25,10 @@ const Layout = ({ children }) => {
 	useEffect(() => {
 		onLoadedApplication();
 	}, []);
+
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [location.pathname]);
 
 	const onLoadedApplication = async () => {
 		try {
@@ -57,6 +61,7 @@ const Layout = ({ children }) => {
 				<>
 					<Navigation />
 					{children}
+					<Footer  />
 				</>
 			)}
 		</>

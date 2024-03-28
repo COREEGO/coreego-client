@@ -8,6 +8,7 @@ import LoadingButton, {
 } from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../utils/variables";
+import { useNavigate } from "react-router";
 
 const LikeButton = ({
 	likes,
@@ -18,7 +19,7 @@ const LikeButton = ({
 }) => {
 	const [isBusy, setIsBusy] = useState(false);
 	const { user } = useAuthContext();
-
+	const navigate = useNavigate()
 	const existLike = useMemo(() => {
 		return likes.find((like) => like?.user?.id === user.id)
 			? true
@@ -26,6 +27,10 @@ const LikeButton = ({
 	}, [likes, discussionId, placeId]);
 
 	const handleLike = async () => {
+		if(!user){
+			navigate('/login')
+			return
+		}
 		try {
 			setIsBusy(true);
 			const response = await axios.post(
@@ -40,6 +45,7 @@ const LikeButton = ({
 			mutate();
 
 		} catch (error) {
+			toast.error(error?.response?.data?.message);
 			toast.error(error?.data?.message);
 		} finally {
 			setIsBusy(false);

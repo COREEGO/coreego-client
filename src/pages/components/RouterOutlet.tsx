@@ -4,7 +4,6 @@ import ForumPage from "../forum/ForumPage";
 import LoginPage from "../authentification/LoginPage";
 import MarketPlacePage from "../marketplace/MarketPlacePage";
 import PrivateRoute from "./PrivateRoute";
-import TravelPage from "../travel/TravelPage";
 import DiscussionDetail from "../forum/DiscussionDetail";
 import RegisterPage from "../authentification/RegisterPage";
 import ProductDetail from "../marketplace/ProductDetailPage";
@@ -13,7 +12,6 @@ import DiscussionCreatePage from "../forum/DiscussionCreatePage";
 import ProductCreatePage from "../marketplace/ProductCreatePage";
 import PlaceCreatePage from "../travel/PlaceCreatePage";
 import ProfilPage from '../user/ProfilPage'
-import TraveloguePage from "../user/TraveloguePage";
 import DiscussionEditPage from "../forum/DiscussionEditPage";
 import ProductEditPage from "../marketplace/ProductEditPage";
 import PlaceEditPage from "../travel/PlaceEditPage";
@@ -31,6 +29,8 @@ import ReportDashboard from "../dashboard/ReportDashboard";
 import NotificationPage from "../user/NotificationPage";
 import AccountPage from "../user/AccountPage";
 import UserLikes from "../user/UserLikesPage";
+import ExplorePage from "../travel/ExplorePage";
+import TravelLoguePage from "../user/TravelLoguePage";
 
 
 export default function RouterOutlet() {
@@ -38,53 +38,54 @@ export default function RouterOutlet() {
     return (
 
         <Routes>
-            <Route element={<PrivateRoute />} >
-                <Route path="/" element={<HomePage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/forum" element={<ForumPage />} />
+            <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
+            <Route path="/market-place" element={<MarketPlacePage />} />
 
-                <Route path="/user/profil/edit" element={<ProfilEditPage />} />
-                <Route path="/mes-notifications" element={<NotificationPage />} />
-                <Route path="/mon-compte" element={<AccountPage />} />
-                <Route path="/mes-likes" element={<UserLikes />} />
+            {/* change */}
+            <Route path="/market-place/produit/:slug" element={<ProductDetail />} />
+            <Route path="/explorer" element={<ExplorePage />} />
+            <Route path="/explorer/lieu/:slug" element={<PlaceDetail />} />
 
-
-
-                <Route path="/forum" element={<ForumPage />} />
-                <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
-                <Route path="/forum/discussion/create" element={<DiscussionCreatePage />} />
-                <Route path="/forum/discussion/edit/:slug" element={<DiscussionEditPage />} />
-
-
-                <Route path="/market-place" element={<MarketPlacePage />} />
-                <Route path="/market-place/product/:slug" element={<ProductDetail />} />
-                <Route path="/market-place/product/create" element={<ProductCreatePage />} />
-                <Route path="/market-place/product/edit/:slug" element={<ProductEditPage />} />
-
-                <Route path="/voyage" element={<TravelPage />} />
-                <Route path="/voyage/place/:slug" element={<PlaceDetail />} />
-                <Route path="/voyage/place/create" element={<PlaceCreatePage />} />
-                <Route path="/voyage/place/edit/:slug" element={<PlaceEditPage />} />
-
-                <Route path="/user/profil/:slug" element={<ProfilPage />} />
-                <Route path="/user/carnet-de-voyage" element={<TraveloguePage />} />
-
-                <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
-                    <Route path="/dashboard/analitics" element={<AnaliticPage />} />
-                    <Route path="/dashboard/users" element={<UsersDashboardPage />} />
-                    <Route path="/dashboard/reports" element={<ReportDashboard />} />
-                    <Route path="/dashboard/publication/discussions" element={<DiscussionsPublicationsDashboardPage />} />
-                    <Route path="/dashboard/publication/products" element={<ProductsPublicationsDashboardPage />} />
-                    <Route path="/dashboard/publication/places" element={<PlacesPublicationsDashboardPage />} />
-                    <Route path="/dashboard/publication/comments" element={<CommentsPublicationsDashboard />} />
-                    <Route path="/dashboard/publication/reviews" element={<ReviewPublicationsDashboard />} />
-                </Route>
-
-            </Route>
 
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/password/forgot" element={<PasswordForgotPage />} />
-
             <Route path="/email/verify" element={<EmailVerifyPage />} />
+
+            <Route element={<PrivateRoute />} >
+                {/* change */}
+                <Route path="/user/profil/modification" element={<ProfilEditPage />} />
+
+                <Route path="/mes-notifications" element={<NotificationPage />} />
+                <Route path="/mon-compte" element={<AccountPage />} />
+                <Route path="/mes-likes" element={<UserLikes />} />
+                <Route path="/forum/discussion/creation" element={<DiscussionCreatePage />} />
+                <Route path="/forum/discussion/modification/:slug" element={<DiscussionEditPage />} />
+
+                <Route path="/market-place/produit/creation" element={<ProductCreatePage />} />
+                <Route path="/market-place/produit/modification/:slug" element={<ProductEditPage />} />
+
+                <Route path="/explorer/lieu/creation" element={<PlaceCreatePage />} />
+
+                <Route path="/explorer/lieu/modification/:slug" element={<PlaceEditPage />} />
+
+                <Route path="/user/profil/:slug" element={<ProfilPage />} />
+                <Route path="/mon-carnet-de-voyage" element={<TravelLoguePage />} />
+
+                <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
+                    <Route path="/dashboard/analyse-des-donnees" element={<AnaliticPage />} />
+                    <Route path="/dashboard/utilisateurs" element={<UsersDashboardPage />} />
+                    <Route path="/dashboard/signalements" element={<ReportDashboard />} />
+                    <Route path="/dashboard/publication/discussions" element={<DiscussionsPublicationsDashboardPage />} />
+                    <Route path="/dashboard/publication/produits" element={<ProductsPublicationsDashboardPage />} />
+                    <Route path="/dashboard/publication/lieux" element={<PlacesPublicationsDashboardPage />} />
+                    <Route path="/dashboard/publication/commentaires" element={<CommentsPublicationsDashboard />} />
+                    <Route path="/dashboard/publication/avis" element={<ReviewPublicationsDashboard />} />
+                </Route>
+
+            </Route>
 
         </Routes>
     )

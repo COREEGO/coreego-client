@@ -34,7 +34,7 @@ const ProductsFilter = ({ showModal = true, data }) => {
 
 	return showModal ? (
 		<>
-			<Hidden smDown>
+			<Hidden mdDown>
 				<Stack
 					direction="row"
 					alignItems="flex-start"
@@ -55,7 +55,7 @@ const ProductsFilter = ({ showModal = true, data }) => {
 					)}
 				</Stack>
 			</Hidden>
-			<Hidden smUp>
+			<Hidden mdUp>
 				<Box>
 					<Button
 						size="large"

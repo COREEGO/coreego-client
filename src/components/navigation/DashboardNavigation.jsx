@@ -19,7 +19,7 @@ import {
 	PUBLICATION_ICON,
 	REPORT_ICON,
 	STAR_ICON,
-	TRAVEL_ICON
+	EXPLORE_ICON
 } from '../../utils/icon'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import React from 'react'
@@ -65,7 +65,7 @@ const DashboardNavigation = () => {
 
         <ListItem disablePadding>
           <NavLink
-            to='/dashboard/analitics'
+            to='/dashboard/analyse-des-donnees'
             style={{ width: '100%' }}
 					>
             <ListItemButton>
@@ -81,7 +81,7 @@ const DashboardNavigation = () => {
         </ListItem>
 
         <ListItem disablePadding>
-          <NavLink to='/dashboard/users' style={{ width: '100%' }}>
+          <NavLink to='/dashboard/utilisateurs' style={{ width: '100%' }}>
             <ListItemButton>
               <ListItemIcon>
                 <PROFIL_ICON />
@@ -95,7 +95,7 @@ const DashboardNavigation = () => {
         </ListItem>
 
         <ListItem disablePadding>
-          <NavLink to='/dashboard/reports' style={{ width: '100%' }}>
+          <NavLink to='/dashboard/signalements' style={{ width: '100%' }}>
             <ListItemButton>
               <ListItemIcon>
                 <REPORT_ICON />
@@ -148,7 +148,7 @@ const DashboardNavigation = () => {
 
             <ListItem>
               <NavLink
-                to='/dashboard/publication/products'
+                to='/dashboard/publication/produits'
                 style={{ width: '100%' }}
 							>
                 <ListItemButton>
@@ -165,12 +165,12 @@ const DashboardNavigation = () => {
 
             <ListItem>
               <NavLink
-                to='/dashboard/publication/places'
+                to='/dashboard/publication/lieux'
                 style={{ width: '100%' }}
 							>
                 <ListItemButton>
                   <ListItemIcon>
-                  <TRAVEL_ICON />
+                  <EXPLORE_ICON />
                 </ListItemIcon>
                   <ListItemText
                   sx={{ display: { xs: 'none', sm: 'block' } }}
@@ -181,7 +181,7 @@ const DashboardNavigation = () => {
             </ListItem>
             <ListItem>
               <NavLink
-                to='/dashboard/publication/comments'
+                to='/dashboard/publication/commentaires'
                 style={{ width: '100%' }}
 							>
                 <ListItemButton>
@@ -197,7 +197,7 @@ const DashboardNavigation = () => {
             </ListItem>
             <ListItem>
               <NavLink
-                to='/dashboard/publication/reviews'
+                to='/dashboard/publication/avis'
                 style={{ width: '100%' }}
 							>
                 <ListItemButton>

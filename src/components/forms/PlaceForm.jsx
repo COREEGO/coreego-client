@@ -134,7 +134,7 @@ const PlaceForm = ({
 
 			toast.success(response.data.message);
 			clearFiles();
-			navigate(`/voyage/place/${response.data.data.slug}`);
+			navigate(`/explorer/lieu/${response.data.data.slug}`);
 		} catch (error) {
 			toast.error(error?.response?.data?.message);
 			getViolationField(error, setError);

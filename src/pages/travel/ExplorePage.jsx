@@ -31,8 +31,9 @@ import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import PlacesFilter from "../components/filters/PlacesFilter";
 import TitleSectionText from "../../components/texts/TitleSectionText";
+import { EXPLORE_DESCRIPTION } from "../../utils";
 
-const TravelPage = () => {
+const ExplorePage = () => {
 	const location = useLocation();
 	const { searchParams } = useFilterContext();
 
@@ -48,18 +49,12 @@ const TravelPage = () => {
 		<Container>
 			<HeroBannerFeed
 				theme="red"
-				titleFr="Voyage"
-				titleKr="여행"
-				description="
-				MACC Essentials has an important role in making
-				supplies and services available to customers and
-				their patients during this critical time. This
-				includes services from various domains. Our aim is
-				to aid you. As much we can.
-				"
+				titleFr="Explorer"
+				titleKr="탐구하기"
+				description={EXPLORE_DESCRIPTION}
 				imageLink={HEADER_IMG}
 				buttonLabel="Partager un lieu"
-				buttonLink="/voyage/place/create"
+				buttonLink="/explorer/lieu/creation"
 				imageDirection="end"
 			/>
 
@@ -82,7 +77,7 @@ const TravelPage = () => {
 							{places.data.map((place) => {
 								return (
 									<Grid key={place.id} item xs={12} sm={6} md={4}>
-										<NavLink to={`/voyage/place/${place.slug}`}>
+										<NavLink to={`/explorer/lieu/${place.slug}`}>
 											<PlaceCard place={place} />
 										</NavLink>
 									</Grid>
@@ -103,4 +98,4 @@ const TravelPage = () => {
 	);
 };
 
-export default TravelPage;
+export default ExplorePage;

@@ -11,7 +11,7 @@ import useFile from "../../hooks/useFile";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import UpladButton from "../buttons/UplaodButton";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { CAMERA_ICON, EDIT_ICON, FACEBOOK_ICON, FORUM_ICON, INSTAGRAM_ICON, KAKAO_ICON, LANGUAGE_ICON, LIKE_ICON, LINK_ICON, LOCALISATION_ICON, LOGOUT_ICON, MARKET_PLACE_ICON, OCCUPATION_ICON, TIKTOK_ICON, TRAVEL_ICON, UNSAVED_PLACE_ICON, YOUTUBE_ICON } from "../../utils/icon";
+import { CAMERA_ICON, EDIT_ICON, FACEBOOK_ICON, FORUM_ICON, INSTAGRAM_ICON, KAKAO_ICON, LANGUAGE_ICON, LIKE_ICON, LINK_ICON, LOCALISATION_ICON, LOGOUT_ICON, MARKET_PLACE_ICON, OCCUPATION_ICON, TIKTOK_ICON, EXPLORE_ICON, UNSAVED_PLACE_ICON, YOUTUBE_ICON } from "../../utils/icon";
 import ModalWrapper from "../Modals/ModalWraper";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import { useSelector } from "react-redux";
@@ -573,7 +573,7 @@ const ProfilForm: React.FC<PropsInterface> = ({ isEditMode = false }) => {
                                     <Grid container spacing={3}>
                                         <Grid item xs={12} md={6}>
                                             <NavLink to={`/voyage?user=${params.id}`}>
-                                                <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<TRAVEL_ICON />}>Lieux</Button>
+                                                <Button sx={{ width: '100%', py: 3 }} variant="outlined" startIcon={<EXPLORE_ICON />}>Lieux</Button>
                                             </NavLink>
                                         </Grid>
                                         <Grid item xs={12} md={6}>

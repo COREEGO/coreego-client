@@ -39,8 +39,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import moment from "moment";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import TravelLogueFilter from "../components/filters/TravelLogueFilter";
+import { TRAVELLOGUE_DESCRIPTION } from "../../utils";
 
-const TraveloguePage = () => {
+const TravelLoguePage = () => {
 	const [isBusy, setIsBusy] = useState(true);
 	const [places, setPlaces] = useState([]);
 
@@ -80,13 +81,7 @@ const TraveloguePage = () => {
 				theme="red"
 				titleFr="Mon carnet de voyage"
 				titleKr="나의 여행담"
-				description="
-            MACC Essentials has an important role in making
-            supplies and services available to customers and
-            their patients during this critical time. This
-            includes services from various domains. Our aim is
-            to aid you. As much we can.
-            "
+				description={TRAVELLOGUE_DESCRIPTION}
 				imageLink={HEADER_IMG}
 				imageDirection="end"
 			/>
@@ -134,4 +129,4 @@ const TraveloguePage = () => {
 	);
 };
 
-export default TraveloguePage;
+export default TravelLoguePage;

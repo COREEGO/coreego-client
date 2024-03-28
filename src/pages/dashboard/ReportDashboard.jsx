@@ -125,7 +125,7 @@ const ReportDashboard = () => {
 													<>
 														Produit
 														<NavLink
-															to={`/market-place/product/${report.product.slug}`}
+															to={`/market-place/produit/${report.product.slug}`}
 														>
 															<IconButton color="primary">
 																<EYE_ICON />

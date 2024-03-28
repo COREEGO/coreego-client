@@ -31,6 +31,7 @@ import ProductCard from "../../components/card/ProductCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import ProductsFilter from "../components/filters/ProductsFilter";
+import { MARKETPLACE_DESCRIPTION } from "../../utils";
 
 const MarketPlacePage = () => {
 	const { updateFilter, searchParams } = useFilterContext();
@@ -52,16 +53,10 @@ const MarketPlacePage = () => {
 				theme="blue"
 				titleFr="Marketplace"
 				titleKr="마켓 플레이스"
-				description="
-				MACC Essentials has an important role in making
-				supplies and services available to customers and
-				their patients during this critical time. This
-				includes services from various domains. Our aim is
-				to aid you. As much we can.
-				"
+				description={MARKETPLACE_DESCRIPTION}
 				imageLink={HEADER_IMG}
 				buttonLabel="Vendre un produit"
-				buttonLink="/market-place/product/create"
+				buttonLink="/market-place/produit/creation"
 				imageDirection="start"
 			/>
 
@@ -77,7 +72,7 @@ const MarketPlacePage = () => {
 								return (
 									<Grid key={product.id} item xs={12} sm={6} md={4}>
 										<NavLink
-											to={`/market-place/product/${product.slug}`}
+											to={`/market-place/produit/${product.slug}`}
 										>
 											<ProductCard product={product} />
 										</NavLink>

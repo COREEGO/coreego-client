@@ -2,7 +2,7 @@ import { useAuthContext } from "../../contexts/AuthProvider";
 import { MdBorderColor, MdDelete, MdMoreVert } from "react-icons/md";
 import { apiFetch } from "../../http-common/apiFetch";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { noEmptyValidator } from "../../utils/formValidation";
+import { errorField, noEmptyValidator, validationComment } from "../../utils/formValidation";
 import UserSniped from "../react-ux/UserSniped";
 import {
 	Card,
@@ -23,7 +23,8 @@ import {
 	FormHelperText,
 	Button,
 	Dialog,
-	CardHeader
+	CardHeader,
+	DialogActions
 } from "@mui/material";
 import { MORE_OPTIONS_ICON } from "../../utils/icon";
 import React, { useMemo, useState } from "react";
@@ -40,6 +41,7 @@ import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../utils/variables
 import axios from "axios";
 import ReportModule from "../../pages/components/modules/ReportModule";
 import moment from "moment";
+import { vestResolver } from "@hookform/resolvers/vest";
 
 const CommentCard = ({ comment, mutate }) => {
 	const confirm = useConfirm();
@@ -52,7 +54,8 @@ const CommentCard = ({ comment, mutate }) => {
 		reset,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onTouched",
+		resolver: vestResolver(validationComment),
+
 		defaultValues: {
 			content: comment?.content
 		}
@@ -119,7 +122,7 @@ const CommentCard = ({ comment, mutate }) => {
 										>
 											<MORE_OPTIONS_ICON />
 										</IconButton>
-										<Menu {...bindMenu(popupState)}>
+										<Menu {...bindMenu(popupState)} onClick={() => popupState.close()}>
 											<MenuItem
 												key="modifier"
 												onClick={() => setOpen(true)}
@@ -150,48 +153,46 @@ const CommentCard = ({ comment, mutate }) => {
 			</Card>
 			{comment.user.id === user.id && (
 				<Dialog
-					open={open}
-					maxWidth="md"
-					onClose={() => setOpen(false)}
-					aria-labelledby="alert-dialog-title"
-					aria-describedby="alert-dialog-description"
-				>
-					<DialogTitle id="alert-dialog-title">
-						Ajouter un commentaire
-					</DialogTitle>
-					<DialogContent>
-						<Stack component="form" onSubmit={handleSubmit(onSubmit)}>
-							<FormControl
-								variant="standard"
-								fullWidth
-								sx={{ width: 500, maxWidth: "100%" }}
-							>
-								<TextField
-									error={errors.content ? true : false}
-									autoFocus
-									placeholder="Ecrivez votre commentaire..."
-									required
-									multiline
-									rows={10}
-									{...register("content", { ...noEmptyValidator })}
-								/>
-								{errors.content && (
-									<FormHelperText id="component-error-text">
-										{errors.content.message}
-									</FormHelperText>
-								)}
-							</FormControl>
-							<Stack direction="row" sx={{ mt: 3 }}>
-								<LoadingButton loading={isSubmitting} type="submit">
-									Modifier
-								</LoadingButton>
-								<Button onClick={() => setOpen(false)}>
-									Annuler
-								</Button>
-							</Stack>
-						</Stack>
-					</DialogContent>
-				</Dialog>
+				open={open}
+				fullWidth
+				onClose={() => setOpen(false)}
+				PaperProps={{
+					component: "form",
+					onSubmit: handleSubmit(onSubmit)
+				}}
+			>
+				<DialogTitle id="alert-dialog-title">
+					Ajouter un commentaire
+				</DialogTitle>
+				<DialogContent>
+					<TextField
+						{...register("content")}
+						{...errorField(errors?.content)}
+						fullWidth
+						autoFocus
+						placeholder="Ecrivez votre commentaire..."
+						required
+						multiline
+						rows={10}
+					/>
+				</DialogContent>
+				<DialogActions>
+					<LoadingButton
+						variant="contained"
+						loading={isSubmitting}
+						type="submit"
+					>
+						Envoyer
+					</LoadingButton>
+					<Button
+						variant="contained"
+						color="error"
+						onClick={() => setOpen(false)}
+					>
+						Annuler
+					</Button>
+				</DialogActions>
+			</Dialog>
 			)}
 		</>
 	);

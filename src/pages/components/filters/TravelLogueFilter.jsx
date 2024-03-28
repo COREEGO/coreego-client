@@ -33,7 +33,7 @@ const TravelLogueFilter = ({ showModal = true }) => {
 
 	return showModal ? (
 		<>
-			<Hidden smDown>
+			<Hidden mdDown>
 				<Stack
 					direction="row"
 					alignItems="flex-start"
@@ -46,7 +46,7 @@ const TravelLogueFilter = ({ showModal = true }) => {
 					<CitiesFilterInput />
 				</Stack>
 			</Hidden>
-			<Hidden smUp>
+			<Hidden mdUp>
 				<Box>
 					<Button
 						size="large"

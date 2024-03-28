@@ -21,7 +21,6 @@ export const PASSWORD_RESET_SEND_EMAIL_MESSAGE = "Un lien de réinitilialisation
 export const PASSWORD_UPDATED_SUCCESS_MESSAGE = "Mot de passe modifier"
 export const ACCOUNT_VALIDATE_MESSAGE = "Votre compte a été valider"
 
-
 export const FORUM_RESUME = `Besoin d'aide ? Une information à partager ?
 Discutez avec la communauté.
 `;

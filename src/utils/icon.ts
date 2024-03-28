@@ -62,7 +62,9 @@ import HttpsOutlinedIcon from '@mui/icons-material/HttpsOutlined';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import ExploreOffOutlinedIcon from '@mui/icons-material/ExploreOffOutlined';
 import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 
+export const HOME_ICON = HomeOutlinedIcon
 export const PASSWORD_ICON = HttpsOutlinedIcon
 export const EDITNOTE_ICON = EditNoteIcon
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
@@ -91,7 +93,7 @@ export const DASHBOARD_ICON = DashboardOutlinedIcon
 export const LOGOUT_ICON = LogoutIcon
 
 export const FORUM_ICON = ForumOutlinedIcon
-export const TRAVEL_ICON = TravelExploreIcon
+export const EXPLORE_ICON = TravelExploreIcon
 export const MARKET_PLACE_ICON = StorefrontIcon
 
 export const ANALITICS_PAGE_ICON = QueryStatsOutlinedIcon

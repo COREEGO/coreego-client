@@ -5,7 +5,7 @@ import useSWR from "swr";
 import {
 	FORUM_ICON,
 	DISLIKE_ICON,
-	TRAVEL_ICON,
+	EXPLORE_ICON,
 	MARKET_PLACE_ICON,
 	OCCUPATION_ICON,
 	LOCALISATION_ICON,
@@ -334,7 +334,7 @@ const ProfilPage = () => {
 										<Button
 											sx={{ width: "100%", py: 3 }}
 											variant="outlined"
-											startIcon={<TRAVEL_ICON />}
+											startIcon={<EXPLORE_ICON />}
 										>
 											Lieux
 										</Button>

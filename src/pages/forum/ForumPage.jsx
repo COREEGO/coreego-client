@@ -30,6 +30,7 @@ import DiscussionCard from "../../components/card/DiscussionCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import DiscussionsFilter from "../components/filters/DiscussionsFilter";
+import { FORUM_DESCRIPTION } from "../../utils";
 
 const ForumPage = () => {
 	const { updateFilter, searchParams } = useFilterContext();
@@ -55,16 +56,10 @@ const ForumPage = () => {
 				theme="red"
 				titleFr="Forum"
 				titleKr="포럼"
-				description="
-				MACC Essentials has an important role in making
-				supplies and services available to customers and
-				their patients during this critical time. This
-				includes services from various domains. Our aim is
-				to aid you. As much we can.
-				"
+				description={FORUM_DESCRIPTION}
 				imageLink={HEADER_IMG}
 				buttonLabel="créer une discussion"
-				buttonLink="/forum/discussion/create"
+				buttonLink="/forum/discussion/creation"
 				imageDirection="end"
 			/>
 

@@ -96,7 +96,7 @@ const DiscussionsPublicationsDashboardPage = () => {
 										</TableCell>
 										<TableCell component="th" scope="row">
 											<OptionPublicationButton
-												editLink={`/forum/discussion/edit/${discussion.slug}`}
+												editLink={`/forum/discussion/modification/${discussion.slug}`}
 												deleteUrl={`/discussions/${discussion.id}`}
 												redirectionUrl={
 													"/dashboard/publication/discussions"

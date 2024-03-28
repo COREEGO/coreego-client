@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import useSWR from "swr";
 import React, { Suspense, useEffect, useState } from "react";
 import LoadingPage from "../../components/LoadingPage";
@@ -42,6 +42,8 @@ const ProductDetail = () => {
 	const { user } = useAuthContext();
 	const [product, setProduct] = useState(null);
 	const [isLoaded, setIdLoaded] = useState(false);
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		loadProduct();
@@ -98,10 +100,7 @@ const ProductDetail = () => {
 									>
 										{product.title}
 									</Typography>
-									<Typography
-										whiteSpace="pre-line"
-										fontSize={18}
-									>
+									<Typography whiteSpace="pre-line" fontSize={18}>
 										{product.description}
 									</Typography>
 									<Typography
@@ -126,20 +125,39 @@ const ProductDetail = () => {
 										</Typography>
 										{belongsToAuth(product.user.id, user?.id) ? (
 											<OptionPublicationButton
-												editLink={`/market-place/product/edit/${product.slug}`}
+												editLink={`/market-place/produit/modification/${product.slug}`}
 												deleteUrl={`/products/${product.id}`}
 												redirectionUrl={"/market-place"}
 											/>
-										) : <ReportModule
-										placeholder="En quoi ce produit ne convient pas ?"
-										targetElement="product_reported_id" targetValue={product.id} /> }
+										) : (
+											<ReportModule
+												placeholder="En quoi ce produit ne convient pas ?"
+												targetElement="product_reported_id"
+												targetValue={product.id}
+											/>
+										)}
 									</Stack>
-									<Button
-										startIcon={<MAIL_ICON />}
-										variant="contained"
-									>
-										Contacter le vendeur
-									</Button>
+
+									{user ? (
+										<a
+											href={`mailto:${product.user.email}?subject=Coreego: Renseignement sur votre produit - ${product.title}`}
+										>
+											<Button
+												startIcon={<MAIL_ICON />}
+												variant="contained"
+											>
+												Contacter le vendeur
+											</Button>
+										</a>
+									) : (
+										<Button
+											startIcon={<MAIL_ICON />}
+											variant="contained"
+											onClick={() => navigate("/login")}
+										>
+											Contacter le vendeur
+										</Button>
+									)}
 									<ShareButton />
 								</Stack>
 							</Grid>

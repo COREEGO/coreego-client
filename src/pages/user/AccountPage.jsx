@@ -303,7 +303,7 @@ const AccountPage = () => {
 						<ListItemAvatar sx={{ mr: 2 }}>
 							<Avatar
 								sx={{ width: 70, height: 70 }}
-								src={AVATAR_PATH + user.avatar}
+								src={AVATAR_PATH + user.pseudo}
 							/>
 						</ListItemAvatar>
 						<ListItemText
@@ -323,7 +323,7 @@ const AccountPage = () => {
 							}
 							secondary={
 								<NavLink
-									to={`/user/profil/${user.slug}`}
+									to={`/user/profil/${user.pseudo}`}
 									style={{
 										fontSize: 18,
 										fontWeight: "bold",

@@ -198,3 +198,17 @@ export const getMyGeoLocalisation = () => {
     }
   });
 };
+
+export const FORUM_DESCRIPTION = `Cet espace est un lieu d'échange et de partage où chacun peut
+contribuer à enrichir notre compréhension de la culture coréenne et à tisser des liens
+avec d'autres passionnés de ce pays captivant.`
+
+export const MARKETPLACE_DESCRIPTION = `Cet espace est dédié à la vente d'objets du quotidien auprès
+des francophones résidant en Corée du Sud.`
+
+export const EXPLORE_DESCRIPTION = `Cet espace est dédié au partage de vos coups de cœur
+en Corée du Sud que vous souhaitez faire découvrir à la communauté.`
+
+export const TRAVELLOGUE_DESCRIPTION = `Cet espace vous invite à découvrir les lieux que vous avez sauvegardés.
+Vous avez la possibilité de choisir une date de visite afin de planifier vos aventures
+et de profiter pleinement de chaque expérience. `

@@ -138,7 +138,7 @@ const ProductForm = ({
 			);
 			toast.success(response.data.message);
 			clearFiles();
-			navigate(`/market-place/product/${response.data.data.slug}`);
+			navigate(`/market-place/produit/${response.data.data.slug}`);
 		} catch (error) {
 			toast.error(error?.response?.data?.message);
 			getViolationField(error, setError);

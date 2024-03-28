@@ -27,9 +27,6 @@ import { vestResolver } from "@hookform/resolvers/vest";
 import { BEARER_HEADERS } from "../../utils/variables";
 
 export default function LoginPage() {
-	const { setUser, authentification } = useAuthContext();
-
-	const navigate = useNavigate();
 
 	const {
 		register,
@@ -37,7 +34,6 @@ export default function LoginPage() {
 		setError,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onBlur",
 		resolver: vestResolver(validationLogin)
 	});
 
@@ -63,9 +59,9 @@ export default function LoginPage() {
 	return (
 		<Container>
 			<Stack justifyContent="center" alignItems="center">
-				<Stack spacing={5} mt={5} width={700} maxWidth="100%">
+				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
-						variant="h5"
+						component="h1"
 						alignSelf="center"
 						startText="Je me"
 						endText="connecte"

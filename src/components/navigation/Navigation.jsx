@@ -1,9 +1,6 @@
 import logo from "../../images/svgs/coreego-logo.svg";
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
-import { BsPerson } from "react-icons/bs";
-import { AiOutlineUser } from "react-icons/ai";
-import UserSniped from "../react-ux/UserSniped";
 import React from "react";
 
 import AppBar from "@mui/material/AppBar";
@@ -15,17 +12,10 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
-import PersonIcon from "@mui/icons-material/Person";
 import {
     Badge,
-	CardMedia,
 	Divider,
-	Hidden,
-	ImageListItem,
 	ListItemIcon,
 	ListItemText,
 	Stack
@@ -37,8 +27,7 @@ import {
 	MARKET_PLACE_ICON,
 	NOTIFICATION_ICON,
 	PROFIL_ICON,
-	SAVED_PLACE_ICON,
-	TRAVEL_ICON,
+	EXPLORE_ICON,
 	UNSAVED_PLACE_ICON
 } from "../../utils/icon";
 import { AVATAR_PATH } from "../../utils/variables";
@@ -56,9 +45,9 @@ const links = [
 		icon: MARKET_PLACE_ICON
 	},
 	{
-		path: "/voyage",
-		label: "Voyage",
-		icon: TRAVEL_ICON
+		path: "/explorer",
+		label: "Explorer",
+		icon: EXPLORE_ICON
 	}
 ];
 
@@ -87,7 +76,7 @@ const NavigationUserMenu = () => {
 					<ListItemText>Mon compte</ListItemText>
 				</MenuItem>
 			</NavLink>
-			<NavLink to={`/user/carnet-de-voyage`}>
+			<NavLink to={`/mon-carnet-de-voyage`}>
 				<MenuItem sx={{ color: "black" }}>
 					<ListItemIcon sx={{ color: "black" }}>
 						<UNSAVED_PLACE_ICON />
@@ -227,11 +216,11 @@ const Navigation = () => {
 							flexGrow={0}
 							direction="row"
 							alignItems="center"
-							gap={2}
+							gap={1}
 						>
 							<Box>
                                 <NavLink to="/mes-notifications">
-								<IconButton>
+								<IconButton size="small">
 									<Badge color={hasNotificationNotReaded(user.notifications) ? 'error' : '' } variant="dot">
 										<NOTIFICATION_ICON />
 									</Badge>

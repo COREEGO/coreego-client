@@ -1,33 +1,15 @@
-import { useEffect, useState } from "react";
-import { apiFetch } from "../../http-common/apiFetch";
 import {
-	useLocation,
 	useNavigate,
-	useNavigation,
-	useParams
 } from "react-router";
-import { InfoIcon } from "@chakra-ui/icons";
-import LoadingPage from "../../components/LoadingPage";
 import { getViolationField } from "../../utils";
-import Title from "../../components/texts/TitleText";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import {
-	Card,
-	CardContent,
-	CardHeader,
 	Container,
 	Stack,
 	TextField,
-	FormControl,
-	FormHelperText
 } from "@mui/material";
 import {
-	emailValidator,
 	errorField,
-	minLengthValidatior,
-	noEmptyValidator,
-	passwordMatchValidator,
-	requiredValidator,
 	validationChangePassword,
 	validationForgotPassword
 } from "../../utils/formValidation";
@@ -43,20 +25,14 @@ const ChangePassword = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const {
-		control,
 		register,
 		handleSubmit,
-		setError,
 		formState: {
 			errors,
-			isSubmitting,
-			isSubmitted,
-			isSubmitSuccessful
+			isSubmitting
 		},
-		getValues,
 		reset
 	} = useForm({
-		mode: "onBlur",
 		resolver: vestResolver(validationChangePassword)
 	});
 
@@ -79,9 +55,9 @@ const ChangePassword = () => {
 	return (
 		<Container>
 			<Stack justifyContent="center" alignItems="center">
-				<Stack spacing={5} mt={5} width={500} maxWidth="100%">
+				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
-						variant="h5"
+						component="h1"
 						alignSelf="center"
 						startText="nouveau"
 						endText="Mot de passe"
@@ -162,9 +138,9 @@ const SendMail = () => {
 	return (
 		<Container>
 			<Stack justifyContent="center" alignItems="center">
-				<Stack spacing={5} mt={5} width={700} maxWidth="100%">
+				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
-						variant="h5"
+						component="h1"
 						alignSelf="center"
 						startText="Mot de passe"
 						endText="oublié"

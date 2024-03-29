@@ -43,7 +43,6 @@ export default function RouterOutlet() {
             <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
             <Route path="/market-place" element={<MarketPlacePage />} />
 
-            {/* change */}
             <Route path="/market-place/produit/:slug" element={<ProductDetail />} />
             <Route path="/explorer" element={<ExplorePage />} />
             <Route path="/explorer/lieu/:slug" element={<PlaceDetail />} />
@@ -55,7 +54,6 @@ export default function RouterOutlet() {
             <Route path="/email/verify" element={<EmailVerifyPage />} />
 
             <Route element={<PrivateRoute />} >
-                {/* change */}
                 <Route path="/user/profil/modification" element={<ProfilEditPage />} />
 
                 <Route path="/mes-notifications" element={<NotificationPage />} />

@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 import useSWR from "swr";
 import { useFilterContext } from "../../contexts/FilterProvider";
-import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
+import HEADER_IMG from "../../images/headers/i-seoul-u.jpg";
 import { CLOSE_ICON, FILTER_ICON } from "../../utils/icon";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";

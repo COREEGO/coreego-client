@@ -18,11 +18,11 @@ const LoadingPage: React.FC<Props> = ({ type }) => {
                     alignItems: 'center',
                     position: "fixed",
                     justifyContent: "center",
-                    zIndex: 2000,
+                    zIndex: 100,
                     bgcolor: "white",
                     top: 0,
                     bottom: 0,
-                    h: "100vh",
+                    height: "100vh",
                     width: "100vw"
                 }}
             >

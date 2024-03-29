@@ -26,7 +26,7 @@ const ProductCard = ({ product }) => {
         <CardMedia
           component='img'
           sx={{
-            height: { xs: 150, md: 200 }
+            height: { xs: 200, md: 250 }
           }}
           width='100%'
           image={
@@ -34,8 +34,6 @@ const ProductCard = ({ product }) => {
             ? IMAGE_PATH + product?.thumbnail?.name :
             'https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png'
           }
-          alt={product.title}
-
         />
         <CardHeader
           avatar={<Avatar src={AVATAR_PATH + product.user.avatar} />}

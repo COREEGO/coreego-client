@@ -12,15 +12,13 @@ import {
 	Stack,
 	Typography
 } from "@mui/material";
-import React, { useEffect } from "react";
-import { Navigate, redirect } from "react-router";
-import HeroBannerFeed from "./components/templates/HeroBannerFeed";
+import React from "react";
 import {
 	EXPLORE_DESCRIPTION,
 	FORUM_DESCRIPTION,
-	MARKETPLACE_DESCRIPTION
+	MARKETPLACE_DESCRIPTION,
+	RESUME_COREEGO
 } from "../utils";
-import HEADER_IMG from "../images/headers/espace-discussion.jpg";
 import LOGO from "../images/svgs/coreego-logo.svg";
 import { CIRCLE_ICON } from "../utils/icon";
 import HERO_BANNER_IMG from "../images/18948481884.jpg";
@@ -32,6 +30,7 @@ import ProductCard from "../components/card/ProductCard";
 import { NavLink } from "react-router-dom";
 import PlaceCard from "../components/card/PlaceCard";
 import NotFindComponent from "../components/NotFindComponent";
+import YOANN_LOGO from '../images/yoann.jpg'
 
 const HomePage = () => {
 	const [isLoaded, setIsLoaded] = React.useState(false);
@@ -147,6 +146,7 @@ const HomePage = () => {
 									component="p"
 									fontWeight="normal"
 									variant="h6"
+									whiteSpace="pre-line"
 								>
 									{FORUM_DESCRIPTION}
 								</Typography>
@@ -224,6 +224,7 @@ const HomePage = () => {
 									component="p"
 									fontWeight="normal"
 									variant="h6"
+									whiteSpace="pre-line"
 								>
 									{MARKETPLACE_DESCRIPTION}
 								</Typography>
@@ -301,6 +302,7 @@ const HomePage = () => {
 									component="p"
 									fontWeight="normal"
 									variant="h6"
+									whiteSpace="pre-line"
 								>
 									{EXPLORE_DESCRIPTION}
 								</Typography>
@@ -346,22 +348,26 @@ const HomePage = () => {
 
 			<Box bgcolor="grey.50" py={5}>
 				<Container>
-						<Grid container gap={5}>
-								<Grid item xs={12} sm={6}>
-										<TitleSectionText startText="message du" endText="createur" />
-										<Box mt={3}>
-										<Typography>eorkopj</Typography>
+						<Grid container spacing={5}>
+								<Grid item xs={12} md={6}>
+										<TitleSectionText startText="message du" endText="fondateur" />
+										<Box mt={0}>
+										<Typography
+										component="p"
+										fontWeight="normal"
+										variant="h6"
+										whiteSpace="pre-line"
+										>{RESUME_COREEGO}</Typography>
 										</Box>
 								</Grid>
-								<Grid item xs={12} sm={6}>
-
+								<Grid item xs={12} md={6}>
+									<Stack  width="100%" alignItems="center">
+										<img src={YOANN_LOGO} width="auto" style={{maxWidth: '100%', maxHeight: 500}} />
+									</Stack>
 								</Grid>
 						</Grid>
 				</Container>
 			</Box>
-
-
-
 		</React.Fragment>
 	);
 };

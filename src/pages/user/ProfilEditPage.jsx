@@ -135,7 +135,7 @@ const ProfilEditPage = () => {
 			);
 			await authentification();
 			toast.success(response.data.message);
-			navigate(`/user/profil/${profil.slug}`);
+			navigate(`/user/profil/${profil.peudo}`);
 		} catch (error) {
 			toast.error(error.response.data.message);
 			getViolationField(error, setError);

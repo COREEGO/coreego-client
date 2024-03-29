@@ -199,16 +199,19 @@ export const getMyGeoLocalisation = () => {
   });
 };
 
-export const FORUM_DESCRIPTION = `Cet espace est un lieu d'échange et de partage où chacun peut
-contribuer à enrichir notre compréhension de la culture coréenne et à tisser des liens
-avec d'autres passionnés de ce pays captivant.`
+export const FORUM_DESCRIPTION = `Cet espace est un lieu d'échange et de partage où chacun peut contribuer à enrichir notre compréhension de la culture coréenne.`
 
-export const MARKETPLACE_DESCRIPTION = `Cet espace est dédié à la vente d'objets du quotidien auprès
-des francophones résidant en Corée du Sud.`
+export const MARKETPLACE_DESCRIPTION = `Cet espace est dédié à la vente d'objets du quotidien auprès des francophones résidant en Corée du Sud.`
 
-export const EXPLORE_DESCRIPTION = `Cet espace est dédié au partage de vos coups de cœur
-en Corée du Sud que vous souhaitez faire découvrir à la communauté.`
+export const EXPLORE_DESCRIPTION = `Cet espace est dédié au partage de vos coups de cœur en Corée du Sud que vous souhaitez faire découvrir à la communauté.`
 
 export const TRAVELLOGUE_DESCRIPTION = `Cet espace vous invite à découvrir les lieux que vous avez sauvegardés.
 Vous avez la possibilité de choisir une date de visite afin de planifier vos aventures
 et de profiter pleinement de chaque expérience. `
+
+export const RESUME_COREEGO = `
+Bonjour, Je m'appelle Yoann, j'ai 28 ans.
+En tant que développeur web de formation et passionné de la Corée du Sud, mon objectif premier avec Coreego est de créer une boîte à outils la plus complète possible pour les francophones intéressés par ce magnifique pays.
+Je souhaite également y développer une communauté dynamique, permettant ainsi à l'application de croître et d'évoluer continuellement.
+Mon ambition est de vous offrir une expérience immersive, vous permettant de plonger au cœur de la culture coréenne à travers la plateforme.
+`

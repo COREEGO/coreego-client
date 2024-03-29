@@ -5,38 +5,18 @@ import TravelLogueModal from "../../components/Modals/TravelLogueModal";
 
 import {
 	Box,
-	Button,
 	Container,
-	Dialog,
-	DialogContent,
-	DialogTitle,
 	Grid,
-	Hidden,
-	IconButton,
-	MenuItem,
 	Stack,
-	Select,
-	Typography
 } from "@mui/material";
 
-import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
+import HEADER_IMG from "../../images/headers/han-gang-bridge.jpg";
 import PlaceMapCard from "../../components/card/PlaceMapCard";
 import { useFilterContext } from "../../contexts/FilterProvider";
-import { apiFetch } from "../../http-common/apiFetch";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../utils/variables";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
-import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
-import { CLOSE_ICON, FILTER_ICON } from "../../utils/icon";
-import SearchInput from "../../components/inputs/SearchInput";
 import { useSelector } from "react-redux";
-import PaginationData from "../../components/PaginationData";
-import {
-	DateCalendar,
-	LocalizationProvider
-} from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import moment from "moment";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import TravelLogueFilter from "../components/filters/TravelLogueFilter";
 import { TRAVELLOGUE_DESCRIPTION } from "../../utils";
@@ -45,9 +25,6 @@ import NotFindComponent from "../../components/NotFindComponent";
 const TravelLoguePage = () => {
 	const [isBusy, setIsBusy] = useState(true);
 	const [places, setPlaces] = useState([]);
-
-	const [isOpenFilterModal, setIsOpenFilterModal] =
-		React.useState(false);
 
 	const { placeCategories, cities } = useSelector(
 		(state) => state.app

@@ -1,4 +1,4 @@
-import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
+import HEADER_IMG from "../../images/headers/han-gang.jpg";
 import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import { FILTER_ICON, CLOSE_ICON } from "../../utils/icon";

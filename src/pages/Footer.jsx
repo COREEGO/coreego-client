@@ -7,11 +7,20 @@ import {
 } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import { INSTAGRAM_ICON } from '../utils/icon'
+import LOGO from '../images/svgs/coreego-logo.svg'
 
-const Footer = ({...props}) => {
+const Footer = ({ ...props }) => {
   return (
-    <Box sx={{borderTop: '2px solid grey'}} {...props} py={5} component="footer">
+    <Box
+      sx={{ borderTop: '2px solid grey' }}
+      {...props}
+      py={5}
+      component='footer'
+		>
       <Container>
+        <Box mb={5}>
+          <img src={LOGO} width={150} height='auto' />
+        </Box>
         <Stack
           role='links'
           pb={5}
@@ -20,7 +29,11 @@ const Footer = ({...props}) => {
           flexWrap='wrap'
 				>
           <Box>
-            <Typography fontWeight='bold' gutterBottom>
+            <Typography
+              color='primary'
+              fontWeight='bold'
+              gutterBottom
+						>
 							Accès rapide
 						</Typography>
             <Stack
@@ -31,14 +44,18 @@ const Footer = ({...props}) => {
                 }
               }}
 						>
-              <NavLink to="/forum">Forum</NavLink>
-              <NavLink to="/market-place">Market place</NavLink>
-              <NavLink to="/voyage">Voyage</NavLink>
+              <NavLink to='/forum'>Forum</NavLink>
+              <NavLink to='/market-place'>Market place</NavLink>
+              <NavLink to='/explorer'>Explorer</NavLink>
             </Stack>
           </Box>
 
           <Box>
-            <Typography fontWeight='bold' gutterBottom>
+            <Typography
+              fontWeight='bold'
+              color='primary'
+              gutterBottom
+						>
 							Coreego
 						</Typography>
             <Stack
@@ -49,7 +66,7 @@ const Footer = ({...props}) => {
                 }
               }}
 						>
-              <a href="mailto: contact.coreego.fr">Nous contacter</a>
+              <a href='mailto: contact.coreego.fr'>Nous contacter</a>
             </Stack>
           </Box>
         </Stack>
@@ -72,7 +89,10 @@ const Footer = ({...props}) => {
             <NavLink>Fonctionnement du site</NavLink>
           </Stack>
           <Stack role='social network'>
-            <NavLink to="https://www.instagram.com/coreego_fr/" target="__blank">
+            <NavLink
+              to='https://www.instagram.com/coreego_fr/'
+              target='__blank'
+						>
               <INSTAGRAM_ICON />
             </NavLink>
           </Stack>

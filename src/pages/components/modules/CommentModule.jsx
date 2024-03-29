@@ -26,6 +26,8 @@ import axios from "axios";
 import { BEARER_HEADERS } from "../../../utils/variables";
 import { useForm } from "react-hook-form";
 import { vestResolver } from "@hookform/resolvers/vest";
+import { useAuthContext } from "../../../contexts/AuthProvider";
+import { useNavigate, useNavigation } from "react-router";
 
 const CommentModule = ({
 	comments,
@@ -34,6 +36,10 @@ const CommentModule = ({
 	mutate
 }) => {
 	const [open, setOpen] = React.useState(false);
+
+	const {user} = useAuthContext()
+
+	const navigate = useNavigate()
 
 	const commentList = useMemo(() => {
 		return comments.sort((a, b) => {
@@ -83,11 +89,11 @@ const CommentModule = ({
 						startText="écrire un"
 						endText="commentaire"
 					/>
-					<Box onClick={() => setOpen(true)}>
+					<Box onClick={() => user ? setOpen(true) : navigate('/login') }>
 						<TextField
 							sx={{ zIndex: -1 }}
 							fullWidth
-							placeholder="Ce que je veux dire..."
+							placeholder="J'écris mon commentaire..."
 						/>
 					</Box>
 					{commentList.length ? (

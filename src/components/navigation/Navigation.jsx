@@ -15,6 +15,7 @@ import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import {
 	Badge,
+	Button,
 	Divider,
 	Hidden,
 	ListItemIcon,
@@ -64,7 +65,7 @@ const NavigationUserMenu = () => {
 	return (
 		<>
 			{user?.role?.is_admin ? (
-				<NavLink to="/dashboard/analitics">
+				<NavLink to="/dashboard/analyse-des-donnees">
 					<MenuItem sx={{ color: "black" }}>
 						<ListItemIcon sx={{ color: "black" }}>
 							<DASHBOARD_ICON />
@@ -139,7 +140,7 @@ const Navigation = () => {
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						<NavLink className="nav_logo" to="/">
 							<img
-								width={150}
+								width={120}
 								height="auto"
 								src={logo}
 								title="coreego"
@@ -148,7 +149,7 @@ const Navigation = () => {
 					</Box>
 
 					<Box
-						sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+						sx={{ display: { xs: "flex", md: "none" } }}
 					>
 						<IconButton
 							size="large"
@@ -198,14 +199,13 @@ const Navigation = () => {
 
 					<Box
 						sx={{
-							flexGrow: 1,
+							flex: 1,
 							display: { xs: "flex", md: "none" },
-							mr: 1
 						}}
 					>
 						<NavLink className="nav_logo" to="/">
 							<img
-								width={150}
+								width={120}
 								height="auto"
 								src={logo}
 								title="coreego"
@@ -213,8 +213,10 @@ const Navigation = () => {
 						</NavLink>
 					</Box>
 
-					<Box
+					<Stack
 						className="navlink"
+						gap={3}
+						direction="row"
 						sx={{
 							flexGrow: 1,
 							display: { xs: "none", md: "flex" },
@@ -225,8 +227,7 @@ const Navigation = () => {
 							<NavLink
 								style={{
 									display: "flex",
-									alignItems: "center",
-									margin: "0 20px"
+									alignItems: "center"
 								}}
 								to={link.path}
 								key={link.path}
@@ -235,7 +236,7 @@ const Navigation = () => {
 								{link.label}
 							</NavLink>
 						))}
-					</Box>
+					</Stack>
 
 					{user ? (
 						<Stack
@@ -306,7 +307,7 @@ const Navigation = () => {
 							</Box>
 						</Stack>
 					) : (
-						<NavLink to="/login">Se connecter</NavLink>
+						<NavLink to="/login"><Button>Se connecter</Button></NavLink>
 					)}
 				</Toolbar>
 			</Container>

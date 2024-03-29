@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import HEADER_IMG from "../../images/headers/espace-discussion.jpg";
+import HEADER_IMG from "../../images/headers/jeju-do.jpg";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
 import { NavLink, useLocation } from "react-router-dom";

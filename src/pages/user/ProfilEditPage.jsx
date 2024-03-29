@@ -60,7 +60,7 @@ const ProfilEditPage = () => {
 
 	const loadUser = async () => {
 		try {
-			const response = await axios.get("/user/" + auth.slug);
+			const response = await axios.get("/user/" + auth.pseudo);
 			setProfil(response.data);
 			setLanguagesSelected(JSON.parse(response?.data?.languages));
 		} catch (error) {

@@ -63,7 +63,7 @@ const HeroBannerFeed = ({
                 </Typography>
 								)}
               </Stack>
-              <Typography component='p' fontWeight='normal'>
+              <Typography component='p' fontWeight='normal' variant="h6">
                 {description}
               </Typography>
             </Stack>

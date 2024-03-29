@@ -32,6 +32,7 @@ import PaginationData from "../../components/PaginationData";
 import PlacesFilter from "../components/filters/PlacesFilter";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { EXPLORE_DESCRIPTION } from "../../utils";
+import NotFindComponent from "../../components/NotFindComponent";
 
 const ExplorePage = () => {
 	const location = useLocation();
@@ -85,9 +86,7 @@ const ExplorePage = () => {
 							})}
 						</Grid>
 					) : (
-						<Typography textAlign="center">
-							Aucun lieu trouvé
-						</Typography>
+						<NotFindComponent showText width="100%" height={300} />
 					)}
 				</Box>
 			)}

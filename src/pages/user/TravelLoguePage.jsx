@@ -40,6 +40,7 @@ import moment from "moment";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import TravelLogueFilter from "../components/filters/TravelLogueFilter";
 import { TRAVELLOGUE_DESCRIPTION } from "../../utils";
+import NotFindComponent from "../../components/NotFindComponent";
 
 const TravelLoguePage = () => {
 	const [isBusy, setIsBusy] = useState(true);
@@ -113,9 +114,7 @@ const TravelLoguePage = () => {
 							</Grid>
 						</Stack>
 					) : (
-						<Typography textAlign="center">
-							Aucune lieu trouvé
-						</Typography>
+						<NotFindComponent showText mt={3} width="100%" height={300} />
 					)}
 				</Box>
 			)}

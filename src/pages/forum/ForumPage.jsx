@@ -31,6 +31,7 @@ import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import DiscussionsFilter from "../components/filters/DiscussionsFilter";
 import { FORUM_DESCRIPTION } from "../../utils";
+import NotFindComponent from "../../components/NotFindComponent";
 
 const ForumPage = () => {
 	const { updateFilter, searchParams } = useFilterContext();
@@ -85,9 +86,7 @@ const ForumPage = () => {
 								})}
 							</Grid>
 						) : (
-							<Typography textAlign="center">
-								Aucune discussion trouvé
-							</Typography>
+							<NotFindComponent showText width="100%" height={300} />
 						)}
 					</Box>
 					<Box

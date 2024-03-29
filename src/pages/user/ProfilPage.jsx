@@ -81,7 +81,7 @@ const ProfilPage = () => {
 
 	const loadUser = async () => {
 		try {
-			const response = await axios.get("/user/" + params.slug);
+			const response = await axios.get("/user/" + params.pseudo);
 			console.log(response.data);
 			setUser(response.data);
 		} catch (error) {

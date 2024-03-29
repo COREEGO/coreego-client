@@ -14,8 +14,9 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import MenuItem from "@mui/material/MenuItem";
 import {
-    Badge,
+	Badge,
 	Divider,
+	Hidden,
 	ListItemIcon,
 	ListItemText,
 	Stack
@@ -28,12 +29,18 @@ import {
 	NOTIFICATION_ICON,
 	PROFIL_ICON,
 	EXPLORE_ICON,
-	UNSAVED_PLACE_ICON
+	UNSAVED_PLACE_ICON,
+	HOME_ICON
 } from "../../utils/icon";
 import { AVATAR_PATH } from "../../utils/variables";
 import { hasNotificationNotReaded, isAdmin } from "../../utils";
 
 const links = [
+	{
+		path: "/",
+		label: "Accueil",
+		icon: HOME_ICON
+	},
 	{
 		path: "/forum",
 		label: "Forum",
@@ -68,6 +75,25 @@ const NavigationUserMenu = () => {
 			) : (
 				<></>
 			)}
+			<Hidden mdUp>
+				<NavLink to={`/mes-notifications`}>
+					<MenuItem sx={{ color: "black" }}>
+						<ListItemIcon sx={{ color: "black" }}>
+							<Badge
+								color={
+									hasNotificationNotReaded(user.notifications)
+										? "error"
+										: ""
+								}
+								variant="dot"
+							>
+								<NOTIFICATION_ICON />
+							</Badge>
+						</ListItemIcon>
+						<ListItemText>Mes notifications</ListItemText>
+					</MenuItem>
+				</NavLink>
+			</Hidden>
 			<NavLink to={`/mon-compte`}>
 				<MenuItem sx={{ color: "black" }}>
 					<ListItemIcon sx={{ color: "black" }}>
@@ -218,15 +244,24 @@ const Navigation = () => {
 							alignItems="center"
 							gap={1}
 						>
-							<Box>
-                                <NavLink to="/mes-notifications">
-								<IconButton size="small">
-									<Badge color={hasNotificationNotReaded(user.notifications) ? 'error' : '' } variant="dot">
-										<NOTIFICATION_ICON />
-									</Badge>
-								</IconButton>
-                                </NavLink>
-							</Box>
+							<Hidden mdDown>
+								<Box>
+									<NavLink to="/mes-notifications">
+										<IconButton size="small">
+											<Badge
+												color={
+													hasNotificationNotReaded(user.notifications)
+														? "error"
+														: ""
+												}
+												variant="dot"
+											>
+												<NOTIFICATION_ICON />
+											</Badge>
+										</IconButton>
+									</NavLink>
+								</Box>
+							</Hidden>
 							<Box>
 								<IconButton
 									onClick={(event) =>
@@ -234,7 +269,21 @@ const Navigation = () => {
 									}
 									sx={{ p: 0 }}
 								>
-									<Avatar src={AVATAR_PATH + user?.avatar} />
+									<Hidden mdUp>
+										<Badge
+											color={
+												hasNotificationNotReaded(user.notifications)
+													? "error"
+													: ""
+											}
+											variant="dot"
+										>
+											<Avatar src={AVATAR_PATH + user?.avatar} />
+										</Badge>
+									</Hidden>
+									<Hidden mdDown>
+										<Avatar src={AVATAR_PATH + user?.avatar} />
+									</Hidden>
 								</IconButton>
 								<Menu
 									anchorEl={anchorElUser}

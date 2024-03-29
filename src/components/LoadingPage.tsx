@@ -19,7 +19,7 @@ const LoadingPage: React.FC<Props> = ({ type }) => {
                     position: "fixed",
                     justifyContent: "center",
                     zIndex: 2000,
-                    bgColor: "white",
+                    bgcolor: "white",
                     top: 0,
                     bottom: 0,
                     h: "100vh",

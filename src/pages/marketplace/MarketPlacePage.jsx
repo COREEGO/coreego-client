@@ -32,6 +32,7 @@ import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import ProductsFilter from "../components/filters/ProductsFilter";
 import { MARKETPLACE_DESCRIPTION } from "../../utils";
+import NotFindComponent from "../../components/NotFindComponent";
 
 const MarketPlacePage = () => {
 	const { updateFilter, searchParams } = useFilterContext();
@@ -81,9 +82,7 @@ const MarketPlacePage = () => {
 							})}
 						</Grid>
 					) : (
-						<Typography align="center">
-							Aucun produit trouvé
-						</Typography>
+						<NotFindComponent showText width="100%" height={300} />
 					)}
 				</Box>
 			)}

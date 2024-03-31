@@ -5,10 +5,6 @@ import {
 	Container,
 	Grid,
 	Hidden,
-	List,
-	ListItem,
-	ListItemIcon,
-	ListItemText,
 	Stack,
 	Typography
 } from "@mui/material";
@@ -19,9 +15,7 @@ import {
 	MARKETPLACE_DESCRIPTION,
 	RESUME_COREEGO
 } from "../utils";
-import LOGO from "../images/svgs/coreego-logo.svg";
-import { CIRCLE_ICON } from "../utils/icon";
-import HERO_BANNER_IMG from "../images/18948481884.jpg";
+import HERO_BANNER_IMG from "../images/headers/korea-flag.jpg";
 import TitleSectionText from "../components/texts/TitleSectionText";
 import axios from "axios";
 import LoadingPage from "../components/LoadingPage";
@@ -30,7 +24,8 @@ import ProductCard from "../components/card/ProductCard";
 import { NavLink } from "react-router-dom";
 import PlaceCard from "../components/card/PlaceCard";
 import NotFindComponent from "../components/NotFindComponent";
-import YOANN_LOGO from '../images/yoann.jpg'
+import YOANN_LOGO from "../images/yoann.jpg";
+import { Helmet } from "react-helmet";
 
 const HomePage = () => {
 	const [isLoaded, setIsLoaded] = React.useState(false);
@@ -60,6 +55,25 @@ const HomePage = () => {
 		<LoadingPage type="page" />
 	) : (
 		<React.Fragment>
+			<Helmet>
+				<title>
+					Plateforme communautaire francophone dédiée à la Corée du
+					Sud | Coreego
+				</title>
+				<meta
+					name="title"
+					content="Plateforme communautaire francophone dédiée à la Corée du Sud."
+				/>
+				<meta
+					name="keywords"
+					content="Plateforme communautaire, Corée Du Sud, forum, marketplace, explorer, voyager en corée du sud"
+				/>
+				<meta
+					name="description"
+					content="Coreego est une plateforme communautaire dédiée à la Corée Du Sud, Venez interagir avec la communauté francophone en Corée Du Sud"
+				/>
+			</Helmet>
+
 			<Box py={5} bgcolor="#F5F7FA">
 				<Container>
 					<Grid container spacing={5} alignItems="center">
@@ -71,11 +85,10 @@ const HomePage = () => {
 								fontWeight="bold"
 								component="h1"
 							>
-								Site communautaire <br />
-								<span style={{ color: "black" }}> 100%</span>
+								Plateforme communautaire francophone <br />
 								<span style={{ color: "var(--coreego-red)" }}>
 									{" "}
-									Corée Du Sud
+									dédiée à la Corée du Sud
 								</span>
 							</Typography>
 							<Typography>
@@ -192,7 +205,12 @@ const HomePage = () => {
 
 			<Box py={5} bgcolor="grey.50">
 				<Container>
-					<Grid container spacing={5} flexDirection="row-reverse" alignItems="center">
+					<Grid
+						container
+						spacing={5}
+						flexDirection="row-reverse"
+						alignItems="center"
+					>
 						<Grid item xs={12} md={5}>
 							<Stack gap={2} alignItems="flex-start">
 								<Stack spacing={2}>
@@ -228,7 +246,7 @@ const HomePage = () => {
 								>
 									{MARKETPLACE_DESCRIPTION}
 								</Typography>
-								<NavLink to="/market-place">
+								<NavLink to="/marketplace">
 									<Button variant="contained">Voir plus</Button>
 								</NavLink>
 							</Stack>
@@ -250,9 +268,9 @@ const HomePage = () => {
 								>
 									{products.map((product) => {
 										return (
-											<Grid item xs={12} sm={6}>
+											<Grid key={product.id} item xs={12} sm={6}>
 												<NavLink
-													to={`/market-place/produit/${product.slug}`}
+													to={`/marketplace/produit/${product.slug}`}
 												>
 													<ProductCard product={product} />
 												</NavLink>
@@ -261,7 +279,7 @@ const HomePage = () => {
 									})}
 								</Grid>
 							) : (
-                                <NotFindComponent mt={3} width="100%" height={300} />
+								<NotFindComponent mt={3} width="100%" height={300} />
 							)}
 						</Grid>
 					</Grid>
@@ -329,9 +347,7 @@ const HomePage = () => {
 									{places.map((place) => {
 										return (
 											<Grid key={place.id} item xs={12} sm={6}>
-												<NavLink
-													to={`/explorer/lieu/${place.slug}`}
-												>
+												<NavLink to={`/explorer/lieu/${place.slug}`}>
 													<PlaceCard place={place} />
 												</NavLink>
 											</Grid>
@@ -348,24 +364,33 @@ const HomePage = () => {
 
 			<Box bgcolor="grey.50" py={5}>
 				<Container>
-						<Grid container spacing={5}>
-								<Grid item xs={12} md={6}>
-										<TitleSectionText startText="message du" endText="fondateur" />
-										<Box mt={0}>
-										<Typography
-										component="p"
-										fontWeight="normal"
-										variant="h6"
-										whiteSpace="pre-line"
-										>{RESUME_COREEGO}</Typography>
-										</Box>
-								</Grid>
-								<Grid item xs={12} md={6}>
-									<Stack  width="100%" alignItems="center">
-										<img src={YOANN_LOGO} width="auto" style={{maxWidth: '100%', maxHeight: 500}} />
-									</Stack>
-								</Grid>
+					<Grid container spacing={5}>
+						<Grid item xs={12} md={6}>
+							<TitleSectionText
+								startText="message du"
+								endText="fondateur"
+							/>
+							<Box mt={0}>
+								<Typography
+									component="p"
+									fontWeight="normal"
+									variant="h6"
+									whiteSpace="pre-line"
+								>
+									{RESUME_COREEGO}
+								</Typography>
+							</Box>
 						</Grid>
+						<Grid item xs={12} md={6}>
+							<Stack width="100%" alignItems="center">
+								<img
+									src={YOANN_LOGO}
+									width="auto"
+									style={{ maxWidth: "100%", maxHeight: 500 }}
+								/>
+							</Stack>
+						</Grid>
+					</Grid>
 				</Container>
 			</Box>
 		</React.Fragment>

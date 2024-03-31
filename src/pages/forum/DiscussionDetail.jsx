@@ -1,13 +1,12 @@
 import React from "react";
-import { useNavigate, useParams } from "react-router";
+import { useParams } from "react-router";
 import LoadingPage from "../../components/LoadingPage";
 import LikeButton from "../../components/buttons/LikeButton";
 import CommentModule from "../components/modules/CommentModule";
 import { AVATAR_PATH, UNKNOWN_USER } from "../../utils/variables";
-import { NavLink } from "react-router-dom";
 import CategoryText from "../../components/texts/CategoryText";
 import ShareButton from "../../components/buttons/ShareButton";
-import { belongsToAuth } from "../../utils";
+import { belongsToAuth, cleanHtmlText } from "../../utils";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Box,
@@ -15,17 +14,12 @@ import {
 	Divider,
 	Avatar,
 	Stack,
-	Typography,
-	Portal,
-	Card,
-	CardHeader,
-	CardActionArea
-} from "@mui/material";
+	Typography} from "@mui/material";
 import moment from "moment";
-import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
+import { Helmet } from "react-helmet";
 
 const DiscussionDetail = () => {
 	const params = useParams();
@@ -33,9 +27,6 @@ const DiscussionDetail = () => {
 
 	const [isBusy, setIsBusy] = React.useState(true);
 	const [discussion, setDiscussion] = React.useState();
-
-	const confirm = useConfirm();
-	const navigate = useNavigate();
 
 	React.useEffect(() => {
 		fetchDiscussion();
@@ -56,6 +47,17 @@ const DiscussionDetail = () => {
 		<LoadingPage type="page" />
 	) : (
 		<>
+			<Helmet>
+				<title>Forum : {discussion.title} | Coreego</title>
+				<meta
+					name="title"
+					content={`Forum : ${discussion.title} | Coreego`}
+				/>
+				<meta
+					name="description"
+					content={cleanHtmlText(discussion.content).slice(0, 150)}
+				/>
+			</Helmet>
 			<Box mt={5}>
 				<Container>
 					<Stack gap={3} justifyContent="center" alignItems="center">
@@ -99,7 +101,7 @@ const DiscussionDetail = () => {
 						src={AVATAR_PATH + discussion?.user?.avatar}
 					/>
 					<Typography component="div" fontWeight="bold">
-						{discussion?.user?.pseudo || UNKNOWN_USER }
+						{discussion?.user?.pseudo || UNKNOWN_USER}
 					</Typography>
 					{belongsToAuth(discussion?.user?.id, user?.id) ? (
 						<OptionPublicationButton

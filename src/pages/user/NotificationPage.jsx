@@ -1,9 +1,7 @@
 import {
 	Avatar,
 	Box,
-	Chip,
 	Container,
-	Divider,
 	IconButton,
 	List,
 	ListItem,
@@ -13,13 +11,11 @@ import {
 	ListItemText,
 	Menu,
 	MenuItem,
-	MenuList,
 	Stack,
 	Typography
 } from "@mui/material";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import {
-	MORE_OPTIONS_HORIZONTAL_ICON,
 	MORE_OPTIONS_ICON,
 	NOTIFICATION_ICON,
 	TRASH_ICON
@@ -28,7 +24,7 @@ import { useAuthContext } from "../../contexts/AuthProvider";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import React from "react";
 import { dateParse } from "../../utils";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DeleteSweep } from "@mui/icons-material";
 
@@ -100,7 +96,7 @@ const CommentNotificationCard = ({ notification }) => {
 								variant="body2"
 								color="text.primary"
 							>
-								à commenter votre {label}
+								a interagi à une publication
 							</Typography>
 							{" — "}
 							<strong style={{ color: "var(--coreego-blue)" }}>

@@ -1,11 +1,9 @@
 import { useParams } from "react-router"
 import DiscussionForm from "../../components/forms/DiscussionForm"
-import React, { Suspense, useEffect, useState } from "react"
-import { apiFetch } from "../../http-common/apiFetch"
+import React from "react"
 import LoadingPage from "../../components/LoadingPage"
-import useSWR from "swr"
 import axios from "axios"
-import { toast } from "react-toastify"
+import useMalware from "../../hooks/useMalware"
 
 
 const DiscussionEditPage = () => {
@@ -14,10 +12,13 @@ const DiscussionEditPage = () => {
     const [isLoaded, setIsLoaded] = React.useState(false)
     const [discussion, setDiscussion] = React.useState()
 
+    const {canEdit} = useMalware()
+
     React.useEffect(()=>{
         const loadDiscussion = async () =>{
             try {
                 const response = await axios.get(`/discussions/${params.slug}`)
+                canEdit(response.data.user.id)
                 setDiscussion(response.data)
             } catch (error) {
                 console.log(error)

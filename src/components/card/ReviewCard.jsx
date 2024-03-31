@@ -1,4 +1,3 @@
-import UserSniped from "../react-ux/UserSniped";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Avatar,
@@ -9,7 +8,6 @@ import {
 	Dialog,
 	DialogActions,
 	DialogContent,
-	FormControl,
 	FormHelperText,
 	IconButton,
 	Menu,
@@ -23,13 +21,11 @@ import PopupState, {
 	bindMenu,
 	bindTrigger
 } from "material-ui-popup-state";
-import React, { useState } from "react";
+import { useState } from "react";
 import { MORE_OPTIONS_ICON } from "../../utils/icon";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
 	errorField,
-	minNumber,
-	noEmptyValidator,
 	validationReview
 } from "../../utils/formValidation";
 import LoadingButton from "@mui/lab/LoadingButton";

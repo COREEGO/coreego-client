@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import LoadingPage from "../../components/LoadingPage";
 import { useDispatch } from "react-redux";
@@ -16,17 +16,17 @@ import { useLocation } from "react-router";
 import Footer from "../Footer";
 
 const Layout = ({ children }) => {
-	const [isLoaded, setIsLoaded] = useState(false);
+	const [isLoaded, setIsLoaded] = React.useState(false);
 	const dispath = useDispatch();
 	const { authentification } = useAuthContext();
 
 	const location = useLocation();
 
-	useEffect(() => {
+	React.useEffect(() => {
 		onLoadedApplication();
 	}, []);
 
-	useEffect(() => {
+	React.useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [location.pathname]);
 

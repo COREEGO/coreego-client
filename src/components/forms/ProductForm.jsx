@@ -1,26 +1,17 @@
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import useFile from "../../hooks/useFile";
 import { Controller, useForm } from "react-hook-form";
 import {
 	errorField,
-	noEmptyLocalisationValidator,
-	maxLengthValidator,
-	noEmtyFileValidator,
-	requiredValidator,
-	validationProduct,
-	IS_REQUIRED_MESSAGE,
 	validationUpdateProduct,
 	validationCreateProduct
 } from "../../utils/formValidation";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import React, { useEffect } from "react";
-import { apiFetch } from "../../http-common/apiFetch";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Box,
-	Button,
 	Container,
-	Divider,
 	FormControl,
 	FormHelperText,
 	InputAdornment,
@@ -29,40 +20,24 @@ import {
 	Typography
 } from "@mui/material";
 import UpladButton from "../buttons/UplaodButton";
-import FormImage from "../images/FormImage";
 import { BEARER_HEADERS, IMAGE_PATH } from "../../utils/variables";
 import {
-	CAMERA_ICON,
-	TRASH_ICON,
 	UPLOAD_ICON
 } from "../../utils/icon";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
-import useMalware from "../../hooks/useMalware";
 import TitleSectionText from "../texts/TitleSectionText";
 import {
 	createBlobImage,
-	getBlobImage,
 	getViolationField,
-	isAdmin,
 	productSteps
 } from "../../utils";
 import axios from "axios";
 import { vestResolver } from "@hookform/resolvers/vest";
-import { Stepper } from "@mui/material";
-import { StepButton } from "@mui/material";
-import { Step } from "@mui/material";
-import { StepLabel } from "@mui/material";
 import { FormLabel } from "@mui/material";
 import { Card } from "@mui/material";
 import { CardContent } from "@mui/material";
-import { CardActions } from "@mui/material";
-import { CardMedia } from "@mui/material";
-import { IconButton } from "@mui/material";
-import { CardHeader } from "@mui/material";
 import PreviewImageCard from "../card/PreviewImageCard";
-import { Input } from "@mui/material";
 import StepperForm from "./_StepperForm";
 
 const ProductForm = ({
@@ -84,7 +59,6 @@ const ProductForm = ({
 				navigate("/");
 			}
 		}
-		console.log(isEditMode)
 	}, [isEditMode]);
 
 	const {
@@ -138,7 +112,7 @@ const ProductForm = ({
 			);
 			toast.success(response.data.message);
 			clearFiles();
-			navigate(`/market-place/produit/${response.data.data.slug}`);
+			navigate(`/marketplace/produit/${response.data.data.slug}`);
 		} catch (error) {
 			toast.error(error?.response?.data?.message);
 			getViolationField(error, setError);

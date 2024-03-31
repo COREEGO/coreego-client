@@ -1,6 +1,6 @@
 import moment from "moment";
 import { IMAGE_PATH } from "./variables";
-import { apiFetch } from "../http-common/apiFetch";
+import { EXPLORE_ICON, FORUM_ICON, HOME_ICON, MARKET_PLACE_ICON } from "./icon";
 
 export const dateParse = (date) => {
   const diffInYears = moment().diff(moment(date), "years");
@@ -104,6 +104,29 @@ export const cleanHtmlText = (htmlString) => {
 }
 
 export const isAdmin = (role) => role.is_admin;
+
+export const LINKS = [
+	{
+		path: "/",
+		label: "Accueil",
+		icon: HOME_ICON
+	},
+	{
+		path: "/forum",
+		label: "Forum",
+		icon: FORUM_ICON
+	},
+	{
+		path: "/marketplace",
+		label: "Marketplace",
+		icon: MARKET_PLACE_ICON
+	},
+	{
+		path: "/explorer",
+		label: "Explorer",
+		icon: EXPLORE_ICON
+	}
+];
 
 export const productSteps = [
   {

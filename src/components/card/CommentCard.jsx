@@ -1,37 +1,27 @@
 import { useAuthContext } from "../../contexts/AuthProvider";
-import { MdBorderColor, MdDelete, MdMoreVert } from "react-icons/md";
-import { apiFetch } from "../../http-common/apiFetch";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { errorField, noEmptyValidator, validationComment } from "../../utils/formValidation";
-import UserSniped from "../react-ux/UserSniped";
+import { useForm } from "react-hook-form";
+import { errorField, validationComment } from "../../utils/formValidation";
 import {
 	Card,
 	CardContent,
 	Menu,
-	Stack,
-	Box,
 	IconButton,
-	MenuList,
 	MenuItem,
-	Popover,
-	Avatar,
 	Typography,
 	DialogTitle,
 	DialogContent,
-	FormControl,
 	TextField,
-	FormHelperText,
 	Button,
 	Dialog,
 	CardHeader,
-	DialogActions
+	DialogActions,
+	Avatar
 } from "@mui/material";
 import { MORE_OPTIONS_ICON } from "../../utils/icon";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import PopupState, {
 	bindTrigger,
 	bindMenu,
-	bindPopover
 } from "material-ui-popup-state";
 import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify";
@@ -40,18 +30,16 @@ import { belongsToAuth, dateParse } from "../../utils";
 import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../utils/variables";
 import axios from "axios";
 import ReportModule from "../../pages/components/modules/ReportModule";
-import moment from "moment";
 import { vestResolver } from "@hookform/resolvers/vest";
 
 const CommentCard = ({ comment, mutate }) => {
 	const confirm = useConfirm();
 
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = React.useState(false);
 
 	const {
 		register,
 		handleSubmit,
-		reset,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		resolver: vestResolver(validationComment),

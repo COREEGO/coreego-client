@@ -1,20 +1,17 @@
-import { Box, Stack } from '@mui/material'
-import StarsFilterInput from './inputs/StarsFilterInput'
-import React from 'react'
-import ClearFilterButton from './inputs/ClearFilterButton'
-import OrderByDateFilterInput from './inputs/OrderByDateFilterInput'
-import SearchFilterInput from './inputs/SearchFilterInput'
+import { Stack } from '@mui/material'
+import ClearFilterButton from './inputs-rework/ClearFilterButton'
+import SearchFilterRework from './inputs-rework/SearchFilerRework'
+import OrderByDateFilterRework from './inputs-rework/OrderByDateFilterRework'
+import StarsFilterRework from './inputs-rework/StarsFilterRework'
 
 const ReviewsFilter = () => {
   return (
-    <React.Fragment>
-      <Stack direction='row' gap={2} flexWrap='wrap' alignItems="flex-start">
+    <Stack py={1} borderTop="1px solid black" borderBottom="1px solid black" direction="row" gap={1} flexWrap="wrap">
+        <SearchFilterRework />
+        <OrderByDateFilterRework />
+        <StarsFilterRework />
         <ClearFilterButton />
-        <SearchFilterInput />
-        <OrderByDateFilterInput />
-        <StarsFilterInput />
-      </Stack>
-    </React.Fragment>
+    </Stack>
   )
 }
 

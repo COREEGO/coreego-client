@@ -1,44 +1,21 @@
-import React from "react";
 import { useLocation } from "react-router-dom";
 import {
-	MenuItem,
 	Container,
-	Pagination,
 	Box,
-	Grid,
-	Typography,
-	Button,
-	Stack,
-	IconButton,
-	PaginationItem,
-	Select,
-	Dialog,
-	DialogTitle,
-	DialogContent,
-	Hidden,
-	TextField
-} from "@mui/material";
+	Grid} from "@mui/material";
 import useSWR from "swr";
-import { useFilterContext } from "../../contexts/FilterProvider";
 import HEADER_IMG from "../../images/headers/i-seoul-u.jpg";
-import { CLOSE_ICON, FILTER_ICON } from "../../utils/icon";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
 import LoadingPage from "../../components/LoadingPage";
-import SearchInput from "../../components/inputs/SearchInput";
 import DiscussionCard from "../../components/card/DiscussionCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import DiscussionsFilter from "../components/filters/DiscussionsFilter";
 import { FORUM_DESCRIPTION } from "../../utils";
 import NotFindComponent from "../../components/NotFindComponent";
+import { Helmet } from "react-helmet";
 
 const ForumPage = () => {
-	const { updateFilter, searchParams } = useFilterContext();
-
-	const [isOpenFilterModal, setIsOpenFilterModal] =
-		React.useState(false);
-
 	const location = useLocation();
 
 	const {
@@ -49,10 +26,21 @@ const ForumPage = () => {
 
 	if (error) console.error("API ERROR:", error);
 
-	const { discussionCategories } = useSelector((state) => state.app);
-
 	return (
 		<Container>
+			<Helmet>
+				<title>Forum | Coreego</title>
+				<meta name="title" content="Forum sur la Corée Du Sud" />
+				<meta
+					name="keywords"
+					content="forum, Corée Du Sud, discussions"
+				/>
+				<meta
+					name="description"
+					content={FORUM_DESCRIPTION.slice(0, 150)}
+				/>
+			</Helmet>
+
 			<HeroBannerFeed
 				theme="red"
 				titleFr="Forum"

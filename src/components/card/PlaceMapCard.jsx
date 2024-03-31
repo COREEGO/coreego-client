@@ -1,28 +1,24 @@
 import { getFirstImage } from "../../utils";
-import LocalisationText from "../texts/LocalisationText";
-import { BiCloset } from "react-icons/bi";
-import { CloseIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom";
 import {
 	Box,
 	Button,
 	Card,
-	CardActionArea,
 	CardContent,
 	CardMedia,
 	IconButton,
 	Menu,
-	MenuItem,
-	Stack,
 	Typography,
-	useTheme
+	useTheme,
+	Stack
 } from "@mui/material";
 import {
 	CALENDAR_ICON,
 	CLOSE_ICON,
 	EYE_ICON,
 	GPS_ICON,
-	MARKER_ICON
+	MARKER_ICON,
+	TRASH_ICON
 } from "../../utils/icon";
 import CategoryText from "../texts/CategoryText";
 import {
@@ -32,23 +28,26 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { useEffect } from "react";
 import axios from "axios";
-import { useAuthContext } from "../../contexts/AuthProvider";
 import { toast } from "react-toastify";
-import { BEARER_HEADERS } from "../../utils/variables";
+import { BEARER_HEADERS, IMAGE_PATH } from "../../utils/variables";
 import moment from "moment";
 import dayjs from "dayjs";
+import { LoadingButton } from "@mui/lab";
 
 const DatePicker = ({ place, mutate }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
+
+	const [isBusyAddDate, setIsBusyAddDate] = React.useState(false);
+	const [isBusyDeleteDate, setIsBusyDeleteDate] =
+		React.useState(false);
 
 	const [selectedDate, setSelectedDate] = React.useState(
 		place?.visit_at || new Date()
 	);
 
-	const { user } = useAuthContext();
-
 	const onUpdateDate = async () => {
 		try {
+			setIsBusyAddDate(true);
 			const formattedDate = dayjs(selectedDate).format(
 				"YYYY-MM-DD HH:mm:ss"
 			);
@@ -64,6 +63,27 @@ const DatePicker = ({ place, mutate }) => {
 			mutate();
 		} catch (error) {
 			console.log(error);
+		} finally {
+			setIsBusyAddDate(false);
+		}
+	};
+
+	const onDeleteDate = async () => {
+		try {
+			setIsBusyDeleteDate(true);
+			const response = await axios.put(
+				`/save-place/edit/${place.save_id}`,
+				{
+					visit_at: null
+				},
+				BEARER_HEADERS
+			);
+			toast.success(response.data.message);
+			mutate();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setIsBusyDeleteDate(false);
 		}
 	};
 
@@ -94,9 +114,28 @@ const DatePicker = ({ place, mutate }) => {
 						onChange={(event) => setSelectedDate(event)}
 					/>
 				</LocalizationProvider>
-				<Button variant="contained" onClick={onUpdateDate} fullWidth>
+				<LoadingButton
+					loading={isBusyAddDate}
+					variant="contained"
+					onClick={onUpdateDate}
+					fullWidth
+				>
 					Valider cette date
-				</Button>
+				</LoadingButton>
+				{place.visit_at && (
+					<Box mt={1}>
+						<LoadingButton
+							loading={isBusyDeleteDate}
+							startIcon={<TRASH_ICON />}
+							variant="contained"
+							color="error"
+							onClick={onDeleteDate}
+							fullWidth
+						>
+							Supprimer la date
+						</LoadingButton>
+					</Box>
+				)}
 			</Menu>
 		</>
 	);
@@ -108,9 +147,7 @@ const PlaceMapCard = ({
 	readOnly = true,
 	mutate
 }) => {
-
 	const theme = useTheme(); // Utiliser le hook useTheme pour accéder au thème
-
 
 	return (
 		<Card sx={{ width: "100%", height: "100%" }}>
@@ -127,7 +164,7 @@ const PlaceMapCard = ({
 				<CardMedia
 					component="img"
 					height="194"
-					image={getFirstImage(place?.images)}
+					image={IMAGE_PATH + place?.thumbnail}
 					alt={place?.title}
 				/>
 			}
@@ -157,7 +194,10 @@ const PlaceMapCard = ({
 
 					{readOnly ? (
 						place.visit_at ? (
-							<Typography color={theme.palette.warning.main} sx={{display: 'flex', alignItems: 'center', gap: 1}}>
+							<Typography
+								color={theme.palette.warning.main}
+								sx={{ display: "flex", alignItems: "center", gap: 1 }}
+							>
 								<CALENDAR_ICON />{" "}
 								{moment(place.visit_at).format("dddd DD MMMM YYYY")}
 							</Typography>
@@ -169,7 +209,7 @@ const PlaceMapCard = ({
 					)}
 
 					<Stack direction="row" spacing={2} mt={3}>
-						<NavLink to={`/voyage/place/${place.slug}`}>
+						<NavLink to={`/explorer/lieu/${place.slug}`}>
 							<Button
 								startIcon={<EYE_ICON />}
 								size="small"

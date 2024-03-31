@@ -16,7 +16,11 @@ import { NavLink } from "react-router-dom";
 import LocalisationText from "../../components/texts/LocalisationText";
 import CategoryText from "../../components/texts/CategoryText";
 import { belongsToAuth } from "../../utils";
-import { CIRCLE_ICON, EDIT_ICON, MARKER_ICON } from "../../utils/icon";
+import {
+	CIRCLE_ICON,
+	EDIT_ICON,
+	MARKER_ICON
+} from "../../utils/icon";
 import { useAuthContext } from "../../contexts/AuthProvider";
 
 import {
@@ -42,6 +46,7 @@ import { AVATAR_PATH, UNKNOWN_USER } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
+import { Helmet } from "react-helmet";
 
 const PlaceDetail = () => {
 	const params = useParams();
@@ -67,6 +72,17 @@ const PlaceDetail = () => {
 
 	return isLoaded ? (
 		<>
+			<Helmet>
+				<title>Lieu : {place.title} | Coreego</title>
+				<meta
+					name="title"
+					content={`Lieu : ${place.title} | Coreego`}
+				/>
+				<meta
+					name="description"
+					content={JSON.parse(place.reasons_to_visit).join(',').slice(0, 150)}
+				/>
+			</Helmet>
 			<Box mt={5}>
 				<Container>
 					<Stack
@@ -96,16 +112,16 @@ const PlaceDetail = () => {
 							average={place.review_average}
 						/>
 						<Box>
-						<Typography
-							textAlign="center"
-							color="var(--coreego-blue)"
-							sx={{ wordBreak: "break" }}
-							variant="h3"
-							component="h1"
+							<Typography
+								textAlign="center"
+								color="var(--coreego-blue)"
+								sx={{ wordBreak: "break" }}
+								variant="h3"
+								component="h1"
 							>
-							{place.title}
-						</Typography>
-								</Box>
+								{place.title}
+							</Typography>
+						</Box>
 						<Box
 							sx={{
 								boxShadow: "-15px 15px 4px var(--coreego-red)",
@@ -157,16 +173,18 @@ const PlaceDetail = () => {
 							endText="ce lieu"
 						/>
 						<List>
-							{JSON.parse(place.reasons_to_visit).map((reason, index) => {
-								return (
-									<ListItem key={index}>
-										<ListItemIcon>
-											<CIRCLE_ICON />
-										</ListItemIcon>
-										<ListItemText primary={reason} />
-									</ListItem>
-								);
-							})}
+							{JSON.parse(place.reasons_to_visit).map(
+								(reason, index) => {
+									return (
+										<ListItem key={index}>
+											<ListItemIcon>
+												<CIRCLE_ICON />
+											</ListItemIcon>
+											<ListItemText primary={reason} />
+										</ListItem>
+									);
+								}
+							)}
 						</List>
 						<Typography
 							color="var(--grey-bold)"
@@ -178,7 +196,6 @@ const PlaceDetail = () => {
 					</Stack>
 				</Container>
 			</Box>
-
 
 			<Box mt={3}>
 				<Container>

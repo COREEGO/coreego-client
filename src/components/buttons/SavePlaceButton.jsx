@@ -1,7 +1,6 @@
 import { BsBookmark, BsBookmarkStarFill } from "react-icons/bs";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import React, { useEffect, useState } from "react";
-import { apiFetch } from "../../http-common/apiFetch";
 import { IconButton } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
@@ -10,6 +9,8 @@ import {
 	UNSAVED_PLACE_ICON
 } from "../../utils/icon";
 import { useNavigate } from "react-router";
+import axios from "axios";
+import { BEARER_HEADERS } from "../../utils/variables";
 
 const SavePlaceButton = ({
 	showLabel = false,
@@ -31,21 +32,16 @@ const SavePlaceButton = ({
 	const handleClick = async () => {
 		try {
 			setIsBusy(true);
-			const response = await apiFetch(
-				"/save-place",
-				"POST",
-				{
-					place_id: placeId
-				},
-				true
-			);
+			const response = await axios.post('/save-place', {
+				place_id: placeId
+			}, BEARER_HEADERS)
 
 			if (response) {
-				toast.success(response.message);
+				toast.success(response?.data?.message);
 				mutate();
 			}
 		} catch (error) {
-			toast.error(error.message.message);
+			toast.error(error?.data?.message);
 		} finally {
 			setIsBusy(false);
 		}

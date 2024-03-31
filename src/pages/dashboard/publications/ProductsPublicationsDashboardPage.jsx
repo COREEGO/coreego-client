@@ -11,7 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 import TitleSectionText from "../../../components/texts/TitleSectionText";
-import React, { useMemo } from "react";
+import React from "react";
 import LoadingPage from "../../../components/LoadingPage";
 import axios from "axios";
 import { AVATAR_PATH, UNKNOWN_USER } from "../../../utils/variables";
@@ -109,7 +109,7 @@ const ProductsPublicationsDashboardPage = () => {
 										</TableCell>
 										<TableCell component="th" scope="row">
 											<OptionPublicationButton
-												editLink={`/market-place/produit/modification/${product.slug}`}
+												editLink={`/marketplace/produit/modification/${product.slug}`}
 												deleteUrl={`/products/${product.id}`}
 												mutate={loadProducts}
 											/>

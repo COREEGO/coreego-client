@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const initialState : any = {
+const initialState = {
     discussionCategories: null,
     placeCategories: null,
     cities: null,

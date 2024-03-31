@@ -3,16 +3,12 @@ import {
 	Card,
 	CardHeader,
 	CardContent,
-	Box,
-	Tab,
 	List,
 	ListItem,
 	ListItemText,
     Divider
 } from "@mui/material";
 import DefaultLinechart from "../../../components/charts/DefaultLinechart";
-import DefaultTinyBarChart from "../../../components/charts/DefaultTinyBarChart";
-import CamamberChart from "../../../components/charts/CamamberChart";
 
 const ProductAnalitic = ({ datas }) => {
 	return (

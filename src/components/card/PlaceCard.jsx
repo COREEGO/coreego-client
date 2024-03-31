@@ -1,10 +1,8 @@
 import LikeCountIcon from "../icons/LikeCountIcon";
 import StarsAverageIcon from "../icons/StarsAverageIcon";
 import CategoryText from "../texts/CategoryText";
-import { getFirstImage } from "../../utils";
 import {
 	Avatar,
-	Box,
 	Card,
 	CardActionArea,
 	CardContent,

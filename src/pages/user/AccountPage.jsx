@@ -1,7 +1,6 @@
 import {
 	Avatar,
 	Box,
-	Button,
 	Card,
 	CardActionArea,
 	CardContent,
@@ -24,7 +23,6 @@ import {
 import {
 	DISLIKE_ICON,
 	EDITNOTE_ICON,
-	LIKE_ICON,
 	PASSWORD_ICON,
 	PROFIL_ICON
 } from "../../utils/icon";
@@ -33,7 +31,6 @@ import { useAuthContext } from "../../contexts/AuthProvider";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import React from "react";
-import moment from "moment";
 import { useForm } from "react-hook-form";
 import {
 	errorField,

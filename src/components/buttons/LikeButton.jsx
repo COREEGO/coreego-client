@@ -1,11 +1,8 @@
-import { PropsWithChildren, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { DISLIKE_ICON, LIKE_ICON } from "../../utils/icon";
 import { toast } from "react-toastify";
-import { apiFetch } from "../../http-common/apiFetch";
-import LoadingButton, {
-	LoadingButtonProps
-} from "@mui/lab/LoadingButton";
+import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../utils/variables";
 import { useNavigate } from "react-router";
@@ -19,7 +16,7 @@ const LikeButton = ({
 }) => {
 	const [isBusy, setIsBusy] = useState(false);
 	const { user } = useAuthContext();
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 	const existLike = useMemo(() => {
 		return likes.find((like) => like?.user?.id === user.id)
 			? true
@@ -27,9 +24,9 @@ const LikeButton = ({
 	}, [likes, discussionId, placeId]);
 
 	const handleLike = async () => {
-		if(!user){
-			navigate('/login')
-			return
+		if (!user) {
+			navigate("/login");
+			return;
 		}
 		try {
 			setIsBusy(true);
@@ -43,7 +40,6 @@ const LikeButton = ({
 			);
 			toast.success(response.data.message);
 			mutate();
-
 		} catch (error) {
 			toast.error(error?.response?.data?.message);
 			toast.error(error?.data?.message);

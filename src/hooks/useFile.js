@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as imageConversion from "image-conversion";
-import { apiFetch } from "../http-common/apiFetch";
 import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import { allowedExtensions } from "../utils";

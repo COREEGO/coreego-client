@@ -10,10 +10,9 @@ const ClearFilterButton = ({ ...props }) => {
       <IconButton
         {...props}
         size='small'
-        sx={{ border: '2px solid grey' }}
         onClick={() => clearFilters()}
 			>
-        <FILTER_OFF_ICON />
+        <FILTER_OFF_ICON sx={{color: 'black'}} />
       </IconButton>
     </Tooltip>
   )

@@ -1,3 +1,5 @@
+import React from "react";
+import axios from "axios";
 import {
     Avatar,
 	IconButton,
@@ -12,8 +14,6 @@ import {
 	Typography
 } from "@mui/material";
 import TitleSectionText from "../../../components/texts/TitleSectionText";
-import React from "react";
-import axios from "axios";
 import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../../utils/variables";
 import LoadingPage from "../../../components/LoadingPage";
 import PaginationData from "../../../components/PaginationData";

@@ -3,8 +3,6 @@ import {
 	Card,
 	CardHeader,
 	CardContent,
-	Box,
-	Tab
 } from "@mui/material";
 import DefaultLinechart from "../../../components/charts/DefaultLinechart";
 import DefaultTinyBarChart from "../../../components/charts/DefaultTinyBarChart";

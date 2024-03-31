@@ -1,44 +1,18 @@
 import HEADER_IMG from "../../images/headers/han-gang.jpg";
-import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
-import { useFilterContext } from "../../contexts/FilterProvider";
-import { FILTER_ICON, CLOSE_ICON } from "../../utils/icon";
 import { NavLink, useLocation } from "react-router-dom";
 import useSWR from "swr";
-import {
-	Box,
-	Container,
-	Typography,
-	Grid,
-	Pagination,
-	Stack,
-	DialogContent,
-	Hidden,
-	Card,
-	CardContent,
-	FormGroup,
-	FormLabel,
-	DialogTitle,
-	Dialog,
-	IconButton,
-	PaginationItem,
-	Button
-} from "@mui/material";
+import { Box, Container, Grid } from "@mui/material";
 import LoadingPage from "../../components/LoadingPage";
-import React from "react";
-import SearchInput from "../../components/inputs/SearchInput";
-import DoubleSliderInput from "../../components/inputs/DoubleSliderInput";
 import ProductCard from "../../components/card/ProductCard";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import ProductsFilter from "../components/filters/ProductsFilter";
 import { MARKETPLACE_DESCRIPTION } from "../../utils";
 import NotFindComponent from "../../components/NotFindComponent";
+import { Helmet } from "react-helmet";
 
 const MarketPlacePage = () => {
-	const { updateFilter, searchParams } = useFilterContext();
 	const location = useLocation();
-	const [isOpenFilterModal, setIsOpenFilterModal] =
-		React.useState(false);
 
 	const {
 		data: products,
@@ -50,6 +24,22 @@ const MarketPlacePage = () => {
 
 	return (
 		<Container>
+			<Helmet>
+				<title>Marketplace | Coreego</title>
+				<meta
+					name="title"
+					content="Vendez vos articles sur Coreego"
+				/>
+				<meta
+					name="keywords"
+					content="marketplace, corée du sud, produit coréen, coreego"
+				/>
+				<meta
+					name="description"
+					content={MARKETPLACE_DESCRIPTION.slice(0, 150)}
+				/>
+			</Helmet>
+
 			<HeroBannerFeed
 				theme="blue"
 				titleFr="Marketplace"
@@ -57,7 +47,7 @@ const MarketPlacePage = () => {
 				description={MARKETPLACE_DESCRIPTION}
 				imageLink={HEADER_IMG}
 				buttonLabel="Vendre un produit"
-				buttonLink="/market-place/produit/creation"
+				buttonLink="/marketplace/produit/creation"
 				imageDirection="start"
 			/>
 
@@ -73,7 +63,7 @@ const MarketPlacePage = () => {
 								return (
 									<Grid key={product.id} item xs={12} sm={6} md={4}>
 										<NavLink
-											to={`/market-place/produit/${product.slug}`}
+											to={`/marketplace/produit/${product.slug}`}
 										>
 											<ProductCard product={product} />
 										</NavLink>

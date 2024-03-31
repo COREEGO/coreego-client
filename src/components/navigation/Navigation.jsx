@@ -34,30 +34,8 @@ import {
 	HOME_ICON
 } from "../../utils/icon";
 import { AVATAR_PATH } from "../../utils/variables";
-import { hasNotificationNotReaded, isAdmin } from "../../utils";
+import { LINKS, hasNotificationNotReaded, isAdmin } from "../../utils";
 
-const links = [
-	{
-		path: "/",
-		label: "Accueil",
-		icon: HOME_ICON
-	},
-	{
-		path: "/forum",
-		label: "Forum",
-		icon: FORUM_ICON
-	},
-	{
-		path: "/market-place",
-		label: "Market place",
-		icon: MARKET_PLACE_ICON
-	},
-	{
-		path: "/explorer",
-		label: "Explorer",
-		icon: EXPLORE_ICON
-	}
-];
 
 const NavigationUserMenu = () => {
 	const { user, logout } = useAuthContext();
@@ -140,7 +118,7 @@ const Navigation = () => {
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						<NavLink className="nav_logo" to="/">
 							<img
-								width={120}
+								width={150}
 								height="auto"
 								src={logo}
 								title="coreego"
@@ -179,7 +157,7 @@ const Navigation = () => {
 								display: { xs: "block", md: "none" }
 							}}
 						>
-							{links.map((link) => (
+							{LINKS.map((link) => (
 								<NavLink to={link.path} key={link.path}>
 									<MenuItem
 										sx={{ color: "black" }}
@@ -223,7 +201,7 @@ const Navigation = () => {
 							justifyContent: "center"
 						}}
 					>
-						{links.map((link) => (
+						{LINKS.map((link) => (
 							<NavLink
 								style={{
 									display: "flex",

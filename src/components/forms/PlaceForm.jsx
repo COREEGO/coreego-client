@@ -1,47 +1,35 @@
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import TitleText from "../texts/TitleText";
+import { useNavigate } from "react-router";
 import {
-	BASE_URL,
 	BEARER_HEADERS,
 	IMAGE_PATH
 } from "../../utils/variables";
 import {
 	errorField,
-	noEmptyLocalisationValidator,
-	noEmtyFileValidator,
 	validationCreatePlace,
-	validationPlace,
 	validationUpdatePlace
 } from "../../utils/formValidation";
 import UpladButton from "../buttons/UplaodButton";
 import useFile from "../../hooks/useFile";
 import {
-	CAMERA_ICON,
-	TRASH_ICON,
 	UPLOAD_ICON
 } from "../../utils/icon";
-import FormImage from "../images/FormImage";
 import React, { useEffect, useState } from "react";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import axios from "axios";
 import MapSimpleMarker from "../maps/MapSimpleMarker";
 import {
 	Box,
-	Button,
 	Card,
 	CardActions,
 	CardContent,
 	Container,
-	Divider,
 	FormControl,
 	FormHelperText,
 	FormLabel,
 	InputAdornment,
-	InputLabel,
 	MenuItem,
-	Select,
 	Stack,
 	TextField,
 	Typography,
@@ -51,7 +39,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import TitleSectionText from "../texts/TitleSectionText";
 import {
-	PlaceStep,
 	createBlobImage,
 	getViolationField,
 	isKoreanAddress,

@@ -3,9 +3,7 @@ import {
 	Grid,
 	Stack,
 	Typography,
-	Button,
-	Container
-} from '@mui/material'
+	Button} from '@mui/material'
 import PropTypes from 'prop-types'
 import { ADD_ICON } from '../../../utils/icon'
 import { NavLink } from 'react-router-dom'
@@ -18,7 +16,6 @@ const HeroBannerFeed = ({
 	buttonLink = '',
 	buttonLabel = '',
 	theme,
-	logo,
 	imageLink
 }) => {
   return (

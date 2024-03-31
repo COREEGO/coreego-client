@@ -1,5 +1,4 @@
 import { create, test, enforce } from 'vest';
-import { cleanHtmlText } from ".";
 
 export const IS_REQUIRED_MESSAGE = "Ce champ est requis";
 const IS_NOT_REGEX_VALID_MESSAGE = "Le format est invalide";
@@ -149,7 +148,6 @@ export const validationProfil = create((data = {}) => {
 })
 
 
-
 export const validationReport = create((data = {}) => {
   test('content',  IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
   test('content', minLength(3), () => {enforce(data.content).longerThanOrEquals(3)});
@@ -161,115 +159,3 @@ export const errorField = (error) => {
       helperText: error?.message || "",
   };
 };
-
-export const noEmptyValidator = {
-  required: {
-    value: true,
-    message: "Cette valeur ne doit pas être vide"
-  }
-};
-
-export const requiredValidator = {
-  required:{
-    value: true,
-    message: 'Cette valeur ne doit pas être vide'
-  }
-}
-
-export const emailValidator = {
-  pattern: {
-    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-    message: "Adresse email invalide",
-  },
-};
-
-
-
-export const notEmptyQuillEditor = (htmlString) => {
-
-  if(!htmlString || cleanHtmlText(htmlString).length == 0){
-    return "Cette valeur ne doit pas être vide"
-  }
-  return
-}
-
-
-
-export const maxLengthValidator = (length) => {
-  return {
-    maxLength: { value: length, message: `Le champ ne doit pas dépasser ${length} caractères` },
-  };
-};
-
-export const pseudoRegexValidator = {
-    pattern: {
-      value: /^[a-zA-Z0-9_.]+$/,
-      message: "Certain caractères ne sont pas valide",
-    },
-  }
-
-
-export const minLengthValidatior = (length) => {
-  return {
-    maxLength: {
-      value: length,
-      message: `Le champ doit avoir un minimum de ${length} caractères` },
-  };
-};
-
-export const noEmptyLocalisationValidator = (city, district) => {
-  if(city == '0' || district == '0'){
-    return "Cette valeur ne doit pas être vide"
-  }
-  return
-}
-
-export const noEmtyFileValidator = (files) => {
-  return files.length > 0 || "Une image au minimum est attendu";
-};
-
-export const passwordMatchValidator = (password, confirmPassword) => {
-    return password === confirmPassword || 'Les mots de passe ne correspondent pas.'
-}
-
-
-export const combinedPseudoValidator = {
-      maxLength: {
-        value: 20,
-        message: `Le champ ne doit pas dépasser 20 caractères`
-      },
-      required:{
-        value: true,
-        message: 'Cette valeur ne doit pas être vide'
-      },
-      pattern: {
-        value: /^[a-zA-Z0-9_.]+$/,
-        message: "Certain caractères ne sont pas valide",
-      },
-};
-
-export const combineEmailValidator = {
-  required:{
-    value: true,
-    message: 'Cette valeur ne doit pas être vide'
-  },
-  pattern: {
-    value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-    message: "Adresse email invalide",
-  },
-}
-
-export const combienPasswordValidator = {
-  required:{
-    value: true,
-    message: 'Cette valeur ne doit pas être vide'
-  },
-    maxLength: {
-      value: 20,
-      message: `Le champ doit avoir un minimum de 20 caractères`
-    }
-}
-
-export const combineConfirmPasswordValidator = (password, confirmPassword) => {
-  return password === confirmPassword || 'Les mots de passe ne correspondent pas.'
-}

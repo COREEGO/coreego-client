@@ -23,18 +23,12 @@ import { TRAVELLOGUE_DESCRIPTION } from "../../utils";
 import NotFindComponent from "../../components/NotFindComponent";
 
 const TravelLoguePage = () => {
-	const [isBusy, setIsBusy] = useState(true);
-	const [places, setPlaces] = useState([]);
-
-	const { placeCategories, cities } = useSelector(
-		(state) => state.app
-	);
-
-	const { updateFilter, searchParams } = useFilterContext();
+	const [isBusy, setIsBusy] = React.useState(true);
+	const [places, setPlaces] = React.useState([]);
 
 	const location = useLocation();
 
-	useEffect(() => {
+	React.useEffect(() => {
 		loadData();
 	}, [location.search]);
 

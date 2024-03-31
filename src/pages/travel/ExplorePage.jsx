@@ -1,38 +1,20 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import HEADER_IMG from "../../images/headers/jeju-do.jpg";
 import { useFilterContext } from "../../contexts/FilterProvider";
-import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
 import { NavLink, useLocation } from "react-router-dom";
-import { CLOSE_ICON, FILTER_ICON } from "../../utils/icon";
 import {
 	Box,
 	Container,
-	Grid,
-	Typography,
-	Button,
-	Pagination,
-	Stack,
-	Hidden,
-	Select,
-	Dialog,
-	DialogTitle,
-	IconButton,
-	DialogContent,
-	PaginationItem,
-	MenuItem,
-	TextField
-} from "@mui/material";
+	Grid} from "@mui/material";
 import useSWR from "swr";
 import LoadingPage from "../../components/LoadingPage";
 import PlaceCard from "../../components/card/PlaceCard";
-import SearchInput from "../../components/inputs/SearchInput";
 import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import PlacesFilter from "../components/filters/PlacesFilter";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { EXPLORE_DESCRIPTION } from "../../utils";
 import NotFindComponent from "../../components/NotFindComponent";
+import {Helmet} from 'react-helmet'
 
 const ExplorePage = () => {
 	const location = useLocation();
@@ -48,6 +30,21 @@ const ExplorePage = () => {
 
 	return (
 		<Container>
+			<Helmet>
+				<title>
+					Explorer la Corée Du Sud | Coreego
+				</title>
+				<meta
+					name="title"
+					content="Découvrez la Corée Du Sud avec Coreego"
+				/>
+				<meta
+					name="keywords"
+					content="explorer, corée du sud, coreego"
+				/>
+				<meta name="description" content={EXPLORE_DESCRIPTION.slice(0,150)} />
+			</Helmet>
+
 			<HeroBannerFeed
 				theme="red"
 				titleFr="Explorer"

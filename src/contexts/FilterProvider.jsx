@@ -1,5 +1,5 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { createContext, useContext } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 
 const FilterContext = createContext({

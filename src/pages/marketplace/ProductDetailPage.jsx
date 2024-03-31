@@ -1,34 +1,19 @@
 import { useNavigate, useParams } from "react-router";
-import useSWR from "swr";
-import React, { Suspense, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingPage from "../../components/LoadingPage";
-import { BsMessenger, BsXLg } from "react-icons/bs";
-import ThumbSwiper from "../../components/swipers/ThumbSwiper";
-import { NavLink } from "react-router-dom";
-import TitleText from "../../components/texts/TitleText";
 import KakaoMap from "../../components/maps/KakaoMap";
-import UserSniped from "../../components/react-ux/UserSniped";
-import LocalisationText from "../../components/texts/LocalisationText";
-import PriceText from "../../components/texts/PriceText";
 import { belongsToAuth } from "../../utils";
-import {
-	EDIT_ICON,
-	MAIL_ICON,
-	MARKER_ICON,
-	PRICE_ICON
-} from "../../utils/icon";
+import { MAIL_ICON, MARKER_ICON } from "../../utils/icon";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Avatar,
 	Box,
 	Button,
 	Container,
-	Divider,
 	Grid,
 	Stack,
 	Typography
 } from "@mui/material";
-import { apiFetch } from "../../http-common/apiFetch";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
 import { AVATAR_PATH } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
@@ -125,9 +110,9 @@ const ProductDetail = () => {
 										</Typography>
 										{belongsToAuth(product.user.id, user?.id) ? (
 											<OptionPublicationButton
-												editLink={`/market-place/produit/modification/${product.slug}`}
+												editLink={`/marketplace/produit/modification/${product.slug}`}
 												deleteUrl={`/products/${product.id}`}
-												redirectionUrl={"/market-place"}
+												redirectionUrl={"/marketplace"}
 											/>
 										) : (
 											<ReportModule

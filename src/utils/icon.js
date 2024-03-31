@@ -1,13 +1,9 @@
-import { BsHeart, BsHouseDoor, BsPersonWorkspace, BsCameraFill } from "react-icons/bs";
-import { MdClose, MdOutlineComment, MdOutlineShoppingBag, MdOutlineTravelExplore } from "react-icons/md";
-import PersonIcon from '@mui/icons-material/Person';
-import { HiLanguage } from "react-icons/hi2";
-import { RiInstagramLine, RiKakaoTalkFill, RiFacebookBoxFill, RiYoutubeFill } from "react-icons/ri";
+import { MdClose } from "react-icons/md";
+import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiTiktok } from "react-icons/si";
 import XIcon from '@mui/icons-material/X';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import { FaCircle } from "react-icons/fa";
-import { LiaEdit } from "react-icons/lia";
 import TuneIcon from '@mui/icons-material/Tune';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -27,7 +23,6 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import ForumIcon from '@mui/icons-material/Forum';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import InsertLinkIcon from '@mui/icons-material/InsertLink';
@@ -70,9 +65,8 @@ export const EDITNOTE_ICON = EditNoteIcon
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
 
+export const CATEGORY_ICON = InboxIcon
 export const GEOLOCALISATION_ICON = ExploreOffOutlinedIcon
-
-export const CHECK_ICON = CheckIcon
 
 export const SEARCH_ICON = SearchIcon
 

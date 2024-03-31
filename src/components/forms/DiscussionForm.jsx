@@ -1,39 +1,25 @@
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router";
-import TitleText from "../texts/TitleText";
-import { BEARER_HEADERS, IMAGE_PATH } from "../../utils/variables";
+import { useNavigate } from "react-router";
+import { BEARER_HEADERS } from "../../utils/variables";
 import {
 	errorField,
-	maxLengthValidator,
-	noEmptyValidator,
-	notEmptyQuillEditor,
-	requiredValidator,
 	validationDiscussion
 } from "../../utils/formValidation";
-import useFile from "../../hooks/useFile";
-import { apiFetch } from "../../http-common/apiFetch";
-import React, { useEffect } from "react";
+import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 
 import {
 	Box,
-	Button,
 	Container,
-	Divider,
 	FormControl,
 	FormHelperText,
 	InputAdornment,
-	InputLabel,
 	MenuItem,
-	Select,
 	Stack,
-	TextField,
-	Typography
-} from "@mui/material";
+	TextField} from "@mui/material";
 import { useAuthContext } from "../../contexts/AuthProvider";
-import useMalware from "../../hooks/useMalware";
 import ReactQuillInput from "../inputs/ReactQuillInput";
 import TitleSectionText from "../texts/TitleSectionText";
 import axios from "axios";
@@ -52,7 +38,7 @@ const DiscussionForm = ({
 	const navigate = useNavigate();
 	const { user } = useAuthContext();
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (isEditMode) {
 			if (discussion.user.id !== user.id && !user.role.is_admin) {
 				navigate("/");
@@ -65,8 +51,6 @@ const DiscussionForm = ({
 	const {
 		control,
 		register,
-		getValues,
-		setValue,
 		setError,
 		handleSubmit,
 		watch,

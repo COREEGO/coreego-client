@@ -8,6 +8,7 @@ import {
 import { NavLink } from 'react-router-dom'
 import { INSTAGRAM_ICON } from '../utils/icon'
 import LOGO from '../images/svgs/coreego-logo.svg'
+import { LINKS } from '../utils'
 
 const Footer = ({ ...props }) => {
   return (
@@ -44,9 +45,13 @@ const Footer = ({ ...props }) => {
                 }
               }}
 						>
-              <NavLink to='/forum'>Forum</NavLink>
-              <NavLink to='/market-place'>Market place</NavLink>
-              <NavLink to='/explorer'>Explorer</NavLink>
+              {
+                LINKS.map((link, index)=> {
+                  return (
+                    <NavLink key={index} to={link.path}>{link.label}</NavLink>
+                  )
+                })
+              }
             </Stack>
           </Box>
 

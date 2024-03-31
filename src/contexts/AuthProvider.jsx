@@ -1,33 +1,29 @@
 'use client'
 
-import React, { ReactNode, createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext } from 'react';
 import { useNavigate } from "react-router"
-import axios from '../http-common/axiosInstance';
-import { BEARER_HEADERS, TOKEN } from '../utils/variables';
-import { toast } from 'react-toastify';
+import { BEARER_HEADERS } from '../utils/variables';
+import axios from 'axios';
 
 const AuthContext = createContext({});
 
-interface AuthProviderProps {
-    children: ReactNode
-}
 
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState<any>(null)
+    const [user, setUser] = React.useState(null)
     const navigate = useNavigate()
 
-    const authentification = async () => {
+
+    const authentification = React.useCallback(async () => {
         try {
-            const response: any = await axios.get('/me', BEARER_HEADERS)
+            const response = await axios.get('/me', BEARER_HEADERS)
             setUser(response.data)
-        } catch (error: any) {
-           //
+        } catch (error) {
+            console.error(error.message)
         }
-    };
+    }, [])
 
-
-    const logout = useCallback(async () => {
+    const logout = React.useCallback(async () => {
         try {
             await axios.post('/logout', null, {
                 headers: {
@@ -37,7 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
             localStorage.removeItem('token')
             setUser(null)
             navigate('/login')
-        } catch (error: any) {
+        } catch (error) {
             console.error(error.message)
         }
     }, [])

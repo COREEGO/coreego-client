@@ -2,12 +2,10 @@ import CommentCard from "../../../components/card/CommentCard";
 import { useMemo } from "react";
 import {
 	errorField,
-	noEmptyValidator,
 	validationComment
 } from "../../../utils/formValidation";
 import {
 	Box,
-	FormControl,
 	Button,
 	Container,
 	Dialog,
@@ -15,7 +13,6 @@ import {
 	DialogTitle,
 	Stack,
 	TextField,
-	FormHelperText,
 	DialogActions
 } from "@mui/material";
 import React from "react";
@@ -27,7 +24,7 @@ import { BEARER_HEADERS } from "../../../utils/variables";
 import { useForm } from "react-hook-form";
 import { vestResolver } from "@hookform/resolvers/vest";
 import { useAuthContext } from "../../../contexts/AuthProvider";
-import { useNavigate, useNavigation } from "react-router";
+import { useNavigate } from "react-router";
 
 const CommentModule = ({
 	comments,

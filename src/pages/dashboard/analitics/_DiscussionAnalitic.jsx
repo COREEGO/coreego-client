@@ -3,7 +3,6 @@ import {
 	Card,
 	CardHeader,
 	CardContent,
-	Box
 } from "@mui/material";
 import CamamberChart from "../../../components/charts/CamamberChart";
 import DefaultLinechart from "../../../components/charts/DefaultLinechart";

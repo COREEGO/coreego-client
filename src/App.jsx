@@ -5,7 +5,6 @@ import store from './store/app.store'
 import Layout from './pages/layouts/Layout'
 import { FilterProvider } from './contexts/FilterProvider'
 import { SWRConfig } from 'swr'
-import { swrConfig } from './http-common/swrConfig'
 import { AuthProvider } from './contexts/AuthProvider'
 import { ToastContainer } from 'react-toastify'
 import { ConfirmProvider } from 'material-ui-confirm'
@@ -17,6 +16,7 @@ import {
 	createTheme,
 	responsiveFontSizes
 } from '@mui/material'
+import axios from 'axios'
 
 let theme = createTheme({
   typography: {
@@ -64,6 +64,10 @@ let theme = createTheme({
 })
 
 theme = responsiveFontSizes(theme)
+
+const swrConfig = {
+	fetcher: (url) => axios.get(url).then((res) => res.data)
+};
 
 function App () {
   return (

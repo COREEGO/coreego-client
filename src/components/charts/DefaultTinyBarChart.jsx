@@ -2,9 +2,6 @@ import { Box } from '@mui/material'
 import {
 	Bar,
 	BarChart,
-	CartesianGrid,
-	LabelList,
-	Legend,
 	ResponsiveContainer,
 	Tooltip,
 	XAxis,

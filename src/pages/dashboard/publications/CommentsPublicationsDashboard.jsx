@@ -1,6 +1,5 @@
 import {
 	Avatar,
-	Grid,
 	IconButton,
 	Paper,
 	Stack,
@@ -20,7 +19,6 @@ import {
 	BEARER_HEADERS,
 	UNKNOWN_USER
 } from "../../../utils/variables";
-import CommentCard from "../../../components/card/CommentCard";
 import LoadingPage from "../../../components/LoadingPage";
 import PaginationData from "../../../components/PaginationData";
 import moment from "moment";

@@ -41,9 +41,9 @@ export default function RouterOutlet() {
             <Route path="/" element={<HomePage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
-            <Route path="/market-place" element={<MarketPlacePage />} />
+            <Route path="/marketplace" element={<MarketPlacePage />} />
 
-            <Route path="/market-place/produit/:slug" element={<ProductDetail />} />
+            <Route path="/marketplace/produit/:slug" element={<ProductDetail />} />
             <Route path="/explorer" element={<ExplorePage />} />
             <Route path="/explorer/lieu/:slug" element={<PlaceDetail />} />
 
@@ -62,8 +62,8 @@ export default function RouterOutlet() {
                 <Route path="/forum/discussion/creation" element={<DiscussionCreatePage />} />
                 <Route path="/forum/discussion/modification/:slug" element={<DiscussionEditPage />} />
 
-                <Route path="/market-place/produit/creation" element={<ProductCreatePage />} />
-                <Route path="/market-place/produit/modification/:slug" element={<ProductEditPage />} />
+                <Route path="/marketplace/produit/creation" element={<ProductCreatePage />} />
+                <Route path="/marketplace/produit/modification/:slug" element={<ProductEditPage />} />
 
                 <Route path="/explorer/lieu/creation" element={<PlaceCreatePage />} />
 

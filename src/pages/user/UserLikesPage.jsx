@@ -8,7 +8,7 @@ import {
 } from '@mui/material'
 import { DISLIKE_ICON } from '../../utils/icon'
 import TitleSectionText from '../../components/texts/TitleSectionText'
-import React, { useState } from 'react'
+import React from 'react'
 import axios from 'axios'
 import { BEARER_HEADERS } from '../../utils/variables'
 import LoadingPage from '../../components/LoadingPage'

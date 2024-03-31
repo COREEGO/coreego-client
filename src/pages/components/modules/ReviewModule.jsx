@@ -1,23 +1,20 @@
+import React from "react";
 import { useAuthContext } from "../../../contexts/AuthProvider";
 import { Controller, useForm } from "react-hook-form";
 import {
 	errorField,
-	noEmptyValidator,
 	validationReview
 } from "../../../utils/formValidation";
 import ReviewCard from "../../../components/card/ReviewCard";
 import StarsAverageIcon from "../../../components/icons/StarsAverageIcon";
-import { useMemo, useState } from "react";
 import {
 	AppBar,
-	Box,
 	Button,
 	Container,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	Drawer,
-	FormControl,
 	FormHelperText,
 	IconButton,
 	Rating,
@@ -35,13 +32,13 @@ import { useNavigate } from "react-router";
 import { vestResolver } from "@hookform/resolvers/vest";
 
 const ReviewModule = ({ placeId, mutate, reviews, average }) => {
-	const [isOpen, setIsOpen] = useState(false);
-	const [isOpenForm, setIsOpenForm] = useState(false);
+	const [isOpen, setIsOpen] = React.useState(false);
+	const [isOpenForm, setIsOpenForm] = React.useState(false);
 	const { user } = useAuthContext();
 
 	const navigate = useNavigate();
 
-	const reviewList = useMemo(() => {
+	const reviewList = React.useMemo(() => {
 		return reviews.sort((a, b) => {
 			return (
 				new Date(b.created_at).getTime() -
@@ -50,7 +47,7 @@ const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 		});
 	}, [reviews]);
 
-	const currentUserReview = useMemo(() => {
+	const currentUserReview = React.useMemo(() => {
 		return reviews.find((review) => review?.user?.id === user?.id);
 	}, [reviews]);
 

@@ -1,6 +1,3 @@
-
-
-
 import { Typography, Stack } from "@mui/material"
 import { COMMENT_ICON } from "../../utils/icon"
 

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { NavLink } from "react-router-dom";
-import useSWR from "swr";
 import {
 	FORUM_ICON,
-	DISLIKE_ICON,
 	EXPLORE_ICON,
 	MARKET_PLACE_ICON,
 	OCCUPATION_ICON,
@@ -15,11 +13,9 @@ import {
 	FACEBOOK_ICON,
 	TIKTOK_ICON,
 	YOUTUBE_ICON,
-	LIKE_ICON,
-	LOGOUT_ICON
+	LIKE_ICON
 } from "../../utils/icon";
 import LoadingPage from "../../components/LoadingPage";
-import UserSniped from "../../components/react-ux/UserSniped";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Avatar,
@@ -28,13 +24,10 @@ import {
 	Card,
 	CardContent,
 	Container,
-	Divider,
 	Grid,
 	IconButton,
-	List,
 	ListItem,
 	ListItemAvatar,
-	ListItemIcon,
 	ListItemText,
 	Stack,
 	Tooltip,
@@ -42,17 +35,10 @@ import {
 	Typography
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { apiFetch } from "../../http-common/apiFetch";
-import ProfilForm from "../../components/forms/ProfilForm";
-import {
-	AVATAR_PATH,
-	BEARER_HEADERS,
-	SOCIAL_ICON_SIZE
-} from "../../utils/variables";
+import { AVATAR_PATH } from "../../utils/variables";
 import axios from "axios";
 import {
 	belongsToAuth,
-	dateParse,
 	facebookLink,
 	instagramLink,
 	tiktokLink,
@@ -66,12 +52,6 @@ const ProfilPage = () => {
 
 	const [isLoaded, setIsLoaded] = useState(false);
 	const { user: currentUser } = useAuthContext();
-	const { setUser: setUserContext } = useAuthContext();
-
-
-	const isCurrentAuthProfil = currentUser
-		? currentUser.slug == params.slug
-		: false;
 
 	const [user, setUser] = useState(null);
 
@@ -82,7 +62,6 @@ const ProfilPage = () => {
 	const loadUser = async () => {
 		try {
 			const response = await axios.get("/user/" + params.pseudo);
-			console.log(response.data);
 			setUser(response.data);
 		} catch (error) {
 			console.log(error);
@@ -91,7 +70,6 @@ const ProfilPage = () => {
 			setIsLoaded(true);
 		}
 	};
-
 
 	return isLoaded ? (
 		<Box py={5}>
@@ -143,9 +121,7 @@ const ProfilPage = () => {
 							/>
 							{user?.introduction && (
 								<CardContent>
-									<Typography>
-										{user?.introduction}
-									</Typography>
+									<Typography>{user?.introduction}</Typography>
 								</CardContent>
 							)}
 						</Card>
@@ -221,7 +197,7 @@ const ProfilPage = () => {
 							{(user.occupation ||
 								user.hobby ||
 								(user?.city?.label && user?.district?.label) ||
-								JSON.parse(user.languages).length > 0 ) && (
+								JSON.parse(user.languages).length > 0) && (
 								<CardContent>
 									<Stack>
 										<ListItem
@@ -348,7 +324,7 @@ const ProfilPage = () => {
 											Discussions
 										</Button>
 									</NavLink>
-									<NavLink to={`/market-place?user=${user.id}`}>
+									<NavLink to={`/marketplace?user=${user.id}`}>
 										<Button
 											sx={{ width: "100%", py: 3 }}
 											variant="outlined"

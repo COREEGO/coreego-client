@@ -27,7 +27,6 @@ import { vestResolver } from "@hookform/resolvers/vest";
 import { BEARER_HEADERS } from "../../utils/variables";
 
 export default function LoginPage() {
-
 	const {
 		register,
 		handleSubmit,
@@ -45,7 +44,7 @@ export default function LoginPage() {
 			});
 			if (response && response.data) {
 				localStorage.setItem("token", response.data.token);
-				window.location.replace('/')
+				window.location.replace("/");
 			}
 		} catch (error) {
 			console.log(error);
@@ -91,7 +90,9 @@ export default function LoginPage() {
 						/>
 						<Stack alignItems="flex-end">
 							<NavLink to="/password/forgot">
-								Mot de passe oublié
+								<Typography component="span" color="primary">
+									Mot de passe oublié
+								</Typography>
 							</NavLink>
 						</Stack>
 						<LoadingButton
@@ -108,7 +109,11 @@ export default function LoginPage() {
 							flexWrap="wrap"
 						>
 							<Typography>Je n'est pas de compte ?</Typography>
-							<NavLink to="/register">Créer un compte</NavLink>
+							<NavLink to="/register">
+								<Typography component="span" color="primary">
+									Créer un compte
+								</Typography>
+							</NavLink>
 						</Stack>
 					</Stack>
 				</Stack>

@@ -31,6 +31,7 @@ import AccountPage from "../user/AccountPage";
 import UserLikes from "../user/UserLikesPage";
 import ExplorePage from "../travel/ExplorePage";
 import TravelLoguePage from "../user/TravelLoguePage";
+import NotFoundPage from "../NotFoundPage";
 
 
 export default function RouterOutlet() {
@@ -38,6 +39,7 @@ export default function RouterOutlet() {
     return (
 
         <Routes>
+            <Route path="*" element={<NotFoundPage />} />
             <Route path="/" element={<HomePage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />

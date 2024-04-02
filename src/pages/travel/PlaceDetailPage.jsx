@@ -1,24 +1,17 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { useParams } from "react-router";
-import useSWR from "swr";
+import React, { useEffect } from "react";
+import { useNavigate, useParams } from "react-router";
 import LoadingPage from "../../components/LoadingPage";
 import MapSimpleMarker from "../../components/maps/MapSimpleMarker";
-import TitleText from "../../components/texts/TitleText";
-import UserSniped from "../../components/react-ux/UserSniped";
 import SavePlaceButton from "../../components/buttons/SavePlaceButton";
 import ShareButton from "../../components/buttons/ShareButton";
 import LikeButton from "../../components/buttons/LikeButton";
-import SlideSwiper from "../../components/swipers/SimpleSlider";
 import CommentModule from "../components/modules/CommentModule";
 import ReviewModule from "../components/modules/ReviewModule";
 
-import { NavLink } from "react-router-dom";
-import LocalisationText from "../../components/texts/LocalisationText";
 import CategoryText from "../../components/texts/CategoryText";
 import { belongsToAuth } from "../../utils";
 import {
 	CIRCLE_ICON,
-	EDIT_ICON,
 	MARKER_ICON
 } from "../../utils/icon";
 import { useAuthContext } from "../../contexts/AuthProvider";
@@ -26,9 +19,6 @@ import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Avatar,
 	Box,
-	Button,
-	Card,
-	CardHeader,
 	Container,
 	Divider,
 	List,
@@ -55,6 +45,8 @@ const PlaceDetail = () => {
 	const [place, setPlace] = React.useState();
 	const [isLoaded, setIsLoaded] = React.useState(false);
 
+	const navigate = useNavigate()
+
 	useEffect(() => {
 		loadPlace();
 	}, []);
@@ -62,6 +54,9 @@ const PlaceDetail = () => {
 	const loadPlace = async () => {
 		try {
 			const response = await axios.get(`/places/${params.slug}`);
+			if(!response.data){
+				navigate('*')
+			}
 			setPlace(response.data);
 		} catch (error) {
 			toast.error(error.response.data.message);

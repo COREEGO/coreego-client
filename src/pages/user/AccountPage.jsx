@@ -320,7 +320,7 @@ const AccountPage = () => {
 							}
 							secondary={
 								<NavLink
-									to={`/user/profil/modification`}
+									to={`/user/profil/${user.pseudo}`}
 									style={{
 										fontSize: 18,
 										fontWeight: "bold",

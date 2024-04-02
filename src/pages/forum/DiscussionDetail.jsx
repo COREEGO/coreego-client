@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import LoadingPage from "../../components/LoadingPage";
 import LikeButton from "../../components/buttons/LikeButton";
 import CommentModule from "../components/modules/CommentModule";
@@ -20,6 +20,7 @@ import axios from "axios";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
 import { Helmet } from "react-helmet";
+import { toast } from "react-toastify";
 
 const DiscussionDetail = () => {
 	const params = useParams();
@@ -28,6 +29,8 @@ const DiscussionDetail = () => {
 	const [isBusy, setIsBusy] = React.useState(true);
 	const [discussion, setDiscussion] = React.useState();
 
+	const navigate = useNavigate()
+
 	React.useEffect(() => {
 		fetchDiscussion();
 	}, []);
@@ -35,6 +38,9 @@ const DiscussionDetail = () => {
 	const fetchDiscussion = async () => {
 		try {
 			const response = await axios.get(`/discussions/${params.slug}`);
+			if(!response.data){
+				navigate('*')
+			}
 			setDiscussion(response.data);
 		} catch (error) {
 			console.log(error.data.message);

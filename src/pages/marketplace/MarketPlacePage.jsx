@@ -8,7 +8,7 @@ import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import ProductsFilter from "../components/filters/ProductsFilter";
 import { MARKETPLACE_DESCRIPTION } from "../../utils";
-import NotFindComponent from "../../components/NotFindComponent";
+import NotFoundComponent from "../../components/NotFoundComponent";
 import { Helmet } from "react-helmet";
 
 const MarketPlacePage = () => {
@@ -72,7 +72,7 @@ const MarketPlacePage = () => {
 							})}
 						</Grid>
 					) : (
-						<NotFindComponent showText width="100%" height={300} />
+						<NotFoundComponent showText width="100%" height={300} />
 					)}
 				</Box>
 			)}

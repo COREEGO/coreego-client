@@ -25,6 +25,7 @@ import { useForm } from "react-hook-form";
 import { vestResolver } from "@hookform/resolvers/vest";
 import { useAuthContext } from "../../../contexts/AuthProvider";
 import { useNavigate } from "react-router";
+import { getViolationField } from "../../../utils";
 
 const CommentModule = ({
 	comments,
@@ -51,6 +52,7 @@ const CommentModule = ({
 		register,
 		handleSubmit,
 		reset,
+		setError,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		resolver: vestResolver(validationComment)
@@ -75,6 +77,7 @@ const CommentModule = ({
 			setOpen(false);
 		} catch (error) {
 			toast.success(error?.data?.message);
+			getViolationField(error, setError);
 		}
 	};
 
@@ -129,7 +132,7 @@ const CommentModule = ({
 						fullWidth
 						autoFocus
 						placeholder="Ecrivez votre commentaire..."
-						required
+
 						multiline
 						rows={10}
 					/>

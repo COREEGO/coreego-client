@@ -3,7 +3,7 @@ import NOTFIND_SVG  from '../images/svgs/not-find.svg'
 
 
 
-const NotFindComponent = ({showText = false, ...props}) => {
+const NotFoundComponent = ({showText = false, ...props}) => {
 
     return (
         <Stack spacing={3} maxWidth="100%" alignItems="center">
@@ -14,4 +14,4 @@ const NotFindComponent = ({showText = false, ...props}) => {
     )
 }
 
-export default NotFindComponent
+export default NotFoundComponent

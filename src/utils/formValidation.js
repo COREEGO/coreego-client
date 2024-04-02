@@ -78,7 +78,7 @@ export const validationReview = create((data = {}) => {
 })
 
 export const validationComment = create((data = {}) => {
-  test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
+  // test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
 })
 
 

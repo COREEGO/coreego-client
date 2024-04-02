@@ -12,7 +12,7 @@ import HeroBannerFeed from "../components/templates/HeroBannerFeed";
 import PaginationData from "../../components/PaginationData";
 import DiscussionsFilter from "../components/filters/DiscussionsFilter";
 import { FORUM_DESCRIPTION } from "../../utils";
-import NotFindComponent from "../../components/NotFindComponent";
+import NotFoundComponent from "../../components/NotFoundComponent";
 import { Helmet } from "react-helmet";
 
 const ForumPage = () => {
@@ -74,7 +74,7 @@ const ForumPage = () => {
 								})}
 							</Grid>
 						) : (
-							<NotFindComponent showText width="100%" height={300} />
+							<NotFoundComponent showText width="100%" height={300} />
 						)}
 					</Box>
 					<Box

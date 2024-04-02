@@ -20,7 +20,7 @@ import { useSelector } from "react-redux";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import TravelLogueFilter from "../components/filters/TravelLogueFilter";
 import { TRAVELLOGUE_DESCRIPTION } from "../../utils";
-import NotFindComponent from "../../components/NotFindComponent";
+import NotFoundComponent from "../../components/NotFoundComponent";
 
 const TravelLoguePage = () => {
 	const [isBusy, setIsBusy] = React.useState(true);
@@ -85,7 +85,7 @@ const TravelLoguePage = () => {
 							</Grid>
 						</Stack>
 					) : (
-						<NotFindComponent showText mt={3} width="100%" height={300} />
+						<NotFoundComponent showText mt={3} width="100%" height={300} />
 					)}
 				</Box>
 			)}

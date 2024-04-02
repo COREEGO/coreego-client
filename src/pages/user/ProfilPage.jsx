@@ -61,7 +61,7 @@ const ProfilPage = () => {
 
 	const loadUser = async () => {
 		try {
-			const response = await axios.get("/user/" + params.pseudo);
+			const response = await axios.get("/users/" + params.pseudo);
 			setUser(response.data);
 		} catch (error) {
 			console.log(error);
@@ -103,7 +103,7 @@ const ProfilPage = () => {
 										</Typography>
 									</Stack>
 									{belongsToAuth(user.id, currentUser?.id) && (
-										<NavLink to={"/user/profil/edit"}>
+										<NavLink to={"/user/profil/modification"}>
 											<Button variant="outlined">
 												Modifier mon profil
 											</Button>

@@ -1,6 +1,9 @@
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { useForm } from "react-hook-form";
-import { errorField, validationComment } from "../../utils/formValidation";
+import {
+	errorField,
+	validationComment
+} from "../../utils/formValidation";
 import {
 	Card,
 	CardContent,
@@ -21,13 +24,17 @@ import { MORE_OPTIONS_ICON } from "../../utils/icon";
 import React from "react";
 import PopupState, {
 	bindTrigger,
-	bindMenu,
+	bindMenu
 } from "material-ui-popup-state";
 import { useConfirm } from "material-ui-confirm";
 import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { belongsToAuth, dateParse } from "../../utils";
-import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../utils/variables";
+import { belongsToAuth, dateParse, getViolationField } from "../../utils";
+import {
+	AVATAR_PATH,
+	BEARER_HEADERS,
+	UNKNOWN_USER
+} from "../../utils/variables";
 import axios from "axios";
 import ReportModule from "../../pages/components/modules/ReportModule";
 import { vestResolver } from "@hookform/resolvers/vest";
@@ -40,10 +47,10 @@ const CommentCard = ({ comment, mutate }) => {
 	const {
 		register,
 		handleSubmit,
+		setError,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		resolver: vestResolver(validationComment),
-
 		defaultValues: {
 			content: comment?.content
 		}
@@ -63,7 +70,8 @@ const CommentCard = ({ comment, mutate }) => {
 			setOpen(false);
 			mutate();
 		} catch (error) {
-			toast.error(error.data.message);
+			toast.error(error?.data?.message);
+			getViolationField(error, setError);
 		}
 	};
 
@@ -80,15 +88,22 @@ const CommentCard = ({ comment, mutate }) => {
 				mutate();
 			})
 			.catch((error) => {
-				toast.error(error.data.message);
+				toast.error(error?.data?.message);
+				getViolationField(error, setError);
 			});
 	};
 
 	return (
 		<>
-			<Card id={`comment-${comment.id}`} variant="outlined" sx={{ width: "100%" }}>
+			<Card
+				id={`comment-${comment.id}`}
+				variant="outlined"
+				sx={{ width: "100%" }}
+			>
 				<CardHeader
-					avatar={<Avatar src={AVATAR_PATH + comment?.user?.avatar} />}
+					avatar={
+						<Avatar src={AVATAR_PATH + comment?.user?.avatar} />
+					}
 					title={
 						<Typography component="div" fontWeight="bold">
 							{comment?.user?.pseudo || UNKNOWN_USER}
@@ -110,7 +125,10 @@ const CommentCard = ({ comment, mutate }) => {
 										>
 											<MORE_OPTIONS_ICON />
 										</IconButton>
-										<Menu {...bindMenu(popupState)} onClick={() => popupState.close()}>
+										<Menu
+											{...bindMenu(popupState)}
+											onClick={() => popupState.close()}
+										>
 											<MenuItem
 												key="modifier"
 												onClick={() => setOpen(true)}
@@ -141,46 +159,45 @@ const CommentCard = ({ comment, mutate }) => {
 			</Card>
 			{comment.user.id === user.id && (
 				<Dialog
-				open={open}
-				fullWidth
-				onClose={() => setOpen(false)}
-				PaperProps={{
-					component: "form",
-					onSubmit: handleSubmit(onSubmit)
-				}}
-			>
-				<DialogTitle id="alert-dialog-title">
-					Ajouter un commentaire
-				</DialogTitle>
-				<DialogContent>
-					<TextField
-						{...register("content")}
-						{...errorField(errors?.content)}
-						fullWidth
-						autoFocus
-						placeholder="Ecrivez votre commentaire..."
-						required
-						multiline
-						rows={10}
-					/>
-				</DialogContent>
-				<DialogActions>
-					<LoadingButton
-						variant="contained"
-						loading={isSubmitting}
-						type="submit"
-					>
-						Envoyer
-					</LoadingButton>
-					<Button
-						variant="contained"
-						color="error"
-						onClick={() => setOpen(false)}
-					>
-						Annuler
-					</Button>
-				</DialogActions>
-			</Dialog>
+					open={open}
+					fullWidth
+					onClose={() => setOpen(false)}
+					PaperProps={{
+						component: "form",
+						onSubmit: handleSubmit(onSubmit)
+					}}
+				>
+					<DialogTitle id="alert-dialog-title">
+						Ajouter un commentaire
+					</DialogTitle>
+					<DialogContent>
+						<TextField
+							{...register("content")}
+							{...errorField(errors?.content)}
+							fullWidth
+							autoFocus
+							placeholder="Ecrivez votre commentaire..."
+							multiline
+							rows={10}
+						/>
+					</DialogContent>
+					<DialogActions>
+						<LoadingButton
+							variant="contained"
+							loading={isSubmitting}
+							type="submit"
+						>
+							Envoyer
+						</LoadingButton>
+						<Button
+							variant="contained"
+							color="error"
+							onClick={() => setOpen(false)}
+						>
+							Annuler
+						</Button>
+					</DialogActions>
+				</Dialog>
 			)}
 		</>
 	);

@@ -23,7 +23,7 @@ import DiscussionCard from "../components/card/DiscussionCard";
 import ProductCard from "../components/card/ProductCard";
 import { NavLink } from "react-router-dom";
 import PlaceCard from "../components/card/PlaceCard";
-import NotFindComponent from "../components/NotFindComponent";
+import NotFoundComponent from "../components/NotFoundComponent";
 import YOANN_LOGO from "../images/yoann.jpg";
 import { Helmet } from "react-helmet";
 
@@ -196,7 +196,7 @@ const HomePage = () => {
 									})}
 								</Grid>
 							) : (
-								<NotFindComponent mt={3} width="100%" height={300} />
+								<NotFoundComponent mt={3} width="100%" height={300} />
 							)}
 						</Grid>
 					</Grid>
@@ -279,7 +279,7 @@ const HomePage = () => {
 									})}
 								</Grid>
 							) : (
-								<NotFindComponent mt={3} width="100%" height={300} />
+								<NotFoundComponent mt={3} width="100%" height={300} />
 							)}
 						</Grid>
 					</Grid>
@@ -355,7 +355,7 @@ const HomePage = () => {
 									})}
 								</Grid>
 							) : (
-								<NotFindComponent mt={3} width="100%" height={300} />
+								<NotFoundComponent mt={3} width="100%" height={300} />
 							)}
 						</Grid>
 					</Grid>

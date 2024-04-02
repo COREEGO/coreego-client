@@ -37,6 +37,9 @@ const ProductDetail = () => {
 	const loadProduct = async () => {
 		try {
 			const response = await axios.get(`/products/${params.slug}`);
+			if(!response.data){
+				navigate('*')
+			}
 			setProduct(response.data);
 		} catch (error) {
 			console.log(error);

@@ -127,7 +127,9 @@ const RegisterPage = () => {
 							direction="row"
 						>
 							<Typography>J'ai déjà un compte ?</Typography>
-							<NavLink to="/login">Je me connecte</NavLink>
+							<NavLink to="/login">
+								<Typography component="span" color="primary">Je me connecte</Typography>
+							</NavLink>
 						</Stack>
 					</Stack>
 				</Stack>

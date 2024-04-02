@@ -96,7 +96,7 @@ const CommentNotificationCard = ({ notification }) => {
 								variant="body2"
 								color="text.primary"
 							>
-								a interagi à une publication
+								à interagi à une publication
 							</Typography>
 							{" — "}
 							<strong style={{ color: "var(--coreego-blue)" }}>

@@ -15,16 +15,16 @@ const LikeButton = ({
 	...props
 }) => {
 	const [isBusy, setIsBusy] = useState(false);
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 	const navigate = useNavigate();
 	const existLike = useMemo(() => {
-		return likes.find((like) => like?.user?.id === user.id)
+		return likes.find((like) => like?.user?.id === auth.id)
 			? true
 			: false;
 	}, [likes, discussionId, placeId]);
 
 	const handleLike = async () => {
-		if (!user) {
+		if (!auth) {
 			navigate("/login");
 			return;
 		}

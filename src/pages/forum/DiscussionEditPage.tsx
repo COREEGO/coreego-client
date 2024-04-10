@@ -3,7 +3,7 @@ import DiscussionForm from "../../components/forms/DiscussionForm"
 import React from "react"
 import LoadingPage from "../../components/LoadingPage"
 import axios from "axios"
-import useMalware from "../../hooks/useMalware"
+import useMiddleware from "../../hooks/useMiddleware"
 
 
 const DiscussionEditPage = () => {
@@ -12,7 +12,7 @@ const DiscussionEditPage = () => {
     const [isLoaded, setIsLoaded] = React.useState(false)
     const [discussion, setDiscussion] = React.useState()
 
-    const {canEdit} = useMalware()
+    const {canEdit} = useMiddleware()
 
     React.useEffect(()=>{
         const loadDiscussion = async () =>{

@@ -1,4 +1,4 @@
-import logo from "../../images/svgs/coreego-logo.svg";
+import logo from "../../images/coreego-logo-rb.png";
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import React from "react";
@@ -24,25 +24,19 @@ import {
 } from "@mui/material";
 import {
 	DASHBOARD_ICON,
-	FORUM_ICON,
 	LOGOUT_ICON,
-	MARKET_PLACE_ICON,
 	NOTIFICATION_ICON,
 	PROFIL_ICON,
-	EXPLORE_ICON,
-	UNSAVED_PLACE_ICON,
-	HOME_ICON
-} from "../../utils/icon";
+	UNSAVED_PLACE_ICON} from "../../utils/icon";
 import { AVATAR_PATH } from "../../utils/variables";
-import { LINKS, hasNotificationNotReaded, isAdmin } from "../../utils";
+import { LINKS, hasNotificationNotReaded } from "../../utils";
 
-
-const NavigationUserMenu = () => {
-	const { user, logout } = useAuthContext();
+const NavigationauthMenu = () => {
+	const { auth, logout } = useAuthContext();
 
 	return (
 		<>
-			{user?.role?.is_admin ? (
+			{auth?.role?.is_admin ? (
 				<NavLink to="/dashboard/analyse-des-donnees">
 					<MenuItem sx={{ color: "black" }}>
 						<ListItemIcon sx={{ color: "black" }}>
@@ -60,7 +54,7 @@ const NavigationUserMenu = () => {
 						<ListItemIcon sx={{ color: "black" }}>
 							<Badge
 								color={
-									hasNotificationNotReaded(user.notifications)
+									hasNotificationNotReaded(auth.notifications)
 										? "error"
 										: ""
 								}
@@ -101,11 +95,9 @@ const NavigationUserMenu = () => {
 };
 
 const Navigation = () => {
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 	const [anchorElNav, setAnchorElNav] = React.useState(null);
-	const [anchorElUser, setAnchorElUser] = React.useState(null);
-	const [anchorElNotification, setAnchorElNotification] =
-		React.useState(null);
+	const [anchorElauth, setAnchorElauth] = React.useState(null);
 
 	return (
 		<AppBar
@@ -127,11 +119,11 @@ const Navigation = () => {
 					</Box>
 
 					<Box
-						sx={{ display: { xs: "flex", md: "none" } }}
+						sx={{display: { xs: "flex", md: "none" } }}
 					>
 						<IconButton
 							size="large"
-							aria-label="account of current user"
+							aria-label="account of current auth"
 							aria-controls="menu-appbar"
 							aria-haspopup="true"
 							onClick={(event) => setAnchorElNav(event.currentTarget)}
@@ -178,6 +170,7 @@ const Navigation = () => {
 					<Box
 						sx={{
 							flex: 1,
+							justifyContent: 'center',
 							display: { xs: "flex", md: "none" },
 						}}
 					>
@@ -216,7 +209,7 @@ const Navigation = () => {
 						))}
 					</Stack>
 
-					{user ? (
+					{auth ? (
 						<Stack
 							flexGrow={0}
 							direction="row"
@@ -229,7 +222,7 @@ const Navigation = () => {
 										<IconButton size="small">
 											<Badge
 												color={
-													hasNotificationNotReaded(user.notifications)
+													hasNotificationNotReaded(auth.notifications)
 														? "error"
 														: ""
 												}
@@ -244,28 +237,28 @@ const Navigation = () => {
 							<Box>
 								<IconButton
 									onClick={(event) =>
-										setAnchorElUser(event.currentTarget)
+										setAnchorElauth(event.currentTarget)
 									}
 									sx={{ p: 0 }}
 								>
 									<Hidden mdUp>
 										<Badge
 											color={
-												hasNotificationNotReaded(user.notifications)
+												hasNotificationNotReaded(auth.notifications)
 													? "error"
 													: ""
 											}
 											variant="dot"
 										>
-											<Avatar src={AVATAR_PATH + user?.avatar} />
+											<Avatar src={AVATAR_PATH + auth?.avatar} />
 										</Badge>
 									</Hidden>
 									<Hidden mdDown>
-										<Avatar src={AVATAR_PATH + user?.avatar} />
+										<Avatar src={AVATAR_PATH + auth?.avatar} />
 									</Hidden>
 								</IconButton>
 								<Menu
-									anchorEl={anchorElUser}
+									anchorEl={anchorElauth}
 									anchorOrigin={{
 										vertical: "bottom",
 										horizontal: "right"
@@ -275,11 +268,11 @@ const Navigation = () => {
 										vertical: "top",
 										horizontal: "right"
 									}}
-									open={Boolean(anchorElUser)}
-									onClose={() => setAnchorElUser(null)}
+									open={Boolean(anchorElauth)}
+									onClose={() => setAnchorElauth(null)}
 								>
-									<Box onClick={() => setAnchorElUser(null)}>
-										<NavigationUserMenu />
+									<Box onClick={() => setAnchorElauth(null)}>
+										<NavigationauthMenu />
 									</Box>
 								</Menu>
 							</Box>

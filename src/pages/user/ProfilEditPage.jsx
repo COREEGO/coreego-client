@@ -8,7 +8,12 @@ import {
 	Stack,
 	InputAdornment,
 	Autocomplete,
-	Checkbox
+	Checkbox,
+	FormHelperText,
+	FormLabel,
+	FormGroup,
+	FormControl,
+	InputLabel
 } from "@mui/material";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import {
@@ -22,6 +27,7 @@ import {
 	NO_CHECKED_ICON,
 	OCCUPATION_ICON,
 	TIKTOK_ICON,
+	WEBSITE_ICON,
 	YOUTUBE_ICON
 } from "../../utils/icon";
 import { LoadingButton } from "@mui/lab";
@@ -43,7 +49,7 @@ import { vestResolver } from "@hookform/resolvers/vest";
 import LoadingPage from "../../components/LoadingPage";
 
 const ProfilEditPage = () => {
-	const { user: auth, authentification, setUser } = useAuthContext();
+	const { auth, authentification, setAuth } = useAuthContext();
 
 	const { files, addFile, clearFiles } = useFile();
 	const [isUploadBusy, setIsUploadBusy] = React.useState(false);
@@ -59,9 +65,13 @@ const ProfilEditPage = () => {
 
 	const loadUser = async () => {
 		try {
-			const response = await axios.get("/user/" + auth.pseudo);
+			const response = await axios.get("/users/" + auth.slug);
 			setProfil(response.data);
-			setLanguagesSelected(JSON.parse(response?.data?.languages));
+			setLanguagesSelected(
+				response?.data?.languages
+					? JSON.parse(response?.data?.languages)
+					: []
+			);
 		} catch (error) {
 			toast.error(error.message);
 		} finally {
@@ -85,13 +95,14 @@ const ProfilEditPage = () => {
 		handleSubmit,
 		setValue,
 		setError,
+		getValues,
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		resolver: vestResolver(validationProfil),
-		defaultValues:{
-			city_id: profil?.city?.id || '',
-			district_id: profil?.district?.id || '',
+		defaultValues: {
+			city_id: profil?.city?.id || "",
+			district_id: profil?.district?.id || ""
 		}
 	});
 
@@ -104,7 +115,7 @@ const ProfilEditPage = () => {
 				formData.append("avatar", files[0]);
 			}
 			const response = await axios.post(
-				`/users/edit/${profil.id}`,
+				`/users/edit/${auth.id}`,
 				formData,
 				BEARER_HEADERS
 			);
@@ -124,17 +135,18 @@ const ProfilEditPage = () => {
 	const onSubmit = async (data) => {
 		try {
 			data.languages = languagesSelected;
+
 			if (data.city_id == 0) data.city_id = null;
 			if (data.district_id == 0) data.district_id = null;
 
 			const response = await axios.post(
-				`/users/edit/${profil.id}`,
+				`/users/edit/${auth.id}`,
 				data,
 				BEARER_HEADERS
 			);
 			await authentification();
 			toast.success(response.data.message);
-			navigate(`/user/profil/${profil.peudo}`);
+			navigate(`/user/profil/${auth.slug}`);
 		} catch (error) {
 			toast.error(error.response.data.message);
 			getViolationField(error, setError);
@@ -144,6 +156,10 @@ const ProfilEditPage = () => {
 	React.useEffect(() => {
 		if (files.length > 0) handleUpdateAvatar();
 	}, [files]);
+
+	const stringLength = (target) => {
+		return watch(target)?.length || profil[target]?.length || 0;
+	};
 
 	return !isLoaded ? (
 		<LoadingPage type="page" />
@@ -203,7 +219,7 @@ const ProfilEditPage = () => {
 											className="string_count"
 											position="end"
 										>
-											{watch("introduction")?.length || 0}/{250}
+											{stringLength("introduction")}/{250}
 										</InputAdornment>
 									),
 									inputProps: {
@@ -229,7 +245,7 @@ const ProfilEditPage = () => {
 											className="string_count"
 											position="end"
 										>
-											{watch("hobby")?.length || 0}/{50}
+											{stringLength("hobby")}/{50}
 										</InputAdornment>
 									),
 									inputProps: {
@@ -255,7 +271,7 @@ const ProfilEditPage = () => {
 											className="string_count"
 											position="end"
 										>
-											{watch("occupation")?.length || 0}/{50}
+											{stringLength("occupation")}/{50}
 										</InputAdornment>
 									),
 									inputProps: {
@@ -268,20 +284,32 @@ const ProfilEditPage = () => {
 									control={control}
 									name="district_id"
 									render={() => (
-										<CityDistrictSelectInput
-											labelCity="Ville de résidance"
-											labelDistrict="District de résidance"
-											emptyOption="-------"
-											cityValue={profil?.city?.id || watch("city_id")}
-											districtValue={
-												profil?.district?.id || watch("district_id")
-											}
-											updateCity={(e) => setValue("city_id", e)}
-											updateDistrict={(e) =>
-												setValue("district_id", e)
-											}
-											showMap={true}
-										/>
+										<>
+											<InputLabel sx={{mb: 1}}>
+												Ma localisation actuelle
+											</InputLabel>
+											<CityDistrictSelectInput
+												cityValue={
+													watch("city_id") || profil?.city?.id
+												}
+												districtValue={
+													watch("district_id") || profil?.district?.id
+												}
+												updateCity={(e) => {
+													setValue("city_id", e);
+												}}
+												updateDistrict={(e) =>
+													setValue("district_id", e)
+												}
+												fullWidth
+											/>
+
+											{errors.district_id && (
+												<FormHelperText>
+													{errors?.district_id?.message}
+												</FormHelperText>
+											)}
+										</>
 									)}
 								/>
 							</Box>
@@ -326,6 +354,21 @@ const ProfilEditPage = () => {
 								endText="sociaux"
 							/>
 							<TextField
+								{...register("website")}
+								{...errorField(errors?.website)}
+								fullWidth
+								label="Site internet"
+								placeholder="mon site internet"
+								defaultValue={profil.website}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment position="start">
+											<WEBSITE_ICON />
+										</InputAdornment>
+									)
+								}}
+							/>
+							<TextField
 								{...register("facebook")}
 								{...errorField(errors?.facebook)}
 								fullWidth
@@ -343,7 +386,7 @@ const ProfilEditPage = () => {
 											className="string_count"
 											position="end"
 										>
-											{watch("facebook")?.length || 0}/{20}
+											{stringLength("facebook")}/{20}
 										</InputAdornment>
 									),
 									inputProps: {
@@ -369,7 +412,7 @@ const ProfilEditPage = () => {
 											className="string_count"
 											position="end"
 										>
-											{watch("youtube")?.length || 0}/{20}
+											{stringLength("youtube")}/{20}
 										</InputAdornment>
 									),
 									inputProps: {

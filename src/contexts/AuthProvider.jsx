@@ -10,36 +10,32 @@ const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = React.useState(null)
+    const [auth, setAuth] = React.useState(null)
     const navigate = useNavigate()
 
 
     const authentification = React.useCallback(async () => {
         try {
             const response = await axios.get('/me', BEARER_HEADERS)
-            setUser(response.data)
+            setAuth(response.data)
         } catch (error) {
-            console.error(error.message)
+            console.error(error?.message)
         }
     }, [])
 
     const logout = React.useCallback(async () => {
         try {
-            await axios.post('/logout', null, {
-                headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                }
-            })
+            await axios.post('/logout', null,BEARER_HEADERS)
             localStorage.removeItem('token')
-            setUser(null)
+            setAuth(null)
             navigate('/login')
         } catch (error) {
-            console.error(error.message)
+            console.error(error?.message)
         }
     }, [])
 
     return (
-        <AuthContext.Provider value={{ user, setUser, logout, authentification }}>
+        <AuthContext.Provider value={{ auth, setAuth, logout, authentification }}>
             {children}
         </AuthContext.Provider>
     );

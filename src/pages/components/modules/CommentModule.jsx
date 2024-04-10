@@ -35,7 +35,7 @@ const CommentModule = ({
 }) => {
 	const [open, setOpen] = React.useState(false);
 
-	const {user} = useAuthContext()
+	const {auth} = useAuthContext()
 
 	const navigate = useNavigate()
 
@@ -89,7 +89,7 @@ const CommentModule = ({
 						startText="écrire un"
 						endText="commentaire"
 					/>
-					<Box onClick={() => user ? setOpen(true) : navigate('/login') }>
+					<Box onClick={() => auth ? setOpen(true) : navigate('/login') }>
 						<TextField
 							sx={{ zIndex: -1 }}
 							fullWidth

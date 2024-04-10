@@ -42,7 +42,7 @@ import ReportModule from "../../pages/components/modules/ReportModule";
 import { vestResolver } from "@hookform/resolvers/vest";
 
 const ReviewCard = ({ review, mutate }) => {
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const [isOpen, setIsOpen] = useState(false);
 
@@ -108,14 +108,13 @@ const ReviewCard = ({ review, mutate }) => {
 					}
 					subheader={dateParse(review.created_at)}
 					action={
-						belongsToAuth(review.user.id, user.id) ? (
+						belongsToAuth(review?.user?.id, auth?.id) ? (
 							<PopupState variant="popover" popupId="demo-popup-menu">
 								{(popupState) => (
 									<>
 										<IconButton
 											{...bindTrigger(popupState)}
 											size="small"
-											aria-label="account of current user"
 											aria-controls="menu-options"
 											aria-haspopup="true"
 											color="inherit"

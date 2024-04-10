@@ -36,11 +36,11 @@ const DiscussionForm = ({
 	const [activeStep, setActiveStep] = React.useState(0);
 
 	const navigate = useNavigate();
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	React.useEffect(() => {
 		if (isEditMode) {
-			if (discussion.user.id !== user.id && !user.role.is_admin) {
+			if (discussion.user.id !== auth.id && !auth.role.is_admin) {
 				navigate("/");
 			}
 		}

@@ -3,8 +3,9 @@ import { create, test, enforce } from 'vest';
 export const IS_REQUIRED_MESSAGE = "Ce champ est requis";
 const IS_NOT_REGEX_VALID_MESSAGE = "Le format est invalide";
 const IS_NOT_SAME_VALUE_MESSAGE = "Les mots de passe ne correspondent pas";
-const PSEUDO_REGEX = /^[a-zA-Z0-9_.]+$/
+const PSEUDO_REGEX = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+const WEBSITE_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
 
 export const maxLength = (length) => `Le champ ne doit pas dépasser ${length} caractères.`
 export const minLength = (length) => `Le champ doit avoir au minimum ${length} caractères.`
@@ -78,7 +79,7 @@ export const validationReview = create((data = {}) => {
 })
 
 export const validationComment = create((data = {}) => {
-  // test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
+  test('content', IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
 })
 
 
@@ -144,13 +145,22 @@ export const validationProfil = create((data = {}) => {
   test('instagram', maxLength(20), () => {enforce(data.instagram).shorterThanOrEquals(20)});
   test('tiktok', maxLength(20), () => {enforce(data.tiktok).shorterThanOrEquals(20)});
   test('kakao', maxLength(20), () => {enforce(data.kakao).shorterThanOrEquals(20)});
-
+  test('kakao', maxLength(20), () => {enforce(data.kakao).shorterThanOrEquals(20)});
+  if(data.city_id){
+    test('district_id', IS_REQUIRED_MESSAGE, () => {enforce(data.district_id).isNotEmpty()});
+  }
+  if(data.website.length > 0){
+    test('website', IS_NOT_REGEX_VALID_MESSAGE, () => {
+      enforce(data.website).nullable().matches(WEBSITE_REGEX);
+    });
+  }
 })
 
 
 export const validationReport = create((data = {}) => {
   test('content',  IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
   test('content', minLength(3), () => {enforce(data.content).longerThanOrEquals(3)});
+  test('content', maxLength(100), () => {enforce(data.content).shorterThanOrEquals(100)});
 })
 
 export const errorField = (error) => {

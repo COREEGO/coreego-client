@@ -6,20 +6,19 @@ import { isAdmin } from "../../utils"
 
 const PrivateRoute = ({middlewareIsAdmin = false}) => {
 
-    const {user} = useAuthContext()
+    const {auth} = useAuthContext()
     const [isAuthorized, setIsAuthorized] = React.useState(true)
 
-    const location = useLocation()
+    const {pathname} = useLocation()
 
 
     useEffect(() => {
         if (middlewareIsAdmin) {
-          setIsAuthorized(isAdmin(user?.role));
+          setIsAuthorized(isAdmin(auth?.role));
         }
-      }, [user, middlewareIsAdmin]);
+      }, [auth, middlewareIsAdmin]);
 
-
-    return ( (user && isAuthorized) ? <Outlet /> : <Navigate to="/login" state={{path: location.pathname}} /> )
+    return ( (auth && isAuthorized) ? <Outlet /> : <Navigate to="/login" state={{path: pathname}} /> )
 
 }
 

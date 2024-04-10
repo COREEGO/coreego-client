@@ -3,7 +3,7 @@ import React from "react"
 import LoadingPage from "../../components/LoadingPage"
 import ProductForm from "../../components/forms/ProductForm"
 import axios from "axios"
-import useMalware from "../../hooks/useMalware"
+import useMiddleware from "../../hooks/useMiddleware"
 
 const ProductEditPage = () => {
 
@@ -11,7 +11,7 @@ const ProductEditPage = () => {
     const [isLoaded, setIsLoaded] = React.useState(false);
     const [product, setProduct] = React.useState();
 
-    const {canEdit} = useMalware()
+    const {canEdit} = useMiddleware()
 
     React.useEffect(()=>{
         loadProduct()

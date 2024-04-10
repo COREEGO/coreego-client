@@ -56,7 +56,7 @@ const CommentCard = ({ comment, mutate }) => {
 		}
 	});
 
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const onSubmit = async (data) => {
 		try {
@@ -111,7 +111,7 @@ const CommentCard = ({ comment, mutate }) => {
 					}
 					subheader={dateParse(comment.created_at)}
 					action={
-						belongsToAuth(comment.user.id, user.id) ? (
+						belongsToAuth(comment?.user?.id, auth?.id) ? (
 							<PopupState variant="popover" popupId="demo-popup-menu">
 								{(popupState) => (
 									<React.Fragment>
@@ -157,7 +157,7 @@ const CommentCard = ({ comment, mutate }) => {
 					</Typography>
 				</CardContent>
 			</Card>
-			{comment.user.id === user.id && (
+			{comment?.user?.id === auth?.id && (
 				<Dialog
 					open={open}
 					fullWidth

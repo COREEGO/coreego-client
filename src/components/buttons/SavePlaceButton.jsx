@@ -13,15 +13,12 @@ import axios from "axios";
 import { BEARER_HEADERS } from "../../utils/variables";
 
 const SavePlaceButton = ({
-	showLabel = false,
 	placeId,
 	users,
 	mutate
 }) => {
-	const [activeStep, setActiveStep] = React.useState(0);
-
 	const [isBusy, setIsBusy] = useState(false);
-	const { user: auth } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const navigate = useNavigate();
 

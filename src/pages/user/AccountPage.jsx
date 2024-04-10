@@ -45,7 +45,7 @@ import { useConfirm } from "material-ui-confirm";
 
 const CardPseudo = () => {
 	const [open, setOpen] = React.useState(false);
-	const { user, authentification } = useAuthContext();
+	const { auth, authentification } = useAuthContext();
 
 	const {
 		register,
@@ -62,7 +62,7 @@ const CardPseudo = () => {
 	const onSubmit = async (data) => {
 		try {
 			const response = await axios.post(
-				`/users/edit/${user.id}`,
+				`/users/edit/${auth.id}`,
 				{ pseudo: data.pseudo.trim() },
 				BEARER_HEADERS
 			);
@@ -114,7 +114,7 @@ const CardPseudo = () => {
 					<TextField
 						{...register("pseudo")}
 						{...errorField(errors?.pseudo)}
-						defaultValue={user?.pseudo}
+						defaultValue={auth?.pseudo}
 						label="Pseudo"
 						fullWidth
 						placeholder="Votre nouveau pseudo"
@@ -151,7 +151,7 @@ const CardPseudo = () => {
 
 const CardPassword = () => {
 	const [open, setOpen] = React.useState(false);
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const {
 		register,
@@ -165,7 +165,7 @@ const CardPassword = () => {
 	const onSubmit = async (data) => {
 		try {
 			const response = await axios.post(
-				`/users/edit/${user.id}`,
+				`/users/edit/${auth.id}`,
 				data,
 				BEARER_HEADERS
 			);
@@ -250,7 +250,7 @@ const CardPassword = () => {
 };
 
 const AccountPage = () => {
-	const { user, setUser } = useAuthContext();
+	const { auth, setAuth } = useAuthContext();
 
 	const confirm = useConfirm();
 	const navigate = useNavigate();
@@ -267,12 +267,12 @@ const AccountPage = () => {
 			.then(async () => {
 				setIsBusy(true)
 				const response = await axios.delete(
-					`/users/${user.id}`,
+					`/users/${auth.id}`,
 					BEARER_HEADERS
 				);
 				toast.success(response?.data?.message);
 				localStorage.removeItem("token");
-				setUser(null);
+				setAuth(null);
 				navigate("/login");
 			})
 			.catch((error) => {
@@ -300,7 +300,7 @@ const AccountPage = () => {
 						<ListItemAvatar sx={{ mr: 2 }}>
 							<Avatar
 								sx={{ width: 70, height: 70 }}
-								src={AVATAR_PATH + user.pseudo}
+								src={AVATAR_PATH + auth.pseudo}
 							/>
 						</ListItemAvatar>
 						<ListItemText
@@ -311,16 +311,16 @@ const AccountPage = () => {
 										component="span"
 										fontSize={18}
 									>
-										{user.pseudo} •{" "}
+										{auth.pseudo} •{" "}
 									</Typography>
 									<Typography component="span">
-										{user.email}
+										{auth.email}
 									</Typography>
 								</React.Fragment>
 							}
 							secondary={
 								<NavLink
-									to={`/user/profil/${user.pseudo}`}
+									to={`/user/profil/${auth.slug}`}
 									style={{
 										fontSize: 18,
 										fontWeight: "bold",

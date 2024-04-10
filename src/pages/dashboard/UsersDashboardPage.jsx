@@ -29,7 +29,7 @@ const UsersDashboardPage = () => {
 	const [roles, setRoles] = React.useState([]);
 	const location = useLocation();
 
-	const { user: auth } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	React.useEffect(() => {
 		loadUsers();

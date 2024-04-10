@@ -14,22 +14,22 @@ import {
 	Divider,
 	Avatar,
 	Stack,
-	Typography} from "@mui/material";
+	Typography
+} from "@mui/material";
 import moment from "moment";
 import axios from "axios";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
 import { Helmet } from "react-helmet";
-import { toast } from "react-toastify";
 
 const DiscussionDetail = () => {
 	const params = useParams();
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const [isBusy, setIsBusy] = React.useState(true);
 	const [discussion, setDiscussion] = React.useState();
 
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	React.useEffect(() => {
 		fetchDiscussion();
@@ -38,8 +38,8 @@ const DiscussionDetail = () => {
 	const fetchDiscussion = async () => {
 		try {
 			const response = await axios.get(`/discussions/${params.slug}`);
-			if(!response.data){
-				navigate('*')
+			if (!response.data) {
+				navigate("*");
 			}
 			setDiscussion(response.data);
 		} catch (error) {
@@ -109,7 +109,7 @@ const DiscussionDetail = () => {
 					<Typography component="div" fontWeight="bold">
 						{discussion?.user?.pseudo || UNKNOWN_USER}
 					</Typography>
-					{belongsToAuth(discussion?.user?.id, user?.id) ? (
+					{belongsToAuth(discussion?.user?.id, auth?.id) ? (
 						<OptionPublicationButton
 							editLink={`/forum/discussion/modification/${discussion.slug}`}
 							deleteUrl={`/discussions/${discussion.id}`}
@@ -127,8 +127,7 @@ const DiscussionDetail = () => {
 			<Box mt={3}>
 				<Container>
 					<Box
-						fontSize={16}
-						className="reactquill_content"
+						className="reactquill_content ql-editor"
 						dangerouslySetInnerHTML={{ __html: discussion.content }}
 					/>
 				</Container>

@@ -34,7 +34,7 @@ import { vestResolver } from "@hookform/resolvers/vest";
 const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [isOpenForm, setIsOpenForm] = React.useState(false);
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const navigate = useNavigate();
 
@@ -48,7 +48,7 @@ const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 	}, [reviews]);
 
 	const currentUserReview = React.useMemo(() => {
-		return reviews.find((review) => review?.user?.id === user?.id);
+		return reviews.find((review) => review?.user?.id === auth?.id);
 	}, [reviews]);
 
 	const {
@@ -125,7 +125,7 @@ const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 									variant="contained"
 									size="small"
 									onClick={() =>
-										user ? setIsOpenForm(true) : navigate("/login")
+										auth ? setIsOpenForm(true) : navigate("/login")
 									}
 								>
 									Ajouter

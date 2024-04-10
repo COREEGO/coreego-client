@@ -3,6 +3,11 @@ import NOT_FOUND from '../images/svgs/404.svg'
 import { NavLink } from 'react-router-dom'
 
 const NotFoundPage = () => {
+
+  // useEffect(() => {
+
+  // }, [])
+
   return (
     <Stack my={5} spacing={3} maxWidth='100%' alignItems='center'>
       <img

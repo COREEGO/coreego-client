@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import {
+	COMMENT_ICON,
 	MORE_OPTIONS_ICON,
 	NOTIFICATION_ICON,
 	TRASH_ICON
@@ -27,24 +28,16 @@ import { dateParse } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { DeleteSweep } from "@mui/icons-material";
+import CommentNotificationCard from "../../components/card/notifications/CommentNotificationCard";
+import ReportNotificationCard from "../../components/card/notifications/ReportNotificationCard";
 
-const CommentNotificationCard = ({ notification }) => {
-	const { user, authentification } = useAuthContext();
+const NotificationPage = () => {
+	const [anchorEl, setAnchorEl] = React.useState();
+
+	const { auth, authentification } = useAuthContext();
 	const navigate = useNavigate();
 
-	const data = notification.data;
-	let label, postLink;
-
-	if (data.discussion_id) {
-		label = "DISCUSSION";
-		postLink = `/forum/discussion/${data.entity.slug}`;
-	}
-	if (data.place_id) {
-		label = "LIEU";
-		postLink = `/voyage/place/${data.entity.slug}`;
-	}
-
-	const onNavigateToPost = async () => {
+	const onReadedPost = async (notification) => {
 		try {
 			if (!notification?.read_at) {
 				await axios.post(
@@ -52,18 +45,16 @@ const CommentNotificationCard = ({ notification }) => {
 					null,
 					BEARER_HEADERS
 				);
-				await authentification();
 			}
-			navigate(postLink);
 		} catch (error) {
-			alert(error);
+			console.log(error);
 		}
 	};
 
-	const onDeleteNotification = async () => {
+	const onDeleteNotification = async (notificationId) => {
 		try {
 			await axios.post(
-				`/notifications?delete_id=${notification.id}`,
+				`/notifications?delete_id=${notificationId}`,
 				null,
 				BEARER_HEADERS
 			);
@@ -72,66 +63,6 @@ const CommentNotificationCard = ({ notification }) => {
 			alert(error);
 		}
 	};
-
-	return (
-		<ListItem onClick={onNavigateToPost}>
-			<ListItemButton
-				alignItems="flex-start"
-				selected={!notification?.read_at}
-			>
-				<ListItemAvatar>
-					<Avatar src={AVATAR_PATH + data?.user?.avatar} />
-				</ListItemAvatar>
-				<ListItemText
-					primary={
-						<Typography fontWeight="bold" component="span">
-							{data?.user?.pseudo}
-						</Typography>
-					}
-					secondary={
-						<React.Fragment>
-							<Typography
-								sx={{ display: "inline" }}
-								component="span"
-								variant="body2"
-								color="text.primary"
-							>
-								à interagi à une publication
-							</Typography>
-							{" — "}
-							<strong style={{ color: "var(--coreego-blue)" }}>
-								{" " + data.entity.title + " "}
-							</strong>
-							{" — "}
-							{data.content.slice(0, 50) + "..."}
-						</React.Fragment>
-					}
-				/>
-				<Stack alignItems="center">
-					<Typography variant="caption">
-						{dateParse(notification.created_at)}
-					</Typography>
-					<Box>
-						<IconButton
-							onClick={(event) => {
-								event.stopPropagation();
-								onDeleteNotification();
-							}}
-						>
-							<TRASH_ICON />
-						</IconButton>
-					</Box>
-				</Stack>
-			</ListItemButton>
-		</ListItem>
-	);
-};
-
-const NotificationPage = () => {
-	const [anchorEl, setAnchorEl] = React.useState();
-
-	const { user, authentification } = useAuthContext();
-	const navigate = useNavigate();
 
 	const onDeleteAllNotification = async () => {
 		try {
@@ -159,76 +90,100 @@ const NotificationPage = () => {
 	};
 
 	return (
-		user && (
+		auth && (
 			<Container>
-					<Stack gap={2} my={5}>
-						<Stack direction="row" alignItems="center" gap={1}>
-							<Stack gap={1} direction="row" alignItems="center">
-								<NOTIFICATION_ICON />
-								<TitleSectionText
-									component="h1"
-									startText="Mes"
-									endText="notifications"
-								/>
-							</Stack>
-							<Box
-								display={user?.notification?.length ? "block" : "none"}
-							>
-								<IconButton
-									onClick={(event) =>
-										setAnchorEl(event.currentTarget)
-									}
-								>
-									<MORE_OPTIONS_ICON />
-								</IconButton>
-								<Menu
-									onClick={() => setAnchorEl(null)}
-									anchorEl={anchorEl}
-									open={Boolean(anchorEl)}
-									onClose={() => setAnchorEl(null)}
-									anchorOrigin={{
-										vertical: "bottom",
-										horizontal: "right"
-									}}
-									transformOrigin={{
-										vertical: "top",
-										horizontal: "right"
-									}}
-								>
-									<MenuItem onClick={onDeleteAllNotification}>
-										<ListItemIcon>
-											<TRASH_ICON fontSize="small" />
-										</ListItemIcon>
-										<ListItemText>Tout supprimer</ListItemText>
-									</MenuItem>
-									<MenuItem onClick={onDeleteAllNotificationReaded}>
-										<ListItemIcon>
-											<DeleteSweep fontSize="small" />
-										</ListItemIcon>
-										<ListItemText>Supprimer les lues</ListItemText>
-									</MenuItem>
-								</Menu>
-							</Box>
+				<Stack gap={2} my={5}>
+					<Stack direction="row" alignItems="center" gap={1}>
+						<Stack gap={1} direction="row" alignItems="center">
+							<NOTIFICATION_ICON />
+							<TitleSectionText
+								component="h1"
+								startText="Mes"
+								endText="notifications"
+							/>
 						</Stack>
-						{user?.notifications?.length ? (
-							<List>
-								{user.notifications.map((notification, index) => {
-									return (
-										notification?.type?.includes(
+						<Box
+							display={auth?.notifications?.length ? "block" : "none"}
+						>
+							<IconButton
+								onClick={(event) => setAnchorEl(event.currentTarget)}
+							>
+								<MORE_OPTIONS_ICON />
+							</IconButton>
+							<Menu
+								onClick={() => setAnchorEl(null)}
+								anchorEl={anchorEl}
+								open={Boolean(anchorEl)}
+								onClose={() => setAnchorEl(null)}
+								anchorOrigin={{
+									vertical: "bottom",
+									horizontal: "right"
+								}}
+								transformOrigin={{
+									vertical: "top",
+									horizontal: "right"
+								}}
+							>
+								<MenuItem onClick={onDeleteAllNotification}>
+									<ListItemIcon>
+										<TRASH_ICON fontSize="small" />
+									</ListItemIcon>
+									<ListItemText>Tout supprimer</ListItemText>
+								</MenuItem>
+								<MenuItem onClick={onDeleteAllNotificationReaded}>
+									<ListItemIcon>
+										<DeleteSweep fontSize="small" />
+									</ListItemIcon>
+									<ListItemText>Supprimer les lues</ListItemText>
+								</MenuItem>
+							</Menu>
+						</Box>
+					</Stack>
+					{auth?.notifications?.length ? (
+						<List>
+							{auth.notifications.map((notification, index) => {
+								console.log(notification);
+								return (
+									<React.Fragment key={index}>
+										{notification.type.includes(
 											"CommentNotification"
 										) && (
 											<CommentNotificationCard
-												key={index}
 												notification={notification}
+												onNavigate={async (link) => {
+													navigate(link);
+													onReadedPost(notification);
+													await authentification();
+												}}
+												onDelete={async () => {
+													await onDeleteNotification(notification.id);
+												}}
 											/>
-										)
-									);
-								})}
-							</List>
-						) : (
-							<Typography>Aucune notifications</Typography>
-						)}
-					</Stack>
+										)}
+										{notification.type.includes(
+											"ReportNotification"
+										) && (
+											<ReportNotificationCard
+												notification={notification}
+												onNavigate={async (link) => {
+													navigate(link);
+													onReadedPost(notification);
+													await authentification();
+												}}
+												onDelete={async () => {
+													await onDeleteNotification(notification.id);
+												}}
+											/>
+										)}
+
+									</React.Fragment>
+								);
+							})}
+						</List>
+					) : (
+						<Typography>Aucune notifications</Typography>
+					)}
+				</Stack>
 			</Container>
 		)
 	);

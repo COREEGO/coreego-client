@@ -27,7 +27,7 @@ const ReportModule = ({
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
-	const {user} = useAuthContext()
+	const {auth} = useAuthContext()
 
 	const {
 		register,
@@ -55,7 +55,7 @@ const ReportModule = ({
     }
   };
 
-	return user ? (
+	return auth ? (
 		<React.Fragment>
 			<IconButton onClick={event => setAnchorEl(event.currentTarget)}>
 				<REPORT_ICON />
@@ -85,6 +85,11 @@ const ReportModule = ({
 								multiline
 								rows={3}
 								placeholder={placeholder}
+								InputProps={{
+									inputProps: {
+										maxLength: 100
+									}
+								}}
 							/>
 							<Box mt={2}>
 								<LoadingButton loading={isSubmitting} type="submit" variant="contained">

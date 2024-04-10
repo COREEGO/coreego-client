@@ -1,5 +1,5 @@
 import './App.scss'
-import RouterOutleft from './pages/components/RouterOutlet'
+import RouterOutlet from './pages/components/RouterOutlet'
 import { Provider } from 'react-redux'
 import store from './store/app.store'
 import Layout from './pages/layouts/Layout'
@@ -99,7 +99,7 @@ function App () {
             <FilterProvider>
               <Provider store={store}>
                 <Layout>
-                  <RouterOutleft />
+                  <RouterOutlet />
                 </Layout>
               </Provider>
             </FilterProvider>

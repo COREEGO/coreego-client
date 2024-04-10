@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { NavLink } from 'react-router-dom'
 import { INSTAGRAM_ICON } from '../utils/icon'
-import LOGO from '../images/svgs/coreego-logo.svg'
+import LOGO from '../images/coreego-logo-rb.png'
 import { LINKS } from '../utils'
 
 const Footer = ({ ...props }) => {

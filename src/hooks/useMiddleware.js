@@ -4,18 +4,18 @@ import { useAuthContext } from "../contexts/AuthProvider"
 
 
 
-export default function useMalware()
+export default function useMiddleware()
 {
-    const {user} = useAuthContext()
+    const {auth} = useAuthContext()
     const navigate = useNavigate();
 
     function owner(userId)
     {
-        if(userId !== user.id) navigate('/')
+        if(userId !== auth.id) navigate('/')
     }
 
     const canEdit = (userId) => {
-        if(userId !== user.id && !user.role.is_admin) navigate('/')
+        if(userId !== auth.id && !auth.role.is_admin) navigate('/')
     }
 
     return {

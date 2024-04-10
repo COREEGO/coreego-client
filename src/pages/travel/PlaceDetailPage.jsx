@@ -40,7 +40,7 @@ import { Helmet } from "react-helmet";
 
 const PlaceDetail = () => {
 	const params = useParams();
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const [place, setPlace] = React.useState();
 	const [isLoaded, setIsLoaded] = React.useState(false);
@@ -145,9 +145,9 @@ const PlaceDetail = () => {
 					<Typography component="div" fontWeight="bold">
 						{place?.user?.pseudo || UNKNOWN_USER}
 					</Typography>
-					{belongsToAuth(place?.user?.id, user?.id) ? (
+					{belongsToAuth(place?.user?.id, auth?.id) ? (
 						<OptionPublicationButton
-							editLink={`/voyage/place/edit/${place.slug}`}
+							editLink={`/explorer/lieu/modification/${place.slug}`}
 							deleteUrl={`/places/${place.id}`}
 							redirectionUrl={"/forum"}
 						/>

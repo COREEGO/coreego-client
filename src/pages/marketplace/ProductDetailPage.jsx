@@ -24,7 +24,7 @@ import ReportModule from "../components/modules/ReportModule";
 
 const ProductDetail = () => {
 	const params = useParams();
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 	const [product, setProduct] = useState(null);
 	const [isLoaded, setIdLoaded] = useState(false);
 
@@ -111,7 +111,7 @@ const ProductDetail = () => {
 										<Typography fontWeight="bold">
 											{product?.user?.pseudo}
 										</Typography>
-										{belongsToAuth(product.user.id, user?.id) ? (
+										{belongsToAuth(product.user.id, auth?.id) ? (
 											<OptionPublicationButton
 												editLink={`/marketplace/produit/modification/${product.slug}`}
 												deleteUrl={`/products/${product.id}`}
@@ -126,7 +126,7 @@ const ProductDetail = () => {
 										)}
 									</Stack>
 
-									{user ? (
+									{auth ? (
 										<a
 											href={`mailto:${product.user.email}?subject=Coreego: Renseignement sur votre produit - ${product.title}`}
 										>

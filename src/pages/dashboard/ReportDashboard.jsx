@@ -14,7 +14,7 @@ import {
 import React from "react";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
-import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
+import { AVATAR_PATH, BEARER_HEADERS, UNKNOWN_USER } from "../../utils/variables";
 import LoadingPage from "../../components/LoadingPage";
 import { NavLink } from "react-router-dom";
 import { EYE_ICON, TRASH_ICON } from "../../utils/icon";
@@ -86,10 +86,10 @@ const ReportDashboard = () => {
 												>
 													<Avatar
 														sx={{ width: 40, height: 40 }}
-														src={AVATAR_PATH + report.user.avatar}
+														src={AVATAR_PATH + report?.user?.avatar}
 													/>
 													<Typography fontWeight="bold">
-														{report.user.pseudo}
+														{report.user.pseudo || UNKNOWN_USER}
 													</Typography>
 												</Stack>
 											</TableCell>

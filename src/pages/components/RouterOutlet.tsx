@@ -71,7 +71,7 @@ export default function RouterOutlet() {
 
                 <Route path="/explorer/lieu/modification/:slug" element={<PlaceEditPage />} />
 
-                <Route path="/user/profil/:pseudo" element={<ProfilPage />} />
+                <Route path="/user/profil/:slug" element={<ProfilPage />} />
                 <Route path="/mon-carnet-de-voyage" element={<TravelLoguePage />} />
 
                 <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
@@ -84,7 +84,6 @@ export default function RouterOutlet() {
                     <Route path="/dashboard/publication/commentaires" element={<CommentsPublicationsDashboard />} />
                     <Route path="/dashboard/publication/avis" element={<ReviewPublicationsDashboard />} />
                 </Route>
-
             </Route>
 
         </Routes>

@@ -20,7 +20,7 @@ const Layout = ({ children }) => {
 	const dispath = useDispatch();
 	const { authentification } = useAuthContext();
 
-	const location = useLocation();
+	const {pathname} = useLocation();
 
 	React.useEffect(() => {
 		onLoadedApplication();
@@ -28,7 +28,7 @@ const Layout = ({ children }) => {
 
 	React.useEffect(() => {
 		window.scrollTo(0, 0);
-	}, [location.pathname]);
+	}, [pathname]);
 
 	const onLoadedApplication = async () => {
 		try {
@@ -55,7 +55,7 @@ const Layout = ({ children }) => {
 
 	return isLoaded ? (
 		<>
-			{location.pathname.startsWith("/dashboard") ? (
+			{pathname.startsWith("/dashboard") ? (
 				<DashboardLayout>{children}</DashboardLayout>
 			) : (
 				<>

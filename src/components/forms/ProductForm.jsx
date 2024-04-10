@@ -48,14 +48,14 @@ const ProductForm = ({
 	const [activeStep, setActiveStep] = React.useState(0);
 
 	const navigate = useNavigate();
-	const { user } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const { files, addFile, removeFile, deleteFile, clearFiles } =
 		useFile(mutate);
 
 	useEffect(() => {
 		if (isEditMode) {
-			if (product.user.id !== user.id && !user.role.is_admin) {
+			if (product.user.id !== auth.id && !auth.role.is_admin) {
 				navigate("/");
 			}
 		}
@@ -77,7 +77,7 @@ const ProductForm = ({
 			title: product?.title,
 			description: product?.description,
 			city_id: product?.city.id || "",
-			district_id: product?.district.id || "",
+			district_id: product?.district.id ||  "",
 			price: product?.price || 1000,
 			images: []
 		}
@@ -311,13 +311,11 @@ const ProductForm = ({
 								name="district_id"
 								render={() => (
 									<CityDistrictSelectInput
-										labelCity="Choisir une ville ?"
-										labelDistrict="Choisir un district ?"
-										cityValue={product?.city?.id || getValues().city_id}
-										districtValue={product?.district?.id || getValues().district_id}
+										cityValue={ watch('city_id') || product?.city?.id}
+										districtValue={watch('district_id') || product?.district?.id}
 										updateCity={(e) => setValue("city_id", e, {shouldValidate: true})}
 										updateDistrict={(e) => setValue("district_id", e, {shouldValidate: true})}
-										showMap={true}
+										fullWidth
 									/>
 								)}
 							/>

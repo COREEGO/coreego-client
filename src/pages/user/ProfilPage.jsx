@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { NavLink } from "react-router-dom";
 import {
 	FORUM_ICON,
@@ -13,7 +13,8 @@ import {
 	FACEBOOK_ICON,
 	TIKTOK_ICON,
 	YOUTUBE_ICON,
-	LIKE_ICON
+	LIKE_ICON,
+	WEBSITE_ICON
 } from "../../utils/icon";
 import LoadingPage from "../../components/LoadingPage";
 import { useAuthContext } from "../../contexts/AuthProvider";
@@ -51,9 +52,11 @@ const ProfilPage = () => {
 	const params = useParams();
 
 	const [isLoaded, setIsLoaded] = useState(false);
-	const { user: currentUser } = useAuthContext();
+	const { auth } = useAuthContext();
 
 	const [user, setUser] = useState(null);
+
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		loadUser();
@@ -61,7 +64,10 @@ const ProfilPage = () => {
 
 	const loadUser = async () => {
 		try {
-			const response = await axios.get("/users/" + params.pseudo);
+			const response = await axios.get("/users/" + params.slug);
+			if(!response.data){
+				navigate('*')
+			}
 			setUser(response.data);
 		} catch (error) {
 			console.log(error);
@@ -102,7 +108,7 @@ const ProfilPage = () => {
 											{moment(user.created_at).format("D MMMM YYYY")}
 										</Typography>
 									</Stack>
-									{belongsToAuth(user.id, currentUser?.id) && (
+									{belongsToAuth(user.id, auth?.id) && (
 										<NavLink to={"/user/profil/modification"}>
 											<Button variant="outlined">
 												Modifier mon profil
@@ -121,7 +127,7 @@ const ProfilPage = () => {
 							/>
 							{user?.introduction && (
 								<CardContent>
-									<Typography>{user?.introduction}</Typography>
+									<Typography whiteSpace="pre-line">{user?.introduction}</Typography>
 								</CardContent>
 							)}
 						</Card>
@@ -137,42 +143,50 @@ const ProfilPage = () => {
 								}
 							/>
 							{(user.youtube ||
+								user.website ||
 								user.facebook ||
 								user.instagram ||
 								user.tiktok ||
 								user.kakao) && (
 								<CardContent>
 									<Stack direction="row">
+										{user.website && (
+											<NavLink target="__blank" to={user.website}>
+												<IconButton>
+													<WEBSITE_ICON />
+												</IconButton>
+											</NavLink>
+										)}
 										{user.youtube && (
-											<NavLink to={youtubeLink(user.youtube)}>
+											<NavLink target="__blank" to={youtubeLink(user.youtube)}>
 												<IconButton>
 													<YOUTUBE_ICON />
 												</IconButton>
 											</NavLink>
 										)}
 										{user.facebook && (
-											<NavLink to={facebookLink(user.facebook)}>
+											<NavLink target="__blank" to={facebookLink(user.facebook)}>
 												<IconButton>
 													<FACEBOOK_ICON />
 												</IconButton>
 											</NavLink>
 										)}
 										{user.instagram && (
-											<NavLink to={instagramLink(user.instagram)}>
+											<NavLink target="__blank" to={instagramLink(user.instagram)}>
 												<IconButton>
 													<INSTAGRAM_ICON />
 												</IconButton>
 											</NavLink>
 										)}
 										{user.tiktok && (
-											<NavLink to={tiktokLink(user.tiktok)}>
+											<NavLink target="__blank" to={tiktokLink(user.tiktok)}>
 												<IconButton>
 													<TIKTOK_ICON />
 												</IconButton>
 											</NavLink>
 										)}
-										{user.kakao && (
-											<Tooltip title={user.kakao}>
+										{user.kakao  && (
+											<Tooltip target="__blank" title={user.kakao}>
 												<IconButton>
 													<KAKAO_ICON />
 												</IconButton>
@@ -197,7 +211,7 @@ const ProfilPage = () => {
 							{(user.occupation ||
 								user.hobby ||
 								(user?.city?.label && user?.district?.label) ||
-								JSON.parse(user.languages).length > 0) && (
+								user.languages) && (
 								<CardContent>
 									<Stack>
 										<ListItem
@@ -265,29 +279,28 @@ const ProfilPage = () => {
 											/>
 										</ListItem>
 
-										<ListItem
-											disableGutters
+								{
+									(user.languages && user.languages.length ) && <ListItem
+									disableGutters
+								>
+									<ListItemAvatar>
+										<Avatar
 											sx={{
-												display:
-													!JSON.parse(user.languages).length && "none"
+												backgroundColor: "var(--coreego-blue)"
 											}}
 										>
-											<ListItemAvatar>
-												<Avatar
-													sx={{
-														backgroundColor: "var(--coreego-blue)"
-													}}
-												>
-													<LANGUAGE_ICON />
-												</Avatar>
-											</ListItemAvatar>
-											<ListItemText
-												primary="Langues parlées"
-												secondary={JSON.parse(user.languages).join(
-													" , "
-												)}
-											/>
-										</ListItem>
+											<LANGUAGE_ICON />
+										</Avatar>
+									</ListItemAvatar>
+									<ListItemText
+										primary="Langues parlées"
+										secondary={JSON.parse(user.languages).join(
+											" , "
+										)}
+									/>
+								</ListItem>
+								}
+
 									</Stack>
 								</CardContent>
 							)}

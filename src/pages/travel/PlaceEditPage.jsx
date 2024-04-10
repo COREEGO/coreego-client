@@ -3,7 +3,7 @@ import React from "react"
 import LoadingPage from "../../components/LoadingPage"
 import PlaceForm from "../../components/forms/PlaceForm"
 import axios from "axios"
-import useMalware from "../../hooks/useMalware"
+import useMiddleware from "../../hooks/useMiddleware"
 
 const PlaceEditPage = () => {
 
@@ -11,7 +11,7 @@ const PlaceEditPage = () => {
     const [isLoaded, setIsLoaded] = React.useState(false);
     const [place, setPlace] = React.useState();
 
-    const {canEdit} = useMalware()
+    const {canEdit} = useMiddleware()
 
     React.useEffect(()=>{
         loadPlace()
@@ -19,7 +19,6 @@ const PlaceEditPage = () => {
 
     const loadPlace = async () => {
         try {
-
             const response = await axios.get(`/places/${params.slug}`)
             canEdit(response.data.user.id)
             setPlace(response.data)

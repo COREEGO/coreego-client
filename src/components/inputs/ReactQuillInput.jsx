@@ -1,5 +1,4 @@
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 
 const ReactQuillInput = ({value, onChange}) => {
 
@@ -8,7 +7,7 @@ const ReactQuillInput = ({value, onChange}) => {
 			["bold", "italic", "underline", "strike"],
 			[{ list: "ordered" }, { list: "bullet" }],
 			[{ align: [] }],
-			["image", "blockquote"]
+			["image"]
 		],
 	};
 

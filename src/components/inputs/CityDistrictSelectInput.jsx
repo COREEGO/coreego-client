@@ -1,108 +1,156 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
-import MapSimpleMarker from "../maps/MapSimpleMarker";
-import { Box, MenuItem, TextField } from "@mui/material";
+import {
+	AppBar,
+	Box,
+	Button,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	Divider,
+	IconButton,
+	List,
+	ListItemButton,
+	ListItemText,
+	Stack,
+	Toolbar,
+	Typography
+} from "@mui/material";
+import { CLOSE_ICON, MARKER_ICON } from "../../utils/icon";
 
 const CityDistrictSelectInput = ({
 	updateCity,
-	cityValue,
-	updateDistrict,
+	cityValue = '',
+	updateDistrict = '',
 	districtValue,
-	showMap = false,
-	withCircle = false,
-	labelCity = "Villes",
-	labelDistrict = "Districts",
-	emptyOptionCity = "Toutes les villes",
-	emptyOptionDistict = "Tous les districts"
+	emptyLabelButton = "Localisation",
+	...props
 }) => {
+
+	const [cityCurrentValue, setCityCurrentValue] = React.useState(cityValue)
+	const [districtCurrentValue, setDistrictCurrentValue] = React.useState(districtValue)
+
+	const [open, setOpen] = React.useState(false);
 	const { cities } = useSelector((state) => state.app);
 
-	const handleCityChange = useCallback(
-		(event) => {
-			updateCity(event.target.value);
-			updateDistrict("");
-		},
-		[updateCity, cityValue]
-	);
-
-	const handleDistrictChange = useCallback(
-		(event) => {
-			const districtId = event.target.value;
-			updateDistrict && updateDistrict(districtId);
-		},
-		[updateDistrict, districtValue]
-	);
-
-	const districts = useMemo(() => {
-		const selectedCityData = cities.find(
-			(city) => city.id == cityValue
-		);
-		return selectedCityData ? selectedCityData.districts || [] : [];
-	}, [cities, cityValue]);
-
-	const geopoint = useMemo(() => {
-		const selectedLocation =
-			districts.find(
-				(district) => district.id === districtValue
-			) || cities.find((city) => city.id === cityValue);
-		return selectedLocation
-			? {
-					latitude: selectedLocation.latitude,
-					longitude: selectedLocation.longitude
-			  }
+	const selectedCity = React.useMemo(() => {
+		return cityCurrentValue
+			? cities.find((city) => city.id == cityCurrentValue)
 			: null;
-	}, [cities, districts, cityValue, districtValue]);
+	});
+
+	const districts = React.useMemo(() => {
+		return selectedCity?.districts || [];
+	}, [selectedCity]);
+
+	const selectedDistrict = React.useMemo(() => {
+		return districtCurrentValue
+			? districts.find((district) => district.id == districtCurrentValue)
+			: null;
+	});
+
+	const handleUpdateLocalisation = () => {
+		updateCity(cityCurrentValue)
+		updateDistrict(districtCurrentValue)
+		setOpen(false)
+	}
 
 	return (
 		<>
-			<TextField
-				fullWidth
-				label={labelCity}
-				select
-				value={cityValue}
-				onChange={handleCityChange}
+			<Button
+				{...props}
+				variant="outlined"
+				onClick={() => setOpen(true)}
+				startIcon={<MARKER_ICON />}
+				sx={{ textTransform: "inherit" }}
 			>
-				<MenuItem value="">{emptyOptionCity}</MenuItem>
-				{cities.map((city) => (
-					<MenuItem key={city.id} value={city.id}>
-						{city.label}
-					</MenuItem>
-				))}
-			</TextField>
+				{selectedCity || selectedDistrict
+					? selectedCity?.label +
+					  (selectedDistrict ? " - " + selectedDistrict?.label : "")
+					: emptyLabelButton}
+			</Button>
+			<Dialog
+				fullScreen
+				open={open}
+				onClose={() => setOpen(false)}
+				fullWidth
+			>
+				<AppBar sx={{ position: "sticky", top: 0 }}>
+					<Toolbar>
+						<IconButton
+							edge="start"
+							color="inherit"
+							onClick={() => setOpen(false)}
+							aria-label="close"
+						>
+							<CLOSE_ICON />
+						</IconButton>
+						<Typography
+							sx={{ ml: 2, flex: 1 }}
+							variant="h6"
+							component="div"
+						>
+							Localisation
+						</Typography>
+					</Toolbar>
+				</AppBar>
+				<DialogContent>
+					<Stack direction="row">
+						<Box borderRight="1px solid grey">
+							<List width="fit-content">
+								<ListItemButton
+									onClick={() => {
+										setCityCurrentValue('');
+										setDistrictCurrentValue('');
+									}}
+									selected={!cityCurrentValue}
+								>
+									<ListItemText primary="-----" />
+								</ListItemButton>
 
-			{districts && districts.length > 0 ? (
-				<TextField
-					sx={{ mt: 2 }}
-					fullWidth
-					label={labelDistrict}
-					select
-					value={districtValue}
-					onChange={handleDistrictChange}
-				>
-					<MenuItem value="">{emptyOptionDistict}</MenuItem>
-					{districts.map((district) => {
-						return (
-							<MenuItem key={district.id} value={district.id}>
-								{district.label}
-							</MenuItem>
-						);
-					})}
-				</TextField>
-			) : (
-				<></>
-			)}
-
-			{showMap && geopoint ? (
-				<Box sx={{ width: "100%", height: 300 }}>
-					<MapSimpleMarker
-						withCircle={withCircle}
-						lat={geopoint?.latitude}
-						lng={geopoint?.longitude}
-					/>
-				</Box>
-			) : (
-				<></>
-			)}
+								{cities.map((city) => {
+									return (
+										<ListItemButton
+											key={city.id}
+											onClick={() => {
+												setCityCurrentValue(city.id);
+												setDistrictCurrentValue('');
+											}}
+											selected={cityCurrentValue == city.id}
+										>
+											<ListItemText primary={city.label} />
+										</ListItemButton>
+									);
+								})}
+							</List>
+						</Box>
+						{districts.length > 0 && (
+							<Box>
+								<List width="fit-content">
+									{districts.map((district) => {
+										return (
+											<ListItemButton
+												onClick={() =>
+													setDistrictCurrentValue(district.id)
+												}
+												selected={districtCurrentValue == district.id}
+												key={district.id}
+											>
+												<ListItemText primary={district.label} />
+											</ListItemButton>
+										);
+									})}
+								</List>
+							</Box>
+						)}
+					</Stack>
+				</DialogContent>
+				<DialogActions sx={{ boxShadow: 3 }}>
+					<Button onClick={handleUpdateLocalisation} variant="contained" type="submit">
+						Valider
+					</Button>
+				</DialogActions>
+			</Dialog>
 		</>
 	);
 };

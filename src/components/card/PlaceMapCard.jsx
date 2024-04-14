@@ -29,18 +29,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React, { useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { BEARER_HEADERS, IMAGE_PATH } from "../../utils/variables";
+import {
+	BEARER_HEADERS,
+	IMAGE_PATH,
+	goToKakaoMapByLatLong
+} from "../../utils/variables";
 import moment from "moment";
 import dayjs from "dayjs";
 import { LoadingButton } from "@mui/lab";
 
 const DatePicker = ({ place, mutate }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
-
 	const [isBusyAddDate, setIsBusyAddDate] = React.useState(false);
 	const [isBusyDeleteDate, setIsBusyDeleteDate] =
 		React.useState(false);
-
 	const [selectedDate, setSelectedDate] = React.useState(
 		place?.visit_at || new Date()
 	);
@@ -220,7 +222,11 @@ const PlaceMapCard = ({
 						</NavLink>
 						<NavLink
 							target="_blank"
-							to={`https://map.kakao.com/link/to/${place.title},${place.latitude},${place.longitude}`}
+							to={goToKakaoMapByLatLong(
+								place.title,
+								place.latitude,
+								place.longitude
+							)}
 						>
 							<Button
 								startIcon={<GPS_ICON />}

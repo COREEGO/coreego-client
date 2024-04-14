@@ -24,7 +24,7 @@ import {
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
-import { BEARER_HEADERS } from "../../utils/variables";
+import { BEARER_HEADERS, setToken } from "../../utils/variables";
 
 export default function LoginPage() {
 	const {
@@ -43,7 +43,7 @@ export default function LoginPage() {
 				password: data.password.trim()
 			});
 			if (response && response.data) {
-				localStorage.setItem("token", response.data.token);
+				setToken(response.data.token)
 				window.location.replace("/");
 			}
 		} catch (error) {

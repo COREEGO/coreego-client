@@ -15,6 +15,7 @@ const SearchFilterRework = () => {
 	return (
 		<>
 			<Button
+				data-testid="button-search"
 				onClick={() => setOpen(true)}
 				startIcon={<SEARCH_ICON />}
 				// sx={{ textTransform: "inherit" }}
@@ -22,6 +23,7 @@ const SearchFilterRework = () => {
 				{searchParams.get("q") || ' '}
 			</Button>
 			<Dialog
+				data-testid="dialog-search"
 				open={open}
 				onClose={() => setOpen(false)}
 				fullWidth
@@ -36,6 +38,7 @@ const SearchFilterRework = () => {
 				}}
 			>
 				<TextField
+					data-testid="input-search"
 					fullWidth
 					value={value}
                     type="search"

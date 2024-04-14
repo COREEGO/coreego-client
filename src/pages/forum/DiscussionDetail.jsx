@@ -21,6 +21,7 @@ import axios from "axios";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
 import { Helmet } from "react-helmet";
+import { NavLink } from "react-router-dom";
 
 const DiscussionDetail = () => {
 	const params = useParams();
@@ -68,7 +69,9 @@ const DiscussionDetail = () => {
 				<Container>
 					<Stack gap={3} justifyContent="center" alignItems="center">
 						<Stack alignItems="center" direction="row" spacing={1}>
+							<NavLink to={`/forum?category=${discussion.category.id}`}>
 							<CategoryText category={discussion.category} />
+							</NavLink>
 							<Typography
 								sx={{
 									color: "var(--grey-bold)",
@@ -106,9 +109,11 @@ const DiscussionDetail = () => {
 						sx={{ height: 50, width: 50 }}
 						src={AVATAR_PATH + discussion?.user?.avatar}
 					/>
-					<Typography component="div" fontWeight="bold">
-						{discussion?.user?.pseudo || UNKNOWN_USER}
-					</Typography>
+					<NavLink to={`/user/profil/${discussion?.user?.slug}`}>
+						<Typography component="div" fontWeight="bold">
+							{discussion?.user?.pseudo || UNKNOWN_USER}
+						</Typography>
+					</NavLink>
 					{belongsToAuth(discussion?.user?.id, auth?.id) ? (
 						<OptionPublicationButton
 							editLink={`/forum/discussion/modification/${discussion.slug}`}

@@ -1,8 +1,8 @@
 import { create, test, enforce } from 'vest';
 
-export const IS_REQUIRED_MESSAGE = "Ce champ est requis";
-const IS_NOT_REGEX_VALID_MESSAGE = "Le format est invalide";
-const IS_NOT_SAME_VALUE_MESSAGE = "Les mots de passe ne correspondent pas";
+export const IS_REQUIRED_MESSAGE = "Ce champ est requis.";
+const IS_NOT_REGEX_VALID_MESSAGE = "Le format du champ est invalide.";
+const IS_NOT_SAME_VALUE_MESSAGE = "La confirmation du champ ne correspond pas.";
 const PSEUDO_REGEX = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 const WEBSITE_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
@@ -12,6 +12,7 @@ export const minLength = (length) => `Le champ doit avoir au minimum ${length} c
 export const minNumber = (number) => `Minimum ${number}`
 
 export const validationRegister = create((data = {}) => {
+  test('accept_conditions', IS_REQUIRED_MESSAGE, () => {enforce(data.accept_conditions).isNotEmpty()});
   test('pseudo', IS_REQUIRED_MESSAGE, () => {enforce(data.pseudo).isNotEmpty()});
   test('pseudo', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.pseudo).matches(PSEUDO_REGEX)});
   test('pseudo', maxLength(20), () => {enforce(data.pseudo).shorterThanOrEquals(20)});

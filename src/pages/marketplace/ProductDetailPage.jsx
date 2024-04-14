@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import LoadingPage from "../../components/LoadingPage";
 import KakaoMap from "../../components/maps/KakaoMap";
 import { belongsToAuth } from "../../utils";
-import { MAIL_ICON, MARKER_ICON } from "../../utils/icon";
+import { GPS_ICON, MAIL_ICON, MARKER_ICON } from "../../utils/icon";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Avatar,
@@ -15,12 +15,13 @@ import {
 	Typography
 } from "@mui/material";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
-import { AVATAR_PATH } from "../../utils/variables";
+import { AVATAR_PATH, goToKakaoMapByLatLong } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
 import ShareButton from "../../components/buttons/ShareButton";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
+import { NavLink } from "react-router-dom";
 
 const ProductDetail = () => {
 	const params = useParams();
@@ -37,8 +38,8 @@ const ProductDetail = () => {
 	const loadProduct = async () => {
 		try {
 			const response = await axios.get(`/products/${params.slug}`);
-			if(!response.data){
-				navigate('*')
+			if (!response.data) {
+				navigate("*");
 			}
 			setProduct(response.data);
 		} catch (error) {
@@ -74,7 +75,10 @@ const ProductDetail = () => {
 										maxWidth: "100%"
 									}}
 								>
-									<SimpleSlider images={product?.images} />
+									<SimpleSlider
+										title={product?.title}
+										images={product?.images}
+									/>
 								</Box>
 							</Grid>
 							<Grid item xs={12} md={6}>
@@ -108,9 +112,13 @@ const ProductDetail = () => {
 											sx={{ width: 40, height: 40 }}
 											src={AVATAR_PATH + product?.user?.avatar}
 										/>
-										<Typography fontWeight="bold">
-											{product?.user?.pseudo}
-										</Typography>
+										<NavLink
+											to={`/user/profil/${product?.user?.slug}`}
+										>
+											<Typography fontWeight="bold">
+												{product?.user?.pseudo}
+											</Typography>
+										</NavLink>
 										{belongsToAuth(product.user.id, auth?.id) ? (
 											<OptionPublicationButton
 												editLink={`/marketplace/produit/modification/${product.slug}`}
@@ -160,10 +168,12 @@ const ProductDetail = () => {
 							startText="Localisation"
 							endText="de la vente"
 						/>
-						<Typography display="flex" alignItems="center">
-							<MARKER_ICON sx={{ mr: 1 }} />
-							{product?.city?.label},{product?.district?.label}
+						<NavLink to={`/marketplace?city=${product.city.id}&district=${product.district.id}`}>
+						<Typography display="inline-flex" alignItems="center" gap={1}>
+							<MARKER_ICON />
+							{product?.city?.label}, {product?.district?.label}
 						</Typography>
+						</NavLink>
 						<Box
 							sx={{
 								height: { xs: 250, sm: 300, md: 400 },

@@ -3,7 +3,7 @@ import {
 	errorField,
 	validationRegister
 } from "../../utils/formValidation";
-import { vestResolver } from '@hookform/resolvers/vest';
+import { vestResolver } from "@hookform/resolvers/vest";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import {
@@ -11,14 +11,16 @@ import {
 	Stack,
 	TextField,
 	Typography,
-	InputAdornment
+	InputAdornment,
+	FormGroup,
+	Checkbox,
+	FormControlLabel
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { toast } from "react-toastify";
 import { getViolationField } from "../../utils";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
-
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -70,22 +72,23 @@ const RegisterPage = () => {
 							{...register("pseudo")}
 							{...errorField(errors?.pseudo)}
 							label="Pseudo"
+							required
 							fullWidth
 							placeholder="Votre pseudo"
 							required5
 							InputProps={{
-                                endAdornment: (
-                                    <InputAdornment
-                                        className="string_count"
-                                        position="end"
-                                    >
-                                        {watch("pseudo")?.length || 0}/{20}
-                                    </InputAdornment>
-                                ),
-                                inputProps: {
-                                    maxLength: 20
-                                }
-                            }}
+								endAdornment: (
+									<InputAdornment
+										className="string_count"
+										position="end"
+									>
+										{watch("pseudo")?.length || 0}/{20}
+									</InputAdornment>
+								),
+								inputProps: {
+									maxLength: 20
+								}
+							}}
 						/>
 						<TextField
 							{...register("email")}
@@ -114,6 +117,23 @@ const RegisterPage = () => {
 							placeholder="6+ caractères requis"
 							type="password"
 						/>
+						<FormGroup>
+							<FormControlLabel
+								control={
+									<Checkbox
+										{...register("accept_conditions")}
+										{...errorField(errors?.accept_conditions)}
+										required
+									/>
+								}
+								label={
+									<span>
+										J'accepte les conditions d'utilisation{" "}
+										<NavLink style={{color: 'var(--coreego-blue)'}} to="/conditions-generales">ICI</NavLink>
+									</span>
+								}
+							/>
+						</FormGroup>
 						<LoadingButton
 							variant="contained"
 							loading={isSubmitting}
@@ -128,7 +148,9 @@ const RegisterPage = () => {
 						>
 							<Typography>J'ai déjà un compte ?</Typography>
 							<NavLink to="/login">
-								<Typography component="span" color="primary">Je me connecte</Typography>
+								<Typography component="span" color="primary">
+									Je me connecte
+								</Typography>
 							</NavLink>
 						</Stack>
 					</Stack>

@@ -18,7 +18,7 @@ const LikeButton = ({
 	const { auth } = useAuthContext();
 	const navigate = useNavigate();
 	const existLike = useMemo(() => {
-		return likes.find((like) => like?.user?.id === auth.id)
+		return likes.find((like) => like?.user?.id === auth?.id)
 			? true
 			: false;
 	}, [likes, discussionId, placeId]);

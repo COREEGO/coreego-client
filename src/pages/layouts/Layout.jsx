@@ -10,17 +10,34 @@ import {
 } from "../../store/reducers/app.reducer";
 import Navigation from "../../components/navigation/Navigation";
 import axios from "axios";
-import { TOKEN } from "../../utils/variables";
+import { TOKEN, removeToken } from "../../utils/variables";
 import DashboardLayout from "./DashboardLayout";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import Footer from "../Footer";
 
 const Layout = ({ children }) => {
 	const [isLoaded, setIsLoaded] = React.useState(false);
 	const dispath = useDispatch();
 	const { authentification } = useAuthContext();
+	const navigate = useNavigate();
 
-	const {pathname} = useLocation();
+	axios.interceptors.response.use(
+		function (response) {
+			return response;
+		},
+		function (error) {
+			if (error?.response?.status === 401 || error?.response?.status === 403) {
+				removeToken();
+				navigate("/login");
+			}
+			if(error?.response?.status === 500){
+				navigate("/error")
+			}
+			return Promise.reject(error);
+		}
+	);
+
+	const { pathname } = useLocation();
 
 	React.useEffect(() => {
 		onLoadedApplication();
@@ -61,7 +78,7 @@ const Layout = ({ children }) => {
 				<>
 					<Navigation />
 					{children}
-					<Footer  />
+					<Footer />
 				</>
 			)}
 		</>

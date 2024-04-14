@@ -116,7 +116,8 @@ const HomePage = () => {
 										height="100%"
 										width="100%"
 										src={HERO_BANNER_IMG}
-										alt=""
+										alt="Plateforme communautaire francophone dédiée à la Corée du
+										Sud | Coreego"
 									/>
 								</Box>
 							</Hidden>
@@ -385,6 +386,7 @@ const HomePage = () => {
 							<Stack width="100%" alignItems="center">
 								<img
 									src={YOANN_LOGO}
+									alt="Yoann Piard"
 									width="auto"
 									style={{ maxWidth: "100%", maxHeight: 500 }}
 								/>

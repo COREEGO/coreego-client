@@ -16,14 +16,15 @@ import {
 	MARKER_ICON,
 	PRICE_ICON
 } from '../../utils/icon'
-import { AVATAR_PATH, IMAGE_PATH } from '../../utils/variables'
+import { AVATAR_PATH, IMAGE_PATH, UNKNOWN_USER } from '../../utils/variables'
 import moment from 'moment'
 
 const ProductCard = ({ product }) => {
-  return (
+  return product && (
     <Card elevation={3} raised>
       <CardActionArea component='div'>
         <CardMedia
+          alt={product.title}
           component='img'
           sx={{
             height: { xs: 200, md: 250 }
@@ -36,10 +37,10 @@ const ProductCard = ({ product }) => {
           }
         />
         <CardHeader
-          avatar={<Avatar src={AVATAR_PATH + product.user.avatar} />}
+          avatar={<Avatar alt={product?.user?.pseudo} src={AVATAR_PATH + product?.user?.avatar} />}
           title={
             <Typography component='div' fontWeight='bold'>
-              {product.user.pseudo}
+              {product?.user?.pseudo || UNKNOWN_USER}
             </Typography>
 					}
           subheader={moment(product.created_at).format('D MMMM YYYY')}

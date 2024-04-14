@@ -26,7 +26,8 @@ const CategoryFilterRework = ({ categories }) => {
 	return (
 		<>
 			<Button
-			variant="outlined"
+				data-testid="button-list"
+				variant="outlined"
 				startIcon={
 					selectedCategory ? (
 						<CIRCLE_ICON color={selectedCategory.color} />
@@ -41,6 +42,7 @@ const CategoryFilterRework = ({ categories }) => {
 					: "Toutes les catégories"}
 			</Button>
 			<Menu
+				data-testid="list"
 				onClick={() => setAnchorEl(null)}
 				anchorEl={anchorEl}
 				open={Boolean(anchorEl)}
@@ -52,8 +54,9 @@ const CategoryFilterRework = ({ categories }) => {
 				>
 					Toutes les catégories
 				</MenuItem>
-				{categories.map((category) => (
+				{categories?.map((category) => (
 					<MenuItem
+						data-testid="list-item"
 						onClick={() =>
 							updateFilter("category", category.id.toString())
 						}
@@ -64,7 +67,7 @@ const CategoryFilterRework = ({ categories }) => {
 						<ListItemIcon>
 							<CIRCLE_ICON color={category.color} />
 						</ListItemIcon>
-							{category.label}
+						{category.label}
 					</MenuItem>
 				))}
 			</Menu>

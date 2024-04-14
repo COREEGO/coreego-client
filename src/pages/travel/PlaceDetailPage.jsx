@@ -10,10 +10,7 @@ import ReviewModule from "../components/modules/ReviewModule";
 
 import CategoryText from "../../components/texts/CategoryText";
 import { belongsToAuth } from "../../utils";
-import {
-	CIRCLE_ICON,
-	MARKER_ICON
-} from "../../utils/icon";
+import { CIRCLE_ICON, GPS_ICON, MARKER_ICON } from "../../utils/icon";
 import { useAuthContext } from "../../contexts/AuthProvider";
 
 import {
@@ -32,11 +29,16 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import moment from "moment";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
-import { AVATAR_PATH, UNKNOWN_USER } from "../../utils/variables";
+import {
+	AVATAR_PATH,
+	UNKNOWN_USER,
+	goToKakaoMapByLatLong
+} from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
 import { Helmet } from "react-helmet";
+import { NavLink } from "react-router-dom";
 
 const PlaceDetail = () => {
 	const params = useParams();
@@ -45,7 +47,7 @@ const PlaceDetail = () => {
 	const [place, setPlace] = React.useState();
 	const [isLoaded, setIsLoaded] = React.useState(false);
 
-	const navigate = useNavigate()
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		loadPlace();
@@ -54,8 +56,8 @@ const PlaceDetail = () => {
 	const loadPlace = async () => {
 		try {
 			const response = await axios.get(`/places/${params.slug}`);
-			if(!response.data){
-				navigate('*')
+			if (!response.data) {
+				navigate("*");
 			}
 			setPlace(response.data);
 		} catch (error) {
@@ -75,7 +77,9 @@ const PlaceDetail = () => {
 				/>
 				<meta
 					name="description"
-					content={JSON.parse(place.reasons_to_visit).join(',').slice(0, 150)}
+					content={JSON.parse(place.reasons_to_visit)
+						.join(",")
+						.slice(0, 150)}
 				/>
 			</Helmet>
 			<Box mt={5}>
@@ -87,7 +91,9 @@ const PlaceDetail = () => {
 						spacing={3}
 					>
 						<Stack alignItems="center" direction="row" spacing={1}>
-							<CategoryText category={place.category} />
+							<NavLink to={`/explorer?category=${place.category.id}`}>
+								<CategoryText category={place.category} />
+							</NavLink>
 							<Typography
 								sx={{
 									color: "var(--grey-bold)",
@@ -125,7 +131,10 @@ const PlaceDetail = () => {
 								maxWidth: "100%"
 							}}
 						>
-							<SimpleSlider images={place.images} />
+							<SimpleSlider
+								title={place?.title}
+								images={place.images}
+							/>
 						</Box>
 					</Stack>
 				</Container>
@@ -142,9 +151,11 @@ const PlaceDetail = () => {
 						sx={{ height: 50, width: 50 }}
 						src={AVATAR_PATH + place?.user?.avatar}
 					/>
-					<Typography component="div" fontWeight="bold">
-						{place?.user?.pseudo || UNKNOWN_USER}
-					</Typography>
+					<NavLink to={`/user/profil/${place?.user?.slug}`}>
+						<Typography component="div" fontWeight="bold">
+							{place?.user?.pseudo || UNKNOWN_USER}
+						</Typography>
+					</NavLink>
 					{belongsToAuth(place?.user?.id, auth?.id) ? (
 						<OptionPublicationButton
 							editLink={`/explorer/lieu/modification/${place.slug}`}
@@ -218,15 +229,26 @@ const PlaceDetail = () => {
 							/>
 						</Box>
 						<Box sx={{ mt: 3 }}>
+							<NavLink to={`/explorer?city=${place.city.id}&district=${place.district.id}`}>
 							<Typography
 								gutterBottom
 								display="flex"
 								alignItems="center"
-							>
-								<MARKER_ICON sx={{ mr: 1 }} />
+								gap={1}
+								>
+								<MARKER_ICON />
 								{place.city.label},{place.district.label}
 							</Typography>
-							<Typography> {place.address} </Typography>
+							</NavLink>
+							<Typography
+								sx={{
+									display: "flex",
+									alignItems: "center",
+									gap: 1
+								}}
+							>
+								{place.address}
+							</Typography>
 						</Box>
 					</Stack>
 				</Container>

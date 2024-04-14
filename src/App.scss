@@ -16,12 +16,10 @@
 
 body{
 
-	.navlink {
-		a {
-			color: black;
-			&.active {
-				color: var(--coreego-blue);
-			}
+	a.active, a.active li {
+		color: var(--coreego-blue);
+		*{
+			fill: var(--coreego-blue);
 		}
 	}
 

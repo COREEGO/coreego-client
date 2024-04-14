@@ -59,9 +59,9 @@ const ForumPage = () => {
 			) : (
 				<>
 					<Box my={5}>
-						{discussions.data.length ? (
+						{discussions?.data.length ? (
 							<Grid container spacing={2}>
-								{discussions.data.map((discussion) => {
+								{discussions?.data.map((discussion) => {
 									return (
 										<Grid key={discussion.id} item xs={12} md={6}>
 											<NavLink

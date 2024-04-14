@@ -81,6 +81,13 @@ const LocalisationFilterRework = () => {
 			>
 				<AppBar sx={{ position: "sticky", top: 0 }}>
 					<Toolbar>
+						<Typography
+							sx={{ flex: 1 }}
+							variant="h6"
+							component="div"
+						>
+							Localisation
+						</Typography>
 						<IconButton
 							edge="start"
 							color="inherit"
@@ -89,13 +96,6 @@ const LocalisationFilterRework = () => {
 						>
 							<CLOSE_ICON />
 						</IconButton>
-						<Typography
-							sx={{ ml: 2, flex: 1 }}
-							variant="h6"
-							component="div"
-						>
-							Localisation
-						</Typography>
 					</Toolbar>
 				</AppBar>
 				<DialogContent>
@@ -112,7 +112,7 @@ const LocalisationFilterRework = () => {
 									<ListItemText primary="Toute la corée" />
 								</ListItemButton>
 
-								{cities.map((city) => {
+								{cities?.map((city) => {
 									return (
 										<ListItemButton
 											key={city.id}
@@ -128,10 +128,10 @@ const LocalisationFilterRework = () => {
 								})}
 							</List>
 						</Box>
-						{districts.length > 0 && (
+						{districts?.length > 0 && (
 							<Box>
 								<List width="fit-content">
-									{districts.map((district) => {
+									{districts?.map((district) => {
 										return (
 											<ListItemButton
 												onClick={() =>

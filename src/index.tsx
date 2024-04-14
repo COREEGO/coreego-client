@@ -13,15 +13,6 @@ moment.locale('fr')
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL
 axios.defaults.withCredentials = true
 
-axios.interceptors.response.use(function (response) {
-  return response;
-}, function (error) {
-  if (error.status === 401) {
-    localStorage.removeItem('token')
-  }
-  return Promise.reject(error);
-});
-
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

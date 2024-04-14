@@ -32,6 +32,10 @@ import UserLikes from "../user/UserLikesPage";
 import ExplorePage from "../travel/ExplorePage";
 import TravelLoguePage from "../user/TravelLoguePage";
 import NotFoundPage from "../NotFoundPage";
+import ConfidentialitePage from "../mentions-legale/ConfidentialitePage";
+import ConditionsPage from "../mentions-legale/ConditionsPage";
+import FonctionalsPage from "../mentions-legale/FonctionalsPage";
+import Error500 from "../Error500";
 
 
 export default function RouterOutlet() {
@@ -40,6 +44,8 @@ export default function RouterOutlet() {
 
         <Routes>
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="error" element={<Error500 />} />
+
             <Route path="/" element={<HomePage />} />
             <Route path="/forum" element={<ForumPage />} />
             <Route path="/forum/discussion/:slug" element={<DiscussionDetail />} />
@@ -54,6 +60,10 @@ export default function RouterOutlet() {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/password/forgot" element={<PasswordForgotPage />} />
             <Route path="/email/verify" element={<EmailVerifyPage />} />
+
+            <Route path="/confidentialite" element={<ConfidentialitePage />} />
+            <Route path="/conditions-generales" element={<ConditionsPage />} />
+            <Route path="/fonctionnement-site" element={<FonctionalsPage />} />
 
             <Route element={<PrivateRoute />} >
                 <Route path="/user/profil/modification" element={<ProfilEditPage />} />

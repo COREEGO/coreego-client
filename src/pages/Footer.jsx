@@ -20,7 +20,7 @@ const Footer = ({ ...props }) => {
 		>
       <Container>
         <Box mb={5}>
-          <img src={LOGO} width={150} height='auto' />
+          <img alt="coreego logo" src={LOGO} width={150} height='auto' />
         </Box>
         <Stack
           role='links'
@@ -89,9 +89,9 @@ const Footer = ({ ...props }) => {
               }
             }}
 					>
-            <NavLink>Confidentialité</NavLink>
-            <NavLink>Conditions générales</NavLink>
-            <NavLink>Fonctionnement du site</NavLink>
+            <NavLink to="/confidentialite">Confidentialité</NavLink>
+            <NavLink to="/conditions-generales">Conditions générales</NavLink>
+            <NavLink to="fonctionnement-site">Fonctionnement du site</NavLink>
           </Stack>
           <Stack role='social network'>
             <NavLink

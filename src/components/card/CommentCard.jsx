@@ -41,7 +41,6 @@ import { vestResolver } from "@hookform/resolvers/vest";
 
 const CommentCard = ({ comment, mutate }) => {
 	const confirm = useConfirm();
-
 	const [open, setOpen] = React.useState(false);
 
 	const {

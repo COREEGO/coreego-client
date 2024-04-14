@@ -59,12 +59,15 @@ import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import LanguageIcon from '@mui/icons-material/Language';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 
 export const HOME_ICON = HomeOutlinedIcon
 export const PASSWORD_ICON = HttpsOutlinedIcon
 export const EDITNOTE_ICON = EditNoteIcon
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
+
+export const ZOOM_ICON = ZoomInIcon
 
 export const WEBSITE_ICON = LanguageIcon
 

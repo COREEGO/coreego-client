@@ -15,12 +15,12 @@ import moment from "moment";
 import { AVATAR_PATH, UNKNOWN_USER } from "../../utils/variables";
 
 const DiscussionCard = ({ discussion }) => {
-	return (
-		<Card elevation={3}>
+	return discussion && (
+		<Card elevation={3} id={discussion.id}>
 			<CardActionArea component="div">
 				<CardHeader
 					avatar={
-						<Avatar src={AVATAR_PATH + discussion?.user?.avatar} />
+						<Avatar alt={discussion?.user?.pseudo} src={AVATAR_PATH + discussion?.user?.avatar} />
 					}
 					title={
 						<Typography component="div" fontWeight="bold">

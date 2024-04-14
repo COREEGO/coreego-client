@@ -27,7 +27,8 @@ import {
 	LOGOUT_ICON,
 	NOTIFICATION_ICON,
 	PROFIL_ICON,
-	UNSAVED_PLACE_ICON} from "../../utils/icon";
+	UNSAVED_PLACE_ICON
+} from "../../utils/icon";
 import { AVATAR_PATH } from "../../utils/variables";
 import { LINKS, hasNotificationNotReaded } from "../../utils";
 
@@ -101,6 +102,7 @@ const Navigation = () => {
 
 	return (
 		<AppBar
+			component="nav"
 			position="sticky"
 			sx={{ top: 0, backgroundColor: "white" }}
 			color="transparent"
@@ -114,13 +116,12 @@ const Navigation = () => {
 								height="auto"
 								src={logo}
 								title="coreego"
+								alt="coreego logo"
 							/>
 						</NavLink>
 					</Box>
 
-					<Box
-						sx={{display: { xs: "flex", md: "none" } }}
-					>
+					<Box sx={{ display: { xs: "flex", md: "none" } }}>
 						<IconButton
 							size="large"
 							aria-label="account of current auth"
@@ -170,8 +171,8 @@ const Navigation = () => {
 					<Box
 						sx={{
 							flex: 1,
-							justifyContent: 'center',
-							display: { xs: "flex", md: "none" },
+							justifyContent: "center",
+							display: { xs: "flex", md: "none" }
 						}}
 					>
 						<NavLink className="nav_logo" to="/">
@@ -180,6 +181,7 @@ const Navigation = () => {
 								height="auto"
 								src={logo}
 								title="coreego"
+								alt="coreego logo"
 							/>
 						</NavLink>
 					</Box>
@@ -250,11 +252,17 @@ const Navigation = () => {
 											}
 											variant="dot"
 										>
-											<Avatar src={AVATAR_PATH + auth?.avatar} />
+											<Avatar
+												alt={auth?.pseudo}
+												src={AVATAR_PATH + auth?.avatar}
+											/>
 										</Badge>
 									</Hidden>
 									<Hidden mdDown>
-										<Avatar src={AVATAR_PATH + auth?.avatar} />
+										<Avatar
+											alt={auth?.pseudo}
+											src={AVATAR_PATH + auth?.avatar}
+										/>
 									</Hidden>
 								</IconButton>
 								<Menu
@@ -278,7 +286,9 @@ const Navigation = () => {
 							</Box>
 						</Stack>
 					) : (
-						<NavLink to="/login"><Button>Se connecter</Button></NavLink>
+						<NavLink to="/login">
+							<Button>Se connecter</Button>
+						</NavLink>
 					)}
 				</Toolbar>
 			</Container>

@@ -19,6 +19,8 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { vestResolver } from "@hookform/resolvers/vest";
+import { Helmet } from "react-helmet";
+
 
 const ChangePassword = () => {
 	const navigate = useNavigate();
@@ -54,6 +56,9 @@ const ChangePassword = () => {
 
 	return (
 		<Container>
+			<Helmet>
+                <title>Mot de passe oublié | Coreego</title>
+            </Helmet>
 			<Stack justifyContent="center" alignItems="center">
 				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText

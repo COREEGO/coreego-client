@@ -22,6 +22,7 @@ import ShareButton from "../../components/buttons/ShareButton";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
 import ReportModule from "../components/modules/ReportModule";
 import { NavLink } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const ProductDetail = () => {
 	const params = useParams();
@@ -51,6 +52,9 @@ const ProductDetail = () => {
 
 	return isLoaded ? (
 		<React.Fragment>
+			<Helmet>
+                <title>Nouveau produit | Coreego</title>
+            </Helmet>
 			<Box className="hero_banner">
 				<Box py={5}>
 					<Container>

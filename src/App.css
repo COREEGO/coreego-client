@@ -13,11 +13,11 @@
   --test: hsl(39, 100%, 50%);
 }
 
-body .navlink a {
-  color: black;
-}
-body .navlink a.active {
+body a.active, body a.active li {
   color: var(--coreego-blue);
+}
+body a.active *, body a.active li * {
+  fill: var(--coreego-blue);
 }
 body .nav_logo {
   height: 21px;

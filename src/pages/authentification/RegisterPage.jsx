@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 import { getViolationField } from "../../utils";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -55,6 +56,9 @@ const RegisterPage = () => {
 
 	return (
 		<Container>
+			<Helmet>
+                <title>Créer un compte | Coreego</title>
+            </Helmet>
 			<Stack justifyContent="center" alignItems="center">
 				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
@@ -75,7 +79,6 @@ const RegisterPage = () => {
 							required
 							fullWidth
 							placeholder="Votre pseudo"
-							required5
 							InputProps={{
 								endAdornment: (
 									<InputAdornment

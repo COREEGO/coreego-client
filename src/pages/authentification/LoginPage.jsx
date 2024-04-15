@@ -25,6 +25,7 @@ import TitleSectionText from "../../components/texts/TitleSectionText";
 import { getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
 import { BEARER_HEADERS, setToken } from "../../utils/variables";
+import { Helmet } from "react-helmet";
 
 export default function LoginPage() {
 	const {
@@ -57,6 +58,9 @@ export default function LoginPage() {
 
 	return (
 		<Container>
+			<Helmet>
+                <title>Se connecter | Coreego</title>
+            </Helmet>
 			<Stack justifyContent="center" alignItems="center">
 				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText

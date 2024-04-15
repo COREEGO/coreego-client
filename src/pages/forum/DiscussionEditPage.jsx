@@ -4,6 +4,7 @@ import React from "react"
 import LoadingPage from "../../components/LoadingPage"
 import axios from "axios"
 import useMiddleware from "../../hooks/useMiddleware"
+import { Helmet } from "react-helmet";
 
 
 const DiscussionEditPage = () => {
@@ -12,24 +13,31 @@ const DiscussionEditPage = () => {
     const [isLoaded, setIsLoaded] = React.useState(false)
     const [discussion, setDiscussion] = React.useState()
 
-    const {canEdit} = useMiddleware()
+    const { canEdit } = useMiddleware()
 
-    React.useEffect(()=>{
-        const loadDiscussion = async () =>{
+    React.useEffect(() => {
+        const loadDiscussion = async () => {
             try {
                 const response = await axios.get(`/discussions/${params.slug}`)
                 canEdit(response.data.user.id)
                 setDiscussion(response.data)
             } catch (error) {
                 console.log(error)
-            }finally{
+            } finally {
                 setIsLoaded(true)
             }
         }
         loadDiscussion()
     }, [])
 
-    return isLoaded ? <DiscussionForm  isEditMode={true} discussion={discussion} /> : <LoadingPage type="page" />
+    return isLoaded ?
+        <>
+        <Helmet>
+            <title>Modification discussion | Coreego</title>
+        </Helmet>
+            <DiscussionForm isEditMode={true} discussion={discussion} />
+        </>
+        : <LoadingPage type="page" />
 
 }
 

@@ -30,7 +30,7 @@ const Layout = ({ children }) => {
 				removeToken();
 				navigate("/login");
 			}
-			if(error?.response?.status === 500){
+			if(error?.response?.status === 500 || !error?.response){
 				navigate("/error")
 			}
 			return Promise.reject(error);

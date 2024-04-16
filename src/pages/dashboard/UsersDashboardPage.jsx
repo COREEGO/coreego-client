@@ -97,7 +97,7 @@ const UsersDashboardPage = () => {
 							<TableCell>Pseudo</TableCell>
 							<TableCell>Email</TableCell>
 							<TableCell>Role</TableCell>
-							{auth?.role?.is_superadmin && <TableCell>Action</TableCell>}
+							{auth?.role?.is_superadmin ? <TableCell>Action</TableCell> : <></>}
 						</TableRow>
 					</TableHead>
 
@@ -140,10 +140,10 @@ const UsersDashboardPage = () => {
 												user.role.name
 											)}
 										</TableCell>
-										{auth?.role?.is_superadmin &&
+										{auth?.role?.is_superadmin ?
 										<TableCell>
 											<Button onClick={() => onDeleteAccount(user.id)} color="error">supprimer utilisateur</Button>
-										</TableCell>
+										</TableCell> : <></>
 										}
 
 									</TableRow>

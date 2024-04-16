@@ -11,7 +11,8 @@ import {
 	InputLabel,
 	Select,
 	MenuItem,
-	Stack
+	Stack,
+	Button
 } from "@mui/material";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import React from "react";
@@ -21,6 +22,7 @@ import { useLocation } from "react-router";
 import LoadingPage from "../../components/LoadingPage";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import PaginationData from "../../components/PaginationData";
+import { useConfirm } from "material-ui-confirm";
 
 const UsersDashboardPage = () => {
 	const [users, setUsers] = React.useState([]);
@@ -29,6 +31,8 @@ const UsersDashboardPage = () => {
 	const location = useLocation();
 
 	const { auth } = useAuthContext();
+
+	const confirm = useConfirm();
 
 	React.useEffect(() => {
 		loadUsers();
@@ -64,6 +68,24 @@ const UsersDashboardPage = () => {
 		} catch (error) {}
 	};
 
+	const onDeleteAccount = (userId) => {
+		confirm({
+			title: "Supprimer le compte ?",
+			description: `Attention cette action est ireversible.
+		Si vous supprimé votre compte ce compte.
+		`
+		})
+			.then(async () => {
+				setIsBusy(true);
+				await axios.delete(`/users/${userId}`, BEARER_HEADERS);
+				await loadUsers();
+			})
+			.catch(() => {})
+			.finally(() => {
+				setIsBusy(false);
+			});
+	};
+
 	return (
 		<Stack spacing={3}>
 			<TitleSectionText endText="Utilisateurs" />
@@ -75,6 +97,7 @@ const UsersDashboardPage = () => {
 							<TableCell>Pseudo</TableCell>
 							<TableCell>Email</TableCell>
 							<TableCell>Role</TableCell>
+							{auth?.role?.is_superadmin && <TableCell>Action</TableCell>}
 						</TableRow>
 					</TableHead>
 
@@ -117,6 +140,12 @@ const UsersDashboardPage = () => {
 												user.role.name
 											)}
 										</TableCell>
+										{auth?.role?.is_superadmin &&
+										<TableCell>
+											<Button onClick={() => onDeleteAccount(user.id)} color="error">supprimer utilisateur</Button>
+										</TableCell>
+										}
+
 									</TableRow>
 								);
 							})}

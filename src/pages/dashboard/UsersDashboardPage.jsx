@@ -19,7 +19,6 @@ import axios from "axios";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import { useLocation } from "react-router";
 import LoadingPage from "../../components/LoadingPage";
-import { toast } from "react-toastify";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import PaginationData from "../../components/PaginationData";
 
@@ -48,7 +47,6 @@ const UsersDashboardPage = () => {
 			setUsers(responseUsers.data);
 			setRoles(responseRoles.data);
 		} catch (error) {
-			console.log(error);
 		} finally {
 			setIsBusy(false);
 		}
@@ -56,17 +54,14 @@ const UsersDashboardPage = () => {
 
 	const handleChangeRole = async (event, userId) => {
 		try {
-			const response = await axios.post(
+			await axios.post(
 				`/users/edit/${userId}`,
 				{
 					role_id: event.target.value
 				},
 				BEARER_HEADERS
 			);
-			toast.success(response.data.message);
-		} catch (error) {
-			toast.error(error.data.message);
-		}
+		} catch (error) {}
 	};
 
 	return (

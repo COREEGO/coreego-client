@@ -27,7 +27,6 @@ import PopupState, {
 	bindMenu
 } from "material-ui-popup-state";
 import { useConfirm } from "material-ui-confirm";
-import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { belongsToAuth, dateParse, getViolationField } from "../../utils";
 import {
@@ -59,17 +58,14 @@ const CommentCard = ({ comment, mutate }) => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.put(
+			await axios.put(
 				`/comments/edit/${comment.id}`,
 				data,
 				BEARER_HEADERS
 			);
-
-			toast.success(response.data.message);
 			setOpen(false);
 			mutate();
 		} catch (error) {
-			toast.error(error?.data?.message);
 			getViolationField(error, setError);
 		}
 	};
@@ -83,11 +79,9 @@ const CommentCard = ({ comment, mutate }) => {
 					`/comments/${comment.id}`,
 					BEARER_HEADERS
 				);
-				toast.success(response.data.message);
 				mutate();
 			})
 			.catch((error) => {
-				toast.error(error?.data?.message);
 				getViolationField(error, setError);
 			});
 	};

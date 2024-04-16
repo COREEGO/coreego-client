@@ -1,8 +1,6 @@
-import { BsBookmark, BsBookmarkStarFill } from "react-icons/bs";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import React, { useState } from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
 import {
 	SAVED_PLACE_ICON,
 	UNSAVED_PLACE_ICON
@@ -28,16 +26,11 @@ const SavePlaceButton = ({
 	const handleClick = async () => {
 		try {
 			setIsBusy(true);
-			const response = await axios.post('/save-place', {
+			await axios.post('/save-place', {
 				place_id: placeId
 			}, BEARER_HEADERS)
-
-			if (response) {
-				toast.success(response?.data?.message);
 				mutate();
-			}
 		} catch (error) {
-			toast.error(error?.data?.message);
 		} finally {
 			setIsBusy(false);
 		}

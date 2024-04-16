@@ -26,9 +26,8 @@ import {
 	LocalizationProvider
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 import {
 	BEARER_HEADERS,
 	IMAGE_PATH,
@@ -54,17 +53,15 @@ const DatePicker = ({ place, mutate }) => {
 				"YYYY-MM-DD HH:mm:ss"
 			);
 
-			const response = await axios.put(
+			await axios.put(
 				`/save-place/edit/${place.save_id}`,
 				{
 					visit_at: formattedDate
 				},
 				BEARER_HEADERS
 			);
-			toast.success(response.data.message);
 			mutate();
 		} catch (error) {
-			console.log(error);
 		} finally {
 			setIsBusyAddDate(false);
 		}
@@ -73,17 +70,15 @@ const DatePicker = ({ place, mutate }) => {
 	const onDeleteDate = async () => {
 		try {
 			setIsBusyDeleteDate(true);
-			const response = await axios.put(
+			await axios.put(
 				`/save-place/edit/${place.save_id}`,
 				{
 					visit_at: null
 				},
 				BEARER_HEADERS
 			);
-			toast.success(response.data.message);
 			mutate();
 		} catch (error) {
-			console.log(error);
 		} finally {
 			setIsBusyDeleteDate(false);
 		}

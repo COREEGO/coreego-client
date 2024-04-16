@@ -1,6 +1,5 @@
 import { useState } from "react";
 import * as imageConversion from "image-conversion";
-import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import { allowedExtensions } from "../utils";
 import axios from "axios";
@@ -65,14 +64,12 @@ const useFile = (mutate = Function) => {
     confirm({ description: "Supprimer l'image ?" })
       .then((_) => {
         axios.delete(`/images/${fileId}`, BEARER_HEADERS).then(
-          (response) => {
+          () => {
               mutate()
-              toast.success(response.data.message)
           }
         );
       })
-      .catch((error) => {
-
+      .catch(() => {
       });
   };
 

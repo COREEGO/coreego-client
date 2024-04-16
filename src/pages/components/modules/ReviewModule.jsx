@@ -25,13 +25,13 @@ import {
 } from "@mui/material";
 import { CLOSE_ICON } from "../../../utils/icon";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../../utils/variables";
 import { useNavigate } from "react-router";
 import { vestResolver } from "@hookform/resolvers/vest";
 
 const ReviewModule = ({ placeId, mutate, reviews, average }) => {
+
 	const [isOpen, setIsOpen] = React.useState(false);
 	const [isOpenForm, setIsOpenForm] = React.useState(false);
 	const { auth } = useAuthContext();
@@ -63,7 +63,7 @@ const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post(
+			await axios.post(
 				"/reviews",
 				{
 					place_id: placeId,
@@ -72,14 +72,10 @@ const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 				},
 				BEARER_HEADERS
 			);
-
-			toast.success(response.data.message);
 			setIsOpenForm(false);
 			reset();
 			mutate();
-		} catch (error) {
-			toast.error(error?.data?.message);
-		}
+		} catch (error) {}
 	};
 
 	const handleScrollToReview = () => {

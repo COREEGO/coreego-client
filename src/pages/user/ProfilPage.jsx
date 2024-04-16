@@ -35,7 +35,6 @@ import {
 	CardHeader,
 	Typography
 } from "@mui/material";
-import { toast } from "react-toastify";
 import { AVATAR_PATH } from "../../utils/variables";
 import axios from "axios";
 import {
@@ -70,8 +69,6 @@ const ProfilPage = () => {
 			}
 			setUser(response.data);
 		} catch (error) {
-			console.log(error);
-			toast.error(error.message);
 		} finally {
 			setIsLoaded(true);
 		}

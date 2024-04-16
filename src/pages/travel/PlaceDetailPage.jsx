@@ -10,7 +10,7 @@ import ReviewModule from "../components/modules/ReviewModule";
 
 import CategoryText from "../../components/texts/CategoryText";
 import { belongsToAuth } from "../../utils";
-import { CIRCLE_ICON, GPS_ICON, MARKER_ICON } from "../../utils/icon";
+import { CIRCLE_ICON, MARKER_ICON } from "../../utils/icon";
 import { useAuthContext } from "../../contexts/AuthProvider";
 
 import {
@@ -26,13 +26,11 @@ import {
 	Typography
 } from "@mui/material";
 import axios from "axios";
-import { toast } from "react-toastify";
 import moment from "moment";
 import SimpleSlider from "../../components/swipers/SimpleSlider";
 import {
 	AVATAR_PATH,
 	UNKNOWN_USER,
-	goToKakaoMapByLatLong
 } from "../../utils/variables";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import OptionPublicationButton from "../../components/buttons/OptionPublicationButton";
@@ -61,7 +59,6 @@ const PlaceDetail = () => {
 			}
 			setPlace(response.data);
 		} catch (error) {
-			toast.error(error.response.data.message);
 		} finally {
 			setIsLoaded(true);
 		}

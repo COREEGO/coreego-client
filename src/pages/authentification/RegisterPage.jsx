@@ -17,7 +17,6 @@ import {
 	FormControlLabel
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
 import { getViolationField } from "../../utils";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
@@ -40,14 +39,13 @@ const RegisterPage = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post("/register", {
+			 await axios.post("/register", {
 				pseudo: data.pseudo.trim(),
 				email: data.email,
 				password: data.password,
 				password_confirmation: data.password_confirmation
 			});
 			reset();
-			toast.success(response.data.message);
 			navigate("/login");
 		} catch (error) {
 			getViolationField(error, setError);

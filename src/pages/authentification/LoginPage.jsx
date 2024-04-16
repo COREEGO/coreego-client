@@ -1,21 +1,12 @@
-import * as React from "react";
-import { useAuthContext } from "../../contexts/AuthProvider";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import {
-	Card,
-	CardActions,
-	CardContent,
-	CardHeader,
 	Container,
-	Divider,
 	Stack,
 	TextField,
-	Grid,
 	Typography
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { toast } from "react-toastify";
 import axios from "axios";
 import {
 	errorField,
@@ -24,7 +15,7 @@ import {
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
-import { BEARER_HEADERS, setToken } from "../../utils/variables";
+import { setToken } from "../../utils/variables";
 import { Helmet } from "react-helmet";
 
 export default function LoginPage() {
@@ -48,11 +39,7 @@ export default function LoginPage() {
 				window.location.replace("/");
 			}
 		} catch (error) {
-			console.log(error);
-			toast.error(error?.response?.data?.message);
-			if (error) {
-				getViolationField(error, setError);
-			}
+			getViolationField(error, setError);
 		}
 	};
 

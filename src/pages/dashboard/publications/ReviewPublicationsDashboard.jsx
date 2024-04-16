@@ -20,7 +20,6 @@ import PaginationData from "../../../components/PaginationData";
 import moment from "moment";
 import { useConfirm } from "material-ui-confirm";
 import { TRASH_ICON } from "../../../utils/icon";
-import { toast } from "react-toastify";
 import ReviewsFilter from "../../components/filters/ReviewsFilter";
 import { useLocation } from "react-router";
 
@@ -52,14 +51,13 @@ const ReviewPublicationsDashboard = () => {
 	const deleteReview = async (reviewId) => {
 		confirm({ description: "Confirmer la suppression ?" })
 			.then(async () => {
-				const response = await axios.delete(
+				await axios.delete(
 					`/reviews/${reviewId}`,
 					BEARER_HEADERS
 				);
 				await loadReviews();
-				toast.success(response.data.message);
 			})
-			.catch((error) => {});
+			.catch(() => {});
 	};
 
 	return (

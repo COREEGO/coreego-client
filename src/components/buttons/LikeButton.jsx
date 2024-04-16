@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { DISLIKE_ICON, LIKE_ICON } from "../../utils/icon";
-import { toast } from "react-toastify";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../utils/variables";
@@ -30,7 +29,7 @@ const LikeButton = ({
 		}
 		try {
 			setIsBusy(true);
-			const response = await axios.post(
+			await axios.post(
 				"/likes",
 				{
 					discussion_id: discussionId,
@@ -38,11 +37,8 @@ const LikeButton = ({
 				},
 				BEARER_HEADERS
 			);
-			toast.success(response.data.message);
 			mutate();
 		} catch (error) {
-			toast.error(error?.response?.data?.message);
-			toast.error(error?.data?.message);
 		} finally {
 			setIsBusy(false);
 		}

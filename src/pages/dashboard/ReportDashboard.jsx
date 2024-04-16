@@ -19,7 +19,6 @@ import LoadingPage from "../../components/LoadingPage";
 import { NavLink } from "react-router-dom";
 import { EYE_ICON, TRASH_ICON } from "../../utils/icon";
 import { useConfirm } from "material-ui-confirm";
-import { toast } from "react-toastify";
 
 const ReportDashboard = () => {
 	const [isBusy, setIsBusy] = React.useState(true);
@@ -45,12 +44,11 @@ const ReportDashboard = () => {
 	const deleteReport = async (reportId) => {
 		confirm({ description: "Confirmer la suppression ?" })
 			.then(async () => {
-				const response = await axios.delete(
+				await axios.delete(
 					`/reports/${reportId}`,
 					BEARER_HEADERS
 				);
 				await loadReports();
-				toast.success(response.data.message);
 			})
 			.catch((error) => {});
 	};

@@ -14,28 +14,16 @@ import { TOKEN, removeToken } from "../../utils/variables";
 import DashboardLayout from "./DashboardLayout";
 import { useLocation, useNavigate } from "react-router";
 import Footer from "../Footer";
+import useAxiosInterceptor from "../../utils/axiosInterceptor";
 
 const Layout = ({ children }) => {
+
+	useAxiosInterceptor()
+
 	const [isLoaded, setIsLoaded] = React.useState(false);
 	const dispath = useDispatch();
-	const { authentification } = useAuthContext();
+	const { authentification, logout } = useAuthContext();
 	const navigate = useNavigate();
-
-	axios.interceptors.response.use(
-		function (response) {
-			return response;
-		},
-		function (error) {
-			if (error?.response?.status === 401 || error?.response?.status === 403) {
-				removeToken();
-				navigate("/login");
-			}
-			if(error?.response?.status === 500 || !error?.response){
-				navigate("/error")
-			}
-			return Promise.reject(error);
-		}
-	);
 
 	const { pathname } = useLocation();
 

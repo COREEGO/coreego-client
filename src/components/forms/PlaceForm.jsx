@@ -36,7 +36,6 @@ import {
 	debounce
 } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
 import TitleSectionText from "../texts/TitleSectionText";
 import {
 	createBlobImage,
@@ -71,12 +70,10 @@ const PlaceForm = ({
 		getValues,
 		setValue,
 		handleSubmit,
-		clearErrors,
 		watch,
 		setError,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onBlur",
 		resolver: vestResolver(isEditMode ? validationUpdatePlace : validationCreatePlace),
 		defaultValues: {
 			title: place?.title,
@@ -118,12 +115,9 @@ const PlaceForm = ({
 				formData,
 				BEARER_HEADERS
 			);
-
-			toast.success(response.data.message);
 			clearFiles();
 			navigate(`/explorer/lieu/${response.data.data.slug}`);
 		} catch (error) {
-			toast.error(error?.response?.data?.message);
 			getViolationField(error, setError);
 		}
 	};
@@ -155,17 +149,12 @@ const PlaceForm = ({
 				setValue("latitude", null);
 			}
 		} catch (error) {
-			console.log(error);
 		}
 	}, 1000);
 
 	useEffect(() => {
 		setValue("images", files, {shouldValidate: true});
 	}, [files]);
-
-	useEffect(()=>{
-		console.log(errors)
-	}, [errors])
 
 	return (
 		<Container>
@@ -351,13 +340,10 @@ const PlaceForm = ({
 								name="city_id"
 								render={() => (
 									<CityDistrictSelectInput
-										labelCity="Dans quelle ville ?"
-										labelDistrict="Dans quel district ?"
 										cityValue={place?.city?.id || watch("city_id")}
 										districtValue={place?.district?.id || watch("district_id")}
 										updateCity={(e) => setValue("city_id", e)}
 										updateDistrict={(e) => setValue("district_id", e)}
-										showMap={true}
 									/>
 								)}
 							/>

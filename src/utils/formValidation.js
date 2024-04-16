@@ -39,13 +39,13 @@ export const validationUpdatePassword = create((data = {}) => {
     enforce(data.password_confirmation).equals(data.password);
   });
 });
+
 export const validationUpdatePseudo = create((data = {}) => {
   test('pseudo', IS_REQUIRED_MESSAGE, () => {enforce(data.pseudo).isNotEmpty()});
   test('pseudo', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.pseudo).matches(PSEUDO_REGEX)});
   test('pseudo', maxLength(20), () => {enforce(data.pseudo).shorterThanOrEquals(20)});
   test('pseudo', minLength(3), () => {enforce(data.pseudo).longerThanOrEquals(3)});
 });
-
 
 export const validationLogin = create((data = {}) => {
   test('email', IS_REQUIRED_MESSAGE, () => {enforce(data.email).isNotEmpty()});

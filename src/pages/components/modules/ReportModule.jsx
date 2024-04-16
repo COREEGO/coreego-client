@@ -17,7 +17,6 @@ import { getViolationField } from "../../../utils";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../../utils/variables";
-import { toast } from "react-toastify";
 import { useAuthContext } from "../../../contexts/AuthProvider";
 
 const ReportModule = ({
@@ -36,21 +35,18 @@ const ReportModule = ({
     reset,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onSubmit",
 		resolver: vestResolver(validationReport)
 	});
 
 	const onSubmitReport = async (data) => {
     try{
-      const response = await axios.post('/reports', {
+     	await axios.post('/reports', {
         content: data.content,
         [targetElement] : targetValue
       }, BEARER_HEADERS)
-      toast.success(response.data.message)
       setAnchorEl(null)
       reset();
     }catch(error){
-      toast.error(error?.data?.message)
       getViolationField(error, setError)
     }
   };

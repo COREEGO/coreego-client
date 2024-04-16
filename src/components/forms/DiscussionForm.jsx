@@ -1,15 +1,13 @@
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import { BEARER_HEADERS } from "../../utils/variables";
+import { BEARER_HEADERS, TOKEN } from "../../utils/variables";
 import {
 	errorField,
 	validationDiscussion
 } from "../../utils/formValidation";
 import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
-
 import {
 	Box,
 	Container,
@@ -18,7 +16,8 @@ import {
 	InputAdornment,
 	MenuItem,
 	Stack,
-	TextField} from "@mui/material";
+	TextField
+} from "@mui/material";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import ReactQuillInput from "../inputs/ReactQuillInput";
 import TitleSectionText from "../texts/TitleSectionText";
@@ -68,17 +67,18 @@ const DiscussionForm = ({
 	const onSubmitForm = async (data) => {
 		try {
 			const response = !isEditMode
-				? await axios.post("/discussions", data, BEARER_HEADERS)
+				? await axios.post("/discussions", data, {
+						headers: {
+							Authorization: `Bearer ${TOKEN}`
+						}
+				  })
 				: await axios.put(
 						`/discussions/edit/${discussion.id}`,
 						data,
 						BEARER_HEADERS
 				  );
-
-			toast.success(response.data.message);
 			navigate(`/forum/discussion/${response.data.data.slug}`);
 		} catch (error) {
-			toast.error(error?.response?.data?.message);
 			getViolationField(error, setError);
 		}
 	};
@@ -163,7 +163,7 @@ const DiscussionForm = ({
 								<Controller
 									control={control}
 									name="content"
-									render={({ field: {value, onChange} }) => (
+									render={({ field: { value, onChange } }) => (
 										<ReactQuillInput
 											value={value}
 											onChange={onChange}

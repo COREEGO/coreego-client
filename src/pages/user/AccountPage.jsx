@@ -29,7 +29,7 @@ import {
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { NavLink, useNavigate } from "react-router-dom";
-import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
+import { AVATAR_PATH, BEARER_HEADERS, removeToken } from "../../utils/variables";
 import React from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -40,7 +40,6 @@ import {
 import { vestResolver } from "@hookform/resolvers/vest";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 
 const CardPseudo = () => {
@@ -57,22 +56,17 @@ const CardPseudo = () => {
 		resolver: vestResolver(validationUpdatePseudo)
 	});
 
-
-
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post(
+			await axios.post(
 				`/users/edit/${auth.id}`,
 				{ pseudo: data.pseudo.trim() },
 				BEARER_HEADERS
 			);
 			await authentification();
 			reset();
-			toast.success(response.data.message);
 			setOpen(false);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (
@@ -164,17 +158,14 @@ const CardPassword = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post(
+			await axios.post(
 				`/users/edit/${auth.id}`,
 				data,
 				BEARER_HEADERS
 			);
 			reset();
-			toast.success(response.data.message);
 			setOpen(false);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	return (
@@ -255,7 +246,7 @@ const AccountPage = () => {
 	const confirm = useConfirm();
 	const navigate = useNavigate();
 
-	const [isBusy, setIsBusy] = React.useState(false)
+	const [isBusy, setIsBusy] = React.useState(false);
 
 	const onDeleteAccount = () => {
 		confirm({
@@ -265,21 +256,19 @@ const AccountPage = () => {
 		`
 		})
 			.then(async () => {
-				setIsBusy(true)
-				const response = await axios.delete(
+				setIsBusy(true);
+				await axios.delete(
 					`/users/${auth.id}`,
 					BEARER_HEADERS
 				);
-				toast.success(response?.data?.message);
-				localStorage.removeItem("token");
+				removeToken()
 				setAuth(null);
 				navigate("/login");
 			})
-			.catch((error) => {
-
-			}).finally(() => {
-				setIsBusy(false)
-			})
+			.catch(() => {})
+			.finally(() => {
+				setIsBusy(false);
+			});
 	};
 
 	return (

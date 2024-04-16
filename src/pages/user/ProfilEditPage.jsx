@@ -10,9 +10,6 @@ import {
 	Autocomplete,
 	Checkbox,
 	FormHelperText,
-	FormLabel,
-	FormGroup,
-	FormControl,
 	InputLabel
 } from "@mui/material";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
@@ -34,7 +31,6 @@ import { LoadingButton } from "@mui/lab";
 import useFile from "../../hooks/useFile";
 import React from "react";
 import UpladButton from "../../components/buttons/UplaodButton";
-import { toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import CityDistrictSelectInput from "../../components/inputs/CityDistrictSelectInput";
@@ -49,7 +45,7 @@ import { vestResolver } from "@hookform/resolvers/vest";
 import LoadingPage from "../../components/LoadingPage";
 
 const ProfilEditPage = () => {
-	const { auth, authentification, setAuth } = useAuthContext();
+	const { auth, authentification } = useAuthContext();
 
 	const { files, addFile, clearFiles } = useFile();
 	const [isUploadBusy, setIsUploadBusy] = React.useState(false);
@@ -73,7 +69,6 @@ const ProfilEditPage = () => {
 					: []
 			);
 		} catch (error) {
-			toast.error(error.message);
 		} finally {
 			setIsLoaded(true);
 		}
@@ -114,7 +109,7 @@ const ProfilEditPage = () => {
 			if (files.length) {
 				formData.append("avatar", files[0]);
 			}
-			const response = await axios.post(
+			await axios.post(
 				`/users/edit/${auth.id}`,
 				formData,
 				BEARER_HEADERS
@@ -123,10 +118,7 @@ const ProfilEditPage = () => {
 			clearFiles();
 			await loadUser();
 			await authentification();
-
-			toast.success(response.data.message);
 		} catch (error) {
-			toast.error(error.response.message);
 		} finally {
 			setIsUploadBusy(false);
 		}
@@ -145,10 +137,8 @@ const ProfilEditPage = () => {
 				BEARER_HEADERS
 			);
 			await authentification();
-			toast.success(response.data.message);
 			navigate(`/user/profil/${auth.slug}`);
 		} catch (error) {
-			toast.error(error.response.data.message);
 			getViolationField(error, setError);
 		}
 	};

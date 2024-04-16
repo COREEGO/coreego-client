@@ -17,7 +17,6 @@ import {
 } from "@mui/material";
 import React from "react";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
 import TitleSectionText from "../../../components/texts/TitleSectionText";
 import axios from "axios";
 import { BEARER_HEADERS } from "../../../utils/variables";
@@ -60,7 +59,7 @@ const CommentModule = ({
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post(
+			await axios.post(
 				"/comments",
 				{
 					discussion_id: discussionId,
@@ -70,13 +69,10 @@ const CommentModule = ({
 				BEARER_HEADERS
 			);
 
-			toast.success(response.data.message);
-
 			reset();
 			mutate();
 			setOpen(false);
 		} catch (error) {
-			toast.success(error?.data?.message);
 			getViolationField(error, setError);
 		}
 	};

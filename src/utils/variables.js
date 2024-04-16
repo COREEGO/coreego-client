@@ -24,7 +24,7 @@ export const removeToken = () => {
 
 export const BEARER_HEADERS = {
     headers:{
-        'Authorization' : `Bearer ${TOKEN}`
+        Authorization : `Bearer ${TOKEN}`
     }
 }
 

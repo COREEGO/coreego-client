@@ -29,7 +29,6 @@ import {
 	validationReview
 } from "../../utils/formValidation";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import axios from "axios";
 import {
@@ -64,18 +63,15 @@ const ReviewCard = ({ review, mutate }) => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.put(
+			await axios.put(
 				`/reviews/edit/${review.id}`,
 				data,
 				BEARER_HEADERS
 			);
-			toast.success(response.data.message);
 			setIsOpen(false);
 			reset();
 			mutate();
-		} catch (error) {
-			toast.error(error.data.message);
-		}
+		} catch (error) {}
 	};
 
 	const onDelete = (id) => {
@@ -83,16 +79,10 @@ const ReviewCard = ({ review, mutate }) => {
 			description: "Supprimer la review ?"
 		})
 			.then(async () => {
-				const response = await axios.delete(
-					`/reviews/${id}`,
-					BEARER_HEADERS
-				);
-				toast.success(response.data.message);
+				await axios.delete(`/reviews/${id}`, BEARER_HEADERS);
 				mutate();
 			})
-			.catch((error) => {
-				toast.error(error?.data?.message);
-			});
+			.catch((error) => {});
 	};
 
 	return (
@@ -121,7 +111,10 @@ const ReviewCard = ({ review, mutate }) => {
 										>
 											<MORE_OPTIONS_ICON />
 										</IconButton>
-										<Menu {...bindMenu(popupState)} onClick={() => popupState.close()}>
+										<Menu
+											{...bindMenu(popupState)}
+											onClick={() => popupState.close()}
+										>
 											<MenuItem
 												key="modifier"
 												onClick={() => setIsOpen(true)}

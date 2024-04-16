@@ -14,7 +14,6 @@ import {
 	validationForgotPassword
 } from "../../utils/formValidation";
 import { LoadingButton } from "@mui/lab";
-import { toast } from "react-toastify";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import TitleSectionText from "../../components/texts/TitleSectionText";
@@ -40,17 +39,15 @@ const ChangePassword = () => {
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post("/reset-password", {
+			await axios.post("/reset-password", {
 				password: data.password,
 				email: data.email,
 				token: searchParams.get("token"),
 				password_confirmation: data.confirmPassword
 			});
 			reset();
-			toast.success(response.data.message);
 			navigate("/login");
 		} catch (error) {
-			toast.error(error?.response?.data?.message);
 		}
 	};
 
@@ -123,19 +120,16 @@ const SendMail = () => {
 		},
 		reset
 	} = useForm({
-		mode: "onBlur",
 		resolver: vestResolver(validationForgotPassword)
 	});
 
 	const onSubmit = async (data) => {
 		try {
-			const response = await axios.post("/forgot-password", {
+			await axios.post("/forgot-password", {
 				email: data.email
 			});
-			toast.success(response.data.message);
 			reset();
 		} catch (error) {
-			toast.error(error?.response?.data?.message);
 			getViolationField(error, setError);
 		}
 	};

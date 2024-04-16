@@ -8,15 +8,12 @@ import TuneIcon from '@mui/icons-material/Tune';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import ImageIcon from '@mui/icons-material/Image';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import RoomOutlinedIcon from '@mui/icons-material/RoomOutlined';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import DeleteIcon from '@mui/icons-material/Delete';
 import StarIcon from '@mui/icons-material/Star';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import WorkIcon from '@mui/icons-material/Work';
 import HomeIcon from '@mui/icons-material/Home';
 import TranslateIcon from '@mui/icons-material/Translate';
@@ -103,14 +100,12 @@ export const ANALITICS_PAGE_ICON = QueryStatsOutlinedIcon
 export const COMMENT_ICON = ChatBubbleOutlineIcon
 export const DISLIKE_ICON = FavoriteBorderIcon
 export const LIKE_ICON = FavoriteIcon
-export const IMAGE_ICON = ImageIcon
 
 export const BACK_ICON = ArrowBackIcon
 
 export const LOCALISATION_ICON = HomeIcon
 export const OCCUPATION_ICON = WorkIcon
 export const LANGUAGE_ICON = TranslateIcon
-export const SHARE_ICON = ShareIcon
 export const PROFIL_ICON = PersonOutlineOutlinedIcon
 
 export const LINK_ICON = InsertLinkIcon
@@ -144,7 +139,6 @@ export const ADD_ICON = AddIcon
 export const STAR_ICON = StarIcon
 
 export const MORE_OPTIONS_ICON = MoreVertIcon
-export const MORE_OPTIONS_HORIZONTAL_ICON = MoreHorizIcon
 
 export const FILTER_ICON = TuneIcon
 export const FILTER_OFF_ICON = FilterAltOffIcon

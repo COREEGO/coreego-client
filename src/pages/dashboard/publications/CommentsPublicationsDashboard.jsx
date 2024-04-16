@@ -23,7 +23,6 @@ import LoadingPage from "../../../components/LoadingPage";
 import PaginationData from "../../../components/PaginationData";
 import moment from "moment";
 import { EYE_ICON, TRASH_ICON } from "../../../utils/icon";
-import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 import CommentsFilter from "../../components/filters/CommentsFilter";
 import { useLocation } from "react-router";
@@ -59,12 +58,11 @@ const CommentsPublicationsDashboard = () => {
 	const deleteComment = async (commentId) => {
 		confirm({ description: "Confirmer la suppression ?" })
 			.then(async () => {
-				const response = await axios.delete(
+				await axios.delete(
 					`/comments/${commentId}`,
 					BEARER_HEADERS
 				);
 				await loadComments();
-				toast.success(response.data.message);
 			})
 			.catch((error) => {});
 	};

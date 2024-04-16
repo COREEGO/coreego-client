@@ -14,7 +14,6 @@ import {
 import { NavLink, useNavigate } from "react-router-dom";
 import { BEARER_HEADERS } from "../../utils/variables";
 import axios from "axios";
-import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
 
 const OptionPublicationButton = ({
@@ -37,12 +36,8 @@ const OptionPublicationButton = ({
 					deleteUrl,
 					BEARER_HEADERS
 				);
-				toast.success(response.data.message);
 				redirectionUrl && navigate(redirectionUrl);
 				mutate();
-			})
-			.catch((error) => {
-				toast.error(error?.data?.message);
 			})
 			.finally(() => {
 				setanchorOption(null);

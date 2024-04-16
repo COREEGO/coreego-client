@@ -1,41 +1,20 @@
 import {
-	Box,
-	Button,
 	IconButton,
-	ListItemIcon,
-	ListItemText,
-	Menu,
-	MenuItem,
-	SpeedDial,
-	SpeedDialAction,
 	Tooltip,
 	Stack
 } from '@mui/material'
-import { FACEBOOK_ICON, LINK_ICON, MAIL_ICON, REDDIT_ICON, SHARE_ICON, WHATSAPP_ICON, X_ICON } from '../../utils/icon'
+import { FACEBOOK_ICON, LINK_ICON, MAIL_ICON, REDDIT_ICON, WHATSAPP_ICON, X_ICON } from '../../utils/icon'
 import {
 	EmailShareButton,
 	FacebookShareButton,
-	GabShareButton,
-	HatenaShareButton,
-	InstapaperShareButton,
-	LineShareButton,
-	LinkedinShareButton,
-	LivejournalShareButton,
-	MailruShareButton,
-	OKShareButton,
-	PinterestShareButton,
-	PocketShareButton,
 	RedditShareButton,
-	TelegramShareButton,
 	TwitterShareButton,
 	WhatsappShareButton,
 } from 'react-share'
-import React from 'react'
 import { useLocation } from 'react-router'
 import { toast } from 'react-toastify'
 
 const ShareButton = () => {
-  const [anchorShare, setAnchorShare] = React.useState(null)
 
     const location = useLocation()
 

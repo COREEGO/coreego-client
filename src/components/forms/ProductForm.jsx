@@ -25,7 +25,6 @@ import {
 	UPLOAD_ICON
 } from "../../utils/icon";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { toast } from "react-toastify";
 import TitleSectionText from "../texts/TitleSectionText";
 import {
 	createBlobImage,
@@ -67,12 +66,10 @@ const ProductForm = ({
 		handleSubmit,
 		setValue,
 		setError,
-		getValues,
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		resolver: vestResolver(isEditMode ? validationUpdateProduct : validationCreateProduct),
-		mode: 'onBlur',
 		defaultValues: {
 			title: product?.title,
 			description: product?.description,
@@ -110,11 +107,9 @@ const ProductForm = ({
 				formData,
 				BEARER_HEADERS
 			);
-			toast.success(response.data.message);
 			clearFiles();
 			navigate(`/marketplace/produit/${response.data.data.slug}`);
 		} catch (error) {
-			toast.error(error?.response?.data?.message);
 			getViolationField(error, setError);
 		}
 	};

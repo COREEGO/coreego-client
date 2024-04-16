@@ -11,7 +11,7 @@ import {
 	Checkbox,
 	FormHelperText,
 	InputLabel,
-	Card,
+	Button,
 	CircularProgress
 } from "@mui/material";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
@@ -103,19 +103,27 @@ const ProfilEditPage = () => {
 		}
 	});
 
-	const handleUpdateAvatar = async () => {
+	const handleUpdateAvatar = async (remove = false) => {
 		try {
 			setIsUploadBusy(true);
-			const formData = new FormData();
+			if (!remove) {
+				const formData = new FormData();
 
-			if (files.length) {
-				formData.append("avatar", files[0]);
+				if (files.length) {
+					formData.append("avatar", files[0]);
+				}
+				await axios.post(
+					`/users/edit/${auth.id}`,
+					formData,
+					BEARER_HEADERS
+				);
+			} else {
+				await axios.post(
+					`/users/edit/${auth.id}`,
+					{ avatar: null },
+					BEARER_HEADERS
+				);
 			}
-			await axios.post(
-				`/users/edit/${auth.id}`,
-				formData,
-				BEARER_HEADERS
-			);
 
 			clearFiles();
 			await loadUser();
@@ -198,6 +206,11 @@ const ProfilEditPage = () => {
 								</Stack>
 							</UpladButton>
 						</Box>
+						{auth?.avatar && (
+							<Button isLoaded={isUploadBusy} color="error" onClick={() => handleUpdateAvatar(true)}>
+								Supprimer avatar
+							</Button>
+						)}
 					</Stack>
 
 					<Box

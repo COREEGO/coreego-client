@@ -233,8 +233,7 @@ Vous avez la possibilité de choisir une date de visite afin de planifier vos av
 et de profiter pleinement de chaque expérience. `
 
 export const RESUME_COREEGO = `
-Bonjour, Je m'appelle Yoann, j'ai 28 ans.
-En tant que développeur web de formation et passionné de la Corée du Sud, mon objectif premier avec Coreego est de créer une boîte à outils la plus complète possible pour les francophones intéressés par ce magnifique pays.
+Mon objectif premier avec Coreego est de créer une boîte à outils la plus complète possible pour les francophones intéressés par la Corée Du Sud.
 Je souhaite également y développer une communauté dynamique, permettant ainsi à l'application de croître et d'évoluer continuellement.
 Mon ambition est de vous offrir une expérience immersive, vous permettant de plonger au cœur de la culture coréenne à travers la plateforme.
 `

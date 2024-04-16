@@ -26,6 +26,7 @@ import PlaceCard from "../components/card/PlaceCard";
 import NotFoundComponent from "../components/NotFoundComponent";
 import YOANN_LOGO from "../images/yoann.jpg";
 import { Helmet } from "react-helmet";
+import { useAuthContext } from "../contexts/AuthProvider";
 
 const HomePage = () => {
 	const [isLoaded, setIsLoaded] = React.useState(false);
@@ -33,6 +34,8 @@ const HomePage = () => {
 	const [discussions, setDiscussions] = React.useState([]);
 	const [places, setPlaces] = React.useState([]);
 	const [products, setProducts] = React.useState([]);
+
+	const { auth } = useAuthContext();
 
 	React.useEffect(() => {
 		loadingPage();
@@ -95,14 +98,18 @@ const HomePage = () => {
 								Venez interagir avec la communauté francophone en
 								Corée Du Sud
 							</Typography>
-							<Stack mt={3} direction="row" gap={1}>
-								<NavLink to="/login">
-									<Button variant="contained">Se connecter</Button>
-								</NavLink>
-								<NavLink to="/register">
-									<Button variant="outlined">Créer un compte</Button>
-								</NavLink>
-							</Stack>
+							{!Boolean(auth) && (
+								<Stack mt={3} direction="row" gap={1}>
+									<NavLink to="/login">
+										<Button variant="contained">Se connecter</Button>
+									</NavLink>
+									<NavLink to="/register">
+										<Button variant="outlined">
+											Créer un compte
+										</Button>
+									</NavLink>
+								</Stack>
+							)}
 						</Grid>
 						<Grid item xs={12} md={6}>
 							<Hidden mdDown>

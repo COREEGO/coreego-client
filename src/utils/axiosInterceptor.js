@@ -43,8 +43,7 @@ const useAxiosInterceptor = () => {
                     navigate("/login");
                     return;
                 }
-                toast.error('Internal Server Error'); // Generic error message for server issues
-              navigate("/error");
+              toast.error(data?.message);
               return Promise.reject(error);
             }
           } else {

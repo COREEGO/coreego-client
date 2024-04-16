@@ -32,7 +32,7 @@ const OptionPublicationButton = ({
 		confirm({ description: "confirmer la suppression ?" })
 			.then(async (res) => {
 				setIsBusy(true);
-				const response = await axios.delete(
+				await axios.delete(
 					deleteUrl,
 					BEARER_HEADERS
 				);

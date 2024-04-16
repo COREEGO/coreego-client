@@ -157,7 +157,7 @@ const PlaceDetail = () => {
 						<OptionPublicationButton
 							editLink={`/explorer/lieu/modification/${place.slug}`}
 							deleteUrl={`/places/${place.id}`}
-							redirectionUrl={"/forum"}
+							redirectionUrl={"/explorer"}
 						/>
 					) : (
 						<ReportModule

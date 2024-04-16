@@ -81,8 +81,9 @@ export default function RouterOutlet() {
 
                 <Route path="/explorer/lieu/modification/:slug" element={<PlaceEditPage />} />
 
-                <Route path="/user/profil/:slug" element={<ProfilPage />} />
                 <Route path="/mon-carnet-de-voyage" element={<TravelLoguePage />} />
+
+                <Route path="/user/profil/:slug" element={<ProfilPage />} />
 
                 <Route element={<PrivateRoute middlewareIsAdmin={true} />}>
                     <Route path="/dashboard/analyse-des-donnees" element={<AnaliticPage />} />

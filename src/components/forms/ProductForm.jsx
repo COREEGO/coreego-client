@@ -21,9 +21,7 @@ import {
 } from "@mui/material";
 import UpladButton from "../buttons/UplaodButton";
 import { BEARER_HEADERS, IMAGE_PATH } from "../../utils/variables";
-import {
-	UPLOAD_ICON
-} from "../../utils/icon";
+import { UPLOAD_ICON } from "../../utils/icon";
 import LoadingButton from "@mui/lab/LoadingButton";
 import TitleSectionText from "../texts/TitleSectionText";
 import {
@@ -38,6 +36,7 @@ import { Card } from "@mui/material";
 import { CardContent } from "@mui/material";
 import PreviewImageCard from "../card/PreviewImageCard";
 import StepperForm from "./_StepperForm";
+import LoadingPage from "../LoadingPage";
 
 const ProductForm = ({
 	isEditMode = false,
@@ -49,8 +48,14 @@ const ProductForm = ({
 	const navigate = useNavigate();
 	const { auth } = useAuthContext();
 
-	const { files, addFile, removeFile, deleteFile, clearFiles } =
-		useFile(mutate);
+	const {
+		files,
+		addFile,
+		removeFile,
+		deleteFile,
+		clearFiles,
+		isBusyFile
+	} = useFile(mutate);
 
 	useEffect(() => {
 		if (isEditMode) {
@@ -69,21 +74,20 @@ const ProductForm = ({
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		resolver: vestResolver(isEditMode ? validationUpdateProduct : validationCreateProduct),
+		resolver: vestResolver(
+			isEditMode ? validationUpdateProduct : validationCreateProduct
+		),
 		defaultValues: {
 			title: product?.title,
 			description: product?.description,
 			city_id: product?.city.id || "",
-			district_id: product?.district.id ||  "",
+			district_id: product?.district.id || "",
 			price: product?.price || 1000,
 			images: []
 		}
 	});
 
-
-
 	const onSubmitForm = async (data) => {
-
 		const url = isEditMode
 			? `/products/edit/${product.id}`
 			: "/products";
@@ -115,10 +119,8 @@ const ProductForm = ({
 	};
 
 	useEffect(() => {
-		setValue("images", files, {shouldValidate: true});
+		setValue("images", files, { shouldValidate: true });
 	}, [files]);
-
-
 
 	return (
 		<Container>
@@ -169,9 +171,7 @@ const ProductForm = ({
 
 					{activeStep === 1 && (
 						<>
-							<FormControl
-								fullWidth
-							>
+							<FormControl fullWidth>
 								<Controller
 									control={control}
 									name="images"
@@ -194,67 +194,76 @@ const ProductForm = ({
 														</Typography>
 													</Box>
 												</UpladButton>
-											<Stack gap={1} mt={2}>
-												{isEditMode && product?.images.length ? (
-													<Stack gap={1}>
-														<Typography
-															component="div"
-															fontWeight="bold"
-														>
-															Images du produit
-														</Typography>
-														<Stack
-															gap={2}
-															direction="row"
-															flexWrap="wrap"
-														>
-															{product.images.map((image, index) => {
-																return (
-																	<PreviewImageCard
-																		key={index}
-																		displayTrash={Boolean(
-																			product?.images.length > 1
-																		)}
-																		imageUrl={IMAGE_PATH + image.name}
-																		onRemove={() =>
-																			deleteFile(image.id)
-																		}
-																	/>
-																);
-															})}
+												<Stack gap={1} mt={2}>
+													{isEditMode && product?.images.length ? (
+														<Stack gap={1}>
+															<Typography
+																component="div"
+																fontWeight="bold"
+															>
+																Images du produit
+															</Typography>
+															<Stack
+																gap={2}
+																direction="row"
+																flexWrap="wrap"
+															>
+																{product.images.map(
+																	(image, index) => {
+																		return (
+																			<PreviewImageCard
+																				key={index}
+																				displayTrash={Boolean(
+																					product?.images.length > 1
+																				)}
+																				imageUrl={
+																					IMAGE_PATH + image.name
+																				}
+																				onRemove={() =>
+																					deleteFile(image.id)
+																				}
+																			/>
+																		);
+																	}
+																)}
+															</Stack>
 														</Stack>
-													</Stack>
-												) : (
-													<></>
-												)}
-												{files.length ? (
-													<Stack gap={1}>
-														<Typography
-															component="div"
-															fontWeight="bold"
-														>
-															Preview images
-														</Typography>
-														<Stack
-															gap={2}
-															direction="row"
-															flexWrap="wrap"
-														>
-															{files.map((file, index) => {
-																return (
-																	<PreviewImageCard
-																		key={index}
-																		imageUrl={createBlobImage(file)}
-																		onRemove={() => removeFile(index)}
-																	/>
-																);
-															})}
+													) : (
+														<></>
+													)}
+													{files.length ? (
+														<Stack gap={1}>
+															<Typography
+																component="div"
+																fontWeight="bold"
+															>
+																Preview images
+															</Typography>
+															<Stack
+																gap={2}
+																direction="row"
+																flexWrap="wrap"
+															>
+																{files.map((file, index) => {
+																	return (
+																		<PreviewImageCard
+																			key={index}
+																			imageUrl={createBlobImage(file)}
+																			onRemove={() =>
+																				removeFile(index)
+																			}
+																		/>
+																	);
+																})}
+																{isBusyFile && (
+																	<LoadingPage type="data" />
+																)}
+															</Stack>
 														</Stack>
-													</Stack>
-												) : (
-													<></>
-												)}
-											</Stack>
+													) : (
+														<></>
+													)}
+												</Stack>
 											</CardContent>
 										</Card>
 									)}
@@ -306,10 +315,18 @@ const ProductForm = ({
 								name="district_id"
 								render={() => (
 									<CityDistrictSelectInput
-										cityValue={ watch('city_id') || product?.city?.id}
-										districtValue={watch('district_id') || product?.district?.id}
-										updateCity={(e) => setValue("city_id", e, {shouldValidate: true})}
-										updateDistrict={(e) => setValue("district_id", e, {shouldValidate: true})}
+										cityValue={watch("city_id") || product?.city?.id}
+										districtValue={
+											watch("district_id") || product?.district?.id
+										}
+										updateCity={(e) =>
+											setValue("city_id", e, { shouldValidate: true })
+										}
+										updateDistrict={(e) =>
+											setValue("district_id", e, {
+												shouldValidate: true
+											})
+										}
 										fullWidth
 									/>
 								)}

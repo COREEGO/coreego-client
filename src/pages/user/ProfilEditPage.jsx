@@ -119,6 +119,7 @@ const ProfilEditPage = () => {
 			await loadUser();
 			await authentification();
 		} catch (error) {
+			console.log(error)
 		} finally {
 			setIsUploadBusy(false);
 		}

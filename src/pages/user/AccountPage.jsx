@@ -288,8 +288,9 @@ const AccountPage = () => {
 					<ListItem disablePadding component="div">
 						<ListItemAvatar sx={{ mr: 2 }}>
 							<Avatar
+								alt={auth?.pseudo}
 								sx={{ width: 70, height: 70 }}
-								src={AVATAR_PATH + auth.pseudo}
+								src={AVATAR_PATH + auth?.avatar}
 							/>
 						</ListItemAvatar>
 						<ListItemText

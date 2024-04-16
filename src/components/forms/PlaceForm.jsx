@@ -47,6 +47,7 @@ import { vestResolver } from "@hookform/resolvers/vest";
 import StepperForm from "./_StepperForm";
 import PreviewImageCard from "../card/PreviewImageCard";
 import InputTextArray from "../inputs/InputTextArray";
+import LoadingPage from "../LoadingPage";
 
 const PlaceForm = ({
 	isEditMode = false,
@@ -59,7 +60,7 @@ const PlaceForm = ({
 
 	const [adressData, setAdressData] = useState([]);
 
-	const { files, addFile, removeFile, deleteFile, clearFiles } =
+	const { files, addFile, removeFile, deleteFile, clearFiles, isBusyFile } =
 		useFile(mutate);
 
 	const { placeCategories } = useSelector((state) => state.app);
@@ -306,12 +307,13 @@ const PlaceForm = ({
 															{files.map((file, index) => {
 																return (
 																	<PreviewImageCard
-																		key={index}
-																		imageUrl={createBlobImage(file)}
-																		onRemove={() => removeFile(index)}
+																	key={index}
+																	imageUrl={createBlobImage(file)}
+																	onRemove={() => removeFile(index)}
 																	/>
 																);
 															})}
+															{isBusyFile && <LoadingPage type="data" /> }
 														</Stack>
 													</Stack>
 												) : (

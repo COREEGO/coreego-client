@@ -1,10 +1,7 @@
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import {
-	BEARER_HEADERS,
-	IMAGE_PATH
-} from "../../utils/variables";
+import { BEARER_HEADERS, IMAGE_PATH } from "../../utils/variables";
 import {
 	errorField,
 	validationCreatePlace,
@@ -12,9 +9,7 @@ import {
 } from "../../utils/formValidation";
 import UpladButton from "../buttons/UplaodButton";
 import useFile from "../../hooks/useFile";
-import {
-	UPLOAD_ICON
-} from "../../utils/icon";
+import { UPLOAD_ICON } from "../../utils/icon";
 import React, { useEffect, useState } from "react";
 import CityDistrictSelectInput from "../inputs/CityDistrictSelectInput";
 import axios from "axios";
@@ -24,6 +19,7 @@ import {
 	Card,
 	CardActions,
 	CardContent,
+	CircularProgress,
 	Container,
 	FormControl,
 	FormHelperText,
@@ -47,7 +43,6 @@ import { vestResolver } from "@hookform/resolvers/vest";
 import StepperForm from "./_StepperForm";
 import PreviewImageCard from "../card/PreviewImageCard";
 import InputTextArray from "../inputs/InputTextArray";
-import LoadingPage from "../LoadingPage";
 
 const PlaceForm = ({
 	isEditMode = false,
@@ -60,8 +55,14 @@ const PlaceForm = ({
 
 	const [adressData, setAdressData] = useState([]);
 
-	const { files, addFile, removeFile, deleteFile, clearFiles, isBusyFile } =
-		useFile(mutate);
+	const {
+		files,
+		addFile,
+		removeFile,
+		deleteFile,
+		clearFiles,
+		isBusyFile
+	} = useFile(mutate);
 
 	const { placeCategories } = useSelector((state) => state.app);
 
@@ -75,7 +76,9 @@ const PlaceForm = ({
 		setError,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		resolver: vestResolver(isEditMode ? validationUpdatePlace : validationCreatePlace),
+		resolver: vestResolver(
+			isEditMode ? validationUpdatePlace : validationCreatePlace
+		),
 		defaultValues: {
 			title: place?.title,
 			city_id: place?.city.id || "",
@@ -89,14 +92,16 @@ const PlaceForm = ({
 		}
 	});
 
-
 	const onSubmitForm = async (data) => {
 		const url = isEditMode ? `/places/edit/${place.id}` : "/places";
 
 		const formData = new FormData();
 
 		formData.append("title", data.title);
-		formData.append("reasons_to_visit", JSON.stringify(data.reasons_to_visit));
+		formData.append(
+			"reasons_to_visit",
+			JSON.stringify(data.reasons_to_visit)
+		);
 		formData.append("longitude", data.longitude);
 		formData.append("latitude", data.latitude);
 		formData.append("city_id", data.city_id);
@@ -149,12 +154,11 @@ const PlaceForm = ({
 				setValue("longitude", null);
 				setValue("latitude", null);
 			}
-		} catch (error) {
-		}
+		} catch (error) {}
 	}, 1000);
 
 	useEffect(() => {
-		setValue("images", files, {shouldValidate: true});
+		setValue("images", files, { shouldValidate: true });
 	}, [files]);
 
 	return (
@@ -211,7 +215,7 @@ const PlaceForm = ({
 							<Controller
 								control={control}
 								name="category_id"
-								render={({field: {value, onChange} }) => (
+								render={({ field: { value, onChange } }) => (
 									<TextField
 										value={value}
 										onChange={onChange}
@@ -307,13 +311,13 @@ const PlaceForm = ({
 															{files.map((file, index) => {
 																return (
 																	<PreviewImageCard
-																	key={index}
-																	imageUrl={createBlobImage(file)}
-																	onRemove={() => removeFile(index)}
+																		key={index}
+																		imageUrl={createBlobImage(file)}
+																		onRemove={() => removeFile(index)}
 																	/>
 																);
 															})}
-															{isBusyFile && <LoadingPage type="data" /> }
+															{isBusyFile && <CircularProgress />}
 														</Stack>
 													</Stack>
 												) : (
@@ -343,7 +347,9 @@ const PlaceForm = ({
 								render={() => (
 									<CityDistrictSelectInput
 										cityValue={place?.city?.id || watch("city_id")}
-										districtValue={place?.district?.id || watch("district_id")}
+										districtValue={
+											place?.district?.id || watch("district_id")
+										}
 										updateCity={(e) => setValue("city_id", e)}
 										updateDistrict={(e) => setValue("district_id", e)}
 									/>
@@ -411,7 +417,10 @@ const PlaceForm = ({
 									name="reasons_to_visit"
 									render={() => (
 										<InputTextArray
-											value={place?.reasons_to_visit || getValues().reasons_to_visit}
+											value={
+												place?.reasons_to_visit ||
+												getValues().reasons_to_visit
+											}
 											onchange={(event) =>
 												setValue("reasons_to_visit", event)
 											}

@@ -11,6 +11,7 @@ import React, { useEffect } from "react";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import {
 	Box,
+	CircularProgress,
 	Container,
 	FormControl,
 	FormHelperText,
@@ -36,7 +37,6 @@ import { Card } from "@mui/material";
 import { CardContent } from "@mui/material";
 import PreviewImageCard from "../card/PreviewImageCard";
 import StepperForm from "./_StepperForm";
-import LoadingPage from "../LoadingPage";
 
 const ProductForm = ({
 	isEditMode = false,
@@ -256,7 +256,7 @@ const ProductForm = ({
 																	);
 																})}
 																{isBusyFile && (
-																	<LoadingPage type="data" />
+																	<CircularProgress />
 																)}
 															</Stack>
 														</Stack>

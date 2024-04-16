@@ -29,7 +29,11 @@ import {
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { useAuthContext } from "../../contexts/AuthProvider";
 import { NavLink, useNavigate } from "react-router-dom";
-import { AVATAR_PATH, BEARER_HEADERS, removeToken } from "../../utils/variables";
+import {
+	AVATAR_PATH,
+	BEARER_HEADERS,
+	removeToken
+} from "../../utils/variables";
 import React from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -91,54 +95,58 @@ const CardPseudo = () => {
 					</CardContent>
 				</CardActionArea>
 			</Card>
-			<Dialog
-				fullWidth
-				open={open}
-				onClose={() => {
-					reset();
-					setOpen(false);
-				}}
-				PaperProps={{
-					component: "form",
-					onSubmit: handleSubmit(onSubmit)
-				}}
-			>
-				<DialogTitle>Modification du mot de passe</DialogTitle>
-				<DialogContent>
-					<TextField
-						{...register("pseudo")}
-						{...errorField(errors?.pseudo)}
-						defaultValue={auth?.pseudo}
-						label="Pseudo"
-						fullWidth
-						placeholder="Votre nouveau pseudo"
-						required
-						margin="normal"
-						InputProps={{
-							endAdornment: (
-								<InputAdornment
-									className="string_count"
-									position="end"
-								>
-									{watch("pseudo")?.length || 0}/{20}
-								</InputAdornment>
-							),
-							inputProps: {
-								maxLength: 20
-							}
-						}}
-					/>
-				</DialogContent>
-				<DialogActions>
-					<LoadingButton
-						variant="contained"
-						loading={isSubmitting}
-						type="submit"
-					>
-						Valider
-					</LoadingButton>
-				</DialogActions>
-			</Dialog>
+			{open ? (
+				<Dialog
+					fullWidth
+					open={open}
+					onClose={() => {
+						reset();
+						setOpen(false);
+					}}
+					PaperProps={{
+						component: "form",
+						onSubmit: handleSubmit(onSubmit)
+					}}
+				>
+					<DialogTitle>Modification du pseudo</DialogTitle>
+					<DialogContent>
+						<TextField
+							{...register("pseudo")}
+							{...errorField(errors?.pseudo)}
+							defaultValue={auth?.pseudo}
+							label="Pseudo"
+							fullWidth
+							placeholder="Votre nouveau pseudo"
+							required
+							margin="normal"
+							InputProps={{
+								endAdornment: (
+									<InputAdornment
+										className="string_count"
+										position="end"
+									>
+										{watch("pseudo")?.length || 0}/{20}
+									</InputAdornment>
+								),
+								inputProps: {
+									maxLength: 20
+								}
+							}}
+						/>
+					</DialogContent>
+					<DialogActions>
+						<LoadingButton
+							variant="contained"
+							loading={isSubmitting}
+							type="submit"
+						>
+							Valider
+						</LoadingButton>
+					</DialogActions>
+				</Dialog>
+			) : (
+				<></>
+			)}
 		</React.Fragment>
 	);
 };
@@ -257,11 +265,8 @@ const AccountPage = () => {
 		})
 			.then(async () => {
 				setIsBusy(true);
-				await axios.delete(
-					`/users/${auth.id}`,
-					BEARER_HEADERS
-				);
-				removeToken()
+				await axios.delete(`/users/${auth.id}`, BEARER_HEADERS);
+				removeToken();
 				setAuth(null);
 				navigate("/login");
 			})

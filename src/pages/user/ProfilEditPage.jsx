@@ -10,7 +10,9 @@ import {
 	Autocomplete,
 	Checkbox,
 	FormHelperText,
-	InputLabel
+	InputLabel,
+	Card,
+	CircularProgress
 } from "@mui/material";
 import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import {
@@ -119,7 +121,7 @@ const ProfilEditPage = () => {
 			await loadUser();
 			await authentification();
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 		} finally {
 			setIsUploadBusy(false);
 		}
@@ -174,14 +176,26 @@ const ProfilEditPage = () => {
 									await addFile(event.target.files, false)
 								}
 							>
-								<LoadingButton
-									loading={isUploadBusy}
-									variant={"outlined"}
-									sx={{ backgroundColor: "white" }}
-									startIcon={<CAMERA_ICON />}
+								<Stack
+									sx={{
+										border: "1px solid  var(--coreego-blue)",
+										cursor: "pointer"
+									}}
+									direction="row"
+									alignItems="center"
+									gap={1}
+									bgcolor="white"
+									py={0.5}
+									px={1}
+									borderRadius={2}
 								>
+									{isUploadBusy ? (
+										<CircularProgress size={20} />
+									) : (
+										<CAMERA_ICON />
+									)}
 									Modifier
-								</LoadingButton>
+								</Stack>
 							</UpladButton>
 						</Box>
 					</Stack>
@@ -276,7 +290,7 @@ const ProfilEditPage = () => {
 									name="district_id"
 									render={() => (
 										<>
-											<InputLabel sx={{mb: 1}}>
+											<InputLabel sx={{ mb: 1 }}>
 												Ma localisation actuelle
 											</InputLabel>
 											<CityDistrictSelectInput

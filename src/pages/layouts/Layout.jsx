@@ -60,7 +60,7 @@ const Layout = ({ children }) => {
 
 	return isLoaded ? (
 		<>
-			{pathname.startsWith("/dashboard") ? (
+			{pathname.startsWith("/dashboard/^") ? (
 				<DashboardLayout>{children}</DashboardLayout>
 			) : (
 				<>

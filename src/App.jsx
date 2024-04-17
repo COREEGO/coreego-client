@@ -9,7 +9,6 @@ import { AuthProvider } from './contexts/AuthProvider'
 import { ToastContainer } from 'react-toastify'
 import { ConfirmProvider } from 'material-ui-confirm'
 import 'react-toastify/dist/ReactToastify.css'
-
 import {
 	CssBaseline,
 	ThemeProvider,
@@ -17,6 +16,28 @@ import {
 	responsiveFontSizes
 } from '@mui/material'
 import axios from 'axios'
+import CookieConsent from 'react-cookie-consent'
+import Cookies from 'js-cookie';
+import { useEffect } from 'react'
+
+function setFunctionalCookies () {
+  Cookies.set('functional-cookie', 'value', {
+    expires: 365,
+    sameSite: 'None',
+    secure: true
+  })
+}
+
+function initializeAnalytics () {
+  if (!window.dataLayer) {
+    window.dataLayer = window.dataLayer || []
+    window.gtag = function () {
+      window.dataLayer.push(arguments)
+    }
+    window.gtag('js', new Date())
+    window.gtag('config', 'G-K6C3C1FZQR', { send_page_view: false })
+  }
+}
 
 let theme = createTheme({
   typography: {
@@ -55,24 +76,55 @@ let theme = createTheme({
   },
   palette: {
     primary: {
-      main: '#005998',
+      main: '#005998'
     },
     error: {
       main: '#ce293b'
     }
-  },
+  }
 })
 
 theme = responsiveFontSizes(theme)
 
 const swrConfig = {
-	fetcher: (url) => axios.get(url).then((res) => res.data)
-};
+  fetcher: (url) => axios.get(url).then((res) => res.data)
+}
 
 function App () {
+
+  useEffect(()=>{
+    setFunctionalCookies()
+  },[])
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <CookieConsent
+        location='bottom'
+        buttonText='Accepter'
+        declineButtonText='Refuser'
+        enableDeclineButton
+        cookieName='userConsentCookies'
+        style={{
+          background: 'var(--coreego-blue)',
+          color: 'white',
+          fontFamily: 'Open Sans, sans-serif',
+          boxShadow: '0 0 5px black'
+        }}
+        declineButtonStyle={{ color: 'white', background: 'var(--coreego-red)', fontSize: 18 }}
+        buttonStyle={{ background: 'green', color: 'white', fontSize: 18 }}
+        expires={150}
+        onAccept={() => {
+          initializeAnalytics()
+        }}
+        onDecline={() => {
+          //
+        }}
+			>
+				Ce site utilise des cookies pour améliorer l'expérience
+				utilisateur. En utilisant notre site, vous acceptez tous les
+				cookies conformément à notre Politique de Confidentialité.
+			</CookieConsent>
       <AuthProvider>
         <SWRConfig value={swrConfig}>
           <ToastContainer
@@ -92,7 +144,10 @@ function App () {
               title: 'Confirmation',
               cancellationText: 'Annuler',
               confirmationText: 'Valider',
-              cancellationButtonProps: {variant: 'contained', color: 'error'},
+              cancellationButtonProps: {
+                variant: 'contained',
+                color: 'error'
+              },
               confirmationButtonProps: { variant: 'contained' }
             }}
 					>

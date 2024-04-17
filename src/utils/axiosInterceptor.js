@@ -32,6 +32,7 @@ const useAxiosInterceptor = () => {
             // Handle forbidden errors (403)
             if (status === 403) {
               toast.error(data?.message || 'Forbidden'); // Use data.message if available, fallback message otherwise
+              navigate('/');
               return Promise.reject(error);
             }
 

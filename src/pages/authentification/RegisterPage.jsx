@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
 	errorField,
 	validationRegister
@@ -21,6 +21,7 @@ import { getViolationField } from "../../utils";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
 import { Helmet } from "react-helmet";
+import PasswordInput from "../../components/inputs/PasswordInput";
 
 const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -30,16 +31,16 @@ const RegisterPage = () => {
 		watch,
 		handleSubmit,
 		setError,
+		control,
 		formState: { errors, isSubmitting },
 		reset
 	} = useForm({
-		mode: "onBlur",
 		resolver: vestResolver(validationRegister)
 	});
 
 	const onSubmit = async (data) => {
 		try {
-			 await axios.post("/register", {
+			await axios.post("/register", {
 				pseudo: data.pseudo.trim(),
 				email: data.email,
 				password: data.password,
@@ -55,8 +56,8 @@ const RegisterPage = () => {
 	return (
 		<Container>
 			<Helmet>
-                <title>Créer un compte | Coreego</title>
-            </Helmet>
+				<title>Créer un compte | Coreego</title>
+			</Helmet>
 			<Stack justifyContent="center" alignItems="center">
 				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
@@ -65,16 +66,13 @@ const RegisterPage = () => {
 						startText="Je crée"
 						endText="mon compte"
 					/>
-					<Stack
-						component="form"
-						onSubmit={handleSubmit(onSubmit)}
-						spacing={3}
-					>
+					<Stack component="form" onSubmit={handleSubmit(onSubmit)}>
 						<TextField
 							{...register("pseudo")}
 							{...errorField(errors?.pseudo)}
 							label="Pseudo"
 							required
+							margin="normal"
 							fullWidth
 							placeholder="Votre pseudo"
 							InputProps={{
@@ -95,29 +93,51 @@ const RegisterPage = () => {
 							{...register("email")}
 							{...errorField(errors?.email)}
 							fullWidth
+							margin="normal"
 							label="Adresse email"
 							required
 							placeholder="email@email.fr"
 							type="email"
 						/>
-						<TextField
-							{...register("password")}
-							{...errorField(errors?.password)}
-							fullWidth
-							label="Mot de passe"
-							required
-							placeholder="6+ caractères requis"
-							type="password"
+						<Controller
+							control={control}
+							name="password"
+							render={({ field: { value, onChange } }) => {
+								return (
+									<PasswordInput
+										value={value}
+										onChange={onChange}
+										margin="normal"
+										{...errorField(errors?.password)}
+										fullWidth
+										label="Mot de passe"
+										required
+										placeholder="6+ caractères requis"
+									/>
+								);
+							}}
 						/>
-						<TextField
-							{...register("password_confirmation")}
-							{...errorField(errors?.password_confirmation)}
-							fullWidth
-							label="Confirmez votre mot de passe"
-							required
-							placeholder="6+ caractères requis"
-							type="password"
+						<Controller
+							control={control}
+							name="password_confirmation"
+							render={({ field: { value, onChange } }) => {
+								return (
+									<PasswordInput
+										{...register("password_confirmation")}
+										{...errorField(errors?.password_confirmation)}
+										fullWidth
+										value={value}
+										onChange={onChange}
+										margin="normal"
+										label="Confirmez votre mot de passe"
+										required
+										placeholder="6+ caractères requis"
+										type="password"
+									/>
+								);
+							}}
 						/>
+
 						<FormGroup>
 							<FormControlLabel
 								control={
@@ -130,7 +150,12 @@ const RegisterPage = () => {
 								label={
 									<span>
 										J'accepte les conditions d'utilisation{" "}
-										<NavLink style={{color: 'var(--coreego-blue)'}} to="/conditions-generales">ICI</NavLink>
+										<NavLink
+											style={{ color: "var(--coreego-blue)" }}
+											to="/conditions-generales"
+										>
+											ICI
+										</NavLink>
 									</span>
 								}
 							/>

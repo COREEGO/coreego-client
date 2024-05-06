@@ -93,7 +93,6 @@ const PlaceDetail = () => {
 							</NavLink>
 							<Typography
 								sx={{
-									color: "var(--grey-bold)",
 									"&:before": {
 										content: '"| "' // Correction ici
 									}
@@ -190,7 +189,6 @@ const PlaceDetail = () => {
 							)}
 						</List>
 						<Typography
-							color="var(--grey-bold)"
 							whiteSpace="pre-line"
 							fontSize={18}
 						>

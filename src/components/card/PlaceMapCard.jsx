@@ -178,7 +178,7 @@ const PlaceMapCard = ({
 						>
 							{place.title}
 						</Typography>
-						<Typography color="var(--grey-bold)" noWrap={true}>
+						<Typography noWrap={true}>
 							{place.description}
 						</Typography>
 					</Box>

@@ -74,7 +74,6 @@ const DiscussionDetail = () => {
 							</NavLink>
 							<Typography
 								sx={{
-									color: "var(--grey-bold)",
 									"&:before": {
 										content: '"\\00a0| "'
 									}

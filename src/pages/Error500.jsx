@@ -39,6 +39,7 @@ const Error500 = () => {
             alt='coreego logo'
             />
           <img
+            alt="system error"
             style={{ maxWidth: '100%' }}
             width='auto'
             height={300}

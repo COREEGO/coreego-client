@@ -4,10 +4,10 @@ import { Button, Tooltip } from '@mui/material'
 import { getMyGeoLocalisation } from '../../../../utils'
 
 const GeoLocalisationFilterRework = () => {
-  const { updateFilter, searchParams } = useFilterContext()
+  const { updateFilter, searchParam } = useFilterContext()
 
   const geolocalisationActive =
-		searchParams.get('latitude') && searchParams.get('longitude')
+		searchParam.get('latitude') && searchParam.get('longitude')
 
   const handleGeoLocalistation = async () => {
     try {

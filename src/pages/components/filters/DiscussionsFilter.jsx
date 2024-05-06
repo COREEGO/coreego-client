@@ -5,6 +5,7 @@ import SearchFilterRework from './inputs-rework/SearchFilerRework'
 import CategoryFilterRework from './inputs-rework/CategoryFilterRework'
 
 const DiscussionsFilter = () => {
+
   const { discussionCategories } = useSelector((state) => state.app)
 
   return (

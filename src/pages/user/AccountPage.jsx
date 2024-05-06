@@ -259,8 +259,8 @@ const AccountPage = () => {
 	const onDeleteAccount = () => {
 		confirm({
 			title: "Supprimer votre compte ?",
-			description: `Attention cette action est ireversible.
-		Si vous supprimé votre compte vos publications aunsi que vos commentaires resterons présent sur le site.
+			description: `Attention, cette action est irréversible.
+			Si vous supprimez votre compte, les publications que vous avez postées resteront actives sur le site.
 		`
 		})
 			.then(async () => {

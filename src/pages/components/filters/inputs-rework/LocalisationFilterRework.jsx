@@ -24,15 +24,15 @@ import {
 } from "@mui/material";
 
 const LocalisationFilterRework = () => {
-	const { updateFilter, searchParams } = useFilterContext();
+	const { updateFilter, searchParam } = useFilterContext();
 	const [open, setOpen] = React.useState(false);
 	const { cities } = useSelector((state) => state.app);
 
 	const [cityValue, setCityValue] = React.useState(
-		searchParams.get("city") || ""
+		searchParam.get("city") || ""
 	);
 	const [districtValue, setDistrictValue] = React.useState(
-		searchParams.get("district") || ""
+		searchParam.get("district") || ""
 	);
 
 	const selectedCity = React.useMemo(() => {

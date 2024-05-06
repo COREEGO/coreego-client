@@ -20,7 +20,7 @@ const Footer = ({ ...props }) => {
 		>
       <Container>
         <Box mb={5}>
-          <img alt="coreego logo" src={LOGO} width={150} height='auto' />
+          <img alt="coreego logo" src={LOGO} width={150} height={26} />
         </Box>
         <Stack
           role='links'

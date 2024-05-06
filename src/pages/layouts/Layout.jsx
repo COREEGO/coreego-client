@@ -10,11 +10,11 @@ import {
 } from "../../store/reducers/app.reducer";
 import Navigation from "../../components/navigation/Navigation";
 import axios from "axios";
-import { TOKEN, removeToken } from "../../utils/variables";
+import { TOKEN } from "../../utils/variables";
 import DashboardLayout from "./DashboardLayout";
 import { useLocation, useNavigate } from "react-router";
 import Footer from "../Footer";
-import useAxiosInterceptor from "../../utils/axiosInterceptor";
+import useAxiosInterceptor from "../../hooks/axiosInterceptor";
 
 const Layout = ({ children }) => {
 
@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
 
 	const [isLoaded, setIsLoaded] = React.useState(false);
 	const dispath = useDispatch();
-	const { authentification, logout } = useAuthContext();
+	const { authentification } = useAuthContext();
 	const navigate = useNavigate();
 
 	const { pathname } = useLocation();
@@ -60,7 +60,7 @@ const Layout = ({ children }) => {
 
 	return isLoaded ? (
 		<>
-			{pathname.startsWith("/dashboard/^") ? (
+			{pathname.startsWith("/dashboard/") ? (
 				<DashboardLayout>{children}</DashboardLayout>
 			) : (
 				<>

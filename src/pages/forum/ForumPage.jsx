@@ -1,10 +1,7 @@
 import { useLocation } from "react-router-dom";
-import {
-	Container,
-	Box,
-	Grid} from "@mui/material";
+import { Container, Box, Grid } from "@mui/material";
 import useSWR from "swr";
-import HEADER_IMG from "../../images/headers/i-seoul-u.jpg";
+import HEADER_IMG from "../../images/headers/i-seoul-u.webp";
 import { NavLink } from "react-router-dom";
 import LoadingPage from "../../components/LoadingPage";
 import DiscussionCard from "../../components/card/DiscussionCard";

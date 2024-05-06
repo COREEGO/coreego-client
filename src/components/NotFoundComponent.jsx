@@ -7,9 +7,8 @@ const NotFoundComponent = ({showText = false, ...props}) => {
 
     return (
         <Stack spacing={3} maxWidth="100%" alignItems="center">
-            <img style={{maxWidth: "100%"}} {...props} src={NOTFIND_SVG} />
+            <img alt="no content" style={{maxWidth: "100%"}} {...props} src={NOTFIND_SVG} />
             {showText && <Typography fontWeight="bold">Aucuns résultats</Typography>}
-
         </Stack>
     )
 }

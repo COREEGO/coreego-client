@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router'
-import { VALIDATION_EMAIL_MESSAGE } from '../../utils/variables'
 import axios from 'axios'
 
 const EmailVerifyPage = () => {

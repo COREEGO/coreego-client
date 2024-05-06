@@ -23,7 +23,6 @@ export const dateParse = (date) => {
   } else {
     return diffInSeconds + " sec";
   }
-
 };
 
 export const getViolationField = (error, setError) => {

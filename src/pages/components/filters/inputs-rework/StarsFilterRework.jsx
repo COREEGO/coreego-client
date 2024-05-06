@@ -11,7 +11,7 @@ import { STAR_ICON } from "../../../../utils/icon";
 import React from "react";
 
 const StarsFilterRework = ({ ...props }) => {
-	const { updateFilter, searchParams } = useFilterContext();
+	const { updateFilter, searchParam } = useFilterContext();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	return (
@@ -21,8 +21,8 @@ const StarsFilterRework = ({ ...props }) => {
 				startIcon={<STAR_ICON sx={{ color: "orange" }}/>}
 				onClick={(event) => setAnchorEl(event.currentTarget)}
 			>
-				{searchParams.get("stars")
-					? searchParams.get("stars")
+				{searchParam.get("stars")
+					? searchParam.get("stars")
 					: "Toutes les notes"}
 			</Button>
 			<Menu
@@ -33,12 +33,12 @@ const StarsFilterRework = ({ ...props }) => {
 			>
                 <MenuItem
                 onClick={() => updateFilter('stars', '' )}
-                selected={!searchParams.get('stars')}>Toutes les notes</MenuItem>
+                selected={!searchParam.get('stars')}>Toutes les notes</MenuItem>
 				{Array.from({ length: 5 }, (_, index) => index + 1).map(
 					(value) => (
 						<>
 							<MenuItem
-                            selected={searchParams.get('stars') == value}
+                            selected={searchParam.get('stars') == value}
                             onClick={() => updateFilter('stars', value.toString() )} key={value} value={value}>
 								<ListItemIcon>
 									<STAR_ICON sx={{ color: "orange" }} />

@@ -113,7 +113,7 @@ const Navigation = () => {
 						<NavLink className="nav_logo" to="/">
 							<img
 								width={150}
-								height="auto"
+								height={26}
 								src={logo}
 								title="coreego"
 								alt="coreego logo"
@@ -177,8 +177,8 @@ const Navigation = () => {
 					>
 						<NavLink className="nav_logo" to="/">
 							<img
-								width={120}
-								height="auto"
+								width={150}
+								height={26}
 								src={logo}
 								title="coreego"
 								alt="coreego logo"

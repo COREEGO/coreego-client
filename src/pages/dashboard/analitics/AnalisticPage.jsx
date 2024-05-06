@@ -22,7 +22,7 @@ const AnaliticPage = () => {
   const [datas, setDatas] = React.useState([])
 
   const location = useLocation()
-  const { updateFilter, searchParams } = useFilterContext()
+  const { updateFilter, searchParam } = useFilterContext()
 
   React.useEffect(() => {
     loadAnatilics()
@@ -52,7 +52,7 @@ const AnaliticPage = () => {
 						Type de données
 					</InputLabel>
           <Select
-            value={searchParams.get('analitic_target') || 'discussions'}
+            value={searchParam.get('analitic_target') || 'discussions'}
             label='Type de données'
             onChange={(event) =>
 							updateFilter('analitic_target', event.target.value)
@@ -67,11 +67,11 @@ const AnaliticPage = () => {
       </Box>
       {!isBusy ? (
         <Box mt={3}>
-          {(searchParams.get('analitic_target') == 'discussions' ||
+          {(searchParam.get('analitic_target') == 'discussions' ||
 						!location.search) && <DiscussionAnalitic datas={datas} />}
-          {searchParams.get('analitic_target') == 'users' && <UserAnalitic datas={datas} /> }
-          {searchParams.get('analitic_target') == 'products' && <ProductAnalitic datas={datas} /> }
-          {searchParams.get('analitic_target') == 'places' && <PlaceAnalitic datas={datas} /> }
+          {searchParam.get('analitic_target') == 'users' && <UserAnalitic datas={datas} /> }
+          {searchParam.get('analitic_target') == 'products' && <ProductAnalitic datas={datas} /> }
+          {searchParam.get('analitic_target') == 'places' && <PlaceAnalitic datas={datas} /> }
         </Box>
 			) : (
   <LoadingPage type='data' />

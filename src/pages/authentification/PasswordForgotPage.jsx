@@ -1,13 +1,7 @@
-import {
-	useNavigate,
-} from "react-router";
+import { useNavigate } from "react-router";
 import { getViolationField } from "../../utils";
-import { useForm } from "react-hook-form";
-import {
-	Container,
-	Stack,
-	TextField,
-} from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
+import { Container, Stack, TextField } from "@mui/material";
 import {
 	errorField,
 	validationChangePassword,
@@ -19,19 +13,17 @@ import axios from "axios";
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { vestResolver } from "@hookform/resolvers/vest";
 import { Helmet } from "react-helmet";
-
+import PasswordInput from "../../components/inputs/PasswordInput";
 
 const ChangePassword = () => {
 	const navigate = useNavigate();
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParam, setSearchParams] = useSearchParams();
 
 	const {
 		register,
 		handleSubmit,
-		formState: {
-			errors,
-			isSubmitting
-		},
+		control,
+		formState: { errors, isSubmitting },
 		reset
 	} = useForm({
 		resolver: vestResolver(validationChangePassword)
@@ -42,20 +34,19 @@ const ChangePassword = () => {
 			await axios.post("/reset-password", {
 				password: data.password,
 				email: data.email,
-				token: searchParams.get("token"),
-				password_confirmation: data.confirmPassword
+				token: searchParam.get("token"),
+				password_confirmation: data.password_confirmation
 			});
 			reset();
 			navigate("/login");
-		} catch (error) {
-		}
+		} catch (error) {}
 	};
 
 	return (
 		<Container>
 			<Helmet>
-                <title>Mot de passe oublié | Coreego</title>
-            </Helmet>
+				<title>Mot de passe oublié | Coreego</title>
+			</Helmet>
 			<Stack justifyContent="center" alignItems="center">
 				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
@@ -77,24 +68,46 @@ const ChangePassword = () => {
 							placeholder="email@email.fr"
 							type="email"
 						/>
-						<TextField
-							{...register("password")}
-							{...errorField(errors?.password)}
-							fullWidth
-							label="Mot de passe"
-							required
-							placeholder="6+ caractères requis"
-							type="password"
+
+						<Controller
+							control={control}
+							name="password"
+							render={({ field: { value, onChange } }) => {
+								return (
+									<PasswordInput
+										value={value}
+										onChange={onChange}
+										margin="normal"
+										{...errorField(errors?.password)}
+										fullWidth
+										label="Mot de passe"
+										required
+										placeholder="6+ caractères requis"
+									/>
+								);
+							}}
 						/>
-						<TextField
-							{...register("confirmPassword")}
-							{...errorField(errors?.confirmPassword)}
-							fullWidth
-							label="Confirmez votre mot de passe"
-							required
-							placeholder="6+ caractères requis"
-							type="password"
+						<Controller
+							control={control}
+							name="password_confirmation"
+							render={({ field: { value, onChange } }) => {
+								return (
+									<PasswordInput
+										{...register("password_confirmation")}
+										{...errorField(errors?.password_confirmation)}
+										fullWidth
+										value={value}
+										onChange={onChange}
+										margin="normal"
+										label="Confirmez votre mot de passe"
+										required
+										placeholder="6+ caractères requis"
+										type="password"
+									/>
+								);
+							}}
 						/>
+
 						<LoadingButton
 							variant="contained"
 							loading={isSubmitting}
@@ -114,10 +127,7 @@ const SendMail = () => {
 		register,
 		handleSubmit,
 		setError,
-		formState: {
-			errors,
-			isSubmitting,
-		},
+		formState: { errors, isSubmitting },
 		reset
 	} = useForm({
 		resolver: vestResolver(validationForgotPassword)
@@ -172,9 +182,9 @@ const SendMail = () => {
 };
 
 const PasswordForgotPage = () => {
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParam, setSearchParams] = useSearchParams();
 
-	const showPasswordChangeForm = !!searchParams.get("token");
+	const showPasswordChangeForm = !!searchParam.get("token");
 
 	return showPasswordChangeForm ? <ChangePassword /> : <SendMail />;
 };

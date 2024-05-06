@@ -57,12 +57,16 @@ import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import LanguageIcon from '@mui/icons-material/Language';
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+
 
 export const HOME_ICON = HomeOutlinedIcon
 export const PASSWORD_ICON = HttpsOutlinedIcon
 export const EDITNOTE_ICON = EditNoteIcon
 export const NO_CHECKED_ICON = CheckBoxOutlineBlankIcon
 export const CHECKED_ICON = CheckBoxIcon
+
+export const EYE_CLOSE_ICON = VisibilityOffIcon
 
 export const ZOOM_ICON = ZoomInIcon
 

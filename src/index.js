@@ -4,18 +4,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import moment from 'moment';
-import 'moment/locale/fr';
 import axios from 'axios';
 import 'react-quill/dist/quill.snow.css';
+
+import 'moment/locale/fr';
 
 moment.locale('fr')
 
 axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL
 axios.defaults.withCredentials = true
 
-
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root')
 );
 
 root.render(

@@ -15,7 +15,7 @@ import {
 	MARKETPLACE_DESCRIPTION,
 	RESUME_COREEGO
 } from "../utils";
-import HERO_BANNER_IMG from "../images/headers/korea-flag.jpg";
+import HERO_BANNER_IMG from "../images/headers/korea-flag.webp";
 import TitleSectionText from "../components/texts/TitleSectionText";
 import axios from "axios";
 import LoadingPage from "../components/LoadingPage";
@@ -24,7 +24,7 @@ import ProductCard from "../components/card/ProductCard";
 import { NavLink } from "react-router-dom";
 import PlaceCard from "../components/card/PlaceCard";
 import NotFoundComponent from "../components/NotFoundComponent";
-import YOANN_LOGO from "../images/yoann.jpg";
+import YOANN_LOGO from "../images/yoann.webp";
 import { Helmet } from "react-helmet";
 import { useAuthContext } from "../contexts/AuthProvider";
 
@@ -83,7 +83,7 @@ const HomePage = () => {
 						<Grid item xs={12} md={6}>
 							<Typography
 								gutterBottom
-								variant="h3"
+								variant="h4"
 								color="var(--coreego-blue)"
 								fontWeight="bold"
 								component="h1"

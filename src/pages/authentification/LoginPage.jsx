@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import {
 	Container,
 	Stack,
@@ -15,14 +15,16 @@ import {
 import TitleSectionText from "../../components/texts/TitleSectionText";
 import { getViolationField } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
-import { setToken } from "../../utils/variables";
+import { BASE_URL, setToken } from "../../utils/variables";
 import { Helmet } from "react-helmet";
+import PasswordInput from "../../components/inputs/PasswordInput";
 
 export default function LoginPage() {
 	const {
 		register,
 		handleSubmit,
 		setError,
+		control,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		resolver: vestResolver(validationLogin)
@@ -35,7 +37,7 @@ export default function LoginPage() {
 				password: data.password.trim()
 			});
 			if (response && response.data) {
-				setToken(response.data.token)
+				setToken(response.data.token);
 				window.location.replace("/");
 			}
 		} catch (error) {
@@ -46,8 +48,8 @@ export default function LoginPage() {
 	return (
 		<Container>
 			<Helmet>
-                <title>Se connecter | Coreego</title>
-            </Helmet>
+				<title>Se connecter | Coreego</title>
+			</Helmet>
 			<Stack justifyContent="center" alignItems="center">
 				<Stack spacing={5} my={5} width={700} maxWidth="100%">
 					<TitleSectionText
@@ -70,14 +72,22 @@ export default function LoginPage() {
 							placeholder="email@email.fr"
 							type="email"
 						/>
-						<TextField
-							{...register("password")}
-							{...errorField(errors?.password)}
-							fullWidth
-							label="Mot de passe"
-							required
-							placeholder="Votre mot de passe"
-							type="password"
+						<Controller
+							control={control}
+							name="password"
+							render={({field: {value, onChange} }) => {
+								return (
+									<PasswordInput
+									value={value}
+									onChange={onChange}
+									{...errorField(errors?.password)}
+									fullWidth
+									label="Mot de passe"
+									required
+									placeholder="Votre mot de passe"
+									/>
+								)
+							}}
 						/>
 						<Stack alignItems="flex-end">
 							<NavLink to="/password/forgot">

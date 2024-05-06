@@ -15,6 +15,7 @@ const NotFoundPage = () => {
           width='auto'
           height={300}
           src={NOT_FOUND}
+          alt="not found page"
 				/>
         <Typography fontWeight='bold'>Page non trouvée</Typography>
         <NavLink to='/'>

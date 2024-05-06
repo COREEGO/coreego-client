@@ -1,24 +1,20 @@
 import {
-	Box,
 	Button,
 	ListItemIcon,
 	Menu,
-	MenuItem,
-	TextField,
-	Typography
-} from "@mui/material";
+	MenuItem} from "@mui/material";
 import React from "react";
 import { CATEGORY_ICON, CIRCLE_ICON } from "../../../../utils/icon";
 import { useFilterContext } from "../../../../contexts/FilterProvider";
 
 const CategoryFilterRework = ({ categories }) => {
 	const [anchorEl, setAnchorEl] = React.useState(null);
-	const { updateFilter, searchParams } = useFilterContext();
+	const { updateFilter, searchParam } = useFilterContext();
 
 	const selectedCategory = React.useMemo(() => {
-		return searchParams.get("category")
+		return searchParam.get("category")
 			? categories.find(
-					(category) => category.id == searchParams.get("category")
+					(category) => category.id == searchParam.get("category")
 			  )
 			: null;
 	});
@@ -60,7 +56,7 @@ const CategoryFilterRework = ({ categories }) => {
 						onClick={() =>
 							updateFilter("category", category.id.toString())
 						}
-						selected={searchParams.get("category") == category.id}
+						selected={searchParam.get("category") == category.id}
 						key={category.id}
 						value={category.id}
 					>

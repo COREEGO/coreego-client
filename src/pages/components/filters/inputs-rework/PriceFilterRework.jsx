@@ -4,7 +4,7 @@ import { Box, Button, Menu, Stack, TextField, Typography } from '@mui/material'
 import { PRICE_ICON } from '../../../../utils/icon'
 
 const PriceFilterRework = ({ min, max }) => {
-  const { updateFilter, searchParams } = useFilterContext()
+  const { updateFilter, searchParam } = useFilterContext()
   const [anchorEl, setAnchorEl] = React.useState(null)
 
   return (
@@ -15,8 +15,8 @@ const PriceFilterRework = ({ min, max }) => {
         onClick={(event) => setAnchorEl(event.currentTarget)}
         startIcon={<PRICE_ICON />}
 			>
-				Min: {searchParams.get('min_price') || min + ' ₩' } - Max:{' '}
-        {searchParams.get('max_price') || max + ' ₩' }
+				Min: {searchParam.get('min_price') || min + ' ₩' } - Max:{' '}
+        {searchParam.get('max_price') || max + ' ₩' }
       </Button>
       <Menu
         anchorEl={anchorEl}
@@ -33,14 +33,14 @@ const PriceFilterRework = ({ min, max }) => {
           <Typography fontWeight='bold'>Prix en won</Typography>
           <Stack direction="row">
             <TextField
-                defaultValue={searchParams.get('min_price') || min}
+                defaultValue={searchParam.get('min_price') || min}
                 name="min_price"
                 label="min"
                 type="number"
                 margin='normal'
             />
             <TextField
-                defaultValue={searchParams.get('max_price') || max}
+                defaultValue={searchParam.get('max_price') || max}
                 name="max_price"
                 label="max"
                 type="number"

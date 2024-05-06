@@ -114,7 +114,7 @@ const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 					<Toolbar>
 						<Stack spacing={1} direction="row" sx={{ flexGrow: 1 }}>
 							<Typography color="black" variant="h6" component="div">
-								Reviews
+								Liste des avis
 							</Typography>
 							{!currentUserReview ? (
 								<Button
@@ -133,7 +133,7 @@ const ReviewModule = ({ placeId, mutate, reviews, average }) => {
 									variant="contained"
 									size="small"
 								>
-									Ma review
+									Mon avi
 								</Button>
 							)}
 						</Stack>

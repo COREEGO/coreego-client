@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { useFilterContext } from '../contexts/FilterProvider'
 
 const PaginationData = ({ lastPage, ...props }) => {
-  const { updateFilter, searchParams } = useFilterContext()
+  const { updateFilter, searchParam } = useFilterContext()
 
   return (
     <Pagination
       {...props}
-      page={Number(searchParams.get('page')) || 1}
+      page={Number(searchParam.get('page')) || 1}
       onChange={(_event, value) =>
 				updateFilter('page', value.toString())
 			}

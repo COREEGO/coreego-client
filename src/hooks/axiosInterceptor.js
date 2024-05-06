@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { removeToken } from './variables';
+import { removeToken } from '../utils/variables';
 
 const useAxiosInterceptor = () => {
   const navigate = useNavigate();
@@ -14,29 +14,26 @@ const useAxiosInterceptor = () => {
           toast.success(response?.data?.message)
           return response;
         }
-        return response; // Pass through successful responses without modification
+        return response;
       },
       (error) => {
         if (error) {
           if (error.response) {
             const { status, data } = error.response;
 
-            // Handle unauthorized errors (401)
             if (status === 401) {
               removeToken();
               navigate("/login");
-              toast.error(data?.message || 'Unauthorized'); // Use data.message if available, fallback message otherwise
+              toast.error(data?.message || 'Unauthorized');
               return Promise.reject(error);
             }
 
-            // Handle forbidden errors (403)
             if (status === 403) {
-              toast.error(data?.message || 'Forbidden'); // Use data.message if available, fallback message otherwise
+              toast.error(data?.message || 'Forbidden');
               navigate('/');
               return Promise.reject(error);
             }
 
-            // Handle server errors (500) and potentially redirect to an error page
             if (status === 500) {
                 if (error.config.url === "/me") {
                     toast.error("Vous êtes déconnectés");
@@ -48,20 +45,17 @@ const useAxiosInterceptor = () => {
               return Promise.reject(error);
             }
           } else {
-            // Handle non-response errors (e.g., network issues)
-            toast.error('Network Error'); // Inform the user about network problems
+            toast.error('Network Error');
             return Promise.reject(error);
           }
         }
-        return Promise.reject(error); // Fallback for unexpected errors
+        return Promise.reject(error);
       }
     );
-
-    // Cleanup function to remove the interceptor on component unmount
     return () => axios.interceptors.response.eject(interceptor);
-  }, []); // Empty dependency array to run the effect only once
+  }, []);
 
-  return {}; // No need to return anything from the hook function
+  return {};
 };
 
 export default useAxiosInterceptor;

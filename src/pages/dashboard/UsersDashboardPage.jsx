@@ -71,9 +71,9 @@ const UsersDashboardPage = () => {
 	const onDeleteAccount = (userId) => {
 		confirm({
 			title: "Supprimer le compte ?",
-			description: `Attention cette action est ireversible.
-		Si vous supprimé votre compte ce compte.
-		`
+			description: `Attention, cette action est irréversible.
+			Si vous supprimez votre compte, les publications que vous avez postées resteront actives sur le site.
+			`
 		})
 			.then(async () => {
 				setIsBusy(true);
@@ -97,7 +97,11 @@ const UsersDashboardPage = () => {
 							<TableCell>Pseudo</TableCell>
 							<TableCell>Email</TableCell>
 							<TableCell>Role</TableCell>
-							{auth?.role?.is_superadmin ? <TableCell>Action</TableCell> : <></>}
+							{auth?.role?.is_superadmin ? (
+								<TableCell>Action</TableCell>
+							) : (
+								<></>
+							)}
 						</TableRow>
 					</TableHead>
 
@@ -140,12 +144,18 @@ const UsersDashboardPage = () => {
 												user.role.name
 											)}
 										</TableCell>
-										{auth?.role?.is_superadmin ?
-										<TableCell>
-											<Button onClick={() => onDeleteAccount(user.id)} color="error">supprimer utilisateur</Button>
-										</TableCell> : <></>
-										}
-
+										{auth?.role?.is_superadmin ? (
+											<TableCell>
+												<Button
+													onClick={() => onDeleteAccount(user.id)}
+													color="error"
+												>
+													supprimer utilisateur
+												</Button>
+											</TableCell>
+										) : (
+											<></>
+										)}
 									</TableRow>
 								);
 							})}

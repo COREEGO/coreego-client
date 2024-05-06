@@ -3,7 +3,7 @@ import { STAR_ICON } from "../../utils/icon"
 
 const StarsAverageIcon = ({ datas }) => {
 
-    const reviewLabel = `(${datas.count} review${datas.count > 1 ? 's' : ''})`
+    const reviewLabel = `( ${datas.count} avi${datas.count > 1 ? 's' : ''} )`
 
     return (
         <Stack spacing={1} direction="row" alignItems="center">

@@ -6,7 +6,7 @@ import { FILTER_ICON } from '../../../../utils/icon'
 const OrderByDateFilterRework = ({ ...props }) => {
   const [anchorEl, setAnchorEl] = React.useState()
 
-  const { updateFilter, searchParams } = useFilterContext()
+  const { updateFilter, searchParam } = useFilterContext()
 
   return (
     <React.Fragment>
@@ -15,8 +15,8 @@ const OrderByDateFilterRework = ({ ...props }) => {
         startIcon={<FILTER_ICON />}
         onClick={(event) => setAnchorEl(event.currentTarget)}
 			>
-        {searchParams.get('orderbydate')
-					? searchParams.get('orderbydate') == 'desc'
+        {searchParam.get('orderbydate')
+					? searchParam.get('orderbydate') == 'desc'
 						? 'Du plus résent'
 						: 'Du plus ancient'
 					: 'Du plus résent'}
@@ -31,8 +31,8 @@ const OrderByDateFilterRework = ({ ...props }) => {
           value='desc'
           onClick={() => updateFilter('orderbydate', 'desc')}
           selected={
-						searchParams.get('orderbydate') == 'desc' ||
-						!searchParams.get('orderbydate')
+						searchParam.get('orderbydate') == 'desc' ||
+						!searchParam.get('orderbydate')
 					}
 				>
 					Du plus résent
@@ -40,7 +40,7 @@ const OrderByDateFilterRework = ({ ...props }) => {
         <MenuItem
           value='asc'
           onClick={() => updateFilter('orderbydate', 'asc')}
-          selected={searchParams.get('orderbydate') == 'asc'}
+          selected={searchParam.get('orderbydate') == 'asc'}
 				>
 					Du plus ancient
 				</MenuItem>

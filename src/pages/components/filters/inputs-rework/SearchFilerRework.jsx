@@ -4,13 +4,13 @@ import { useFilterContext } from "../../../../contexts/FilterProvider";
 import { SEARCH_ICON } from "../../../../utils/icon";
 
 const SearchFilterRework = () => {
-	const { updateFilter, searchParams } = useFilterContext();
+	const { updateFilter, searchParam } = useFilterContext();
 	const [open, setOpen] = React.useState(false);
 	const [value, setValue] = React.useState('');
 
     React.useEffect(() => {
-        setValue(searchParams.get('q') || '')
-    }, [searchParams.get('q')])
+        setValue(searchParam.get('q') || '')
+    }, [searchParam.get('q')])
 
 	return (
 		<>
@@ -20,7 +20,7 @@ const SearchFilterRework = () => {
 				startIcon={<SEARCH_ICON />}
 				// sx={{ textTransform: "inherit" }}
 			>
-				{searchParams.get("q") || ' '}
+				{searchParam.get("q") || ' '}
 			</Button>
 			<Dialog
 				data-testid="dialog-search"

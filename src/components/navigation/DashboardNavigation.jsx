@@ -7,7 +7,7 @@ import {
 	ListItemIcon,
 	Collapse
 } from '@mui/material'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { dashboardLinks } from '../../utils/navigationsLinks'
 import {
 	ANALITICS_PAGE_ICON,
@@ -23,10 +23,22 @@ import {
 } from '../../utils/icon'
 import { ExpandLess, ExpandMore } from '@mui/icons-material'
 import React from 'react'
+import { useAuthContext } from '../../contexts/AuthProvider'
+import { isAdmin } from '../../utils'
 
 const DashboardNavigation = () => {
   const [openMenuPublications, setOpenMenuPublications] =
 		React.useState(false)
+
+  const {auth} = useAuthContext();
+
+  const navigate = useNavigate()
+
+  React.useEffect(()=>{
+      if(!isAdmin(auth.role)){
+        navigate('/')
+      }
+  }, [auth])
 
   return (
     <Toolbar

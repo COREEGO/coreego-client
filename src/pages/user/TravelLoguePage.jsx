@@ -10,7 +10,7 @@ import {
 	Stack,
 } from "@mui/material";
 
-import HEADER_IMG from "../../images/headers/han-gang-bridge.jpg";
+import HEADER_IMG from "../../images/headers/han-gang-bridge.webp";
 import PlaceMapCard from "../../components/card/PlaceMapCard";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import axios from "axios";

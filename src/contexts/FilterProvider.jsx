@@ -1,37 +1,35 @@
 import { createContext, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-
 const FilterContext = createContext({
-  searchParams: {},
+  searchParam: {},
   updateFilter: () => { },
 });
 
-
 export const FilterProvider = ({ children }) => {
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParam, setSearchParam] = useSearchParams();
 
   const updateFilter = (name, value) => {
 
     if (!value || !value.length || value == '0') {
-     searchParams.delete(name)
+     searchParam.delete(name)
     } else {
-      if(searchParams.get(name)){
-        searchParams.set(name, value)
+      if(searchParam.get(name)){
+        searchParam.set(name, value)
       }else{
-        searchParams.append(name, value)
+        searchParam.append(name, value)
       }
     }
-    setSearchParams(searchParams)
+    setSearchParam(searchParam)
   };
 
   const clearFilters = () => {
-    setSearchParams('');
+    setSearchParam('');
   };
 
   return (
-    <FilterContext.Provider value={{ searchParams, updateFilter, clearFilters }}>
+    <FilterContext.Provider value={{ searchParam, updateFilter, clearFilters }}>
       {children}
     </FilterContext.Provider>
   );

@@ -1,10 +1,7 @@
-import HEADER_IMG from "../../images/headers/jeju-do.jpg";
+import HEADER_IMG from "../../images/headers/jeju-do.webp";
 import { useFilterContext } from "../../contexts/FilterProvider";
 import { NavLink, useLocation } from "react-router-dom";
-import {
-	Box,
-	Container,
-	Grid} from "@mui/material";
+import {Box,Container,Grid} from "@mui/material";
 import useSWR from "swr";
 import LoadingPage from "../../components/LoadingPage";
 import PlaceCard from "../../components/card/PlaceCard";
@@ -18,7 +15,7 @@ import {Helmet} from 'react-helmet'
 
 const ExplorePage = () => {
 	const location = useLocation();
-	const { searchParams } = useFilterContext();
+	const { searchParam } = useFilterContext();
 
 	const {
 		data: places,
@@ -62,8 +59,8 @@ const ExplorePage = () => {
 				<LoadingPage type="data" />
 			) : (
 				<Box my={5}>
-					{searchParams.get("longitude") &&
-						searchParams.get("latitude") && (
+					{searchParam.get("longitude") &&
+						searchParam.get("latitude") && (
 							<TitleSectionText
 								mb={3}
 								startText="Lieux autour"

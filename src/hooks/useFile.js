@@ -9,7 +9,6 @@ import { BEARER_HEADERS } from "../utils/variables";
 
 const useFile = (mutate = Function) => {
 
-
   const [files, setFiles] = useState([]);
   const [isBusyFile, setIsBusyFile] = useState(false)
 

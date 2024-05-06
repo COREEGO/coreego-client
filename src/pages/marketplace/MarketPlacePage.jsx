@@ -1,4 +1,4 @@
-import HEADER_IMG from "../../images/headers/jugmi-station.jpg";
+import HEADER_IMG from "../../images/headers/jugmi-station.webp";
 import { NavLink, useLocation } from "react-router-dom";
 import useSWR from "swr";
 import { Box, Container, Grid } from "@mui/material";

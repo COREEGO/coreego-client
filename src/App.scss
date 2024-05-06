@@ -1,15 +1,7 @@
 :root {
 	--coreego-blue: #005998;
 	--coreego-red: #ce293b;
-	--coreego-red-dark: #cc041b;
-	--coreego-blue-dark: #014d83;
-	--light: #ececec4b;
-	--grey-bold: #2c2c2c;
-	--main: #f4f3f3;
-	--box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.533);
 	--coreego-blue-opacity: #005998ac;
-
-	--test: hsl(39, 100%, 50%);
 }
 
 body{
@@ -24,7 +16,6 @@ body{
 	.nav_logo {
 		height: 21px;
 	}
-
 
 	.quill {
 		.ql-container {

@@ -4,8 +4,16 @@ export const IS_REQUIRED_MESSAGE = "Ce champ est requis.";
 const IS_NOT_REGEX_VALID_MESSAGE = "Le format du champ est invalide.";
 const IS_NOT_SAME_VALUE_MESSAGE = "La confirmation du champ ne correspond pas.";
 const PSEUDO_REGEX = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
 const EMAIL_REGEX = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
 const WEBSITE_REGEX = /^(ftp|http|https):\/\/[^ "]+$/
+
+const PASSWORD_MESSAGE = `
+Le champ doit comporter au moins 6 caractères,
+Le champ doit contenir au moins une lettre majuscule et une lettre minuscule.
+Le champ doit contenir au moins un caractère spécial.
+Le champ doit contenir au moins un chiffre.
+`
 
 export const maxLength = (length) => `Le champ ne doit pas dépasser ${length} caractères.`
 export const minLength = (length) => `Le champ doit avoir au minimum ${length} caractères.`
@@ -22,7 +30,7 @@ export const validationRegister = create((data = {}) => {
   test('email', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.email).matches(EMAIL_REGEX)});
 
   test('password', IS_REQUIRED_MESSAGE, () => {enforce(data.password).isNotEmpty()});
-  test('password', minLength(6), () => {enforce(data.password).longerThanOrEquals(6)});
+  test('password', PASSWORD_MESSAGE, () => {enforce(data.password).matches(PASSWORD_REGEX)});
 
   test('password_confirmation', IS_REQUIRED_MESSAGE, () => {enforce(data.password_confirmation).isNotEmpty()});
   test('password_confirmation', IS_NOT_SAME_VALUE_MESSAGE, () => {
@@ -64,11 +72,11 @@ export const validationChangePassword = create((data = {}) => {
   test('email', IS_NOT_REGEX_VALID_MESSAGE, () => {enforce(data.email).matches(EMAIL_REGEX)});
 
   test('password', IS_REQUIRED_MESSAGE, () => {enforce(data.password).isNotEmpty()});
-  test('password', minLength(6), () => {enforce(data.password).longerThanOrEquals(6)});
+  test('password', PASSWORD_MESSAGE, () => {enforce(data.password).matches(PASSWORD_REGEX)});
 
-  test('confirmPassword', IS_REQUIRED_MESSAGE, () => {enforce(data.confirmPassword).isNotEmpty()});
-  test('confirmPassword', IS_NOT_SAME_VALUE_MESSAGE, () => {
-    enforce(data.confirmPassword).equals(data.password);
+  test('password_confirmation', IS_REQUIRED_MESSAGE, () => {enforce(data.password_confirmation).isNotEmpty()});
+  test('password_confirmation', IS_NOT_SAME_VALUE_MESSAGE, () => {
+    enforce(data.password_confirmation).equals(data.password);
   });
 
 })
@@ -167,6 +175,6 @@ export const validationReport = create((data = {}) => {
 export const errorField = (error) => {
   return {
       error: Boolean(error),
-      helperText: error?.message || "",
+      helperText: <span style={{display: 'block', whiteSpace: 'pre-line'}}>{error?.message}</span> || "",
   };
 };

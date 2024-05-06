@@ -11,7 +11,6 @@ export const UNKNOWN_USER = "Ancien membre"
 export const TOKEN = Cookies.get('coreegoAuthorization')
 
 export const setToken = (token) => {
-    console.log({token})
     const expirationDate = new Date();
     expirationDate.setTime(expirationDate.getTime() + (2 * 60 * 60 * 1000));
     Cookies.set('coreegoAuthorization', token, {expires: expirationDate} )

@@ -55,7 +55,6 @@ const DiscussionForm = ({
 		watch,
 		formState: { errors, isSubmitting }
 	} = useForm({
-		mode: "onBlur",
 		resolver: vestResolver(validationDiscussion),
 		defaultValues: {
 			title: discussion?.title,

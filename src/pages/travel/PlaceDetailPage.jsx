@@ -171,8 +171,8 @@ const PlaceDetail = () => {
 				<Container>
 					<Stack gap={2}>
 						<TitleSectionText
-							startText="Raisons pou visiter"
-							endText="ce lieu"
+							startText="Raisons pour"
+							endText="visiter ce lieu"
 						/>
 						<List>
 							{JSON.parse(place.reasons_to_visit).map(

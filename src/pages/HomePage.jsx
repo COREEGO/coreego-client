@@ -111,8 +111,8 @@ const HomePage = () => {
 								</Stack>
 							)}
 						</Grid>
-						<Grid item xs={12} md={6}>
-							<Hidden mdDown>
+						<Hidden mdDown>
+							<Grid item xs={12} md={6}>
 								<Box height={350} width="100%">
 									<img
 										style={{
@@ -127,8 +127,8 @@ const HomePage = () => {
 										Sud | Coreego"
 									/>
 								</Box>
-							</Hidden>
-						</Grid>
+							</Grid>
+						</Hidden>
 					</Grid>
 				</Container>
 			</Box>

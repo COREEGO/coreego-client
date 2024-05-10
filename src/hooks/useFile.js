@@ -10,12 +10,10 @@ import { BEARER_HEADERS } from "../utils/variables";
 const useFile = (mutate = Function) => {
 
   const [files, setFiles] = useState([]);
-  const [isBusyFile, setIsBusyFile] = useState(false)
 
   const confirm = useConfirm();
 
   const compressFile = async (file) => {
-    setIsBusyFile(true)
     if (!allowedExtensions.includes(file.type)) {
       // Ne pas compresser les fichiers non autorisés
       return null;
@@ -25,13 +23,10 @@ const useFile = (mutate = Function) => {
         file,
         300
       );
-
       return compressedFile;
     } catch (error) {
       console.error("Erreur lors de la compression de l'image :", error);
       return null;
-    }finally{
-      setIsBusyFile(false)
     }
 
   };
@@ -85,8 +80,7 @@ const useFile = (mutate = Function) => {
     addFile,
     removeFile,
     deleteFile,
-    clearFiles,
-    isBusyFile
+    clearFiles
   };
 };
 

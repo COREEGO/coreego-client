@@ -60,8 +60,7 @@ const PlaceForm = ({
 		addFile,
 		removeFile,
 		deleteFile,
-		clearFiles,
-		isBusyFile
+		clearFiles
 	} = useFile(mutate);
 
 	const { placeCategories } = useSelector((state) => state.app);
@@ -272,7 +271,7 @@ const PlaceForm = ({
 															Images du lieu
 														</Typography>
 														<Stack
-															spacing={2}
+															gap={2}
 															direction="row"
 															flexWrap="wrap"
 														>
@@ -304,7 +303,7 @@ const PlaceForm = ({
 															Preview images
 														</Typography>
 														<Stack
-															spacing={2}
+															gap={2}
 															direction="row"
 															flexWrap="wrap"
 														>
@@ -317,7 +316,6 @@ const PlaceForm = ({
 																	/>
 																);
 															})}
-															{isBusyFile && <CircularProgress />}
 														</Stack>
 													</Stack>
 												) : (

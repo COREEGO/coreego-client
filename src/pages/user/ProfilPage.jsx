@@ -316,7 +316,7 @@ const ProfilPage = () => {
 							/>
 							<CardContent>
 								<Stack spacing={3}>
-									<NavLink to={`/voyage?user=${user.id}`}>
+									<NavLink to={`/explorer?user=${user.id}`}>
 										<Button
 											sx={{ width: "100%", py: 3 }}
 											variant="outlined"

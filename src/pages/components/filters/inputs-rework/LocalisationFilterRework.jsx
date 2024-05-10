@@ -35,6 +35,11 @@ const LocalisationFilterRework = () => {
 		searchParam.get("district") || ""
 	);
 
+	React.useEffect(()=>{
+		setCityValue(searchParam.get("city"))
+		setDistrictValue(searchParam.get("district"))
+	}, [searchParam.get("city"), searchParam.get("district") ])
+
 	const selectedCity = React.useMemo(() => {
 		return cityValue
 			? cities.find((city) => city.id == cityValue)

@@ -53,8 +53,7 @@ const ProductForm = ({
 		addFile,
 		removeFile,
 		deleteFile,
-		clearFiles,
-		isBusyFile
+		clearFiles
 	} = useFile(mutate);
 
 	useEffect(() => {
@@ -151,7 +150,7 @@ const ProductForm = ({
 								{...errorField(errors?.title)}
 								required
 								fullWidth
-								placeholder="Titre de ma discussion"
+								placeholder="Titre de mon produit"
 								InputProps={{
 									endAdornment: (
 										<InputAdornment
@@ -255,9 +254,6 @@ const ProductForm = ({
 																		/>
 																	);
 																})}
-																{isBusyFile && (
-																	<CircularProgress />
-																)}
 															</Stack>
 														</Stack>
 													) : (

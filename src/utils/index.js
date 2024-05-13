@@ -236,3 +236,8 @@ Mon objectif premier avec Coreego est de créer une boîte à outils la plus com
 Je souhaite également y développer une communauté dynamique, permettant ainsi à l'application de croître et d'évoluer continuellement.
 Mon ambition est de vous offrir une expérience immersive, vous permettant de plonger au cœur de la culture coréenne à travers la plateforme.
 `
+export const handlePreventDefault = (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+  }
+}

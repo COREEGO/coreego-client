@@ -28,6 +28,7 @@ import TitleSectionText from "../texts/TitleSectionText";
 import {
 	createBlobImage,
 	getViolationField,
+	handlePreventDefault,
 	productSteps
 } from "../../utils";
 import axios from "axios";
@@ -148,6 +149,7 @@ const ProductForm = ({
 								id="title"
 								{...register("title")}
 								{...errorField(errors?.title)}
+								onKeyDown={(event) => handlePreventDefault(event)}
 								required
 								fullWidth
 								placeholder="Titre de mon produit"
@@ -283,6 +285,7 @@ const ProductForm = ({
 								required
 								{...register("price")}
 								{...errorField(errors?.price)}
+								onKeyDown={(event) => handlePreventDefault(event)}
 								onInput={(event) => {
 									const value = event.target.value;
 									if (value < 0) setValue("price", 0);

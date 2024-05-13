@@ -31,7 +31,6 @@ const UpladButton = ({
         accept={allowedExtensions.join(',')}
         multiple={multiple}
         onChange={onChange}
-        capture="gallery"
 			/>
       {children}
     </Box>

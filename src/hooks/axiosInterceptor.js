@@ -26,24 +26,24 @@ const useAxiosInterceptor = () => {
               navigate("/login");
               toast.error(data?.message || 'Unauthorized');
               return Promise.reject(error);
-            }
-
-            if (status === 403) {
+            }else if(status === 403) {
               toast.error(data?.message || 'Forbidden');
               navigate('/');
               return Promise.reject(error);
-            }
+            }else if(status === 500) {
+              if (error.config.url === "/me") {
+                  toast.error("Vous êtes déconnectés");
+                  removeToken();
+                  navigate("/login");
+                  return;
+              }
+            toast.error(data?.message);
+            return Promise.reject(error);
+          }else{
+            toast.error(data?.message);
+          }
 
-            if (status === 500) {
-                if (error.config.url === "/me") {
-                    toast.error("Vous êtes déconnectés");
-                    removeToken();
-                    navigate("/login");
-                    return;
-                }
-              toast.error(data?.message);
-              return Promise.reject(error);
-            }
+
           } else {
             toast.error('Network Error');
             return Promise.reject(error);

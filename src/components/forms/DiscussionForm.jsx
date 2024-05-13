@@ -22,7 +22,7 @@ import { useAuthContext } from "../../contexts/AuthProvider";
 import ReactQuillInput from "../inputs/ReactQuillInput";
 import TitleSectionText from "../texts/TitleSectionText";
 import axios from "axios";
-import { discussionStep, getViolationField } from "../../utils";
+import { discussionStep, getViolationField, handlePreventDefault } from "../../utils";
 import { vestResolver } from "@hookform/resolvers/vest";
 
 import { FormLabel } from "@mui/material";
@@ -109,6 +109,7 @@ const DiscussionForm = ({
 								id="title"
 								{...register("title")}
 								{...errorField(errors?.title)}
+								onKeyDown={(event) => handlePreventDefault(event)}
 								required
 								fullWidth
 								placeholder="Titre de ma discussion"

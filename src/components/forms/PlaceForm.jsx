@@ -36,6 +36,7 @@ import TitleSectionText from "../texts/TitleSectionText";
 import {
 	createBlobImage,
 	getViolationField,
+	handlePreventDefault,
 	isKoreanAddress,
 	placeStep
 } from "../../utils";
@@ -73,6 +74,7 @@ const PlaceForm = ({
 		handleSubmit,
 		watch,
 		setError,
+		clearErrors,
 		formState: { errors, isSubmitting }
 	} = useForm({
 		resolver: vestResolver(
@@ -129,7 +131,7 @@ const PlaceForm = ({
 
 	const handleSearchAdresse = debounce(async (event) => {
 		const value = event?.target?.value || event;
-
+		clearErrors('address')
 		try {
 			if (value.trim().length) {
 				const response = await fetch(
@@ -185,6 +187,7 @@ const PlaceForm = ({
 							</FormLabel>
 							<TextField
 								id="title"
+								onKeyDown={(event) => handlePreventDefault(event)}
 								{...register("title")}
 								{...errorField(errors?.title)}
 								required
@@ -371,6 +374,7 @@ const PlaceForm = ({
 							<TextField
 								fullWidth
 								required
+								onKeyDown={(event) => handlePreventDefault(event)}
 								{...register("address")}
 								{...errorField(errors?.address)}
 								onChange={handleSearchAdresse}

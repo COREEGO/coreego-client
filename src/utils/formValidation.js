@@ -165,7 +165,6 @@ export const validationProfil = create((data = {}) => {
   }
 })
 
-
 export const validationReport = create((data = {}) => {
   test('content',  IS_REQUIRED_MESSAGE, () => {enforce(data.content).isNotEmpty()});
   test('content', minLength(3), () => {enforce(data.content).longerThanOrEquals(3)});

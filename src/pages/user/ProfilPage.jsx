@@ -35,7 +35,7 @@ import {
 	CardHeader,
 	Typography
 } from "@mui/material";
-import { AVATAR_PATH } from "../../utils/variables";
+import { AVATAR_PATH, BEARER_HEADERS } from "../../utils/variables";
 import axios from "axios";
 import {
 	belongsToAuth,
@@ -63,7 +63,7 @@ const ProfilPage = () => {
 
 	const loadUser = async () => {
 		try {
-			const response = await axios.get("/users/" + params.slug);
+			const response = await axios.get("/users/" + params.slug, BEARER_HEADERS);
 			if(!response.data){
 				navigate('*')
 			}

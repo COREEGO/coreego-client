@@ -18,7 +18,6 @@ const SearchFilterRework = () => {
 				data-testid="button-search"
 				onClick={() => setOpen(true)}
 				startIcon={<SEARCH_ICON />}
-				// sx={{ textTransform: "inherit" }}
 			>
 				{searchParam.get("q") || ' '}
 			</Button>

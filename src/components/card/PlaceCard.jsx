@@ -42,7 +42,6 @@ const PlaceCard = ({ place }) => {
 							? IMAGE_PATH + place?.thumbnail?.name
 							: "https://webcolours.ca/wp-content/uploads/2020/10/webcolours-unknown.png"
 					}
-					alt={place.title}
 				/>
 				<CardContent>
 					<CategoryText category={place.category} />

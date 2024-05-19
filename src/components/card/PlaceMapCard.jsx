@@ -161,7 +161,7 @@ const PlaceMapCard = ({
 				<CardMedia
 					component="img"
 					height="194"
-					image={IMAGE_PATH + place?.thumbnail}
+					image={IMAGE_PATH + place?.thumbnail?.name}
 					alt={place?.title}
 				/>
 			}

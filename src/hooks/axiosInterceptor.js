@@ -43,9 +43,8 @@ const useAxiosInterceptor = () => {
             toast.error(data?.message);
           }
 
-
           } else {
-            toast.error('Network Error');
+            toast.error('Erreur interne du serveur');
             return Promise.reject(error);
           }
         }

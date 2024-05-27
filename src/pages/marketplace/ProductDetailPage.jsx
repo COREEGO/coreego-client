@@ -140,7 +140,7 @@ const ProductDetail = () => {
 
 									{auth ? (
 										<a
-											href={`mailto:${product.user.email}?subject=Coreego: Renseignement sur votre produit - ${product.title}`}
+											href={`mailto:${product.user.email}?subject=Coreego:Renseignement sur votre produit - ${product.title}`}
 										>
 											<Button
 												startIcon={<MAIL_ICON />}

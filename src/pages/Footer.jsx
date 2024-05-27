@@ -71,7 +71,7 @@ const Footer = ({ ...props }) => {
                 }
               }}
 						>
-              <a href='mailto: contact.coreego.fr'>Nous contacter</a>
+              <a href='mailto:contact.coreego@gmail.com'>Nous contacter</a>
             </Stack>
           </Box>
         </Stack>

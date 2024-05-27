@@ -28,7 +28,7 @@ export const CONFIDENTIALITE =
 <h2>Conservation des Données</h2>
 <p>Vos données personnelles sont conservées tant que vous avez un compte actif sur COREEGO. Elles sont supprimées lors de la suppression de votre compte par vous-même ou par un administrateur.</p>
 
-<h2>ransfert des Données</h2>
+<h2>Transfert des Données</h2>
 <p>Nous ne transférons pas vos données personnelles en dehors de votre pays de résidence.</p>
 
 <h2>Modifications de la Politique de Confidentialité</h2>
@@ -37,7 +37,7 @@ export const CONFIDENTIALITE =
 <h2>Contact</h2>
 <p>Si vous avez des questions ou des préoccupations concernant
 notre politique de confidentialité ou la manière dont nous traitons vos données personnelles,
-vous pouvez nous contacter à tout moment <a style="color: var(--coreego-blue) " href="mailto: contact.coreego@gmail.com">ICI</a> .
+vous pouvez nous contacter à tout moment <a style="color: var(--coreego-blue) " href="mailto:contact.coreego@gmail.com">ICI</a> .
 </p>
 `
 
@@ -67,7 +67,7 @@ export const CONDITIONS_GENERALES =
 <h2>Contact</h2>
 <p>Si vous avez des questions ou des préoccupations concernant nos CGU ou la manière dont
 nous gérons notre plateforme, vous pouvez nous contacter à tout moment
-<a style="color: var(--coreego-blue) " href="mailto: contact.coreego@gmail.com">ICI</a>.
+<a style="color: var(--coreego-blue) " href="mailto:contact.coreego@gmail.com">ICI</a>.
 </p>
 `
 
@@ -108,6 +108,6 @@ se fasse sur le sol coréen. Aucune carte bancaire ne sera demandée.</p>
 
 <h2>Support</h2>
 <p>Une équipe de support est disponible pour répondre aux questions des utilisateurs et les aider en cas de problème ou de préoccupation concernant le fonctionnement du site.
-<a style="color: var(--coreego-blue) " href="mailto: contact.coreego@gmail.com">ICI</a>.
+<a style="color: var(--coreego-blue) " href="mailto:contact.coreego@gmail.com">ICI</a>.
 </p>
 `

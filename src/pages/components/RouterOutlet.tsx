@@ -36,6 +36,7 @@ import ConfidentialitePage from "../mentions-legale/ConfidentialitePage";
 import ConditionsPage from "../mentions-legale/ConditionsPage";
 import FonctionalsPage from "../mentions-legale/FonctionalsPage";
 import Error500 from "../Error500";
+import PrivateUnloggedRoute from "./PrivateUnloggedRoute";
 
 
 export default function RouterOutlet() {
@@ -55,11 +56,12 @@ export default function RouterOutlet() {
             <Route path="/explorer" element={<ExplorePage />} />
             <Route path="/explorer/lieu/:slug" element={<PlaceDetail />} />
 
-
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/password/forgot" element={<PasswordForgotPage />} />
-            <Route path="/email/verify" element={<EmailVerifyPage />} />
+            <Route element={<PrivateUnloggedRoute />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/password/forgot" element={<PasswordForgotPage />} />
+                <Route path="/email/verify" element={<EmailVerifyPage />} />
+            </Route>
 
             <Route path="/confidentialite" element={<ConfidentialitePage />} />
             <Route path="/conditions-generales" element={<ConditionsPage />} />

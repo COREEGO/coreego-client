@@ -22,6 +22,7 @@ import TitleSectionText from "../../components/texts/TitleSectionText";
 import axios from "axios";
 import { Helmet } from "react-helmet";
 import PasswordInput from "../../components/inputs/PasswordInput";
+import { useAuthContext } from "../../contexts/AuthProvider";
 
 const RegisterPage = () => {
 	const navigate = useNavigate();

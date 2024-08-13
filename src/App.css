@@ -1,7 +1,8 @@
 :root {
-	--coreego-blue: #005998;
-	--coreego-red: #ce293b;
-	--coreego-blue-opacity: #005998ac;
+  --coreego-blue: #005998;
+  --coreego-red: #CE293B;
+  --coreego-blue-opacity: #005998ac;
+  --test: #0fc1e9;
 }
 
 body a.active, body a.active li {

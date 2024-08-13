@@ -124,7 +124,6 @@ const RegisterPage = () => {
 							render={({ field: { value, onChange } }) => {
 								return (
 									<PasswordInput
-										{...register("password_confirmation")}
 										{...errorField(errors?.password_confirmation)}
 										fullWidth
 										value={value}
